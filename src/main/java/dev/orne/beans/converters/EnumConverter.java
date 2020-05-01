@@ -3,38 +3,52 @@
  */
 package dev.orne.beans.converters;
 
-import java.util.Locale;
+import javax.annotation.Nonnull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
 
 /**
- * Implementation of {@code Converter} that converts {@code Locale} instances
- * to and from {@code String} using the language tag as {@code String}
+ * Implementation of {@code Converter} that converts {@code Enum} instances
+ * to and from {@code String} using value name as {@code String}
  * representation.
  * 
+ * @param <E> The type of enumeration this instance converters
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  */
-public class LocaleConverter
+public class EnumConverter<E extends Enum<E>>
 extends AbstractConverter {
+
+    /** The type of enumeration this instance converters. */
+    private final Class<E> enumType;
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs.
+     * 
+     * @param The type of enumeration this instance converters
      */
-    public LocaleConverter() {
+    public EnumConverter(
+            @Nonnull
+            final Class<E> enumType) {
         super();
+        this.enumType = enumType;
     }
 
     /**
      * Creates a new instance that returns a default value if an error occurs.
      * 
+     * @param The type of enumeration this instance converters
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public LocaleConverter(final Locale defaultValue) {
+    public EnumConverter(
+            @Nonnull
+            final Class<E> enumType,
+            final E defaultValue) {
         super(defaultValue);
+        this.enumType = enumType;
     }
 
     /**
@@ -42,7 +56,7 @@ extends AbstractConverter {
      */
     @Override
     protected Class<?> getDefaultType() {
-        return Locale.class;
+        return enumType;
     }
 
     /**
@@ -53,14 +67,8 @@ extends AbstractConverter {
             final Class<T> type,
             final Object value)
     throws Throwable {
-        if (type.isAssignableFrom(Locale.class)) {
-            final Locale result = Locale.forLanguageTag(value.toString());
-            if (result.getLanguage().isEmpty()) {
-                // When parsing fails returns an empty locale (WTF!?)
-                throw conversionException(type, value);
-            } else {
-                return type.cast(result);
-            }
+        if (type.isAssignableFrom(this.enumType)) {
+            return type.cast(Enum.valueOf(this.enumType, value.toString()));
         }
         throw conversionException(type, value);
     }
@@ -72,8 +80,8 @@ extends AbstractConverter {
     protected String convertToString(
             final Object value)
     throws Throwable {
-        if (value instanceof Locale) {
-            return ((Locale) value).toLanguageTag();
+        if (value instanceof Enum) {
+            return ((Enum<?>) value).name();
         } else if (value instanceof String) {
             return value.toString();
         } else {
