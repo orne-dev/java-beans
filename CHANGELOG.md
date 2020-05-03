@@ -18,3 +18,4 @@
     01. :gift: Added class `dev.orne.beans.converters.ZonedDateTimeConverter`
     01. :gift: Added class `dev.orne.beans.converters.ZoneOffsetConverter`
     01. :gift: Added class `dev.orne.beans.converters.DurationConverter`
+    01. :gift: Added class `dev.orne.beans.converters.PeriodConverter`
