@@ -45,6 +45,7 @@ extends AbstractConverterTest {
     public EnumConverterTest() {
         super(TestEnum.class, new EnumConverter<>(TestEnum.class));
     }
+
     /**
      * Test {@link EnumConverter#convert(Class, Object)} when
      * {@code type} is {@code null} or {@code Locale} and
