@@ -141,7 +141,7 @@ extends AbstractTimeConverterTest {
     public void testFromValueInvalidConversionsWithDefaultValue() {
         final DayOfWeek defaultValue = null;
         final DayOfWeekConverter converter = new DayOfWeekConverter(defaultValue);
-        assertSuccess(converter, (Object) null, defaultValue, defaultValue);
+        assertSuccess(converter, null, defaultValue, defaultValue);
         assertSuccess(converter, YEAR, defaultValue, defaultValue);
         assertSuccess(converter, YEAR_MONTH, defaultValue, defaultValue);
         assertSuccess(converter, MONTH_DAY, defaultValue, defaultValue);

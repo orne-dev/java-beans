@@ -25,7 +25,6 @@ import java.time.temporal.TemporalAccessor;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.Converter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,8 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @see AbstractDateTimeConverter
  */
-public abstract class AbstractTimeConverterTest {
+public abstract class AbstractTimeConverterTest
+extends AbstractConverterTest {
 
     // Zoned values (13)
     protected static ZonedDateTime ZONED_DATE_TIME;
@@ -95,17 +95,12 @@ public abstract class AbstractTimeConverterTest {
     protected static Long EPOCH_MILLIS;
     protected static Object WRONG_TYPE_VALUE = new Object();
 
-    protected final AbstractDateTimeConverter converter;
-    protected final Class<? extends TemporalAccessor> targetType;
-
     public AbstractTimeConverterTest(
             @Nonnull
             final Class<? extends TemporalAccessor> targetType,
             @Nonnull
             final AbstractDateTimeConverter converter) {
-        super();
-        this.targetType = targetType;
-        this.converter = converter;
+        super(targetType, converter);
     }
 
     @BeforeAll
@@ -183,29 +178,16 @@ public abstract class AbstractTimeConverterTest {
      */
     @Test
     public void testDefaultType() {
-        assertNotNull(this.converter.getDefaultType());
-        assertEquals(this.targetType, converter.getDefaultType());
+        final Class<?> defaultType = ((AbstractDateTimeConverter) this.converter).getDefaultType();
+        assertNotNull(defaultType);
+        assertEquals(this.targetType, defaultType);
     }
 
     protected void assertFail(
             @Nullable
             final Object value) {
-        assertFail(this.converter, this.targetType, value);
-        assertFail(this.converter, null, value);
+        super.assertFail(value);
         assertFail(this.converter, UnimplementedTemporal.class, value);
-        assertFail(this.converter, Exception.class, value);
-    }
-
-    protected void assertFail(
-            @Nonnull
-            final Converter converter,
-            @Nonnull
-            final Class<?> type,
-            @Nullable
-            final Object value) {
-        assertThrows(ConversionException.class, () -> {
-            converter.convert(type, value);
-        });
     }
 
     protected void assertSuccess(
@@ -213,10 +195,8 @@ public abstract class AbstractTimeConverterTest {
             final Object value,
             @Nullable
             final Object expectedResult) {
-        assertSuccess(this.converter, this.targetType, value, expectedResult);
-        assertSuccess(this.converter, null, value, expectedResult);
+        super.assertSuccess(value, expectedResult);
         assertFail(this.converter, UnimplementedTemporal.class, value);
-        assertFail(this.converter, Exception.class, value);
     }
 
     protected void assertSuccess(
@@ -228,30 +208,8 @@ public abstract class AbstractTimeConverterTest {
             final Object expectedResult,
             @Nullable
             final Object defaultValue) {
-        assertSuccess(converter, this.targetType, value, expectedResult);
-        assertSuccess(converter, null, value, expectedResult);
+        super.assertSuccess(converter, value, expectedResult, defaultValue);
         assertSuccess(converter, UnimplementedTemporal.class, value, defaultValue);
-        assertSuccess(converter, Exception.class, value, defaultValue);
-    }
-
-    protected void assertSuccess(
-            @Nonnull
-            final Converter converter,
-            @Nonnull
-            final Class<?> type,
-            @Nullable
-            final Object value,
-            @Nullable
-            final Object expectedResult) {
-        final Object result = converter.convert(
-                type,
-                value);
-        if (expectedResult == null) {
-            assertNull(result);
-        } else {
-            assertNotNull(result);
-            assertEquals(expectedResult, result);
-        }
     }
 
     /**
