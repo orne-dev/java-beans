@@ -25,38 +25,56 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import java.util.Locale;
+import javax.annotation.Nullable;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
 
+import dev.orne.beans.GenericEnumValue;
+
 /**
- * Implementation of {@code Converter} that converts {@code Locale} instances
- * to and from {@code String} using the language tag as {@code String}
- * representation.
+ * <p>Implementation of {@code Converter} that converts {@code EnumRequest}
+ * instances to {@code EnumResult} and {@code Enum} instances to
+ * {@code String} using value name as {@code String} representation.</p>
+ * 
+ * <p>Allows enumeration conversions in runtime without additional
+ * converter registration:</p>
+ * 
+ * <pre>
+ * ConvertUtilsBean converter = new ConvertUtilsBean();
+ * converter.register(new GenericEnumConverter(), GenericEnumValue.class);
+ * 
+ * GenericEnumValue result = (GenericEnumValue) converter.convert(
+ *      "ENUM_VALUE",
+ *      GenericEnumValue.class);
+ * EnumType value = result.getValue(EnumType.class);
+ * </pre>
  * 
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 1.0, 2020-04
  * @since 0.1
  */
-public class LocaleConverter
+public class GenericEnumConverter
 extends AbstractConverter {
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs.
      */
-    public LocaleConverter() {
+    public GenericEnumConverter() {
         super();
     }
 
     /**
      * Creates a new instance that returns a default value if an error occurs.
      * 
-     * @param defaultValue The default value to be returned if the value to be
-     * converted is missing or an error occurs converting the value
+     * @param defaultValue The default inner value of the {@code GenericEnumValue}
+     * to be returned if the value to be converted is missing or an error occurs
+     * converting the value
      */
-    public LocaleConverter(final Locale defaultValue) {
-        super(defaultValue);
+    public GenericEnumConverter(
+            @Nullable
+            final Object defaultValue) {
+        super(new GenericEnumValue(defaultValue == null ? null : defaultValue.toString()));
     }
 
     /**
@@ -64,7 +82,7 @@ extends AbstractConverter {
      */
     @Override
     protected Class<?> getDefaultType() {
-        return Locale.class;
+        return GenericEnumValue.class;
     }
 
     /**
@@ -75,31 +93,9 @@ extends AbstractConverter {
             final Class<T> type,
             final Object value)
     throws Throwable {
-        if (type.isAssignableFrom(Locale.class)) {
-            final Locale result = Locale.forLanguageTag(value.toString());
-            if (result.getLanguage().isEmpty()) {
-                // When parsing fails returns an empty locale (WTF!?)
-                throw conversionException(type, value);
-            } else {
-                return type.cast(result);
-            }
+        if (GenericEnumValue.class.isAssignableFrom(type)) {
+            return type.cast(new GenericEnumValue(value.toString()));
         }
         throw conversionException(type, value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String convertToString(
-            final Object value)
-    throws Throwable {
-        if (value instanceof Locale) {
-            return ((Locale) value).toLanguageTag();
-        } else if (value instanceof String) {
-            return value.toString();
-        } else {
-            throw conversionException(String.class, value);
-        }
     }
 }
