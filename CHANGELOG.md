@@ -1,8 +1,11 @@
 # :package: 0.1.0
 
-01. :gift: Added class `dev.orne.beans.converters.EnumConverter`
-01. :gift: Added class `dev.orne.beans.converters.LocaleConverter`
-01. :gift: Added `java.time` converters
+01. :gift: Added interface `dev.orne.beans.Identity`
+01. :gift: Added class `dev.orne.beans.IdentityToken`
+01. :gift: Added Apache `beanutils` converters
+    01. :gift: Added class `dev.orne.beans.converters.EnumConverter`
+    01. :gift: Added class `dev.orne.beans.converters.LocaleConverter`
+    01. :gift: Added class `dev.orne.beans.converters.IdentityConverter`
     01. :gift: Added class `dev.orne.beans.converters.AbstractDateTimeConverter`
     01. :gift: Added class `dev.orne.beans.converters.InstantConverter`
     01. :gift: Added class `dev.orne.beans.converters.DayOfWeekConverter`
