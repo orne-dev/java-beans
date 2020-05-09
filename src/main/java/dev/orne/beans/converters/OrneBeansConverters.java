@@ -81,7 +81,7 @@ import dev.orne.beans.Identity;
  *       <li>{@link OffsetDateTimeConverter}</li>
  *       <li>{@link OffsetTimeConverter}</li>
  *       <li>{@link ZonedDateTimeConverter}</li>
- *       <li>{@link ZonedOffsetConverter}</li>
+ *       <li>{@link ZoneOffsetConverter}</li>
  *       <li>{@link DurationConverter}</li>
  *       <li>{@link PeriodConverter}</li>
  *     </ul>
