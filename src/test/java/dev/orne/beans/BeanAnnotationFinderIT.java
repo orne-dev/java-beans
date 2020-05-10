@@ -20,7 +20,7 @@ import dev.orne.beans.BeanAnnotationFinder.Cache;
 import dev.orne.beans.BeanAnnotationFinder.CacheEntryKey;
 
 /**
- * Unit tests for {@code BeanAnnotationFinder}.
+ * Integration tests for {@code BeanAnnotationFinder}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05

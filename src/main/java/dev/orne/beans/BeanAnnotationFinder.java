@@ -444,8 +444,8 @@ public class BeanAnnotationFinder<
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .append(this.type)
-                    .append(this.annotationType)
+                    .append("type", this.type)
+                    .append("annotationType", this.annotationType)
                     .toString();
         }
     }

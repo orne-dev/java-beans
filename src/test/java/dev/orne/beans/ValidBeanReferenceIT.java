@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
 
 /**
- * Unit tests for {@code ValidBeanReference}.
+ * Integration tests for {@code ValidBeanReference}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05

@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Integrity tests for {@code IdentityToken}.
+ * Integration tests for {@code IdentityToken}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
@@ -406,6 +406,9 @@ public class IdentityTokenIT {
         assertNull(result.value);
     }
 
+    /**
+     * Test container.
+     */
     @XmlRootElement(name = "container")
     private static class IdentityAttributeContainer {
         private Identity value;
@@ -418,6 +421,9 @@ public class IdentityTokenIT {
         }
     }
 
+    /**
+     * Test container.
+     */
     @XmlRootElement(name = "container")
     private static class IdentityElementContainer {
         private Identity value;
