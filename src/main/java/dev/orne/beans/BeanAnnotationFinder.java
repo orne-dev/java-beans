@@ -1,5 +1,27 @@
 package dev.orne.beans;
 
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/lgpl-3.0.html>.
+ * #L%
+ */
+
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,22 +47,22 @@ import org.slf4j.LoggerFactory;
  * 
  * <p>To search for type level annotations:</p>
  * <pre>
- * Set<?> annotations = new BeanAnnotationFinder<>(annotationType)
+ * Set&lt;?&gt; annotations = new BeanAnnotationFinder&lt;&gt;(annotationType)
  *     .find(beanType);
  * // Real case
- * Set&lt;NotNull&gt; annotations = new BeanAnnotationFinder<>(NotNull.class)
+ * Set&lt;NotNull&gt; annotations = new BeanAnnotationFinder&lt;&gt;(NotNull.class)
  *     .find(beanType);
  * </pre>
  *
  * <p>To search for type level annotations with annotation list support:</p>
  * <pre>
- * new BeanAnnotationFinder<>(
+ * Set&lt;?&gt; annotations = new BeanAnnotationFinder&lt;&gt;(
  *         annotationType,
  *         annotationListType,
  *         annotationListExtractor)
  *     .find(beanType);
  * // Real case
- * Set&lt;NotNull&gt; annotations = new BeanAnnotationFinder<>(
+ * Set&lt;NotNull&gt; annotations = new BeanAnnotationFinder&lt;&gt;(
  *         NotNull.class,
  *         NotNull.List.class,
  *         NotNull.List::values)
@@ -454,6 +476,7 @@ public class BeanAnnotationFinder<
      * Interface for type level annotations cache.
      */
     protected static interface Cache {
+
         /**
          * Returns {@code true} if this instance contains an entry for
          * the specified key.
@@ -464,27 +487,31 @@ public class BeanAnnotationFinder<
         boolean contains(
                 @Nonnull
                 CacheEntryKey<?> key);
+
         /**
-         * Puts the 
-         * @param <T>
-         * @param key
-         * @param value
+         * Returns the cached found annotations for the specified key, if any.
+         * 
+         * @param <T> The type of annotations
+         * @param key The cache entry key
+         * @return The annotations found, or {@code null} if not cached o cache expired
+         */
+        @Nullable
+        <T extends Annotation> Set<T> get(
+                @Nonnull
+                CacheEntryKey<T> key);
+
+        /**
+         * Puts the specified found annotations for the specified key.
+         * 
+         * @param <T> The type of annotations
+         * @param key The cache entry key
+         * @param value The annotations found
          */
         <T extends Annotation> void put(
                 @Nonnull
                 CacheEntryKey<T> key,
                 @Nonnull
                 Set<T> value);
-        /**
-         * 
-         * @param <T>
-         * @param key
-         * @return
-         */
-        @Nullable
-        <T extends Annotation> Set<T> get(
-                @Nonnull
-                CacheEntryKey<T> key);
     }
 
     /**
