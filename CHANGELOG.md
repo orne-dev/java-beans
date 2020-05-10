@@ -4,6 +4,8 @@
 01. :gift: Added class `dev.orne.beans.IdentityToken`
 01. :gift: Added class `dev.orne.beans.BeanValidationUtils`
 01. :gift: Added class `dev.orne.beans.BeanAnnotationFinder`
+01. :gift: Added annotation `dev.orne.beans.BeanReference`
+01. :gift: Added annotation `dev.orne.beans.ValidBeanReference`
 01. :gift: Added Apache `beanutils` converters
     01. :gift: Added class `dev.orne.beans.converters.OrneBeansConverters`
     01. :gift: Added class `dev.orne.beans.converters.EnumConverter`
