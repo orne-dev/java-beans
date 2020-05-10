@@ -396,7 +396,7 @@ public class ValidBeanReferenceTest {
      * Test {@link ValidBeanReferenceValidator#isValid(Object).
      */
     @Test
-    public void testIsValidStaticFailSucess1() {
+    public void testIsValidStaticSucess1() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ValidBeanReferenceValidator refValidator = createValidator();
@@ -426,7 +426,7 @@ public class ValidBeanReferenceTest {
      * Test {@link ValidBeanReferenceValidator#isValid(Object).
      */
     @Test
-    public void testIsValidStaticFailSucess2() {
+    public void testIsValidStaticSucess2() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ValidBeanReferenceValidator refValidator = createValidator();
@@ -456,7 +456,7 @@ public class ValidBeanReferenceTest {
      * Test {@link ValidBeanReferenceValidator#isValid(Object).
      */
     @Test
-    public void testIsValidStaticFailSucess3() {
+    public void testIsValidStaticSucess3() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ValidBeanReferenceValidator refValidator = createValidator();
