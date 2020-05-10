@@ -52,6 +52,9 @@
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <jsr305.version>3.0.2</jsr305.version>
     <fasterxml.jackson.version>2.9.9</fasterxml.jackson.version>
+
+    <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
+    <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
   </properties>
 
   <dependencies>
@@ -112,6 +115,18 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate.validation.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>jakarta.el</artifactId>
+      <version>${glassfish.jakarta.el.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
