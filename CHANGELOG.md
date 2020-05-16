@@ -1,7 +1,10 @@
 # :package: 0.1.0
 
 01. :gift: Added interface `dev.orne.beans.Identity`
-01. :gift: Added class `dev.orne.beans.IdentityToken`
+01. :gift: Added class `dev.orne.beans.TokenIdentity`
+01. :gift: Added exception `dev.orne.beans.UnrecognizedIdentityTokenException`
+01. :gift: Added annotation `dev.orne.beans.IdentityTokenResolver`
+01. :gift: Added class `dev.orne.beans.IdentityResolver`
 01. :gift: Added interface `dev.orne.beans.IdentityBean`
 01. :gift: Added annotation `dev.orne.beans.BeanReference`
 01. :gift: Added annotation `dev.orne.beans.ValidBeanIdentity`
