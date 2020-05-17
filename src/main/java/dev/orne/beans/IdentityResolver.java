@@ -218,7 +218,6 @@ public class IdentityResolver {
      * if source identity token is null
      * @throws UnrecognizedIdentityTokenException If the source identity
      * token cannot be resolved to target identity type
-     * @throws UnresolvableIdentityException 
      */
     @Nullable
     public <T extends Identity> T resolve(

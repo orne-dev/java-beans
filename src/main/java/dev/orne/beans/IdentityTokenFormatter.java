@@ -132,7 +132,7 @@ public final class IdentityTokenFormatter {
      * removed and prefixed by {@link #B32_ENCODED_BODY_PREFIX}.</li>
      * </ol>
      * 
-     * @param part The identity token body to encode
+     * @param body The identity token body to encode
      * @return The encoded identity token part
      */
     @Nonnull
@@ -155,10 +155,10 @@ public final class IdentityTokenFormatter {
     }
 
     /**
-     * Decodes the specified valid identity token body to the original identity
+     * <p>Decodes the specified valid identity token body to the original identity
      * token body.</p>
      * 
-     * @param part The valid identity token body to decode
+     * @param encoded The valid identity token body to decode
      * @return The original identity token body
      * @throws NullPointerException If the encoded body is {@code null}
      * @throws UnrecognizedIdentityTokenException If the encoded body is not a
