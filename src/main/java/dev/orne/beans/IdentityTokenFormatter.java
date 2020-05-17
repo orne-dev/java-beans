@@ -95,16 +95,16 @@ public final class IdentityTokenFormatter {
     public static final String DEFAULT_PREFIX = "ID";
 
     /** Compiled pattern to detect valid identity token prefixes as predicate. */
-    private static final Predicate<String> VALID_PREFIX_PREDICATE =
+    protected static final Predicate<String> VALID_PREFIX_PREDICATE =
             Pattern.compile(VALID_PREFIX_FULL_REGEX).asPredicate();
     /** Compiled pattern to detect valid identity token unencoded bodies as predicate. */
-    private static final Predicate<String> VALID_UNENCODED_BODY_PREDICATE =
+    protected static final Predicate<String> VALID_UNENCODED_BODY_PREDICATE =
             Pattern.compile("^" + VALID_UNENCODED_BODY_REGEX + "$").asPredicate();
     /** Compiled pattern to detect valid identity token bodies as predicate. */
-    private static final Predicate<String> VALID_TOKEN_BODY_PREDICATE =
+    protected static final Predicate<String> VALID_TOKEN_BODY_PREDICATE =
             Pattern.compile("^" + VALID_BODY_REGEX + "$").asPredicate();
     /** Compiled pattern to detect valid identity tokens as predicate. */
-    private static final Predicate<String> VALID_TOKEN_PREDICATE =
+    protected static final Predicate<String> VALID_TOKEN_PREDICATE =
             Pattern.compile(VALID_TOKEN_REGEX).asPredicate();
 
     /** The Base32 encoder and decoder. */
