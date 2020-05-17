@@ -1,2 +1,4 @@
 # Declare files that will always have LF line endings on checkout.
-* text eol=lf
+*.java text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
