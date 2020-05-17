@@ -46,13 +46,13 @@
     <java.version>1.8</java.version>
     <license.licenseName>lgpl_v3</license.licenseName>
 
-    <commons.lang.version>3.9</commons.lang.version>
+    <commons.lang.version>3.10</commons.lang.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
     <commons.codec.version>1.14</commons.codec.version>
 
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <fasterxml.jackson.version>2.9.9</fasterxml.jackson.version>
+    <fasterxml.jackson.version>2.11.0</fasterxml.jackson.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
