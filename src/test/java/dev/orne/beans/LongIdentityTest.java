@@ -24,6 +24,8 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Random;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -41,6 +43,9 @@ import org.junit.jupiter.api.Test;
 @Tag("ut")
 public class LongIdentityTest
 extends AbstractSimpleIdentityTest {
+
+    /** The random value generator. */
+    private static final Random RND = new Random();
 
     /**
      * Test for {@link LongIdentity#LongIdentity(String)}.
@@ -60,10 +65,19 @@ extends AbstractSimpleIdentityTest {
     @Test
     public void testConstructor()
     throws Throwable {
-        final Long value = System.currentTimeMillis();
+        final Long value = randomValue();
         final LongIdentity identity = new LongIdentity(value);
         assertNotNull(value);
         assertSame(value, identity.getValue());
+    }
+
+    /**
+     * Generates a random {@code long}.
+     * 
+     * @return a random {@code long}.
+     */
+    protected long randomValue() {
+        return RND.nextLong();
     }
 
     /**
@@ -90,7 +104,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity created
      */
     protected LongIdentity createInstanceWithNonNullValue() {
-        return new LongIdentity(System.currentTimeMillis());
+        return new LongIdentity(randomValue());
     }
 
     /**
@@ -164,7 +178,7 @@ extends AbstractSimpleIdentityTest {
     @Test
     public void testFromIdentityToken()
     throws Throwable {
-        final Long expectedValue = System.currentTimeMillis();
+        final Long expectedValue = randomValue();
         final String token = createIdentityToken(expectedValue);
         final LongIdentity result = resolveIdentityToken(token);
         assertNotNull(result);

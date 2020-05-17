@@ -40,8 +40,19 @@ import org.junit.jupiter.api.Test;
 @Tag("ut")
 public class IdentityTokenFormatterTest {
 
-    /** The random values generator. */
+    /** The random value generator. */
     private static final Random RND = new Random();
+
+    /**
+     * Generates a random {@code String}.
+     * 
+     * @return a random {@code String}.
+     */
+    protected String randomValue() {
+        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
+        RND.nextBytes(bodyBytes);
+        return new String(bodyBytes);
+    }
 
     /**
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
@@ -156,9 +167,7 @@ public class IdentityTokenFormatterTest {
      */
     @Test
     public void testEncodeBody() {
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = randomValue();
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertNotNull(result);
         assertTrue(result.startsWith(
@@ -322,9 +331,7 @@ public class IdentityTokenFormatterTest {
     @Test
     public void testDecodeBody()
     throws Throwable {
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = randomValue();
         final String encoded = IdentityTokenFormatter.encodeBody(body);
         final String result = IdentityTokenFormatter.decodeBody(encoded);
         assertNotNull(result);
@@ -336,9 +343,7 @@ public class IdentityTokenFormatterTest {
      */
     @Test
     public void testFormat() {
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = randomValue();
         final String expectedResult =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -375,9 +380,7 @@ public class IdentityTokenFormatterTest {
     @Test
     public void testFormatPrefix() {
         final String prefix = "CustomPrefix";
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = randomValue();
         final String expectedResult =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);
@@ -417,9 +420,7 @@ public class IdentityTokenFormatterTest {
     @Test
     public void testParse()
     throws Throwable {
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = randomValue();
         final String token =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -496,9 +497,7 @@ public class IdentityTokenFormatterTest {
     public void testParsePrefix()
             throws Throwable  {
         final String prefix = "CustomPrefix";
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = randomValue();
         final String token =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);

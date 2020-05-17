@@ -24,6 +24,7 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 import javax.annotation.Nonnull;
@@ -33,53 +34,53 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@code StringIdentity}.
+ * Unit tests for {@code BigIntegerIdentity}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
- * @see StringIdentity
+ * @see BigIntegerIdentity
  */
 @Tag("ut")
-public class StringIdentityTest
+public class BigIntegerIdentityTest
 extends AbstractSimpleIdentityTest {
 
     /** The random value generator. */
     private static final Random RND = new Random();
 
     /**
-     * Test for {@link StringIdentity#StringIdentity(String)}.
+     * Test for {@link BigIntegerIdentity#BigIntegerIdentity(String)}.
      * @throws Throwable Should not happen
      */
     @Test
     public void testConstructorNullValue()
     throws Throwable {
-        final StringIdentity identity = new StringIdentity(null);
+        final BigIntegerIdentity identity = new BigIntegerIdentity(null);
         assertNull(identity.getValue());
     }
 
     /**
-     * Test for {@link StringIdentity#StringIdentity(String)}.
+     * Test for {@link BigIntegerIdentity#BigIntegerIdentity(String)}.
      * @throws Throwable Should not happen
      */
     @Test
     public void testConstructor()
     throws Throwable {
-        final String value = "mock value";
-        final StringIdentity identity = new StringIdentity(value);
+        final BigInteger value = randomValue();
+        final BigIntegerIdentity identity = new BigIntegerIdentity(value);
         assertNotNull(value);
         assertSame(value, identity.getValue());
     }
 
     /**
-     * Generates a random {@code String}.
+     * Generates a random {@code BigInteger}.
      * 
-     * @return a random {@code String}.
+     * @return a random {@code BigInteger}.
      */
-    protected String randomValue() {
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        return new String(bodyBytes);
+    protected BigInteger randomValue() {
+        final byte[] buffer = new byte[RND.nextInt(20) + 1];
+        RND.nextBytes(buffer);
+        return new BigInteger(buffer);
     }
 
     /**
@@ -87,7 +88,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return The identity created
      */
-    protected StringIdentity createInstance() {
+    protected BigIntegerIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -96,8 +97,8 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return The identity created
      */
-    protected StringIdentity createInstanceWithNullValue() {
-        return new StringIdentity(null);
+    protected BigIntegerIdentity createInstanceWithNullValue() {
+        return new BigIntegerIdentity(null);
     }
 
     /**
@@ -105,8 +106,8 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return The identity created
      */
-    protected StringIdentity createInstanceWithNonNullValue() {
-        return new StringIdentity("Some value");
+    protected BigIntegerIdentity createInstanceWithNonNullValue() {
+        return new BigIntegerIdentity(randomValue());
     }
 
     /**
@@ -117,10 +118,21 @@ extends AbstractSimpleIdentityTest {
      */
     protected String createIdentityToken(
             @Nullable
-            final String value) {
+            final BigInteger value) {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
-                value == null ? null : value);
+                value == null ? null : value.toString());
+    }
+
+    /**
+     * Creates a identity token with an invalid number body.
+     * 
+     * @return The identity token created
+     */
+    protected String createNoNumberIdentityToken() {
+        return IdentityTokenFormatter.format(
+                IdentityTokenFormatter.DEFAULT_PREFIX,
+                "not a number");
     }
 
     /**
@@ -129,36 +141,49 @@ extends AbstractSimpleIdentityTest {
      * @param value The value to create the identity token for
      * @return The identity token created
      */
-    protected StringIdentity resolveIdentityToken(
+    protected BigIntegerIdentity resolveIdentityToken(
             @Nonnull
             final String token)
     throws UnrecognizedIdentityTokenException {
-        return StringIdentity.fromIdentityToken(token);
+        return BigIntegerIdentity.fromIdentityToken(token);
     }
 
     /**
-     * Test for {@link StringIdentity#fromIdentityToken(String)}.
+     * Test for {@link BigIntegerIdentity#fromIdentityToken(String)}.
      * @throws Throwable Should not happen
      */
     @Test
     public void testFromIdentityTokenNullValue()
     throws Throwable {
         final String token = createIdentityToken(null);
-        final StringIdentity result = resolveIdentityToken(token);
+        final BigIntegerIdentity result = resolveIdentityToken(token);
         assertNotNull(result);
         assertNull(result.getValue());
     }
 
     /**
-     * Test for {@link StringIdentity#fromIdentityToken(String)}.
+     * Test for {@link BigIntegerIdentity#fromIdentityToken(String)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testFromIdentityTokenInvalidValue()
+    throws Throwable {
+        final String token = createNoNumberIdentityToken();
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            resolveIdentityToken(token);
+        });
+    }
+
+    /**
+     * Test for {@link BigIntegerIdentity#fromIdentityToken(String)}.
      * @throws Throwable Should not happen
      */
     @Test
     public void testFromIdentityToken()
     throws Throwable {
-        final String expectedValue = "mock value";
+        final BigInteger expectedValue = randomValue();
         final String token = createIdentityToken(expectedValue);
-        final StringIdentity result = resolveIdentityToken(token);
+        final BigIntegerIdentity result = resolveIdentityToken(token);
         assertNotNull(result);
         assertNotNull(result.getValue());
         assertEquals(expectedValue, result.getValue());
