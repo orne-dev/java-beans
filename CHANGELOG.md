@@ -9,6 +9,7 @@
 01. :gift: Added class `dev.orne.beans.AbstractIdentity`
 01. :gift: Added class `dev.orne.beans.AbstractSimpleIdentity`
 01. :gift: Added class `dev.orne.beans.StringIdentity`
+01. :gift: Added class `dev.orne.beans.LongIdentity`
 01. :gift: Added annotation `dev.orne.beans.IdentityTokenResolver`
 01. :gift: Added class `dev.orne.beans.IdentityResolver`
 01. :gift: Added interface `dev.orne.beans.IdentityBean`
