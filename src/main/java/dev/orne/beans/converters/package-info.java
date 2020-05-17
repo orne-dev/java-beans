@@ -1,11 +1,9 @@
 /**
- * <p>Utilities for bean manipulation. Provides annotations for bean
- * metadata definition, abstract classes for bean implementation and
- * utility classes for bean manipulation.</p>
+ * <p>Extra converters for Apache commons beanutils.</p>
  * 
  * @since 0.1, 2020-04
  */
-package dev.orne.beans;
+package dev.orne.beans.converters;
 
 /*-
  * #%L

@@ -6,13 +6,13 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <relativePath />
   </parent>
 
   <groupId>dev.orne</groupId>
   <artifactId>beans</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
   <name>Orne Beans</name>
@@ -22,8 +22,8 @@
 
   <licenses>
     <license>
-      <name>GNU General Public License (GPL) version 3.0</name>
-      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <name>GNU Lesser General Public License (LGPL) version 3.0</name>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -44,13 +44,18 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <license.licenseName>gpl_v3</license.licenseName>
+    <license.licenseName>lgpl_v3</license.licenseName>
 
     <commons.lang.version>3.9</commons.lang.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
+    <commons.codec.version>1.14</commons.codec.version>
 
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <jsr305.version>3.0.2</jsr305.version>
+    <fasterxml.jackson.version>2.9.9</fasterxml.jackson.version>
+
+    <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
+    <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
   </properties>
 
   <dependencies>
@@ -78,6 +83,11 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons.codec.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>javax.validation</groupId>
@@ -89,6 +99,12 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>${jsr305.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${fasterxml.jackson.version}</version>
       <optional>true</optional>
     </dependency>
 
@@ -105,6 +121,18 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate.validation.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>jakarta.el</artifactId>
+      <version>${glassfish.jakarta.el.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
