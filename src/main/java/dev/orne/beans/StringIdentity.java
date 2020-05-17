@@ -25,6 +25,14 @@ package dev.orne.beans;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * Implementation for {@code Identity} for identities composed
+ * of a single inner {@code String} value.
+ * 
+ * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
 public class StringIdentity
 extends AbstractSimpleIdentity<String> {
 

@@ -1,9 +1,5 @@
 package dev.orne.beans;
 
-import java.io.Serializable;
-
-import javax.annotation.Nullable;
-
 /*-
  * #%L
  * Orne Beans
@@ -26,6 +22,19 @@ import javax.annotation.Nullable;
  * #L%
  */
 
+import java.io.Serializable;
+
+import javax.annotation.Nullable;
+
+/**
+ * Abstract implementation for {@code Identity} for identities composed
+ * of a single inner value.
+ * 
+ * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @version 1.0, 2020-05
+ * @since 0.1
+ * @param <T> The type of the identity value
+ */
 public abstract class AbstractSimpleIdentity<T extends Serializable>
 extends AbstractIdentity {
 
