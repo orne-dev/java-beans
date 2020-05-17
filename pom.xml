@@ -48,6 +48,7 @@
 
     <commons.lang.version>3.9</commons.lang.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
+    <commons.codec.version>1.14</commons.codec.version>
 
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <jsr305.version>3.0.2</jsr305.version>
@@ -81,6 +82,11 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons.codec.version}</version>
     </dependency>
 
     <dependency>
