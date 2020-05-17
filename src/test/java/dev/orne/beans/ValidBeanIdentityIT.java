@@ -58,7 +58,7 @@ public class ValidBeanIdentityIT {
                 final Identity identity = mock(Identity.class);
                 bean.setIdentity(identity);
             } else if (i % 3 == 2) {
-                bean.setIdentity(new TokenIdentity("valid mock identity"));
+                bean.setIdentity(new TokenIdentity("validMockIdentityToken"));
             }
             testBeans[i] = bean;
         }

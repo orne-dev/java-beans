@@ -362,7 +362,7 @@ public class IdentityBeanIT {
         assertTrue(BeanValidationUtils.isValid(bean));
         assertFalse(BeanValidationUtils.isValid(bean, IdentityBean.RequireIdentity.class));
         assertFalse(ValidBeanReference.ValidBeanReferenceValidator.isValid(bean));
-        bean.setIdentity(new TokenIdentity("mock identity"));
+        bean.setIdentity(new TokenIdentity("mockIdentityToken"));
         assertTrue(BeanValidationUtils.isValid(bean));
         assertTrue(BeanValidationUtils.isValid(bean, IdentityBean.RequireIdentity.class));
         assertTrue(ValidBeanReference.ValidBeanReferenceValidator.isValid(bean));

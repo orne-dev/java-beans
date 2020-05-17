@@ -25,7 +25,7 @@ package dev.orne.beans;
 import java.io.Serializable;
 
 import javax.annotation.Nonnull;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -54,7 +54,8 @@ extends Serializable {
      * @return The identity token
      */
     @Nonnull
-    @NotBlank
+    @NotNull
+    @ValidIdentityToken
     @JsonValue
     String getIdentityToken();
 }
