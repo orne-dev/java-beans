@@ -97,11 +97,26 @@ public final class BeanValidationUtils {
     }
 
     /**
+     * Validates if the specified bean has a valid, non null, identity.
+     * 
+     * @param obj The bean to validate
+     * @return If the bean has a valid identity
+     * @throws IllegalArgumentException if bean is {@code null}
+     * @throws ValidationException if a non recoverable error happens
+     *         during the validation process
+     */
+    public static boolean isValidBeanIdentity(
+            @Nonnull
+            final Object obj) {
+        return ValidBeanReferenceValidator.isValid(obj);
+    }
+
+    /**
      * Validates if the specified bean is a valid bean reference.
      * 
      * @param obj The bean to validate
-     * @return If the object is a valid bean reference
-     * @throws IllegalArgumentException if object is {@code null}
+     * @return If the bean is a valid bean reference
+     * @throws IllegalArgumentException if bean is {@code null}
      * @throws ValidationException if a non recoverable error happens
      *         during the validation process
      */

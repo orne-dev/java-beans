@@ -13,6 +13,7 @@
 01. Improved class `BigIntegerIdentity`
     01. :gift: Added copy constructor
 01. Improved class `BeanValidationUtils`
+    01. Added method `isValidBeanIdentity`
     01. Added method `isValidBeanReference`
 01. :gift: Added class `dev.orne.beans.BaseIdentityBean`
 
