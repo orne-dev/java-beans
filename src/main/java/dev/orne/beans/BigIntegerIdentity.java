@@ -53,6 +53,17 @@ extends AbstractSimpleIdentity<BigInteger> {
     }
 
     /**
+     * Copy constructor.
+     * 
+     * @param copy The instance to copy
+     */
+    public BigIntegerIdentity(
+            @Nonnull
+            final BigIntegerIdentity copy) {
+        super(copy);
+    }
+
+    /**
      * Resolves the specified identity token to a valid {@code StringIdentity}
      * 
      * @param token The identity token
@@ -71,7 +82,7 @@ extends AbstractSimpleIdentity<BigInteger> {
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 token);
         if (body == null) {
-            return new BigIntegerIdentity(null);
+            return new BigIntegerIdentity((BigInteger) null);
         } else {
             try {
                 return new BigIntegerIdentity(new BigInteger(body));

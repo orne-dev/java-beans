@@ -54,7 +54,7 @@ extends AbstractSimpleIdentityTest {
     @Test
     public void testConstructorNullValue()
     throws Throwable {
-        final LongIdentity identity = new LongIdentity(null);
+        final LongIdentity identity = new LongIdentity((Long) null);
         assertNull(identity.getValue());
     }
 
@@ -81,28 +81,36 @@ extends AbstractSimpleIdentityTest {
     }
 
     /**
-     * Creates the identity to be tested.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
     protected LongIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
-    protected LongIdentity createInstanceWithNullValue() {
-        return new LongIdentity(null);
+    @Override
+    @Nonnull
+    protected LongIdentity createCopy(
+            @Nonnull
+            final AbstractIdentity copy) {
+        return new LongIdentity((LongIdentity) copy);
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
+    protected LongIdentity createInstanceWithNullValue() {
+        return new LongIdentity((Long) null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Nonnull
     protected LongIdentity createInstanceWithNonNullValue() {
         return new LongIdentity(randomValue());
     }

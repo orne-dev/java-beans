@@ -54,7 +54,7 @@ extends AbstractSimpleIdentityTest {
     @Test
     public void testConstructorNullValue()
     throws Throwable {
-        final StringIdentity identity = new StringIdentity(null);
+        final StringIdentity identity = new StringIdentity((String) null);
         assertNull(identity.getValue());
     }
 
@@ -76,6 +76,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return a random {@code String}.
      */
+    @Nonnull
     protected String randomValue() {
         final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
         RND.nextBytes(bodyBytes);
@@ -83,28 +84,36 @@ extends AbstractSimpleIdentityTest {
     }
 
     /**
-     * Creates the identity to be tested.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
     protected StringIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
-    protected StringIdentity createInstanceWithNullValue() {
-        return new StringIdentity(null);
+    @Nonnull
+    @Override
+    protected AbstractSimpleIdentity<?> createCopy(
+            @Nonnull
+            final AbstractIdentity copy) {
+        return new StringIdentity((StringIdentity) copy);
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
+    protected StringIdentity createInstanceWithNullValue() {
+        return new StringIdentity((String) null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Nonnull
     protected StringIdentity createInstanceWithNonNullValue() {
         return new StringIdentity("Some value");
     }

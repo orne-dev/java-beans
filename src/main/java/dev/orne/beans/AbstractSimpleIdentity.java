@@ -24,7 +24,12 @@ package dev.orne.beans;
 
 import java.io.Serializable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Abstract implementation for {@code Identity} for identities composed
@@ -53,7 +58,21 @@ extends AbstractIdentity {
     public AbstractSimpleIdentity(
             @Nullable
             final T value) {
+        super();
         this.value = value;
+    }
+
+    /**
+     * Copy constructor.
+     * 
+     * @param copy The instance to copy
+     */
+    public AbstractSimpleIdentity(
+            @Nonnull
+            final AbstractSimpleIdentity<T> copy) {
+        super();
+        Validate.notNull(copy, "Template instance is required");
+        this.value = copy.value;
     }
 
     /**
@@ -72,5 +91,31 @@ extends AbstractIdentity {
     @Nullable
     protected String getIdentityTokenBody() {
         return this.value == null ? null : this.value.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .appendSuper(super.hashCode())
+                .append(this.value)
+                .build();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) { return false; }
+        final AbstractSimpleIdentity<?> other = (AbstractSimpleIdentity<?>) obj;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(this.value, other.value)
+                .build();
     }
 }
