@@ -12,6 +12,7 @@
     01. :gift: Added copy constructor
 01. Improved class `BigIntegerIdentity`
     01. :gift: Added copy constructor
+01. :gift: Added class `dev.orne.beans.BaseIdentityBean`
 
 # :package: 0.1.0
 
