@@ -52,7 +52,7 @@
 
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <fasterxml.jackson.version>2.9.9</fasterxml.jackson.version>
+    <fasterxml.jackson.version>2.10.0.pr1</fasterxml.jackson.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
