@@ -16,6 +16,7 @@
     01. Added method `isValidBeanIdentity`
     01. Added method `isValidBeanReference`
 01. :gift: Added class `dev.orne.beans.BaseIdentityBean`
+01. :gift: Overloaded `OrneBeansConverters` methods with parameter `defaultToNull`
 
 # :package: 0.1.0
 
