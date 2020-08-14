@@ -32,6 +32,7 @@ import javax.validation.Validator;
 
 import org.apache.commons.lang3.Validate;
 
+import dev.orne.beans.ValidBeanIdentity.ValidBeanIdentityValidator;
 import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
 
 /**
@@ -108,7 +109,7 @@ public final class BeanValidationUtils {
     public static boolean isValidBeanIdentity(
             @Nonnull
             final Object obj) {
-        return ValidBeanReferenceValidator.isValid(obj);
+        return ValidBeanIdentityValidator.isValid(obj);
     }
 
     /**
