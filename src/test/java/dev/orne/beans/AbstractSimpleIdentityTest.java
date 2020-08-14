@@ -27,6 +27,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.io.Serializable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.junit.jupiter.api.Tag;
@@ -51,7 +52,8 @@ extends AbstractIdentityTest {
     @Test
     public void testConstructorNullValue()
     throws Throwable {
-        final AbstractSimpleIdentity<?> identity = new TestHttpServiceOperation(null);
+        final AbstractSimpleIdentity<?> identity =
+                new TestIdentity((Serializable) null);
         assertNull(identity.getValue());
     }
 
@@ -63,27 +65,51 @@ extends AbstractIdentityTest {
     public void testConstructor()
     throws Throwable {
         final Serializable value = mock(Serializable.class);
-        final AbstractSimpleIdentity<?> identity = new TestHttpServiceOperation(value);
+        final AbstractSimpleIdentity<?> identity = new TestIdentity(value);
         assertNotNull(value);
         assertSame(value, identity.getValue());
     }
 
     /**
-     * Creates the identity to be tested.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
     protected AbstractSimpleIdentity<?> createInstance() {
         return createInstanceWithNonNullValue();
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
-    protected AbstractSimpleIdentity<?> createInstanceWithNullValue() {
-        return new TestHttpServiceOperation(null);
+    @Override
+    protected AbstractSimpleIdentity<?> createCopy(
+            @Nullable
+            final AbstractIdentity copy) {
+        return new TestIdentity((TestIdentity) copy);
+    }
+
+    /**
+     * Test for {@link AbstractSimpleIdentity#AbstractSimpleIdentity(Serializable)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testCopyConstructorNull()
+    throws Throwable {
+        assertThrows(NullPointerException.class, () -> {
+            createCopy(null);
+        });
+    }
+
+    /**
+     * Test for {@link AbstractSimpleIdentity#AbstractSimpleIdentity(Serializable)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testCopyConstructor()
+    throws Throwable {
+        final AbstractSimpleIdentity<?> copy = createInstance();
+        final AbstractSimpleIdentity<?> identity = createCopy(copy);
+        assertEquals(copy.getValue(), identity.getValue());
     }
 
     /**
@@ -91,8 +117,19 @@ extends AbstractIdentityTest {
      * 
      * @return The identity created
      */
+    @Nonnull
+    protected AbstractSimpleIdentity<?> createInstanceWithNullValue() {
+        return new TestIdentity((Serializable) null);
+    }
+
+    /**
+     * Creates the identity to be tested with null value.
+     * 
+     * @return The identity created
+     */
+    @Nonnull
     protected AbstractSimpleIdentity<?> createInstanceWithNonNullValue() {
-        return new TestHttpServiceOperation("Some value");
+        return new TestIdentity("Some value");
     }
 
     /**
@@ -121,7 +158,7 @@ extends AbstractIdentityTest {
      * Mock implementation of {@code AbstractSimpleIdentity}
      * for testing.
      */
-    private static class TestHttpServiceOperation
+    private static class TestIdentity
     extends AbstractSimpleIdentity<Serializable> {
 
         /** The serial version UID. */
@@ -132,10 +169,21 @@ extends AbstractIdentityTest {
          * 
          * @param value The identity value
          */
-        public TestHttpServiceOperation(
+        public TestIdentity(
                 @Nullable
                 final Serializable value) {
             super(value);
+        }
+
+        /**
+         * Copy constructor.
+         * 
+         * @param copy The instance to copy
+         */
+        public TestIdentity(
+                @Nonnull
+                final TestIdentity copy) {
+            super(copy);
         }
     }
 }

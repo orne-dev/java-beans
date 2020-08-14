@@ -1,3 +1,23 @@
+# :package: 0.2.0
+
+01. Improved class `AbstractIdentity`
+    01. :gift: Method `toString` returns identity token
+    01. :gift: Generated identity token is cached
+01. Improved class `AbstractSimpleIdentity`
+    01. :gift: Added copy constructor
+    01. :gift: Implemented `hashCode` and `equals`
+01. Improved class `StringIdentity`
+    01. :gift: Added copy constructor
+01. Improved class `LongIdentity`
+    01. :gift: Added copy constructor
+01. Improved class `BigIntegerIdentity`
+    01. :gift: Added copy constructor
+01. Improved class `BeanValidationUtils`
+    01. Added method `isValidBeanIdentity`
+    01. Added method `isValidBeanReference`
+01. :gift: Added class `dev.orne.beans.BaseIdentityBean`
+01. :gift: Overloaded `OrneBeansConverters` methods with parameter `defaultToNull`
+
 # :package: 0.1.0
 
 01. :gift: Added exception `dev.orne.beans.UnrecognizedIdentityTokenException`

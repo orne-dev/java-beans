@@ -55,7 +55,7 @@ extends AbstractSimpleIdentityTest {
     @Test
     public void testConstructorNullValue()
     throws Throwable {
-        final BigIntegerIdentity identity = new BigIntegerIdentity(null);
+        final BigIntegerIdentity identity = new BigIntegerIdentity((BigInteger) null);
         assertNull(identity.getValue());
     }
 
@@ -77,6 +77,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return a random {@code BigInteger}.
      */
+    @Nonnull
     protected BigInteger randomValue() {
         final byte[] buffer = new byte[RND.nextInt(20) + 1];
         RND.nextBytes(buffer);
@@ -84,28 +85,36 @@ extends AbstractSimpleIdentityTest {
     }
 
     /**
-     * Creates the identity to be tested.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
     protected BigIntegerIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
-    protected BigIntegerIdentity createInstanceWithNullValue() {
-        return new BigIntegerIdentity(null);
+    @Override
+    @Nonnull
+    protected BigIntegerIdentity createCopy(
+            @Nonnull
+            final AbstractIdentity copy) {
+        return new BigIntegerIdentity((BigIntegerIdentity) copy);
     }
 
     /**
-     * Creates the identity to be tested with null value.
-     * 
-     * @return The identity created
+     * {@inheritDoc}
      */
+    @Nonnull
+    protected BigIntegerIdentity createInstanceWithNullValue() {
+        return new BigIntegerIdentity((BigInteger) null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Nonnull
     protected BigIntegerIdentity createInstanceWithNonNullValue() {
         return new BigIntegerIdentity(randomValue());
     }

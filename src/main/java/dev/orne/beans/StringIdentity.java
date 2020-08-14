@@ -51,7 +51,18 @@ extends AbstractSimpleIdentity<String> {
     }
 
     /**
-     * Resolves the specified identity token to a valid {@code StringIdentity}
+     * Copy constructor.
+     * 
+     * @param copy The instance to copy
+     */
+    public StringIdentity(
+            @Nonnull
+            final StringIdentity copy) {
+        super(copy);
+    }
+
+    /**
+     * Resolves the specified identity token to a valid {@code StringIdentity}.
      * 
      * @param token The identity token
      * @return The resolved identity token

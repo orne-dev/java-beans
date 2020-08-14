@@ -70,7 +70,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceNull() {
@@ -84,7 +84,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceFail() {
@@ -108,7 +108,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceSuccess() {
@@ -131,7 +131,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceIterableFail1() {
@@ -161,7 +161,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceIterableFail2() {
@@ -191,7 +191,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceIterableSuccess() {
@@ -219,7 +219,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceArrayFail1() {
@@ -249,7 +249,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceArrayFail2() {
@@ -279,7 +279,7 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
     public void testIsValidInstanceArraySuccess() {
@@ -307,20 +307,18 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object)}.
      */
     @Test
     public void testIsValidStaticFail() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
-        final ValidBeanIdentityValidator refValidator = createValidator();
         final TestBean value = new TestBean();
         @SuppressWarnings("unchecked")
         final Set<ConstraintViolation<Object>> mockFailedValidationResult = mock(Set.class);
         willReturn(false).given(mockFailedValidationResult).isEmpty();
         willReturn(mockFailedValidationResult).given(validator).validate(
                 value, RequireIdentity.class);
-        refValidator.initialize(mock(ValidBeanIdentity.class));
         final boolean result = ValidBeanIdentityValidator.isValid(value);
         then(validator).should().validate(
                 value, RequireIdentity.class);
@@ -329,13 +327,12 @@ public class ValidBeanIdentityTest {
     }
 
     /**
-     * Test {@link ValidBeanIdentityValidator#isValid(Object).
+     * Test {@link ValidBeanIdentityValidator#isValid(Object)}.
      */
     @Test
     public void testIsValidStaticSuccess() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
-        final ValidBeanIdentityValidator refValidator = createValidator();
         final TestBean value = new TestBean();
         @SuppressWarnings("unchecked")
         final Set<ConstraintViolation<Object>> mockSuccessValidationResult =
@@ -343,8 +340,47 @@ public class ValidBeanIdentityTest {
         willReturn(true).given(mockSuccessValidationResult).isEmpty();
         willReturn(mockSuccessValidationResult).given(validator).validate(
                 value, RequireIdentity.class);
-        refValidator.initialize(mock(ValidBeanIdentity.class));
         final boolean result = ValidBeanIdentityValidator.isValid(value);
+        then(validator).should().validate(
+                value, RequireIdentity.class);
+        assertTrue(result);
+    }
+
+    /**
+     * Test {@link BeanValidationUtils#isValidBeanIdentity(Object)}.
+     */
+    @Test
+    public void testUtilsIsValidBeanIdentityFail() {
+        final Validator validator = mock(Validator.class);
+        BeanValidationUtils.setValidator(validator);
+        final TestBean value = new TestBean();
+        @SuppressWarnings("unchecked")
+        final Set<ConstraintViolation<Object>> mockFailedValidationResult = mock(Set.class);
+        willReturn(false).given(mockFailedValidationResult).isEmpty();
+        willReturn(mockFailedValidationResult).given(validator).validate(
+                value, RequireIdentity.class);
+        final boolean result = BeanValidationUtils.isValidBeanIdentity(value);
+        then(validator).should().validate(
+                value, RequireIdentity.class);
+        then(validator).shouldHaveNoMoreInteractions();
+        assertFalse(result);
+    }
+
+    /**
+     * Test {@link BeanValidationUtils#isValidBeanIdentity(Object)}.
+     */
+    @Test
+    public void testUtilsIsValidBeanIdentitySuccess() {
+        final Validator validator = mock(Validator.class);
+        BeanValidationUtils.setValidator(validator);
+        final TestBean value = new TestBean();
+        @SuppressWarnings("unchecked")
+        final Set<ConstraintViolation<Object>> mockSuccessValidationResult =
+                mock(Set.class);
+        willReturn(true).given(mockSuccessValidationResult).isEmpty();
+        willReturn(mockSuccessValidationResult).given(validator).validate(
+                value, RequireIdentity.class);
+        final boolean result = BeanValidationUtils.isValidBeanIdentity(value);
         then(validator).should().validate(
                 value, RequireIdentity.class);
         assertTrue(result);

@@ -76,7 +76,6 @@ import dev.orne.beans.Identity;
  *       <li>{@link DayOfWeekConverter}</li>
  *       <li>{@link LocalDateConverter}</li>
  *       <li>{@link LocalDateTimeConverter}</li>
- *       <li>{@link LocaleConverter}</li>
  *       <li>{@link LocalTimeConverter}</li>
  *       <li>{@link OffsetDateTimeConverter}</li>
  *       <li>{@link OffsetTimeConverter}</li>
@@ -107,9 +106,23 @@ public final class OrneBeansConverters {
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void register() {
-        ConvertUtils.register(new IdentityConverter(), Identity.class);
-        ConvertUtils.register(new LocaleConverter(), Locale.class);
+        registerBeansConversors();
+        registerUtilConversors();
         registerTimeConversors();
+    }
+
+    /**
+     * Registers all the Orne custom converters in {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void register(
+            final boolean defaultToNull) {
+        registerBeansConversors(defaultToNull);
+        registerUtilConversors(defaultToNull);
+        registerTimeConversors(defaultToNull);
     }
 
     /**
@@ -127,13 +140,47 @@ public final class OrneBeansConverters {
     }
 
     /**
+     * Registers all the Orne custom converters in the specified
+     * {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void register(
+            final ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+        registerBeansConversors(converter, defaultToNull);
+        registerUtilConversors(converter, defaultToNull);
+        registerTimeConversors(converter, defaultToNull);
+    }
+
+    /**
      * Registers all the Orne custom converters for {@code dev.orne.beans} in
      * {@code ConvertUtils}.
      *
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void registerBeansConversors() {
-        ConvertUtils.register(new IdentityConverter(), Identity.class);
+        registerBeansConversors(false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code dev.orne.beans} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerBeansConversors(
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            ConvertUtils.register(new IdentityConverter((Identity) null), Identity.class);
+        } else {
+            ConvertUtils.register(new IdentityConverter(), Identity.class);
+        }
     }
 
     /**
@@ -145,7 +192,26 @@ public final class OrneBeansConverters {
      */
     public static void registerBeansConversors(
             final ConvertUtilsBean converter) {
-        converter.register(new IdentityConverter(), Identity.class);
+        registerBeansConversors(converter, false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code dev.orne.beans} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerBeansConversors(
+            final ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            converter.register(new IdentityConverter((Identity) null), Identity.class);
+        } else {
+            converter.register(new IdentityConverter(), Identity.class);
+        }
     }
 
     /**
@@ -155,7 +221,24 @@ public final class OrneBeansConverters {
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void registerUtilConversors() {
-        ConvertUtils.register(new LocaleConverter(), Locale.class);
+        registerUtilConversors(false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerUtilConversors(
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            ConvertUtils.register(new LocaleConverter((Locale) null), Locale.class);
+        } else {
+            ConvertUtils.register(new LocaleConverter(), Locale.class);
+        }
     }
 
     /**
@@ -167,7 +250,26 @@ public final class OrneBeansConverters {
      */
     public static void registerUtilConversors(
             final ConvertUtilsBean converter) {
-        converter.register(new LocaleConverter(), Locale.class);
+        registerUtilConversors(converter, false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerUtilConversors(
+            final ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            converter.register(new LocaleConverter((Locale) null), Locale.class);
+        } else {
+            converter.register(new LocaleConverter(), Locale.class);
+        }
     }
 
     /**
@@ -177,22 +279,54 @@ public final class OrneBeansConverters {
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void registerTimeConversors() {
-        ConvertUtils.register(new InstantConverter(), Instant.class);
-        ConvertUtils.register(new YearConverter(), Year.class);
-        ConvertUtils.register(new YearMonthConverter(), YearMonth.class);
-        ConvertUtils.register(new MonthConverter(), Month.class);
-        ConvertUtils.register(new MonthDayConverter(), MonthDay.class);
-        ConvertUtils.register(new DayOfWeekConverter(), DayOfWeek.class);
-        ConvertUtils.register(new LocalDateConverter(), LocalDate.class);
-        ConvertUtils.register(new LocalTimeConverter(), LocalTime.class);
-        ConvertUtils.register(new LocalDateTimeConverter(), LocalDateTime.class);
-        ConvertUtils.register(new OffsetTimeConverter(), OffsetTime.class);
-        ConvertUtils.register(new OffsetDateTimeConverter(), OffsetDateTime.class);
-        ConvertUtils.register(new ZonedDateTimeConverter(), ZonedDateTime.class);
-        ConvertUtils.register(new ZoneOffsetConverter(), ZoneId.class);
-        ConvertUtils.register(new ZoneOffsetConverter(), ZoneOffset.class);
-        ConvertUtils.register(new DurationConverter(), Duration.class);
-        ConvertUtils.register(new PeriodConverter(), Period.class);
+        registerTimeConversors(false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.time} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerTimeConversors(
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            ConvertUtils.register(new InstantConverter((Instant) null), Instant.class);
+            ConvertUtils.register(new YearConverter((Year) null), Year.class);
+            ConvertUtils.register(new YearMonthConverter((YearMonth) null), YearMonth.class);
+            ConvertUtils.register(new MonthConverter((Month) null), Month.class);
+            ConvertUtils.register(new MonthDayConverter((MonthDay) null), MonthDay.class);
+            ConvertUtils.register(new DayOfWeekConverter((DayOfWeek) null), DayOfWeek.class);
+            ConvertUtils.register(new LocalDateConverter((LocalDate) null), LocalDate.class);
+            ConvertUtils.register(new LocalTimeConverter((LocalTime) null), LocalTime.class);
+            ConvertUtils.register(new LocalDateTimeConverter((LocalDateTime) null), LocalDateTime.class);
+            ConvertUtils.register(new OffsetTimeConverter((OffsetTime) null), OffsetTime.class);
+            ConvertUtils.register(new OffsetDateTimeConverter((OffsetDateTime) null), OffsetDateTime.class);
+            ConvertUtils.register(new ZonedDateTimeConverter((ZonedDateTime) null), ZonedDateTime.class);
+            ConvertUtils.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneId.class);
+            ConvertUtils.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneOffset.class);
+            ConvertUtils.register(new DurationConverter((Duration) null), Duration.class);
+            ConvertUtils.register(new PeriodConverter((Period) null), Period.class);
+        } else {
+            ConvertUtils.register(new InstantConverter(), Instant.class);
+            ConvertUtils.register(new YearConverter(), Year.class);
+            ConvertUtils.register(new YearMonthConverter(), YearMonth.class);
+            ConvertUtils.register(new MonthConverter(), Month.class);
+            ConvertUtils.register(new MonthDayConverter(), MonthDay.class);
+            ConvertUtils.register(new DayOfWeekConverter(), DayOfWeek.class);
+            ConvertUtils.register(new LocalDateConverter(), LocalDate.class);
+            ConvertUtils.register(new LocalTimeConverter(), LocalTime.class);
+            ConvertUtils.register(new LocalDateTimeConverter(), LocalDateTime.class);
+            ConvertUtils.register(new OffsetTimeConverter(), OffsetTime.class);
+            ConvertUtils.register(new OffsetDateTimeConverter(), OffsetDateTime.class);
+            ConvertUtils.register(new ZonedDateTimeConverter(), ZonedDateTime.class);
+            ConvertUtils.register(new ZoneOffsetConverter(), ZoneId.class);
+            ConvertUtils.register(new ZoneOffsetConverter(), ZoneOffset.class);
+            ConvertUtils.register(new DurationConverter(), Duration.class);
+            ConvertUtils.register(new PeriodConverter(), Period.class);
+        }
     }
 
     /**
@@ -204,21 +338,55 @@ public final class OrneBeansConverters {
      */
     public static void registerTimeConversors(
             final ConvertUtilsBean converter) {
-        converter.register(new InstantConverter(), Instant.class);
-        converter.register(new YearConverter(), Year.class);
-        converter.register(new YearMonthConverter(), YearMonth.class);
-        converter.register(new MonthConverter(), Month.class);
-        converter.register(new MonthDayConverter(), MonthDay.class);
-        converter.register(new DayOfWeekConverter(), DayOfWeek.class);
-        converter.register(new LocalDateConverter(), LocalDate.class);
-        converter.register(new LocalTimeConverter(), LocalTime.class);
-        converter.register(new LocalDateTimeConverter(), LocalDateTime.class);
-        converter.register(new OffsetTimeConverter(), OffsetTime.class);
-        converter.register(new OffsetDateTimeConverter(), OffsetDateTime.class);
-        converter.register(new ZonedDateTimeConverter(), ZonedDateTime.class);
-        converter.register(new ZoneOffsetConverter(), ZoneId.class);
-        converter.register(new ZoneOffsetConverter(), ZoneOffset.class);
-        converter.register(new DurationConverter(), Duration.class);
-        converter.register(new PeriodConverter(), Period.class);
+        registerTimeConversors(converter, false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.time} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerTimeConversors(
+            final ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            converter.register(new InstantConverter((Instant) null), Instant.class);
+            converter.register(new YearConverter((Year) null), Year.class);
+            converter.register(new YearMonthConverter((YearMonth) null), YearMonth.class);
+            converter.register(new MonthConverter((Month) null), Month.class);
+            converter.register(new MonthDayConverter((MonthDay) null), MonthDay.class);
+            converter.register(new DayOfWeekConverter((DayOfWeek) null), DayOfWeek.class);
+            converter.register(new LocalDateConverter((LocalDate) null), LocalDate.class);
+            converter.register(new LocalTimeConverter((LocalTime) null), LocalTime.class);
+            converter.register(new LocalDateTimeConverter((LocalDateTime) null), LocalDateTime.class);
+            converter.register(new OffsetTimeConverter((OffsetTime) null), OffsetTime.class);
+            converter.register(new OffsetDateTimeConverter((OffsetDateTime) null), OffsetDateTime.class);
+            converter.register(new ZonedDateTimeConverter((ZonedDateTime) null), ZonedDateTime.class);
+            converter.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneId.class);
+            converter.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneOffset.class);
+            converter.register(new DurationConverter((Duration) null), Duration.class);
+            converter.register(new PeriodConverter((Period) null), Period.class);
+        } else {
+            converter.register(new InstantConverter(), Instant.class);
+            converter.register(new YearConverter(), Year.class);
+            converter.register(new YearMonthConverter(), YearMonth.class);
+            converter.register(new MonthConverter(), Month.class);
+            converter.register(new MonthDayConverter(), MonthDay.class);
+            converter.register(new DayOfWeekConverter(), DayOfWeek.class);
+            converter.register(new LocalDateConverter(), LocalDate.class);
+            converter.register(new LocalTimeConverter(), LocalTime.class);
+            converter.register(new LocalDateTimeConverter(), LocalDateTime.class);
+            converter.register(new OffsetTimeConverter(), OffsetTime.class);
+            converter.register(new OffsetDateTimeConverter(), OffsetDateTime.class);
+            converter.register(new ZonedDateTimeConverter(), ZonedDateTime.class);
+            converter.register(new ZoneOffsetConverter(), ZoneId.class);
+            converter.register(new ZoneOffsetConverter(), ZoneOffset.class);
+            converter.register(new DurationConverter(), Duration.class);
+            converter.register(new PeriodConverter(), Period.class);
+        }
     }
 }

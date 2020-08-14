@@ -25,6 +25,8 @@ package dev.orne.beans;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * Base abstract implementation for {@code Identity}. Manages the formatting
  * and parsing of identity tokens.
@@ -38,6 +40,9 @@ implements Identity {
 
     /** The serial version UID. */
     private static final long serialVersionUID = 1L;
+
+    /** The generated identity token cache. */
+    private transient String identityToken;
 
     /**
      * Return the identity token prefix used for instances of this identity
@@ -86,8 +91,41 @@ implements Identity {
     @Nonnull
     @ValidIdentityToken
     public String getIdentityToken() {
-        return IdentityTokenFormatter.format(
-                getIdentityTokenPrefix(),
-                getIdentityTokenBody());
+        synchronized (this) {
+            if (this.identityToken == null) {
+                this.identityToken = IdentityTokenFormatter.format(
+                        getIdentityTokenPrefix(),
+                        getIdentityTokenBody());
+            }
+            return this.identityToken;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(getClass())
+                .build();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        return obj.getClass() == getClass();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return getIdentityToken();
     }
 }

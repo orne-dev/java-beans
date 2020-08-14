@@ -1,5 +1,7 @@
 package dev.orne.beans;
 
+import javax.annotation.Nonnull;
+
 /*-
  * #%L
  * Orne Beans
@@ -22,44 +24,32 @@ package dev.orne.beans;
  * #L%
  */
 
-import java.io.Serializable;
-
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Abstract implementation for {@code Identity} for identities composed
- * of a single inner value.
+ * Base implementation of {@code IdentityBean}.
  * 
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
- * @param <T> The type of the identity value
  */
-public abstract class AbstractSimpleIdentity<T extends Serializable>
-extends AbstractIdentity {
+public class BaseIdentityBean
+implements IdentityBean {
 
-    /** The serial version UID. */
-    private static final long serialVersionUID = -4740745453560262909L;
-
-    /** The identity inner value. */
+    /** The instance's identity. */
     @Nullable
-    private final T value;
+    private Identity identity;
 
     /**
-     * Creates a new instance.
-     * 
-     * @param value The identity value
+     * Empty constructor.
      */
-    public AbstractSimpleIdentity(
-            @Nullable
-            final T value) {
+    public BaseIdentityBean() {
         super();
-        this.value = value;
     }
 
     /**
@@ -67,21 +57,12 @@ extends AbstractIdentity {
      * 
      * @param copy The instance to copy
      */
-    public AbstractSimpleIdentity(
+    public BaseIdentityBean(
             @Nonnull
-            final AbstractSimpleIdentity<T> copy) {
+            final BaseIdentityBean copy) {
         super();
-        Validate.notNull(copy, "Template instance is required");
-        this.value = copy.value;
-    }
-
-    /**
-     * Returns the identity inner value.
-     * 
-     * @return The identity inner value
-     */
-    public T getValue() {
-        return this.value;
+        Validate.notNull(copy);
+        this.identity = copy.identity;
     }
 
     /**
@@ -89,8 +70,19 @@ extends AbstractIdentity {
      */
     @Override
     @Nullable
-    protected String getIdentityTokenBody() {
-        return this.value == null ? null : this.value.toString();
+    public Identity getIdentity() {
+        return this.identity;
+    }
+
+    /**
+     * Sets the instance's identity.
+     * 
+     * @param identity The instance's identity
+     */
+    public void setIdentity(
+            @Nullable
+            final Identity identity) {
+        this.identity = identity;
     }
 
     /**
@@ -99,8 +91,8 @@ extends AbstractIdentity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .appendSuper(super.hashCode())
-                .append(this.value)
+                .append(getClass())
+                .append(this.identity)
                 .build();
     }
 
@@ -112,10 +104,19 @@ extends AbstractIdentity {
         if (obj == null) { return false; }
         if (obj == this) { return true; }
         if (obj.getClass() != getClass()) { return false; }
-        final AbstractSimpleIdentity<?> other = (AbstractSimpleIdentity<?>) obj;
+        final BaseIdentityBean other = (BaseIdentityBean) obj;
         return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
-                .append(this.value, other.value)
+                .append(this.identity, other.identity)
+                .build();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append(this.identity)
                 .build();
     }
 }

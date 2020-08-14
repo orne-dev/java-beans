@@ -93,6 +93,9 @@ extends AbstractConverter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String convertToString(
             @Nonnull

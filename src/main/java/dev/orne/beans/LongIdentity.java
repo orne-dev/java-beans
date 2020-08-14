@@ -51,7 +51,18 @@ extends AbstractSimpleIdentity<Long> {
     }
 
     /**
-     * Resolves the specified identity token to a valid {@code StringIdentity}
+     * Copy constructor.
+     * 
+     * @param copy The instance to copy
+     */
+    public LongIdentity(
+            @Nonnull
+            final LongIdentity copy) {
+        super(copy);
+    }
+
+    /**
+     * Resolves the specified identity token to a valid {@code LongIdentity}.
      * 
      * @param token The identity token
      * @return The resolved identity token
@@ -69,7 +80,7 @@ extends AbstractSimpleIdentity<Long> {
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 token);
         if (body == null) {
-            return new LongIdentity(null);
+            return new LongIdentity((Long) null);
         } else {
             try {
                 return new LongIdentity(Long.parseLong(body));

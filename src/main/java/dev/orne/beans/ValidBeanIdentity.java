@@ -124,7 +124,8 @@ public @interface ValidBeanIdentity {
         public static boolean isValid(
                 @NotNull
                 final Object value) {
-            return BeanValidationUtils.isValid(value, IdentityBean.RequireIdentity.class);
+            return value instanceof IdentityBean &&
+                    BeanValidationUtils.isValid(value, IdentityBean.RequireIdentity.class);
         }
     }
 }

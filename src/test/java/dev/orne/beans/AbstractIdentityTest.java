@@ -23,6 +23,9 @@ package dev.orne.beans;
  */
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import javax.annotation.Nonnull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -43,8 +46,22 @@ public class AbstractIdentityTest {
      * 
      * @return The identity created
      */
+    @Nonnull
     protected AbstractIdentity createInstance() {
-        return new TestHttpServiceOperation();
+        return new TestIdentity();
+    }
+
+    /**
+     * Creates a copy identity to be tested.
+     * 
+     * @param copy The identity to copy, created with {@link #createInstance()}
+     * @return The identity created
+     */
+    @Nonnull
+    protected AbstractIdentity createCopy(
+            @Nonnull
+            final AbstractIdentity copy) {
+        return new TestIdentity();
     }
 
     /**
@@ -74,6 +91,20 @@ public class AbstractIdentityTest {
     }
 
     /**
+     * Test for {@link AbstractIdentity#getIdentityToken()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testGetIdentityTokenCache()
+    throws Throwable {
+        final AbstractIdentity identity = createInstance();
+        final String first = identity.getIdentityToken();
+        final String result = identity.getIdentityToken();
+        assertNotNull(result);
+        assertSame(first, result);
+    }
+
+    /**
      * Test for {@link AbstractIdentity#parseIdentityTokenBody(String)}.
      * @throws Throwable Should not happen
      */
@@ -91,10 +122,76 @@ public class AbstractIdentityTest {
     }
 
     /**
+     * Test for {@link AbstractIdentity#hashCode()} and
+     * {@link AbstractIdentity#equals(Object)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testEqualsHashCodeNull()
+    throws Throwable {
+        final AbstractIdentity identity = createInstance();
+        assertFalse(identity.equals(null));
+    }
+
+    /**
+     * Test for {@link AbstractIdentity#hashCode()} and
+     * {@link AbstractIdentity#equals(Object)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testEqualsHashCodeSame()
+    throws Throwable {
+        final AbstractIdentity identity = createInstance();
+        assertTrue(identity.equals(identity));
+        assertEquals(identity.hashCode(), identity.hashCode());
+    }
+
+    /**
+     * Test for {@link AbstractIdentity#hashCode()} and
+     * {@link AbstractIdentity#equals(Object)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testEqualsHashCodeDiferentClass()
+    throws Throwable {
+        final AbstractIdentity identity = createInstance();
+        final AbstractIdentity other = mock(AbstractIdentity.class); 
+        assertFalse(identity.equals(other));
+    }
+
+    /**
+     * Test for {@link AbstractIdentity#hashCode()} and
+     * {@link AbstractIdentity#equals(Object)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testEqualsHashCodeCopy()
+    throws Throwable {
+        final AbstractIdentity identity = createInstance();
+        final AbstractIdentity other = createCopy(identity);
+        assertTrue(identity.equals(other));
+        assertEquals(identity.hashCode(), other.hashCode());
+    }
+
+    /**
+     * Test for {@link AbstractIdentity#toString()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    public void testToString()
+    throws Throwable {
+        final AbstractIdentity identity = createInstance();
+        final String identityToken = identity.getIdentityToken();
+        final String result = identity.toString();
+        assertNotNull(result);
+        assertEquals(identityToken, result);
+    }
+
+    /**
      * Mock implementation of {@code AbstractIdentity}
      * for testing.
      */
-    private static class TestHttpServiceOperation
+    private static class TestIdentity
     extends AbstractIdentity {
 
         /** The serial version UID. */

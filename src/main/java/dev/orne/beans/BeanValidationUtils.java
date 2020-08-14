@@ -32,6 +32,9 @@ import javax.validation.Validator;
 
 import org.apache.commons.lang3.Validate;
 
+import dev.orne.beans.ValidBeanIdentity.ValidBeanIdentityValidator;
+import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
+
 /**
  * Utility class for bean validations.
  * 
@@ -92,6 +95,36 @@ public final class BeanValidationUtils {
             @Nonnull
             final Class<?>... groups) {
         return validate(obj, groups).isEmpty();
+    }
+
+    /**
+     * Validates if the specified bean has a valid, non null, identity.
+     * 
+     * @param obj The bean to validate
+     * @return If the bean has a valid identity
+     * @throws IllegalArgumentException if bean is {@code null}
+     * @throws ValidationException if a non recoverable error happens
+     *         during the validation process
+     */
+    public static boolean isValidBeanIdentity(
+            @Nonnull
+            final Object obj) {
+        return ValidBeanIdentityValidator.isValid(obj);
+    }
+
+    /**
+     * Validates if the specified bean is a valid bean reference.
+     * 
+     * @param obj The bean to validate
+     * @return If the bean is a valid bean reference
+     * @throws IllegalArgumentException if bean is {@code null}
+     * @throws ValidationException if a non recoverable error happens
+     *         during the validation process
+     */
+    public static boolean isValidBeanReference(
+            @Nonnull
+            final Object obj) {
+        return ValidBeanReferenceValidator.isValid(obj);
     }
 
     /**
