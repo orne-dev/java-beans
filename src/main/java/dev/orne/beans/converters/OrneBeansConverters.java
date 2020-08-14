@@ -76,7 +76,6 @@ import dev.orne.beans.Identity;
  *       <li>{@link DayOfWeekConverter}</li>
  *       <li>{@link LocalDateConverter}</li>
  *       <li>{@link LocalDateTimeConverter}</li>
- *       <li>{@link LocaleConverter}</li>
  *       <li>{@link LocalTimeConverter}</li>
  *       <li>{@link OffsetDateTimeConverter}</li>
  *       <li>{@link OffsetTimeConverter}</li>
@@ -116,7 +115,7 @@ public final class OrneBeansConverters {
      * Registers all the Orne custom converters in {@code ConvertUtils}.
      *
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void register(
@@ -146,7 +145,7 @@ public final class OrneBeansConverters {
      *
      * @param converter Converter to register the Orne converters to
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void register(
@@ -172,7 +171,7 @@ public final class OrneBeansConverters {
      * {@code ConvertUtils}.
      *
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void registerBeansConversors(
@@ -202,7 +201,7 @@ public final class OrneBeansConverters {
      *
      * @param converter Converter to register the Orne converters to
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerBeansConversors(
@@ -230,7 +229,7 @@ public final class OrneBeansConverters {
      * {@code ConvertUtils}.
      *
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void registerUtilConversors(
@@ -260,7 +259,7 @@ public final class OrneBeansConverters {
      *
      * @param converter Converter to register the Orne converters to
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerUtilConversors(
@@ -288,7 +287,7 @@ public final class OrneBeansConverters {
      * {@code ConvertUtils}.
      *
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtils#register(Converter, Class)
      */
     public static void registerTimeConversors(
@@ -348,7 +347,7 @@ public final class OrneBeansConverters {
      *
      * @param converter Converter to register the Orne converters to
      * @param defaultToNull If {@code null} must be returned on missing
-     * ({@code null) values and on conversion exceptions
+     * ({@code null}) values and on conversion exceptions
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerTimeConversors(
