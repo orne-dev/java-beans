@@ -49,7 +49,7 @@ implements IdentityBean {
      * Empty constructor.
      */
     public BaseIdentityBean() {
-        
+        super();
     }
 
     /**
@@ -60,6 +60,7 @@ implements IdentityBean {
     public BaseIdentityBean(
             @Nonnull
             final BaseIdentityBean copy) {
+        super();
         Validate.notNull(copy);
         this.identity = copy.identity;
     }
