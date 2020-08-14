@@ -64,7 +64,8 @@ extends AbstractSimpleIdentity<BigInteger> {
     }
 
     /**
-     * Resolves the specified identity token to a valid {@code StringIdentity}
+     * Resolves the specified identity token to a valid
+     * {@code BigIntegerIdentity}.
      * 
      * @param token The identity token
      * @return The resolved identity token

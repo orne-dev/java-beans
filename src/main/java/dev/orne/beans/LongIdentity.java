@@ -62,7 +62,7 @@ extends AbstractSimpleIdentity<Long> {
     }
 
     /**
-     * Resolves the specified identity token to a valid {@code StringIdentity}
+     * Resolves the specified identity token to a valid {@code LongIdentity}.
      * 
      * @param token The identity token
      * @return The resolved identity token
