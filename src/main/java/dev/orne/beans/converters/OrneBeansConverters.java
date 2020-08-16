@@ -1,5 +1,7 @@
 package dev.orne.beans.converters;
 
+import java.net.URI;
+
 /*-
  * #%L
  * Orne Beans
@@ -59,6 +61,12 @@ import dev.orne.beans.Identity;
  *       <li>{@link IdentityConverter}</li>
  *      </ul>
  *   </dd>
+ *   <dt>Net converters</dt>
+ *   <dd>
+ *      <ul>
+ *       <li>{@link UriConverter}</li>
+ *      </ul>
+ *   </dd>
  *   <dt>Util converters</dt>
  *   <dd>
  *      <ul>
@@ -107,6 +115,7 @@ public final class OrneBeansConverters {
      */
     public static void register() {
         registerBeansConversors();
+        registerNetConversors();
         registerUtilConversors();
         registerTimeConversors();
     }
@@ -121,6 +130,7 @@ public final class OrneBeansConverters {
     public static void register(
             final boolean defaultToNull) {
         registerBeansConversors(defaultToNull);
+        registerNetConversors(defaultToNull);
         registerUtilConversors(defaultToNull);
         registerTimeConversors(defaultToNull);
     }
@@ -135,6 +145,7 @@ public final class OrneBeansConverters {
     public static void register(
             final ConvertUtilsBean converter) {
         registerBeansConversors(converter);
+        registerNetConversors(converter);
         registerUtilConversors(converter);
         registerTimeConversors(converter);
     }
@@ -152,6 +163,7 @@ public final class OrneBeansConverters {
             final ConvertUtilsBean converter,
             final boolean defaultToNull) {
         registerBeansConversors(converter, defaultToNull);
+        registerNetConversors(converter, defaultToNull);
         registerUtilConversors(converter, defaultToNull);
         registerTimeConversors(converter, defaultToNull);
     }
@@ -211,6 +223,64 @@ public final class OrneBeansConverters {
             converter.register(new IdentityConverter((Identity) null), Identity.class);
         } else {
             converter.register(new IdentityConverter(), Identity.class);
+        }
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * {@code ConvertUtils}.
+     *
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerNetConversors() {
+        registerNetConversors(false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.net} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerNetConversors(
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            ConvertUtils.register(new UriConverter((URI) null), URI.class);
+        } else {
+            ConvertUtils.register(new UriConverter(), URI.class);
+        }
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.net} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerNetConversors(
+            final ConvertUtilsBean converter) {
+        registerNetConversors(converter, false);
+    }
+
+    /**
+     * Registers all the Orne custom converters for {@code java.net} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerNetConversors(
+            final ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+        if (defaultToNull) {
+            converter.register(new UriConverter((URI) null), URI.class);
+        } else {
+            converter.register(new UriConverter(), URI.class);
         }
     }
 

@@ -269,6 +269,7 @@ to check programmatically if a bean has a valid reference.
 Library provides additional converters for `Apache Commons BeanUtils`:
 
 - `IdentityConverter`: Converts `Identity` instances to `String` using identity token and back using `TokenIdentity`.
+- `UriConverter`: Converts `java.net.URI` instances.
 - `LocaleConverter`: Converts `java.util.Locale` instances.
 - `InstantConverter`: Converts `java.time.Instant` instances.
 - `YearConverter`: Converts `java.time.Year` instances.

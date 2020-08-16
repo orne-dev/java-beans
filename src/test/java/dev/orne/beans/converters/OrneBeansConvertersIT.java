@@ -45,6 +45,7 @@ import org.junit.jupiter.api.Test;
  * <li>{@code MonthDayConverter}</li>
  * <li>{@code OffsetDateTimeConverter}</li>
  * <li>{@code OffsetTimeConverter}</li>
+ * <li>{@code UriConverter}</li>
  * <li>{@code YearConverter}</li>
  * <li>{@code YearMonthConverter}</li>
  * <li>{@code ZonedDateTimeConverter}</li>
@@ -63,6 +64,7 @@ import org.junit.jupiter.api.Test;
  * @see MonthDayConverter
  * @see OffsetDateTimeConverter
  * @see OffsetTimeConverter
+ * @see UriConverter
  * @see YearConverter
  * @see YearMonthConverter
  * @see ZonedDateTimeConverter

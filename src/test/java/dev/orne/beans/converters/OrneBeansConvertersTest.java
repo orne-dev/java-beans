@@ -24,6 +24,7 @@ package dev.orne.beans.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
@@ -137,6 +138,24 @@ public class OrneBeansConvertersTest {
     public void testRegisterBeansNulls() {
         OrneBeansConverters.registerBeansConversors(true);
         assertNotNull(ConvertUtils.lookup(Identity.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors()}.
+     */
+    @Test
+    public void testRegisterNet() {
+        OrneBeansConverters.registerNetConversors();
+        assertNotNull(ConvertUtils.lookup(URI.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors(boolean)}.
+     */
+    @Test
+    public void testRegisterNetNulls() {
+        OrneBeansConverters.registerNetConversors(true);
+        assertNotNull(ConvertUtils.lookup(URI.class));
     }
 
     /**
@@ -277,6 +296,26 @@ public class OrneBeansConvertersTest {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerBeansConversors(converter, true);
         assertNotNull(converter.lookup(Identity.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors(ConvertUtilsBean)}.
+     */
+    @Test
+    public void testRegisterNetInBean() {
+        final ConvertUtilsBean converter = new ConvertUtilsBean();
+        OrneBeansConverters.registerNetConversors(converter);
+        assertNotNull(converter.lookup(URI.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors(ConvertUtilsBean, boolean)}.
+     */
+    @Test
+    public void testRegisterNetInBeanNulls() {
+        final ConvertUtilsBean converter = new ConvertUtilsBean();
+        OrneBeansConverters.registerNetConversors(converter, true);
+        assertNotNull(converter.lookup(URI.class));
     }
 
     /**
