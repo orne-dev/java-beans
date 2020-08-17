@@ -1,8 +1,13 @@
 # :package: 0.3.0
 
 01. :gift: Added Apache `beanutils` converters
+    01. :gift: Added class `dev.orne.beans.converters.DateConverter`
+        01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
+    01. :gift: Added class `dev.orne.beans.converters.CalendarConverter`
+        01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
     01. :gift: Added class `dev.orne.beans.converters.UriConverter`
-    01. :gift: Added methods `registerNetConversors` to `dev.orne.beans.converters.OrneBeansConverters`
+        01. :gift: Added to methods `OrneBeansConverters.registerNetConversors(...)`
+01. :gift: Added methods `registerNetConversors` to `dev.orne.beans.converters.OrneBeansConverters`
 
 # :package: 0.2.0
 

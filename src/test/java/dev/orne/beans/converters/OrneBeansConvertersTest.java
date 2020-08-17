@@ -41,6 +41,8 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -77,6 +79,8 @@ public class OrneBeansConvertersTest {
     public void testRegister() {
         OrneBeansConverters.register();
         assertNotNull(ConvertUtils.lookup(Identity.class));
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
         assertNotNull(ConvertUtils.lookup(Instant.class));
         assertNotNull(ConvertUtils.lookup(Year.class));
@@ -103,6 +107,8 @@ public class OrneBeansConvertersTest {
     public void testRegisterNulls() {
         OrneBeansConverters.register(true);
         assertNotNull(ConvertUtils.lookup(Identity.class));
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
         assertNotNull(ConvertUtils.lookup(Instant.class));
         assertNotNull(ConvertUtils.lookup(Year.class));
@@ -164,6 +170,8 @@ public class OrneBeansConvertersTest {
     @Test
     public void testRegisterUtil() {
         OrneBeansConverters.registerUtilConversors();
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
     }
 
@@ -173,6 +181,8 @@ public class OrneBeansConvertersTest {
     @Test
     public void testRegisterUtilNulls() {
         OrneBeansConverters.registerUtilConversors(true);
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
     }
 
@@ -232,6 +242,8 @@ public class OrneBeansConvertersTest {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.register(converter);
         assertNotNull(converter.lookup(Identity.class));
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
         assertNotNull(converter.lookup(Instant.class));
         assertNotNull(converter.lookup(Year.class));
@@ -259,6 +271,8 @@ public class OrneBeansConvertersTest {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.register(converter, true);
         assertNotNull(converter.lookup(Identity.class));
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
         assertNotNull(converter.lookup(Instant.class));
         assertNotNull(converter.lookup(Year.class));
@@ -325,6 +339,8 @@ public class OrneBeansConvertersTest {
     public void testRegisterUtilInBean() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerUtilConversors(converter);
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
     }
 
@@ -335,6 +351,8 @@ public class OrneBeansConvertersTest {
     public void testRegisterUtilInBeanNulls() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerUtilConversors(converter, true);
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
     }
 

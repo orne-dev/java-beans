@@ -40,6 +40,8 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -70,6 +72,8 @@ import dev.orne.beans.Identity;
  *   <dt>Util converters</dt>
  *   <dd>
  *      <ul>
+ *       <li>{@link CalendarConverter}</li>
+ *       <li>{@link DateConverter}</li>
  *       <li>{@link LocaleConverter}</li>
  *      </ul>
  *   </dd>
@@ -305,8 +309,12 @@ public final class OrneBeansConverters {
     public static void registerUtilConversors(
             final boolean defaultToNull) {
         if (defaultToNull) {
+            ConvertUtils.register(new CalendarConverter((Calendar) null), Calendar.class);
+            ConvertUtils.register(new DateConverter((Date) null), Date.class);
             ConvertUtils.register(new LocaleConverter((Locale) null), Locale.class);
         } else {
+            ConvertUtils.register(new CalendarConverter(), Calendar.class);
+            ConvertUtils.register(new DateConverter(), Date.class);
             ConvertUtils.register(new LocaleConverter(), Locale.class);
         }
     }
@@ -336,8 +344,12 @@ public final class OrneBeansConverters {
             final ConvertUtilsBean converter,
             final boolean defaultToNull) {
         if (defaultToNull) {
+            converter.register(new CalendarConverter((Calendar) null), Calendar.class);
+            converter.register(new DateConverter((Date) null), Date.class);
             converter.register(new LocaleConverter((Locale) null), Locale.class);
         } else {
+            converter.register(new CalendarConverter(), Calendar.class);
+            converter.register(new DateConverter(), Date.class);
             converter.register(new LocaleConverter(), Locale.class);
         }
     }
