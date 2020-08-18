@@ -3,7 +3,7 @@
 01. :gift: Added Apache `beanutils` converters
     01. :gift: Added class `dev.orne.beans.converters.DateConverter`
         01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
-    01. :gift: Added class `dev.orne.beans.converters.CalendarConverter`
+    01. :gift: Added class `dev.orne.beans.converters.GregorianCalendarConverter`
         01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
     01. :gift: Added class `dev.orne.beans.converters.UriConverter`
         01. :gift: Added to methods `OrneBeansConverters.registerNetConversors(...)`

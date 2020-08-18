@@ -22,11 +22,10 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.GregorianCalendar;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,24 +42,19 @@ import org.apache.commons.beanutils.converters.AbstractConverter;
  * @version 1.0, 2020-08
  * @since 0.3
  */
-public class CalendarConverter
+public class GregorianCalendarConverter
 extends AbstractConverter {
 
-    /** The converter to use when converting {@code Instant} instances. */
-    private final Converter instantConverter;
-
-    /** The locale of the calendars to create. */
-    private Locale locale;
-    /** The time zone of the calendars to create. */
-    private TimeZone timeZone;
+    /** The converter to use when converting {@code ZonedDateTime} instances. */
+    private final Converter zonedDateTimeConverter;
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs.
      */
-    public CalendarConverter() {
+    public GregorianCalendarConverter() {
         super();
-        this.instantConverter = new InstantConverter();
+        this.zonedDateTimeConverter = new ZonedDateTimeConverter();
     }
 
     /**
@@ -69,10 +63,10 @@ extends AbstractConverter {
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public CalendarConverter(final Calendar defaultValue) {
+    public GregorianCalendarConverter(final GregorianCalendar defaultValue) {
         super(defaultValue);
-        this.instantConverter = new InstantConverter(
-                defaultValue == null ? null : defaultValue.toInstant());
+        this.zonedDateTimeConverter = new ZonedDateTimeConverter(
+                defaultValue == null ? null : defaultValue.toZonedDateTime());
     }
 
     /**
@@ -80,83 +74,49 @@ extends AbstractConverter {
      * error occurs.
      * 
      * @param instantConverter The converter to use when converting
-     * {@code Instant} instances
+     * {@code ZonedDateTime} instances
      */
-    public CalendarConverter(
+    public GregorianCalendarConverter(
             @Nonnull
             final Converter instantConverter) {
         super();
-        this.instantConverter = instantConverter;
+        this.zonedDateTimeConverter = instantConverter;
     }
 
     /**
      * Creates a new instance that returns a default value if an error occurs.
      * 
      * @param instantConverter The converter to use when converting
-     * {@code Instant} instances
+     * {@code ZonedDateTime} instances
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public CalendarConverter(
+    public GregorianCalendarConverter(
             @Nonnull
             final Converter instantConverter,
             @Nullable
-            final Calendar defaultValue) {
+            final GregorianCalendar defaultValue) {
         super(defaultValue);
-        this.instantConverter = instantConverter;
+        this.zonedDateTimeConverter = instantConverter;
     }
 
     /**
-     * Returns the converter to use when converting {@code Instant} instances.
+     * Returns the converter to use when converting {@code ZonedDateTime}
+     * instances.
      * 
-     * @return The converter to use when converting {@code Instant} instances
+     * @return The converter to use when converting {@code ZonedDateTime}
+     * instances
      */
-    protected Converter getInstantConverter() {
-        return this.instantConverter;
-    }
-
-    /**
-     * Returns the locale of the calendars to create.
-     * 
-     * @return The locale of the calendars to create
-     */
-    public Locale getLocale() {
-        return this.locale;
-    }
-
-    /**
-     * Sets the locale of the calendars to create.
-     * 
-     * @param locale The locale of the calendars to create
-     */
-    public void setLocale(final Locale locale) {
-        this.locale = locale;
-    }
-
-    /**
-     * Returns the time zone of the calendars to create.
-     * 
-     * @return The time zone of the calendars to create
-     */
-    public TimeZone getTimeZone() {
-        return this.timeZone;
-    }
-
-    /**
-     * Sets the time zone of the calendars to create.
-     * 
-     * @param timeZone The time zone of the calendars to create
-     */
-    public void setTimeZone(final TimeZone timeZone) {
-        this.timeZone = timeZone;
+    protected Converter getZonedDateTimeConverter() {
+        return this.zonedDateTimeConverter;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Class<Calendar> getDefaultType() {
-        return Calendar.class;
+    protected Class<GregorianCalendar> getDefaultType() {
+        return GregorianCalendar.class;
     }
 
     /**
@@ -167,27 +127,15 @@ extends AbstractConverter {
             final Class<T> type,
             final Object value)
     throws Throwable {
-        if (type.isAssignableFrom(Calendar.class)) {
+        if (type.isAssignableFrom(GregorianCalendar.class)) {
             if (type.isInstance(value)) {
                 return type.cast(value);
             }
-            final Instant instant = this.instantConverter.convert(Instant.class, value);
+            final ZonedDateTime instant = this.zonedDateTimeConverter.convert(ZonedDateTime.class, value);
             if (instant == null) {
                 return null;
             } else {
-                Calendar calendar = null;
-                if (this.locale == null && this.timeZone == null) {
-                    calendar = Calendar.getInstance();
-                } else if (this.locale == null) {
-                    calendar = Calendar.getInstance(this.timeZone);
-                } else if (this.timeZone == null) {
-                    calendar = Calendar.getInstance(this.locale);
-                } else {
-                    calendar = Calendar.getInstance(this.timeZone, this.locale);
-                }
-                calendar.setTime(Date.from(instant));
-                calendar.setLenient(false);
-                return type.cast(calendar);
+                return type.cast(GregorianCalendar.from(instant));
             }
         }
         throw conversionException(type, value);
@@ -201,7 +149,13 @@ extends AbstractConverter {
             final Object value)
     throws Throwable {
         if (value instanceof Calendar) {
-            return this.instantConverter.convert(String.class, ((Calendar) value).toInstant());
+            final ZonedDateTime zdt;
+            if (value instanceof GregorianCalendar) {
+                zdt = ((GregorianCalendar) value).toZonedDateTime();
+            } else {
+                zdt = ZonedDateTime.ofInstant(((Calendar) value).toInstant(), ZoneId.systemDefault());
+            }
+            return this.zonedDateTimeConverter.convert(String.class, zdt);
         } else if (value instanceof String) {
             return value.toString();
         } else {
