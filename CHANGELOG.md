@@ -1,5 +1,8 @@
 # :package: 0.3.0
 
+01. :gift: Added interface `dev.orne.beans.WritableIdentityBean`
+01. Improved class `BaseIdentityBean`
+    01. :gift: Implements `WritableIdentityBean`
 01. :gift: Added Apache `beanutils` converters
     01. :gift: Added class `dev.orne.beans.converters.DateConverter`
         01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`

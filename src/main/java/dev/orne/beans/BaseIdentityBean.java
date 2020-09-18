@@ -39,7 +39,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @since 0.1
  */
 public class BaseIdentityBean
-implements IdentityBean {
+implements WritableIdentityBean {
 
     /** The instance's identity. */
     @Nullable
@@ -75,10 +75,9 @@ implements IdentityBean {
     }
 
     /**
-     * Sets the instance's identity.
-     * 
-     * @param identity The instance's identity
+     * {@inheritDoc}
      */
+    @Override
     public void setIdentity(
             @Nullable
             final Identity identity) {
