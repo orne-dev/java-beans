@@ -1,5 +1,27 @@
 package dev.orne.beans.converters;
 
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/lgpl-3.0.html>.
+ * #L%
+ */
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -107,6 +129,8 @@ extends AbstractConverter {
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs and uses default instance of {@code IdentityConverter} for
      * identity conversions.
+     * 
+     * @param defaultType The default type this <code>Converter</code> handles.
      */
     public IdentityBeanConverter(
             final @NotNull Class<? extends WritableIdentityBean> defaultType) {
@@ -120,6 +144,8 @@ extends AbstractConverter {
      * and uses default instance of {@code IdentityConverter} for identity
      * conversions.
      * 
+     * @param <T> The default type this <code>Converter</code> handles.
+     * @param defaultType The default type this <code>Converter</code> handles.
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
@@ -135,6 +161,7 @@ extends AbstractConverter {
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs.
      * 
+     * @param defaultType The default type this <code>Converter</code> handles.
      * @param identityConverter The converter to use for identity conversions
      */
     public IdentityBeanConverter(
@@ -148,6 +175,8 @@ extends AbstractConverter {
     /**
      * Creates a new instance that returns a default value if an error occurs.
      * 
+     * @param <T> The default type this <code>Converter</code> handles.
+     * @param defaultType The default type this <code>Converter</code> handles.
      * @param identityConverter The converter to use for identity conversions
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
