@@ -10,6 +10,7 @@
         01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
     01. :gift: Added class `dev.orne.beans.converters.UriConverter`
         01. :gift: Added to methods `OrneBeansConverters.registerNetConversors(...)`
+    01. :gift: Added class `dev.orne.beans.converters.IdentityBeanConverter`
 01. :gift: Added methods `registerNetConversors` to `dev.orne.beans.converters.OrneBeansConverters`
 
 # :package: 0.2.0
