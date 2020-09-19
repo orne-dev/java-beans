@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * @see InstantConverter
  */
 @Tag("ut")
-public class InstantConverterTest
+class InstantConverterTest
 extends AbstractTimeConverterTest {
 
     public InstantConverterTest() {
@@ -50,7 +50,7 @@ extends AbstractTimeConverterTest {
      * Test {@link InstantConverter#InstantConverter()}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final InstantConverter converter = new InstantConverter();
         assertConstructor(converter,
                 DateTimeFormatter.ISO_INSTANT,
@@ -63,7 +63,7 @@ extends AbstractTimeConverterTest {
      * Test {@link InstantConverter#InstantConverter(LocalDate)}.
      */
     @Test
-    public void testConstructorDefaultValue() {
+    void testConstructorDefaultValue() {
         final InstantConverter converter = new InstantConverter(
                 (Instant) null);
         assertConstructor(converter,
@@ -77,7 +77,7 @@ extends AbstractTimeConverterTest {
      * Test {@link InstantConverter#InstantConverter(DateTimeFormatter)}.
      */
     @Test
-    public void testConstructorFormatter() {
+    void testConstructorFormatter() {
         final InstantConverter converter = new InstantConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME);
         assertConstructor(converter,
@@ -91,7 +91,7 @@ extends AbstractTimeConverterTest {
      * Test {@link InstantConverter#InstantConverter(DateTimeFormatter, Instant)}.
      */
     @Test
-    public void testConstructorFormatterDefaultValue() {
+    void testConstructorFormatterDefaultValue() {
         final InstantConverter converter = new InstantConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME,
                 (Instant) null);
@@ -107,7 +107,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(LOCAL_DATE);
         assertFail(YEAR);
@@ -127,7 +127,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final Instant defaultValue = null;
         final InstantConverter converter = new InstantConverter(defaultValue);
         assertSuccess(converter, (Object) null, defaultValue, defaultValue);
@@ -150,7 +150,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(ZONED_DATE_TIME, INSTANT);
         assertSuccess(OFFSET_DATE_TIME, INSTANT);
         assertSuccess(LOCAL_DATE_TIME, UTC_INSTANT);
@@ -163,7 +163,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversions() {
+    void testFromStringInvalidConversions() {
         assertFail(STR_EMPTY);
         assertFail(STR_NON_DATE);
         assertFail(STR_ISO_OFFSET_DATE);
@@ -183,7 +183,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversionsWithDefaultValue() {
+    void testFromStringInvalidConversionsWithDefaultValue() {
         final Instant defaultValue = null;
         final InstantConverter converter = new InstantConverter(defaultValue);
         assertSuccess(converter, STR_EMPTY, defaultValue, defaultValue);
@@ -206,7 +206,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromStringValidConversions() {
+    void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, INSTANT);
         assertSuccess(STR_ISO_OFFSET_DATE_TIME, INSTANT);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, UTC_INSTANT);
@@ -220,7 +220,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final InstantConverter converter = new InstantConverter();
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");

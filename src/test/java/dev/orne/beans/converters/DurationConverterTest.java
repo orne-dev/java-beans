@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @see DurationConverter
  */
 @Tag("ut")
-public class DurationConverterTest
+class DurationConverterTest
 extends AbstractConverterTest {
 
     private static final Duration MILLIS_DURATION = Duration.ofMillis(123);
@@ -65,7 +65,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail("");
         assertFail(true);
@@ -77,7 +77,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final Duration defaultValue = null;
         final DurationConverter converter = new DurationConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -91,7 +91,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(MILLIS_DURATION.toString(), MILLIS_DURATION);
         assertSuccess(MILLIS_DURATION, MILLIS_DURATION);
         assertSuccess(SECONDS_DURATION.toString(), SECONDS_DURATION);
@@ -117,7 +117,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -127,7 +127,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final Duration defaultValue = null;
         final DurationConverter converter = new DurationConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
@@ -138,7 +138,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
         assertSuccess(converter, String.class, "test string", "test string");

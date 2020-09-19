@@ -26,8 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * @see LongIdentity
  */
 @Tag("ut")
-public class LongIdentityTest
+class LongIdentityTest
 extends AbstractSimpleIdentityTest {
 
     /** The random value generator. */
@@ -52,7 +51,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructorNullValue()
+    void testConstructorNullValue()
     throws Throwable {
         final LongIdentity identity = new LongIdentity((Long) null);
         assertNull(identity.getValue());
@@ -63,7 +62,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructor()
+    void testConstructor()
     throws Throwable {
         final Long value = randomValue();
         final LongIdentity identity = new LongIdentity(value);
@@ -83,8 +82,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected LongIdentity createInstance() {
+    protected @NotNull LongIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -92,26 +90,22 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    @Nonnull
-    protected LongIdentity createCopy(
-            @Nonnull
-            final AbstractIdentity copy) {
+    protected @NotNull LongIdentity createCopy(
+            final @NotNull AbstractIdentity copy) {
         return new LongIdentity((LongIdentity) copy);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected LongIdentity createInstanceWithNullValue() {
+    protected @NotNull LongIdentity createInstanceWithNullValue() {
         return new LongIdentity((Long) null);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected LongIdentity createInstanceWithNonNullValue() {
+    protected @NotNull LongIdentity createInstanceWithNonNullValue() {
         return new LongIdentity(randomValue());
     }
 
@@ -122,7 +116,6 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected String createIdentityToken(
-            @Nullable
             final Long value) {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
@@ -147,8 +140,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected LongIdentity resolveIdentityToken(
-            @Nonnull
-            final String token)
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         return LongIdentity.fromIdentityToken(token);
     }
@@ -158,7 +150,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityTokenNullValue()
+    void testFromIdentityTokenNullValue()
     throws Throwable {
         final String token = createIdentityToken(null);
         final LongIdentity result = resolveIdentityToken(token);
@@ -171,7 +163,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityTokenInvalidValue()
+    void testFromIdentityTokenInvalidValue()
     throws Throwable {
         final String token = createNoNumberIdentityToken();
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
@@ -184,7 +176,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityToken()
+    void testFromIdentityToken()
     throws Throwable {
         final Long expectedValue = randomValue();
         final String token = createIdentityToken(expectedValue);

@@ -32,8 +32,7 @@ import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation of {@code Converter} that converts {@code DayOfWeek} instances
@@ -92,7 +91,6 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public DayOfWeekConverter(
-            @Nullable
             final DayOfWeek defaultValue) {
         super(BY_VALUE_PARSER, defaultValue);
         setDefaultParsers();
@@ -105,8 +103,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public DayOfWeekConverter(
-            @Nonnull
-            final DateTimeFormatter formatter) {
+            final @NotNull DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -119,9 +116,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public DayOfWeekConverter(
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nullable
+            final @NotNull DateTimeFormatter formatter,
             final DayOfWeek defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
@@ -149,7 +144,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return DayOfWeek.class;
     }
 
@@ -158,7 +153,7 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T> T convertToType(
-            final Class<T> type,
+            final @NotNull Class<T> type,
             final Object value) {
         if (type.isAssignableFrom(DayOfWeek.class)) {
             if (value instanceof String) {
@@ -189,8 +184,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final Class<T> type,
-            final TemporalAccessor value) {
+            final @NotNull Class<T> type,
+            final @NotNull TemporalAccessor value) {
         try {
             return type.cast(DayOfWeek.from(value));
         } catch (final DateTimeException dte) {

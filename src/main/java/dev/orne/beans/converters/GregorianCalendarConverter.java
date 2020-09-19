@@ -27,8 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
@@ -46,7 +45,7 @@ public class GregorianCalendarConverter
 extends AbstractConverter {
 
     /** The converter to use when converting {@code ZonedDateTime} instances. */
-    private final Converter zonedDateTimeConverter;
+    private final @NotNull Converter zonedDateTimeConverter;
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
@@ -77,8 +76,7 @@ extends AbstractConverter {
      * {@code ZonedDateTime} instances
      */
     public GregorianCalendarConverter(
-            @Nonnull
-            final Converter instantConverter) {
+            final @NotNull Converter instantConverter) {
         super();
         this.zonedDateTimeConverter = instantConverter;
     }
@@ -92,9 +90,7 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public GregorianCalendarConverter(
-            @Nonnull
-            final Converter instantConverter,
-            @Nullable
+            final @NotNull Converter instantConverter,
             final GregorianCalendar defaultValue) {
         super(defaultValue);
         this.zonedDateTimeConverter = instantConverter;
@@ -107,7 +103,7 @@ extends AbstractConverter {
      * @return The converter to use when converting {@code ZonedDateTime}
      * instances
      */
-    protected Converter getZonedDateTimeConverter() {
+    protected @NotNull Converter getZonedDateTimeConverter() {
         return this.zonedDateTimeConverter;
     }
 
@@ -115,7 +111,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<GregorianCalendar> getDefaultType() {
+    protected @NotNull Class<GregorianCalendar> getDefaultType() {
         return GregorianCalendar.class;
     }
 
@@ -124,7 +120,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final Class<T> type,
+            final @NotNull Class<T> type,
             final Object value)
     throws Throwable {
         if (type.isAssignableFrom(GregorianCalendar.class)) {

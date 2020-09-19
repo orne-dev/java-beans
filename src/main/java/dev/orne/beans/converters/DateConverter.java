@@ -25,8 +25,7 @@ package dev.orne.beans.converters;
 import java.time.Instant;
 import java.util.Date;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
@@ -44,7 +43,7 @@ public class DateConverter
 extends AbstractConverter {
 
     /** The converter to use when converting {@code Instant} instances. */
-    private final Converter instantConverter;
+    private final @NotNull Converter instantConverter;
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
@@ -75,8 +74,7 @@ extends AbstractConverter {
      * {@code Instant} instances
      */
     public DateConverter(
-            @Nonnull
-            final Converter instantConverter) {
+            final @NotNull Converter instantConverter) {
         super();
         this.instantConverter = instantConverter;
     }
@@ -90,9 +88,7 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public DateConverter(
-            @Nonnull
-            final Converter instantConverter,
-            @Nullable
+            final @NotNull Converter instantConverter,
             final Date defaultValue) {
         super(defaultValue);
         this.instantConverter = instantConverter;
@@ -103,7 +99,7 @@ extends AbstractConverter {
      * 
      * @return The converter to use when converting {@code Instant} instances
      */
-    protected Converter getInstantConverter() {
+    protected @NotNull Converter getInstantConverter() {
         return this.instantConverter;
     }
 
@@ -111,7 +107,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<Date> getDefaultType() {
+    protected @NotNull Class<Date> getDefaultType() {
         return Date.class;
     }
 
@@ -120,7 +116,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final Class<T> type,
+            final @NotNull Class<T> type,
             final Object value)
     throws Throwable {
         if (type.isAssignableFrom(Date.class)) {

@@ -22,7 +22,7 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
 
@@ -49,8 +49,7 @@ extends AbstractConverter {
      * @param enumType The type of enumeration this instance converters
      */
     public EnumConverter(
-            @Nonnull
-            final Class<E> enumType) {
+            final @NotNull Class<E> enumType) {
         super();
         this.enumType = enumType;
     }
@@ -63,8 +62,7 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public EnumConverter(
-            @Nonnull
-            final Class<E> enumType,
+            final @NotNull Class<E> enumType,
             final E defaultValue) {
         super(defaultValue);
         this.enumType = enumType;
@@ -74,8 +72,8 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<?> getDefaultType() {
-        return enumType;
+    protected @NotNull Class<?> getDefaultType() {
+        return this.enumType;
     }
 
     /**
@@ -83,7 +81,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final Class<T> type,
+            final @NotNull Class<T> type,
             final Object value)
     throws Throwable {
         if (type.isAssignableFrom(this.enumType)) {

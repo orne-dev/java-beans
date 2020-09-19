@@ -51,7 +51,6 @@
     <commons.codec.version>1.14</commons.codec.version>
 
     <javax.validation.version>2.0.1.Final</javax.validation.version>
-    <jsr305.version>3.0.2</jsr305.version>
     <fasterxml.jackson.version>2.11.0</fasterxml.jackson.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
@@ -93,12 +92,6 @@
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <version>${javax.validation.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>${jsr305.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>

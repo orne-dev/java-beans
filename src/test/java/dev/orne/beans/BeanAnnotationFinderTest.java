@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
@@ -53,13 +52,13 @@ import dev.orne.beans.BeanAnnotationFinder.WeakHashMapCache;
  * @see BeanAnnotationFinder
  */
 @Tag("ut")
-public class BeanAnnotationFinderTest {
+class BeanAnnotationFinderTest {
 
     /**
      * Test {@link BeanAnnotationFinder#BeanAnnotationFinder(Class)}.
      */
     @Test
-    public void testConstructorNullType() {
+    void testConstructorNullType() {
         assertThrows(NullPointerException.class, () -> {
             new BeanAnnotationFinder<>(null);
         });
@@ -69,7 +68,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#BeanAnnotationFinder(Class)}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final BeanAnnotationFinder<?, ?> instance =
                 new BeanAnnotationFinder<>(TestAnnotation.class);
         assertSame(TestAnnotation.class, instance.getAnnotationType());
@@ -87,7 +86,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#BeanAnnotationFinder(Class, Class, BeanAnnotationFinder.AnnotationListExtractor)}.
      */
     @Test
-    public void testListConstructorNullType() {
+    void testListConstructorNullType() {
         assertThrows(NullPointerException.class, () -> {
             new BeanAnnotationFinder<>(null,
                     TestAnnotation.List.class,
@@ -99,7 +98,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#BeanAnnotationFinder(Class, Class, BeanAnnotationFinder.AnnotationListExtractor)}.
      */
     @Test
-    public void testListConstructorNullListType() {
+    void testListConstructorNullListType() {
         final BeanAnnotationFinder<?, ?> instance =
                 new BeanAnnotationFinder<>(
                     TestAnnotation.class,
@@ -120,7 +119,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#BeanAnnotationFinder(Class, Class, BeanAnnotationFinder.AnnotationListExtractor)}.
      */
     @Test
-    public void testListConstructorNullExtractor() {
+    void testListConstructorNullExtractor() {
         final BeanAnnotationFinder<?, ?> instance =
                 new BeanAnnotationFinder<>(
                     TestAnnotation.class,
@@ -141,7 +140,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#BeanAnnotationFinder(Class, Class, BeanAnnotationFinder.AnnotationListExtractor)}.
      */
     @Test
-    public void testListConstructor() {
+    void testListConstructor() {
         final BeanAnnotationFinder<?, ?> instance =
                 new BeanAnnotationFinder<>(
                     TestAnnotation.class,
@@ -164,7 +163,7 @@ public class BeanAnnotationFinderTest {
      * 
      * @return The created instance
      */
-    protected BeanAnnotationFinder<TestAnnotation, ?> createInstance() {
+    protected @NotNull BeanAnnotationFinder<TestAnnotation, ?> createInstance() {
         return new BeanAnnotationFinder<>(TestAnnotation.class);
     }
 
@@ -174,8 +173,7 @@ public class BeanAnnotationFinderTest {
      * 
      * @return The created instance
      */
-    protected BeanAnnotationFinder<TestAnnotation, ?> createInstance(
-            @Nullable
+    protected @NotNull BeanAnnotationFinder<TestAnnotation, ?> createInstance(
             final Cache cache) {
         return new BeanAnnotationFinder<>(TestAnnotation.class)
                 .setCache(cache);
@@ -187,7 +185,7 @@ public class BeanAnnotationFinderTest {
      * 
      * @return The created instance
      */
-    protected BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance() {
+    protected @NotNull BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance() {
         return new BeanAnnotationFinder<>(
                 TestAnnotation.class,
                 TestAnnotation.List.class,
@@ -201,8 +199,7 @@ public class BeanAnnotationFinderTest {
      * @param cache The cache to use
      * @return The created instance
      */
-    protected BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance(
-            @Nullable
+    protected @NotNull BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance(
             final Cache cache) {
         return new BeanAnnotationFinder<>(
                     TestAnnotation.class,
@@ -215,7 +212,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#setCache(BeanAnnotationFinder.Cache)}.
      */
     @Test
-    public void testSetCache() {
+    void testSetCache() {
         final BeanAnnotationFinder<?, ?> instance = createInstance();
         final Cache sharedCache = instance.getCache();
         final Cache mockCache = mock(Cache.class);
@@ -231,7 +228,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#find(Class)}.
      */
     @Test
-    public void testFindNullType() {
+    void testFindNullType() {
         final BeanAnnotationFinder<TestAnnotation, ?> instance = spy(createInstance());
         assertThrows(NullPointerException.class, () -> {
             instance.find(null);
@@ -244,7 +241,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#find(Class)}.
      */
     @Test
-    public void testFind() {
+    void testFind() {
         final BeanAnnotationFinder<TestAnnotation, ?> instance = spy(createInstance());
         @SuppressWarnings("unchecked")
         final Set<TestAnnotation> mockResult = mock(Set.class);
@@ -265,7 +262,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#findAnnotations(Class, Set)}.
      */
     @Test
-    public void testFindAnnotationsAlreadyVisited() {
+    void testFindAnnotationsAlreadyVisited() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -285,7 +282,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#findAnnotations(Class, Set)}.
      */
     @Test
-    public void testFindAnnotationsInCache() {
+    void testFindAnnotationsInCache() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -310,7 +307,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#findAnnotations(Class, Set)}.
      */
     @Test
-    public void testFindAnnotationsNoCache() {
+    void testFindAnnotationsNoCache() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -341,7 +338,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#findAllAnnotations(Class)}.
      */
     @Test
-    public void testFindAllAnnotations() {
+    void testFindAllAnnotations() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -396,7 +393,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#findAllAnnotations(Class)}.
      */
     @Test
-    public void testFindAllAnnotationsAggregate() {
+    void testFindAllAnnotationsAggregate() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -445,7 +442,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addDirectAnnotation(Class, Set)}.
      */
     @Test
-    public void testAddDirectAnnotation() {
+    void testAddDirectAnnotation() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -465,7 +462,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addDirectAnnotationsList(Class, Set)}.
      */
     @Test
-    public void testAddDirectAnnotationsList() {
+    void testAddDirectAnnotationsList() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createListInstance(mockCache));
@@ -486,7 +483,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addSuperclassAnnotations(Class, Set, Set)}.
      */
     @Test
-    public void testAddSuperAnnotations() {
+    void testAddSuperAnnotations() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -508,7 +505,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addSuperclassAnnotations(Class, Set, Set)}.
      */
     @Test
-    public void testAddSuperAnnotationsNoSuper() {
+    void testAddSuperAnnotationsNoSuper() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -528,7 +525,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addInterfacesAnnotations(Class, Set, Set)}.
      */
     @Test
-    public void testAddInterfacesAnnotations() {
+    void testAddInterfacesAnnotations() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -555,7 +552,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addInterfacesAnnotations(Class, Set, Set)}.
      */
     @Test
-    public void testAddInterfacesAnnotationsExtends() {
+    void testAddInterfacesAnnotationsExtends() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -577,7 +574,7 @@ public class BeanAnnotationFinderTest {
      * Test {@link BeanAnnotationFinder#addInterfacesAnnotations(Class, Set, Set)}.
      */
     @Test
-    public void testAddInterfacesAnnotationsExtendsMultiple() {
+    void testAddInterfacesAnnotationsExtendsMultiple() {
         final Cache mockCache = mock(Cache.class);
         final BeanAnnotationFinder<TestAnnotation, ?> instance =
                 spy(createInstance(mockCache));
@@ -604,7 +601,7 @@ public class BeanAnnotationFinderTest {
      * Tests for {@link BeanAnnotationFinder.CacheEntryKey}.
      */
     @Test
-    public void testCacheEntryKey() {
+    void testCacheEntryKey() {
         final CacheEntryKey<TestAnnotation> key =
                 new CacheEntryKey<>(TestBean.class, TestAnnotation.class);
         final Object differentClass = new Object();
@@ -634,7 +631,7 @@ public class BeanAnnotationFinderTest {
      * Tests for {@link BeanAnnotationFinder.WeakHashMapCache}.
      */
     @Test
-    public void testWeakHashMapCache() {
+    void testWeakHashMapCache() {
         final WeakHashMapCache cache = new WeakHashMapCache();
         final CacheEntryKey<TestAnnotation> key =
                 new CacheEntryKey<>(TestBean.class, TestAnnotation.class);

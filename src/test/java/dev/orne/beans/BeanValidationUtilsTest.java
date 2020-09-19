@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
  * @see BeanValidationUtils
  */
 @Tag("ut")
-public class BeanValidationUtilsTest {
+class BeanValidationUtilsTest {
 
     /**
      * Resets original shared validator.
@@ -60,7 +60,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#setValidator(Validator)}.
      */
     @Test
-    public void testSetValidator() {
+    void testSetValidator() {
         final Validator mockValidator = mock(Validator.class);
         final Validator defaultValidator = BeanValidationUtils.getValidator();
         BeanValidationUtils.setValidator(mockValidator);
@@ -73,7 +73,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#validate(Object, Class...)}.
      */
     @Test
-    public void testValidate() {
+    void testValidate() {
         final Validator mockValidator = mock(Validator.class);
         BeanValidationUtils.setValidator(mockValidator);
         final Object mockObject = mock(Object.class);
@@ -90,7 +90,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#validate(Object, Class...)}.
      */
     @Test
-    public void testValidateGroups() {
+    void testValidateGroups() {
         final Validator mockValidator = mock(Validator.class);
         BeanValidationUtils.setValidator(mockValidator);
         final Object mockObject = mock(Object.class);
@@ -110,7 +110,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#isValid(Object, Class...)}.
      */
     @Test
-    public void testIsValid() {
+    void testIsValid() {
         final Validator mockValidator = mock(Validator.class);
         BeanValidationUtils.setValidator(mockValidator);
         final Object mockObject = mock(Object.class);
@@ -128,7 +128,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#isValid(Object, Class...)}.
      */
     @Test
-    public void testIsValidFalse() {
+    void testIsValidFalse() {
         final Validator mockValidator = mock(Validator.class);
         BeanValidationUtils.setValidator(mockValidator);
         final Object mockObject = mock(Object.class);
@@ -146,7 +146,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#isValid(Object, Class...)}.
      */
     @Test
-    public void testIsValidGroups() {
+    void testIsValidGroups() {
         final Validator mockValidator = mock(Validator.class);
         BeanValidationUtils.setValidator(mockValidator);
         final Object mockObject = mock(Object.class);
@@ -166,7 +166,7 @@ public class BeanValidationUtilsTest {
      * Test {@link BeanValidationUtils#isValid(Object, Class...)}.
      */
     @Test
-    public void testIsValidGroupsFalse() {
+    void testIsValidGroupsFalse() {
         final Validator mockValidator = mock(Validator.class);
         BeanValidationUtils.setValidator(mockValidator);
         final Object mockObject = mock(Object.class);

@@ -22,9 +22,8 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.commons.lang3.Validate;
@@ -55,8 +54,7 @@ implements Identity {
      * @param token The identity token
      */
     public TokenIdentity(
-            @Nonnull
-            final String token) {
+            final @NotNull String token) {
         super();
         Validate.notBlank(token);
         this.identityToken = token;
@@ -65,10 +63,9 @@ implements Identity {
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    @NotBlank
+    
     @Override
-    public String getIdentityToken() {
+    public @NotBlank String getIdentityToken() {
         return this.identityToken;
     }
 
@@ -117,7 +114,6 @@ implements Identity {
      */
     @JsonCreator
     public static TokenIdentity fromToken(
-            @Nullable
             final String token) {
         final TokenIdentity result;
         if (token == null || token.isEmpty()) {
@@ -142,10 +138,8 @@ implements Identity {
          * @param value The value to be converted. Can be null
          * @return The resulting {@code TokenIdentity} instance
          */
-        @Nullable
         @Override
         public TokenIdentity unmarshal(
-                @Nullable
                 final String value) {
             final TokenIdentity result;
             if (value == null || value.isEmpty()) {
@@ -162,10 +156,8 @@ implements Identity {
          * @param identity The value to be converted. Can be null
          * @return The resulting {@code String} instance
          */
-        @Nullable
         @Override
         public String marshal(
-                @Nullable
                 final Identity identity) {
             final String result;
             if (identity == null

@@ -22,8 +22,7 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation for {@code Identity} for identities composed
@@ -45,7 +44,6 @@ extends AbstractSimpleIdentity<String> {
      * @param value The identity value
      */
     public StringIdentity(
-            @Nullable
             final String value) {
         super(value);
     }
@@ -56,8 +54,7 @@ extends AbstractSimpleIdentity<String> {
      * @param copy The instance to copy
      */
     public StringIdentity(
-            @Nonnull
-            final StringIdentity copy) {
+            final @NotNull StringIdentity copy) {
         super(copy);
     }
 
@@ -70,11 +67,9 @@ extends AbstractSimpleIdentity<String> {
      * @throws UnrecognizedIdentityTokenException If the identity token is not
      * a valid identity token or it doesn't start with the expected prefix
      */
-    @Nonnull
     @IdentityTokenResolver
-    public static StringIdentity fromIdentityToken(
-            @Nonnull
-            final String token)
+    public static @NotNull StringIdentity fromIdentityToken(
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         return new StringIdentity(IdentityTokenFormatter.parse(
                 IdentityTokenFormatter.DEFAULT_PREFIX,

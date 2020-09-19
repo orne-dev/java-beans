@@ -22,8 +22,7 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -50,7 +49,7 @@ implements Identity {
      * 
      * @return The identity token prefix for this class
      */
-    @Nonnull
+    @NotNull
     @ValidIdentityTokenPrefix
     protected String getIdentityTokenPrefix() {
         return IdentityTokenFormatter.DEFAULT_PREFIX;
@@ -62,7 +61,6 @@ implements Identity {
      * 
      * @return The identity token body for this instance
      */
-    @Nullable
     protected abstract String getIdentityTokenBody();
 
     /**
@@ -74,10 +72,8 @@ implements Identity {
      * @throws UnrecognizedIdentityTokenException If the identity token
      * is not recognized
      */
-    @Nullable
     protected final String parseIdentityTokenBody(
-            @Nonnull
-            final String token)
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         return IdentityTokenFormatter.parse(
                 getIdentityTokenPrefix(),
@@ -88,7 +84,7 @@ implements Identity {
      * {@inheritDoc}
      */
     @Override
-    @Nonnull
+    @NotNull
     @ValidIdentityToken
     public String getIdentityToken() {
         synchronized (this) {

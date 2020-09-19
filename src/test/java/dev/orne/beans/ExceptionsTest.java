@@ -24,7 +24,7 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ import dev.orne.beans.IdentityResolver.UnresolvableIdentityException;
  * @see UnresolvableIdentityException
  */
 @Tag("ut")
-public class ExceptionsTest {
+class ExceptionsTest {
 
     /** Message for exception testing. */
     private static final String TEST_MESSAGE = "Test message";
@@ -52,7 +52,7 @@ public class ExceptionsTest {
      * Test for {@link UnrecognizedIdentityTokenException}.
      */
     @Test
-    public void testUnrecognizedIdentityTokenException() {
+    void testUnrecognizedIdentityTokenException() {
         assertEmptyException(new UnrecognizedIdentityTokenException());
         assertMessageException(new UnrecognizedIdentityTokenException(TEST_MESSAGE));
         assertCauseException(new UnrecognizedIdentityTokenException(TEST_CAUSE));
@@ -64,7 +64,7 @@ public class ExceptionsTest {
      * Test for {@link UnresolvableIdentityException}.
      */
     @Test
-    public void testUnresolvableIdentityException() {
+    void testUnresolvableIdentityException() {
         assertEmptyException(new UnresolvableIdentityException());
         assertMessageException(new UnresolvableIdentityException(TEST_MESSAGE));
         assertCauseException(new UnresolvableIdentityException(TEST_CAUSE));
@@ -78,8 +78,7 @@ public class ExceptionsTest {
      * @param exception The exception to test
      */
     private void assertEmptyException(
-            @Nonnull
-            final Exception exception) {
+            final @NotNull Exception exception) {
         assertNotNull(exception);
         assertNull(exception.getMessage());
         assertNull(exception.getCause());
@@ -91,8 +90,7 @@ public class ExceptionsTest {
      * @param exception The exception to test
      */
     private void assertMessageException(
-            @Nonnull
-            final Exception exception) {
+            final @NotNull Exception exception) {
         assertNotNull(exception);
         assertNotNull(exception.getMessage());
         assertEquals(TEST_MESSAGE, exception.getMessage());
@@ -105,8 +103,7 @@ public class ExceptionsTest {
      * @param exception The exception to test
      */
     private void assertCauseException(
-            @Nonnull
-            final Exception exception) {
+            final @NotNull Exception exception) {
         assertNotNull(exception);
         assertNotNull(exception.getMessage());
         assertEquals(TEST_CAUSE.toString(), exception.getMessage());
@@ -120,8 +117,7 @@ public class ExceptionsTest {
      * @param exception The exception to test
      */
     private void assertFullException(
-            @Nonnull
-            final Exception exception) {
+            final @NotNull Exception exception) {
         assertNotNull(exception);
         assertNotNull(exception.getMessage());
         assertEquals(TEST_MESSAGE, exception.getMessage());

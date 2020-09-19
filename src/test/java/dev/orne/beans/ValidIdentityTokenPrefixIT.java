@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  * @see ValidIdentityTokenPrefix
  */
 @Tag("it")
-public class ValidIdentityTokenPrefixIT {
+class ValidIdentityTokenPrefixIT {
 
     /**
      * Test {@link ValidIdentityTokenPrefix) validations.
      */
     @Test
-    public void testNullPrefixValidation() {
+    void testNullPrefixValidation() {
         final String prefix = null;
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.prefix = prefix;
@@ -58,7 +58,7 @@ public class ValidIdentityTokenPrefixIT {
      * Test {@link ValidIdentityTokenPrefix) validations.
      */
     @Test
-    public void testEmptyPrefixValidation() {
+    void testEmptyPrefixValidation() {
         final String prefix = "";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.prefix = prefix;
@@ -72,7 +72,7 @@ public class ValidIdentityTokenPrefixIT {
      * Test {@link ValidIdentityTokenPrefix) validations.
      */
     @Test
-    public void testInvalidPrefixValidation() {
+    void testInvalidPrefixValidation() {
         final String prefix = "invalid prefix";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.prefix = prefix;
@@ -86,7 +86,7 @@ public class ValidIdentityTokenPrefixIT {
      * Test {@link ValidIdentityTokenPrefix) validations.
      */
     @Test
-    public void testValidPrefixValidationDefault() {
+    void testValidPrefixValidationDefault() {
         final String prefix = IdentityTokenFormatter.DEFAULT_PREFIX;
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.prefix = prefix;
@@ -100,7 +100,7 @@ public class ValidIdentityTokenPrefixIT {
      * Test {@link ValidIdentityTokenPrefix) validations.
      */
     @Test
-    public void testValidPrefixValidationCustom() {
+    void testValidPrefixValidationCustom() {
         final String prefix = "CustomPrefix";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.prefix = prefix;

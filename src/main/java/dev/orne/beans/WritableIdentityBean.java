@@ -22,8 +22,6 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.annotation.Nullable;
-
 /**
  * Interface representing a bean with identity that allows assigning its
  * identity.
@@ -41,5 +39,5 @@ extends IdentityBean {
      * @param identity The instance's identity
      */
     void setIdentity(
-            @Nullable Identity identity);
+            Identity identity);
 }

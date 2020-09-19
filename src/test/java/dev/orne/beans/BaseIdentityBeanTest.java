@@ -25,7 +25,7 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -39,15 +39,14 @@ import org.junit.jupiter.api.Test;
  * @see BaseIdentityBean
  */
 @Tag("ut")
-public class BaseIdentityBeanTest {
+class BaseIdentityBeanTest {
 
     /**
      * Creates the bean to be tested.
      * 
      * @return The bean created
      */
-    @Nonnull
-    protected BaseIdentityBean createInstance() {
+    protected @NotNull BaseIdentityBean createInstance() {
         return new BaseIdentityBean();
     }
 
@@ -57,10 +56,8 @@ public class BaseIdentityBeanTest {
      * @param copy The bean to copy, created with {@link #createInstance()}
      * @return The bean created
      */
-    @Nonnull
-    protected BaseIdentityBean createCopy(
-            @Nonnull
-            final BaseIdentityBean copy) {
+    protected @NotNull BaseIdentityBean createCopy(
+            final @NotNull BaseIdentityBean copy) {
         return new BaseIdentityBean(copy);
     }
 
@@ -69,7 +66,7 @@ public class BaseIdentityBeanTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testSetIdentity()
+    void testSetIdentity()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
         final Identity identity = mock(Identity.class);
@@ -86,7 +83,7 @@ public class BaseIdentityBeanTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeNull()
+    void testEqualsHashCodeNull()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
         assertFalse(bean.equals(null));
@@ -98,7 +95,7 @@ public class BaseIdentityBeanTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeSame()
+    void testEqualsHashCodeSame()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
         assertTrue(bean.equals(bean));
@@ -111,7 +108,7 @@ public class BaseIdentityBeanTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeDiferentClass()
+    void testEqualsHashCodeDiferentClass()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
         final BaseIdentityBean other = mock(BaseIdentityBean.class); 
@@ -124,7 +121,7 @@ public class BaseIdentityBeanTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeCopy()
+    void testEqualsHashCodeCopy()
     throws Throwable {
         final BaseIdentityBean identity = createInstance();
         final BaseIdentityBean other = createCopy(identity);
@@ -137,7 +134,7 @@ public class BaseIdentityBeanTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testToString()
+    void testToString()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
         final TokenIdentity identity = new TokenIdentity("mockIdentity");

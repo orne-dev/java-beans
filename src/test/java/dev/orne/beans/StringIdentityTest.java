@@ -26,8 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * @see StringIdentity
  */
 @Tag("ut")
-public class StringIdentityTest
+class StringIdentityTest
 extends AbstractSimpleIdentityTest {
 
     /** The random value generator. */
@@ -52,7 +51,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructorNullValue()
+    void testConstructorNullValue()
     throws Throwable {
         final StringIdentity identity = new StringIdentity((String) null);
         assertNull(identity.getValue());
@@ -63,7 +62,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructor()
+    void testConstructor()
     throws Throwable {
         final String value = "mock value";
         final StringIdentity identity = new StringIdentity(value);
@@ -76,8 +75,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return a random {@code String}.
      */
-    @Nonnull
-    protected String randomValue() {
+    protected @NotNull String randomValue() {
         final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
         RND.nextBytes(bodyBytes);
         return new String(bodyBytes);
@@ -86,35 +84,30 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected StringIdentity createInstance() {
+    protected @NotNull StringIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
     @Override
-    protected AbstractSimpleIdentity<?> createCopy(
-            @Nonnull
-            final AbstractIdentity copy) {
+    protected @NotNull AbstractSimpleIdentity<?> createCopy(
+            final @NotNull AbstractIdentity copy) {
         return new StringIdentity((StringIdentity) copy);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected StringIdentity createInstanceWithNullValue() {
+    protected @NotNull StringIdentity createInstanceWithNullValue() {
         return new StringIdentity((String) null);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected StringIdentity createInstanceWithNonNullValue() {
+    protected @NotNull StringIdentity createInstanceWithNonNullValue() {
         return new StringIdentity("Some value");
     }
 
@@ -125,7 +118,6 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected String createIdentityToken(
-            @Nullable
             final String value) {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
@@ -139,8 +131,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected StringIdentity resolveIdentityToken(
-            @Nonnull
-            final String token)
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         return StringIdentity.fromIdentityToken(token);
     }
@@ -150,7 +141,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityTokenNullValue()
+    void testFromIdentityTokenNullValue()
     throws Throwable {
         final String token = createIdentityToken(null);
         final StringIdentity result = resolveIdentityToken(token);
@@ -163,7 +154,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityToken()
+    void testFromIdentityToken()
     throws Throwable {
         final String expectedValue = "mock value";
         final String token = createIdentityToken(expectedValue);

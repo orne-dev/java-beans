@@ -42,7 +42,7 @@ import dev.orne.beans.ValidBeanIdentity.ValidBeanIdentityValidator;
  * @see ValidBeanIdentity
  */
 @Tag("it")
-public class ValidBeanIdentityIT {
+class ValidBeanIdentityIT {
 
     private static final String ERR_MSG = "Failed expectation for bean #%d";
     private static final String ERR_MANY_MSG = "Failed expectation for beans #%d and #%d";
@@ -77,7 +77,7 @@ public class ValidBeanIdentityIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateBean() {
+    void testValidateBean() {
         for (int i = 0; i < testBeans.length; i++) {
             final TestBean bean = testBeans[i];
             if (i % 3 == 2) {
@@ -98,7 +98,7 @@ public class ValidBeanIdentityIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateSimpleContainer() {
+    void testValidateSimpleContainer() {
         final SimpleContainer container = new SimpleContainer();
         for (int i = 0; i < testBeans.length; i++) {
             container.bean = testBeans[i];
@@ -116,7 +116,7 @@ public class ValidBeanIdentityIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateIterableContainer() {
+    void testValidateIterableContainer() {
         final IterableContainer container = new IterableContainer();
         for (int i = 0; i < testBeans.length; i++) {
             for (int j = 0; j < testBeans.length; j++) {
@@ -136,7 +136,7 @@ public class ValidBeanIdentityIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateArrayContainer() {
+    void testValidateArrayContainer() {
         final ArrayContainer container = new ArrayContainer();
         for (int i = 0; i < testBeans.length; i++) {
             for (int j = 0; j < testBeans.length; j++) {

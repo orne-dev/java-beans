@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @see LocaleConverter
  */
 @Tag("ut")
-public class LocaleConverterTest
+class LocaleConverterTest
 extends AbstractConverterTest {
 
     private static final Locale CUSTOM_LOCALE = new Locale("xx", "YY", "ZZZ");
@@ -53,7 +53,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail("");
         assertFail(123456);
@@ -65,7 +65,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final Locale defaultValue = null;
         final LocaleConverter converter = new LocaleConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -79,7 +79,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(Locale.ENGLISH.toLanguageTag(), Locale.ENGLISH);
         assertSuccess(Locale.ENGLISH, Locale.ENGLISH);
         assertSuccess(Locale.UK.toLanguageTag(), Locale.UK);
@@ -93,7 +93,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -103,7 +103,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final Locale defaultValue = null;
         final LocaleConverter converter = new LocaleConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
@@ -114,7 +114,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
         assertSuccess(converter, String.class, "test string", "test string");

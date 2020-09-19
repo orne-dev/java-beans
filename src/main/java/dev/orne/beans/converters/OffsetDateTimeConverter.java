@@ -30,8 +30,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation of {@code Converter} that converts {@code OffsetDateTime} instances
@@ -62,7 +61,6 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public OffsetDateTimeConverter(
-            @Nullable
             final OffsetDateTime defaultValue) {
         super(DateTimeFormatter.ISO_OFFSET_DATE_TIME, defaultValue);
         setDefaultParsers();
@@ -75,8 +73,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public OffsetDateTimeConverter(
-            @Nonnull
-            final DateTimeFormatter formatter) {
+            final @NotNull DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -89,9 +86,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public OffsetDateTimeConverter(
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nullable
+            final @NotNull DateTimeFormatter formatter,
             final OffsetDateTime defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
@@ -111,7 +106,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return OffsetDateTime.class;
     }
 
@@ -120,8 +115,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final Class<T> type,
-            final TemporalAccessor value) {
+            final @NotNull Class<T> type,
+            final @NotNull TemporalAccessor value) {
         try {
             return type.cast(OffsetDateTime.from(value));
         } catch (final DateTimeException dte) {

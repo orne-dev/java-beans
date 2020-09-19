@@ -28,8 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -87,20 +86,16 @@ public class BeanAnnotationFinder<
     private static final Cache SHARED_CACHE = new WeakHashMapCache();
 
     /** The searched annotation type. */
-    @Nonnull
-    private final Class<T> annotationType;
+    private final @NotNull Class<T> annotationType;
     /** The searched annotation list type. */
-    @Nullable
     private final Class<L> annotationListType;
     /** The searched annotation list extractor. */
-    @Nullable
     private final AnnotationListExtractor<L, T> extractor;
     /**
      * The type level annotations cache for this instance. By default shared
      * between all instances.
      */
-    @Nonnull
-    private Cache cache = SHARED_CACHE;
+    private @NotNull Cache cache = SHARED_CACHE;
 
     /**
      * Creates a new instance.
@@ -108,8 +103,7 @@ public class BeanAnnotationFinder<
      * @param annotationType The searched annotation type
      */
     public BeanAnnotationFinder(
-            @Nonnull
-            final Class<T> annotationType) {
+            final @NotNull Class<T> annotationType) {
         this(annotationType, null, null);
     }
 
@@ -122,11 +116,8 @@ public class BeanAnnotationFinder<
      * @param extractor The searched annotation list extractor
      */
     public BeanAnnotationFinder(
-            @Nonnull
-            final Class<T> annotationType,
-            @Nullable
+            final @NotNull Class<T> annotationType,
             final Class<L> annotationListType,
-            @Nullable
             final AnnotationListExtractor<L, T> extractor) {
         super();
         Validate.notNull(annotationType, "Annotation type is required.");
@@ -149,8 +140,7 @@ public class BeanAnnotationFinder<
      * 
      * @return The searched annotation type
      */
-    @Nonnull
-    public Class<T> getAnnotationType() {
+    public @NotNull Class<T> getAnnotationType() {
         return this.annotationType;
     }
 
@@ -159,7 +149,6 @@ public class BeanAnnotationFinder<
      * 
      * @return The searched annotation list type
      */
-    @Nullable
     public Class<L> getAnnotationListType() {
         return this.annotationListType;
     }
@@ -169,7 +158,6 @@ public class BeanAnnotationFinder<
      * 
      * @return The searched annotation list extractor
      */
-    @Nullable
     public AnnotationListExtractor<L, T> getExtractor() {
         return this.extractor;
     }
@@ -179,7 +167,7 @@ public class BeanAnnotationFinder<
      * 
      * @return The cache to be used by this instance
      */
-    protected Cache getCache() {
+    protected @NotNull Cache getCache() {
         return this.cache;
     }
 
@@ -191,8 +179,7 @@ public class BeanAnnotationFinder<
      * @return This instance for method chaining
      */
     protected BeanAnnotationFinder<T, L> setCache(
-            @Nullable
-            Cache cache) {
+            final Cache cache) {
         if (cache == null) {
             this.cache = SHARED_CACHE;
         } else {
@@ -208,10 +195,8 @@ public class BeanAnnotationFinder<
      * @param type The type to search for supported annotations
      * @return The type level annotations of the type
      */
-    @Nonnull
-    public Set<T> find(
-            @Nonnull
-            final Class<?> type) {
+    public @NotNull Set<T> find(
+            final @NotNull Class<?> type) {
         Validate.notNull(type, "Type is required.");
         return findAnnotations(type, new HashSet<>());
     }
@@ -226,12 +211,9 @@ public class BeanAnnotationFinder<
      * and repeated searches
      * @return The found annotations
      */
-    @Nonnull
-    protected Set<T> findAnnotations(
-            @Nonnull
-            final Class<?> type,
-            @Nonnull
-            final Set<Class<?>> visitedTypes) {
+    protected @NotNull Set<T> findAnnotations(
+            final @NotNull Class<?> type,
+            final @NotNull Set<Class<?>> visitedTypes) {
         final Set<T> annotations = new HashSet<>(0);
         if (!visitedTypes.contains(type)) {
             synchronized (this.cache) {
@@ -264,10 +246,8 @@ public class BeanAnnotationFinder<
      * @param type The type to found annotations on
      * @return The found annotations
      */
-    @Nonnull
-    protected Set<T> findAllAnnotations(
-            @Nonnull
-            final Class<?> type) {
+    protected @NotNull Set<T> findAllAnnotations(
+            final @NotNull Class<?> type) {
         final Set<T> annotations = new HashSet<>(0);
         final Set<Class<?>> visitedTypes = new HashSet<>();
         visitedTypes.add(type);
@@ -286,10 +266,8 @@ public class BeanAnnotationFinder<
      * @param annotations The set to add the found annotations on
      */
     protected void addDirectAnnotation(
-            @Nonnull
-            final Class<?> type,
-            @Nonnull
-            final Set<T> annotations) {
+            final @NotNull Class<?> type,
+            final @NotNull Set<T> annotations) {
         final T annotation = type.getAnnotation(this.annotationType);
         if (annotation != null) {
             annotations.add(annotation);
@@ -305,10 +283,8 @@ public class BeanAnnotationFinder<
      * @param annotations The set to add the found annotations on
      */
     protected void addDirectAnnotationsList(
-            @Nonnull
-            final Class<?> type,
-            @Nonnull
-            final Set<T> annotations) {
+            final @NotNull Class<?> type,
+            final @NotNull Set<T> annotations) {
         if (this.annotationListType != null && this.extractor != null) {
             final L annotationsList = type.getAnnotation(
                     this.annotationListType);
@@ -329,12 +305,9 @@ public class BeanAnnotationFinder<
      * and repeated searches
      */
     protected void addSuperclassAnnotations(
-            @Nonnull
-            final Class<?> type,
-            @Nonnull
-            final Set<T> annotations,
-            @Nonnull
-            final Set<Class<?>> visitedTypes) {
+            final @NotNull Class<?> type,
+            final @NotNull Set<T> annotations,
+            final @NotNull Set<Class<?>> visitedTypes) {
         if (type.getSuperclass() != null) {
             annotations.addAll(findAnnotations(
                     type.getSuperclass(),
@@ -352,12 +325,9 @@ public class BeanAnnotationFinder<
      * and repeated searches
      */
     protected void addInterfacesAnnotations(
-            @Nonnull
-            final Class<?> type,
-            @Nonnull
-            final Set<T> annotations,
-            @Nonnull
-            final Set<Class<?>> visitedTypes) {
+            final @NotNull Class<?> type,
+            final @NotNull Set<T> annotations,
+            final @NotNull Set<Class<?>> visitedTypes) {
         for (final Class<?> iface : type.getInterfaces()) {
             annotations.addAll(findAnnotations(iface, visitedTypes));
         }
@@ -382,7 +352,7 @@ public class BeanAnnotationFinder<
          * @param list The annotation list annotation
          * @return The nested annotations
          */
-        T[] extract(L list);
+        @NotNull T[] extract(L list);
     }
 
     /**
@@ -393,9 +363,9 @@ public class BeanAnnotationFinder<
     protected static final class CacheEntryKey<T extends Annotation> {
 
         /** The analyzed class. */
-        private final Class<?> type;
+        private final @NotNull Class<?> type;
         /** The annotation type searched. */
-        private final Class<T> annotationType;
+        private final @NotNull Class<T> annotationType;
 
         /**
          * Creates a new instance.
@@ -404,10 +374,8 @@ public class BeanAnnotationFinder<
          * @param annotationType The annotation type searched
          */
         public CacheEntryKey(
-                @Nonnull
-                final Class<?> type,
-                @Nonnull
-                Class<T> annotationType) {
+                final @NotNull Class<?> type,
+                final @NotNull Class<T> annotationType) {
             super();
             this.type = type;
             this.annotationType = annotationType;
@@ -418,7 +386,7 @@ public class BeanAnnotationFinder<
          * 
          * @return The analyzed class
          */
-        public Class<?> getType() {
+        public @NotNull Class<?> getType() {
             return this.type;
         }
 
@@ -427,7 +395,7 @@ public class BeanAnnotationFinder<
          * 
          * @return The annotation type searched
          */
-        public Class<T> getAnnotationType() {
+        public @NotNull Class<T> getAnnotationType() {
             return this.annotationType;
         }
 
@@ -485,8 +453,7 @@ public class BeanAnnotationFinder<
          * @return If this instance contains an entry for the key
          */
         boolean contains(
-                @Nonnull
-                CacheEntryKey<?> key);
+                @NotNull CacheEntryKey<?> key);
 
         /**
          * Returns the cached found annotations for the specified key, if any.
@@ -495,10 +462,8 @@ public class BeanAnnotationFinder<
          * @param key The cache entry key
          * @return The annotations found, or {@code null} if not cached o cache expired
          */
-        @Nullable
         <T extends Annotation> Set<T> get(
-                @Nonnull
-                CacheEntryKey<T> key);
+                @NotNull CacheEntryKey<T> key);
 
         /**
          * Puts the specified found annotations for the specified key.
@@ -508,10 +473,8 @@ public class BeanAnnotationFinder<
          * @param value The annotations found
          */
         <T extends Annotation> void put(
-                @Nonnull
-                CacheEntryKey<T> key,
-                @Nonnull
-                Set<T> value);
+                @NotNull CacheEntryKey<T> key,
+                @NotNull Set<T> value);
     }
 
     /**
@@ -530,36 +493,29 @@ public class BeanAnnotationFinder<
         /**
          * {@inheritDoc}
          */
-        @Nonnull
         @Override
         public synchronized boolean contains(
-                @Nonnull
-                final CacheEntryKey<?> key) {
+                final @NotNull CacheEntryKey<?> key) {
             return this.entries.containsKey(key);
         }
 
         /**
          * {@inheritDoc}
          */
-        @Nonnull
         @Override
-        public synchronized <T extends Annotation> void put(
-                @Nonnull
-                final CacheEntryKey<T> key,
-                @Nonnull
-                final Set<T> value) {
+        public synchronized @NotNull <T extends Annotation> void put(
+                final @NotNull CacheEntryKey<T> key,
+                final @NotNull Set<T> value) {
             this.entries.put(key, value);
         }
 
         /**
          * {@inheritDoc}
          */
-        @Nullable
         @Override
         @SuppressWarnings("unchecked")
         public synchronized <T extends Annotation> Set<T> get(
-                @Nonnull
-                final CacheEntryKey<T> key) {
+                final @NotNull CacheEntryKey<T> key) {
             return (Set<T>) this.entries.get(key);
         }
     }

@@ -43,7 +43,7 @@ import dev.orne.beans.TokenIdentity;
  * @see IdentityBeanConverter
  */
 @Tag("ut")
-public class IdentityBeanConverterTest
+class IdentityBeanConverterTest
 extends AbstractConverterTest {
 
     public IdentityBeanConverterTest() {
@@ -54,7 +54,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter()}.
      */
     @Test
-    public void testConstructorEmpty() {
+    void testConstructorEmpty() {
         final IdentityBeanConverter converter = new IdentityBeanConverter();
         assertSame(BaseIdentityBean.class, converter.getDefaultType());
         assertFalse(converter.isUseDefault());
@@ -66,7 +66,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter(IdentityBean)}.
      */
     @Test
-    public void testConstructorDefault() {
+    void testConstructorDefault() {
         final BaseIdentityBean defaultValue = mock(BaseIdentityBean.class);
         final IdentityBeanConverter converter = new IdentityBeanConverter(
                 defaultValue);
@@ -80,7 +80,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter(Converter)}.
      */
     @Test
-    public void testConstructorConverterEmpty() {
+    void testConstructorConverterEmpty() {
         final Converter idConverter = mock(Converter.class);
         final IdentityBeanConverter converter = new IdentityBeanConverter(
                 idConverter);
@@ -93,7 +93,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter(Converter, IdentityBean)}.
      */
     @Test
-    public void testConstructorConverterDefault() {
+    void testConstructorConverterDefault() {
         final Converter idConverter = mock(Converter.class);
         final BaseIdentityBean defaultValue = mock(BaseIdentityBean.class);
         final IdentityBeanConverter converter = new IdentityBeanConverter(
@@ -108,7 +108,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter()}.
      */
     @Test
-    public void testConstructorClass() {
+    void testConstructorClass() {
         final IdentityBeanConverter converter = new IdentityBeanConverter(
                 TestIdentityBean.class);
         assertSame(TestIdentityBean.class, converter.getDefaultType());
@@ -121,7 +121,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter(IdentityBean)}.
      */
     @Test
-    public void testConstructorClassDefault() {
+    void testConstructorClassDefault() {
         final TestIdentityBean defaultValue = mock(TestIdentityBean.class);
         final IdentityBeanConverter converter = new IdentityBeanConverter(
                 TestIdentityBean.class,
@@ -136,7 +136,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter(Converter)}.
      */
     @Test
-    public void testConstructorClassConverterEmpty() {
+    void testConstructorClassConverterEmpty() {
         final Converter idConverter = mock(Converter.class);
         final IdentityBeanConverter converter = new IdentityBeanConverter(
                 TestIdentityBean.class,
@@ -150,7 +150,7 @@ extends AbstractConverterTest {
      * Test for {@link IdentityBeanConverter#IdentityBeanConverter(Converter, IdentityBean)}.
      */
     @Test
-    public void testConstructorClassConverterDefault() {
+    void testConstructorClassConverterDefault() {
         final Converter idConverter = mock(Converter.class);
         final TestIdentityBean defaultValue = mock(TestIdentityBean.class);
         final IdentityBeanConverter converter = new IdentityBeanConverter(
@@ -168,7 +168,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         final String mockIdentityToken = "mock identity token";
         final IdentityBeanConverter converter = new IdentityBeanConverter();
         assertFail(null);
@@ -182,7 +182,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final String mockIdentityToken = "mock identity token";
         final TestIdentityBean defaultValue = new TestIdentityBean();
         final IdentityBeanConverter converter = new IdentityBeanConverter(defaultValue);
@@ -198,7 +198,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         final Identity identity = mock(Identity.class);
         final String mockIdentityToken = "mock identity token";
         final TokenIdentity tokenIdentity = new TokenIdentity(mockIdentityToken);
@@ -221,7 +221,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -231,7 +231,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final IdentityBean defaultValue = null;
         final IdentityBeanConverter converter = new IdentityBeanConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
@@ -242,7 +242,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final Identity identity = mock(Identity.class);
         final String mockIdentityToken = "mock identity token";
         final TokenIdentity tokenIdentity = new TokenIdentity(mockIdentityToken);

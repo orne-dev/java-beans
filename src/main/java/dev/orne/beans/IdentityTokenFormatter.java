@@ -1,9 +1,5 @@
 package dev.orne.beans;
 
-import java.nio.charset.StandardCharsets;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
-
 /*-
  * #%L
  * Orne Beans
@@ -26,8 +22,11 @@ import java.util.regex.Pattern;
  * #L%
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.nio.charset.StandardCharsets;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.lang3.StringUtils;
@@ -135,9 +134,7 @@ public final class IdentityTokenFormatter {
      * @param body The identity token body to encode
      * @return The encoded identity token part
      */
-    @Nonnull
-    protected static String encodeBody(
-            @Nullable
+    protected static @NotNull String encodeBody(
             final String body) {
         final String result;
         if (body == null) {
@@ -164,10 +161,8 @@ public final class IdentityTokenFormatter {
      * @throws UnrecognizedIdentityTokenException If the encoded body is not a
      * valid identity token body
      */
-    @Nullable
     protected static String decodeBody(
-            @Nonnull
-            final String encoded)
+            final @NotNull String encoded)
     throws UnrecognizedIdentityTokenException {
         Validate.notNull(encoded, "Encoded identity token body is required");
         if (!VALID_TOKEN_BODY_PREDICATE.test(encoded)) {
@@ -201,9 +196,7 @@ public final class IdentityTokenFormatter {
      * @param body The identity token body
      * @return The formatted identity token
      */
-    @Nonnull
-    public static String format(
-            @Nullable
+    public static @NotNull String format(
             final String body) {
         return format(DEFAULT_PREFIX, body);
     }
@@ -219,11 +212,8 @@ public final class IdentityTokenFormatter {
      * @throws IllegalArgumentException If the prefix is not a valid identity
      * token prefix
      */
-    @Nonnull
-    public static String format(
-            @Nonnull
-            final String prefix,
-            @Nullable
+    public static @NotNull String format(
+            final @NotNull String prefix,
             final String body) {
         Validate.notNull(prefix, "Identity token prefix is required");
         if (!VALID_PREFIX_PREDICATE.test(prefix)) {
@@ -247,10 +237,8 @@ public final class IdentityTokenFormatter {
      * @throws UnrecognizedIdentityTokenException If the identity token is not a
      * valid identity token or it doesn't start with the expected prefix
      */
-    @Nullable
     public static String parse(
-            @Nonnull
-            final String token)
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         return parse(DEFAULT_PREFIX, token);
     }
@@ -270,12 +258,9 @@ public final class IdentityTokenFormatter {
      * @throws UnrecognizedIdentityTokenException If the identity token is not a
      * valid identity token or it doesn't start with the expected prefix
      */
-    @Nullable
     public static String parse(
-            @Nonnull
-            final String prefix,
-            @Nonnull
-            final String token)
+            final @NotNull String prefix,
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         Validate.notNull(prefix, "Identity token prefix is required");
         if (!VALID_PREFIX_PREDICATE.test(prefix)) {

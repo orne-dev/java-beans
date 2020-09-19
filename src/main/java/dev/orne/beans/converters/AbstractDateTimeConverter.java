@@ -37,8 +37,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.slf4j.Logger;
@@ -57,11 +56,9 @@ public abstract class AbstractDateTimeConverter
 extends AbstractConverter {
 
     /** The temporal value formatter. */
-    @Nonnull
-    private final DateTimeFormatter formatter;
+    private final @NotNull DateTimeFormatter formatter;
     /** The temporal value parsers. */
-    @Nonnull
-    private final Set<DateTimeFormatter> parsers = new LinkedHashSet<>();
+    private final @NotNull Set<DateTimeFormatter> parsers = new LinkedHashSet<>();
     /** The logger for this instance. */
     private Logger logger;
 
@@ -72,8 +69,7 @@ extends AbstractConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public AbstractDateTimeConverter(
-            @Nonnull
-            final DateTimeFormatter formatter) {
+            final @NotNull DateTimeFormatter formatter) {
         super();
         this.formatter = formatter;
         this.parsers.add(formatter);
@@ -87,10 +83,8 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public AbstractDateTimeConverter(
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nullable
-            final TemporalAccessor defaultValue) {
+            final @NotNull DateTimeFormatter formatter,
+            final @NotNull TemporalAccessor defaultValue) {
         super(defaultValue);
         this.formatter = formatter;
         this.parsers.add(formatter);
@@ -101,8 +95,7 @@ extends AbstractConverter {
      * 
      * @return The temporal value formatter and default parser
      */
-    @Nonnull
-    public DateTimeFormatter getFormatter() {
+    public @NotNull DateTimeFormatter getFormatter() {
         return this.formatter;
     }
 
@@ -111,8 +104,7 @@ extends AbstractConverter {
      * 
      * @return The extra temporal value parsers
      */
-    @Nonnull
-    public List<DateTimeFormatter> getParsers() {
+    public @NotNull List<DateTimeFormatter> getParsers() {
         return Collections.unmodifiableList(new ArrayList<>(this.parsers));
     }
 
@@ -122,8 +114,7 @@ extends AbstractConverter {
      * @param parsers The temporal value parsers
      */
     public void setParsers(
-            @Nonnull
-            final DateTimeFormatter... parsers) {
+            final @NotNull DateTimeFormatter... parsers) {
         setParsers(Arrays.asList(parsers));
     }
 
@@ -133,8 +124,7 @@ extends AbstractConverter {
      * @param parsers The temporal value parsers
      */
     public void setParsers(
-            @Nonnull
-            final Collection<DateTimeFormatter> parsers) {
+            final @NotNull Collection<DateTimeFormatter> parsers) {
         this.parsers.clear();
         this.parsers.addAll(parsers);
     }
@@ -145,8 +135,7 @@ extends AbstractConverter {
      * @param parsers The temporal value parsers to add
      */
     public void addParsers(
-            @Nonnull
-            final DateTimeFormatter... parsers) {
+            final @NotNull DateTimeFormatter... parsers) {
         addParsers(Arrays.asList(parsers));
     }
 
@@ -156,8 +145,7 @@ extends AbstractConverter {
      * @param parsers The temporal value parsers to add
      */
     public void addParsers(
-            @Nonnull
-            final Collection<DateTimeFormatter> parsers) {
+            final @NotNull Collection<DateTimeFormatter> parsers) {
         this.parsers.addAll(parsers);
     }
 
@@ -172,9 +160,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            @Nonnull
-            final Class<T> type,
-            @Nonnull
+            final @NotNull Class<T> type,
             final Object value) {
         if (TemporalAccessor.class.isAssignableFrom(type)) {
             @SuppressWarnings("unchecked")
@@ -220,10 +206,8 @@ extends AbstractConverter {
      * @throws DateTimeException If the value cannot be parsed
      */
     protected <T extends TemporalAccessor> T parseString(
-            @Nonnull
-            final Class<T> type,
-            @Nonnull
-            final String value) {
+            final @NotNull Class<T> type,
+            final @NotNull String value) {
         DateTimeException firstException = null;
         for (final DateTimeFormatter parser : this.parsers) {
             try {
@@ -231,6 +215,8 @@ extends AbstractConverter {
             } catch (final DateTimeException dte) {
                 if (firstException == null) {
                     firstException = dte;
+                } else {
+                    firstException.addSuppressed(dte);
                 }
                 getLogger().debug("Failed to parse temporal value", dte);
             }
@@ -253,11 +239,10 @@ extends AbstractConverter {
      * @return The parsed {@code TemporalAccessor} of the expected type
      * @throws DateTimeException If the value cannot be parsed
      */
-    @Nonnull
     protected <T extends TemporalAccessor> T parse(
-            final Class<T> type,
-            final DateTimeFormatter parser,
-            final String value) {
+            final @NotNull Class<T> type,
+            final @NotNull DateTimeFormatter parser,
+            final @NotNull String value) {
         return fromTemporalAccessor(type, parser.parse(value));
     }
 
@@ -272,19 +257,15 @@ extends AbstractConverter {
      * @return The converted {@code TemporalAccessor} of the expected type
      * @throws DateTimeException If the value cannot be converted
      */
-    @Nonnull
     protected abstract <T extends TemporalAccessor> T fromTemporalAccessor(
-            @Nonnull
-            Class<T> type,
-            @Nonnull
-            TemporalAccessor value);
+            @NotNull Class<T> type,
+            @NotNull TemporalAccessor value);
 
     /**
      * {@inheritDoc}
      */
     @Override
     protected String convertToString(
-            @Nonnull
             final Object value) {
         if (value instanceof TemporalAccessor) {
             return this.formatter.format((TemporalAccessor) value);
@@ -300,8 +281,7 @@ extends AbstractConverter {
      * 
      * @return The logger for this instance
      */
-    @Nonnull
-    protected Logger getLogger() {
+    protected @NotNull Logger getLogger() {
         synchronized (this) {
             if (this.logger == null) {
                 this.logger = LoggerFactory.getLogger(getClass());

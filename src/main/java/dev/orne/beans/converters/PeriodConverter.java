@@ -24,6 +24,8 @@ package dev.orne.beans.converters;
 
 import java.time.Period;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.beanutils.converters.AbstractConverter;
 
 /**
@@ -60,7 +62,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return Period.class;
     }
 
@@ -69,7 +71,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final Class<T> type,
+            final @NotNull Class<T> type,
             final Object value)
     throws Throwable {
         if (type.isAssignableFrom(Period.class)) {

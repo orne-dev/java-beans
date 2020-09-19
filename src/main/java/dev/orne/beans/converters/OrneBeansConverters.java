@@ -1,7 +1,5 @@
 package dev.orne.beans.converters;
 
-import java.net.URI;
-
 /*-
  * #%L
  * Orne Beans
@@ -24,6 +22,7 @@ import java.net.URI;
  * #L%
  */
 
+import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
@@ -44,6 +43,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConvertUtilsBean;
@@ -148,7 +149,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void register(
-            final ConvertUtilsBean converter) {
+            final @NotNull ConvertUtilsBean converter) {
         registerBeansConversors(converter);
         registerNetConversors(converter);
         registerUtilConversors(converter);
@@ -165,7 +166,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void register(
-            final ConvertUtilsBean converter,
+            final @NotNull ConvertUtilsBean converter,
             final boolean defaultToNull) {
         registerBeansConversors(converter, defaultToNull);
         registerNetConversors(converter, defaultToNull);
@@ -208,7 +209,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerBeansConversors(
-            final ConvertUtilsBean converter) {
+            final @NotNull ConvertUtilsBean converter) {
         registerBeansConversors(converter, false);
     }
 
@@ -222,7 +223,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerBeansConversors(
-            final ConvertUtilsBean converter,
+            final @NotNull ConvertUtilsBean converter,
             final boolean defaultToNull) {
         if (defaultToNull) {
             converter.register(new IdentityConverter((Identity) null), Identity.class);
@@ -266,7 +267,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerNetConversors(
-            final ConvertUtilsBean converter) {
+            final @NotNull ConvertUtilsBean converter) {
         registerNetConversors(converter, false);
     }
 
@@ -280,7 +281,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerNetConversors(
-            final ConvertUtilsBean converter,
+            final @NotNull ConvertUtilsBean converter,
             final boolean defaultToNull) {
         if (defaultToNull) {
             converter.register(new UriConverter((URI) null), URI.class);
@@ -330,7 +331,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerUtilConversors(
-            final ConvertUtilsBean converter) {
+            final @NotNull ConvertUtilsBean converter) {
         registerUtilConversors(converter, false);
     }
 
@@ -344,7 +345,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerUtilConversors(
-            final ConvertUtilsBean converter,
+            final @NotNull ConvertUtilsBean converter,
             final boolean defaultToNull) {
         if (defaultToNull) {
             converter.register(new GregorianCalendarConverter((GregorianCalendar) null), GregorianCalendar.class);
@@ -424,7 +425,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerTimeConversors(
-            final ConvertUtilsBean converter) {
+            final @NotNull ConvertUtilsBean converter) {
         registerTimeConversors(converter, false);
     }
 
@@ -438,7 +439,7 @@ public final class OrneBeansConverters {
      * @see ConvertUtilsBean#register(Converter, Class)
      */
     public static void registerTimeConversors(
-            final ConvertUtilsBean converter,
+            final @NotNull ConvertUtilsBean converter,
             final boolean defaultToNull) {
         if (defaultToNull) {
             converter.register(new InstantConverter((Instant) null), Instant.class);

@@ -27,8 +27,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.io.Serializable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * @see AbstractSimpleIdentity
  */
 @Tag("ut")
-public class AbstractSimpleIdentityTest
+class AbstractSimpleIdentityTest
 extends AbstractIdentityTest {
 
     /**
@@ -50,7 +49,7 @@ extends AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructorNullValue()
+    void testConstructorNullValue()
     throws Throwable {
         final AbstractSimpleIdentity<?> identity =
                 new TestIdentity((Serializable) null);
@@ -62,7 +61,7 @@ extends AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructor()
+    void testConstructor()
     throws Throwable {
         final Serializable value = mock(Serializable.class);
         final AbstractSimpleIdentity<?> identity = new TestIdentity(value);
@@ -73,8 +72,7 @@ extends AbstractIdentityTest {
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected AbstractSimpleIdentity<?> createInstance() {
+    protected @NotNull AbstractSimpleIdentity<?> createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -82,9 +80,8 @@ extends AbstractIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected AbstractSimpleIdentity<?> createCopy(
-            @Nullable
-            final AbstractIdentity copy) {
+    protected @NotNull AbstractSimpleIdentity<?> createCopy(
+            final @NotNull AbstractIdentity copy) {
         return new TestIdentity((TestIdentity) copy);
     }
 
@@ -93,7 +90,7 @@ extends AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testCopyConstructorNull()
+    void testCopyConstructorNull()
     throws Throwable {
         assertThrows(NullPointerException.class, () -> {
             createCopy(null);
@@ -105,7 +102,7 @@ extends AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testCopyConstructor()
+    void testCopyConstructor()
     throws Throwable {
         final AbstractSimpleIdentity<?> copy = createInstance();
         final AbstractSimpleIdentity<?> identity = createCopy(copy);
@@ -117,8 +114,7 @@ extends AbstractIdentityTest {
      * 
      * @return The identity created
      */
-    @Nonnull
-    protected AbstractSimpleIdentity<?> createInstanceWithNullValue() {
+    protected @NotNull AbstractSimpleIdentity<?> createInstanceWithNullValue() {
         return new TestIdentity((Serializable) null);
     }
 
@@ -127,8 +123,7 @@ extends AbstractIdentityTest {
      * 
      * @return The identity created
      */
-    @Nonnull
-    protected AbstractSimpleIdentity<?> createInstanceWithNonNullValue() {
+    protected @NotNull AbstractSimpleIdentity<?> createInstanceWithNonNullValue() {
         return new TestIdentity("Some value");
     }
 
@@ -137,7 +132,7 @@ extends AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetIdentityTokenValueNull()
+    void testGetIdentityTokenValueNull()
     throws Throwable {
         final AbstractSimpleIdentity<?> identity = createInstanceWithNullValue();
         assertNull(identity.getIdentityTokenBody());
@@ -148,7 +143,7 @@ extends AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetIdentityTokenValueNonNull()
+    void testGetIdentityTokenValueNonNull()
     throws Throwable {
         final AbstractSimpleIdentity<?> identity = createInstanceWithNonNullValue();
         assertNotNull(identity.getIdentityTokenBody());
@@ -170,7 +165,6 @@ extends AbstractIdentityTest {
          * @param value The identity value
          */
         public TestIdentity(
-                @Nullable
                 final Serializable value) {
             super(value);
         }
@@ -181,8 +175,7 @@ extends AbstractIdentityTest {
          * @param copy The instance to copy
          */
         public TestIdentity(
-                @Nonnull
-                final TestIdentity copy) {
+                final @NotNull TestIdentity copy) {
             super(copy);
         }
     }

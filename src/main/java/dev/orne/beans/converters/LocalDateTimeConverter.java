@@ -29,8 +29,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation of {@code Converter} that converts {@code LocalDateTime} instances
@@ -61,7 +60,6 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public LocalDateTimeConverter(
-            @Nullable
             final LocalDateTime defaultValue) {
         super(DateTimeFormatter.ISO_LOCAL_DATE_TIME, defaultValue);
         setDefaultParsers();
@@ -74,8 +72,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public LocalDateTimeConverter(
-            @Nonnull
-            final DateTimeFormatter formatter) {
+            final @NotNull DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -88,9 +85,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public LocalDateTimeConverter(
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nullable
+            final @NotNull DateTimeFormatter formatter,
             final LocalDateTime defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
@@ -110,7 +105,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return LocalDateTime.class;
     }
 
@@ -119,8 +114,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final Class<T> type,
-            final TemporalAccessor value) {
+            final @NotNull Class<T> type,
+            final @NotNull TemporalAccessor value) {
         try {
             return type.cast(LocalDateTime.from(value));
         } catch (final DateTimeException dte) {

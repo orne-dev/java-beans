@@ -70,7 +70,7 @@ import org.junit.jupiter.api.Test;
  * @see ZonedDateTimeConverter
  */
 @Tag("it")
-public class OrneBeansConvertersIT {
+class OrneBeansConvertersIT {
 
     private static ConvertUtilsBean converter;
 
@@ -84,7 +84,7 @@ public class OrneBeansConvertersIT {
      * Integration test for {@code DayOfWeekConverter}.
      */
     @Test
-    public void testDayOfWeekConverter() {
+    void testDayOfWeekConverter() {
         assertEquals(DayOfWeek.FRIDAY, converter.convert("5", DayOfWeek.class));
     }
 }

@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * @see ValidIdentityToken
  */
 @Tag("it")
-public class ValidIdentityTokenIT {
+class ValidIdentityTokenIT {
 
     /** The random values generator. */
     private static final Random RND = new Random();
@@ -49,7 +49,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testNullTokenValidation() {
+    void testNullTokenValidation() {
         final String token = null;
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
@@ -63,7 +63,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testEmptyTokenValidation() {
+    void testEmptyTokenValidation() {
         final String token = "";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
@@ -77,7 +77,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testInvalidTokenValidation() {
+    void testInvalidTokenValidation() {
         final String token = "invalid token";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
@@ -91,7 +91,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testValidTokenValidationNullBody() {
+    void testValidTokenValidationNullBody() {
         final String token = "ID" + IdentityTokenFormatter.NULL_TOKEN;
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
@@ -105,7 +105,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testValidTokenValidationEmptyBody() {
+    void testValidTokenValidationEmptyBody() {
         final String token = "ID";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
@@ -119,7 +119,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testValidTokenValidationSimpleBody() {
+    void testValidTokenValidationSimpleBody() {
         final String token = "IDsomeBody";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
@@ -133,7 +133,7 @@ public class ValidIdentityTokenIT {
      * Test {@link ValidIdentityToken) validations.
      */
     @Test
-    public void testValidTokenValidation() {
+    void testValidTokenValidation() {
         final String prefix = "CustomPrefix";
         final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
         RND.nextBytes(bodyBytes);

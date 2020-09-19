@@ -22,8 +22,6 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.ConversionException;
@@ -91,7 +89,7 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public IdentityBeanConverter(
-            final @Nullable IdentityBean defaultValue) {
+            final IdentityBean defaultValue) {
         super(defaultValue);
         this.defaultType = BaseIdentityBean.class;
         this.identityConverter = new IdentityConverter();
@@ -119,7 +117,7 @@ extends AbstractConverter {
      */
     public IdentityBeanConverter(
             final @NotNull Converter identityConverter,
-            final @Nullable WritableIdentityBean defaultValue) {
+            final WritableIdentityBean defaultValue) {
         super(defaultValue);
         this.defaultType = BaseIdentityBean.class;
         this.identityConverter = identityConverter;
@@ -151,7 +149,7 @@ extends AbstractConverter {
      */
     public <T extends WritableIdentityBean> IdentityBeanConverter(
             final @NotNull Class<T> defaultType,
-            final @Nullable T defaultValue) {
+            final T defaultValue) {
         super(defaultValue);
         this.defaultType = defaultType;
         this.identityConverter = new IdentityConverter();
@@ -184,7 +182,7 @@ extends AbstractConverter {
     public <T extends WritableIdentityBean> IdentityBeanConverter(
             final @NotNull Class<T> defaultType,
             final @NotNull Converter identityConverter,
-            final @Nullable T defaultValue) {
+            final T defaultValue) {
         super(defaultValue);
         this.defaultType = defaultType;
         this.identityConverter = identityConverter;
@@ -203,8 +201,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    @Nonnull
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return this.defaultType == null ? WritableIdentityBean.class : this.defaultType;
     }
 
@@ -213,9 +210,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            @Nonnull
-            final Class<T> type,
-            @Nonnull
+            final @NotNull Class<T> type,
             final Object value) {
         if (IdentityBean.class.isAssignableFrom(type)) {
             if (type.isInstance(value)) {
@@ -252,8 +247,8 @@ extends AbstractConverter {
      * @throws ConversionException If the new instance cannot be created
      */
     protected <T> T createInstance(
-            final Class<T> type,
-            final @Nonnull Object value) {
+            final @NotNull Class<T> type,
+            final Object value) {
         try {
             return type.newInstance();
         } catch (final InstantiationException | IllegalAccessException e) {
@@ -274,7 +269,7 @@ extends AbstractConverter {
      * @throws ConversionException If an error occurs converting the value
      */
     protected Identity convertIdentity(
-            final @Nonnull Object value) {
+            final Object value) {
         final Identity identity;
         if (value instanceof Identity) {
             identity = (Identity) value;
@@ -291,7 +286,6 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            @Nonnull
             final Object value)
     throws Throwable {
         if (value instanceof IdentityBean) {

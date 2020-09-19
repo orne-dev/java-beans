@@ -1,7 +1,5 @@
 package dev.orne.beans;
 
-import javax.annotation.Nonnull;
-
 /*-
  * #%L
  * Orne Beans
@@ -24,7 +22,7 @@ import javax.annotation.Nonnull;
  * #L%
  */
 
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -42,7 +40,6 @@ public class BaseIdentityBean
 implements WritableIdentityBean {
 
     /** The instance's identity. */
-    @Nullable
     private Identity identity;
 
     /**
@@ -58,8 +55,7 @@ implements WritableIdentityBean {
      * @param copy The instance to copy
      */
     public BaseIdentityBean(
-            @Nonnull
-            final BaseIdentityBean copy) {
+            final @NotNull BaseIdentityBean copy) {
         super();
         Validate.notNull(copy);
         this.identity = copy.identity;
@@ -69,7 +65,6 @@ implements WritableIdentityBean {
      * {@inheritDoc}
      */
     @Override
-    @Nullable
     public Identity getIdentity() {
         return this.identity;
     }
@@ -79,7 +74,6 @@ implements WritableIdentityBean {
      */
     @Override
     public void setIdentity(
-            @Nullable
             final Identity identity) {
         this.identity = identity;
     }

@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @see PeriodConverter
  */
 @Tag("ut")
-public class PeriodConverterTest
+class PeriodConverterTest
 extends AbstractConverterTest {
 
     private static final Period DAYS_PERIOD = Period.ofDays(1);
@@ -63,7 +63,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail("");
         assertFail(true);
@@ -75,7 +75,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final Period defaultValue = null;
         final PeriodConverter converter = new PeriodConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -89,7 +89,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(DAYS_PERIOD.toString(), DAYS_PERIOD);
         assertSuccess(DAYS_PERIOD, DAYS_PERIOD);
         assertSuccess(WEEKS_PERIOD.toString(), WEEKS_PERIOD);
@@ -109,7 +109,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -119,7 +119,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final Period defaultValue = null;
         final PeriodConverter converter = new PeriodConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
@@ -130,7 +130,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
         assertSuccess(converter, String.class, "test string", "test string");

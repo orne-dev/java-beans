@@ -22,8 +22,6 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.annotation.Nullable;
-
 /**
  * Exception for identity tokens that cannot be resolved to expected
  * {@code Identity} type.
@@ -56,7 +54,6 @@ extends Exception {
      *          later retrieval by the {@link #getMessage()} method.
      */
     public UnrecognizedIdentityTokenException(
-            @Nullable
             final String message) {
         super(message);
     }
@@ -75,7 +72,6 @@ extends Exception {
      *         unknown.)
      */
     public UnrecognizedIdentityTokenException(
-            @Nullable
             final Throwable cause) {
         super(cause);
     }
@@ -94,9 +90,7 @@ extends Exception {
      *         unknown.)
      */
     public UnrecognizedIdentityTokenException(
-            @Nullable
             final String message,
-            @Nullable
             final Throwable cause) {
         super(message, cause);
     }
@@ -115,9 +109,7 @@ extends Exception {
      *                           be writable
      */
     public UnrecognizedIdentityTokenException(
-            @Nullable
             final String message,
-            @Nullable
             final Throwable cause,
             final boolean enableSuppression,
             final boolean writableStackTrace) {

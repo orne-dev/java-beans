@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @see UriConverter
  */
 @Tag("ut")
-public class UriConverterTest
+class UriConverterTest
 extends AbstractConverterTest {
 
     private static final URI EMPTY_URI = URI.create("");
@@ -59,7 +59,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(":invalid:uri");
     }
@@ -70,7 +70,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final URI defaultValue = null;
         final UriConverter converter = new UriConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -83,7 +83,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess("", EMPTY_URI);
         assertSuccess(123456L, NUMBER_URI);
         assertSuccess(ROOT_URI.toString(), ROOT_URI);
@@ -98,7 +98,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -108,7 +108,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final URI defaultValue = null;
         final UriConverter converter = new UriConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
@@ -119,7 +119,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
         assertSuccess(converter, String.class, ROOT_URI.toString(), ROOT_URI.toString());

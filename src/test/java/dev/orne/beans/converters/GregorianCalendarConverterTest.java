@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
  * @see GregorianCalendarConverter
  */
 @Tag("ut")
-public class GregorianCalendarConverterTest
+class GregorianCalendarConverterTest
 extends AbstractConverterTest {
 
     protected static GregorianCalendar UTC_CALENDAR;
@@ -69,7 +69,7 @@ extends AbstractConverterTest {
      * Test {@link GregorianCalendarConverter#GregorianCalendarConverter()}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final GregorianCalendarConverter converter = new GregorianCalendarConverter();
         assertTrue(converter.getZonedDateTimeConverter() instanceof ZonedDateTimeConverter);
     }
@@ -78,7 +78,7 @@ extends AbstractConverterTest {
      * Test {@link GregorianCalendarConverter#GregorianCalendarConverter(GregorianCalendar)}.
      */
     @Test
-    public void testConstructorDefaultValue() {
+    void testConstructorDefaultValue() {
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(
                 (GregorianCalendar) null);
         assertTrue(converter.getZonedDateTimeConverter() instanceof ZonedDateTimeConverter);
@@ -88,7 +88,7 @@ extends AbstractConverterTest {
      * Test {@link GregorianCalendarConverter#GregorianCalendarConverter(GregorianCalendar)}.
      */
     @Test
-    public void testConstructorDefaultValueNonNull() {
+    void testConstructorDefaultValueNonNull() {
         final GregorianCalendar defaultValue = new GregorianCalendar();
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(defaultValue);
         assertTrue(converter.getZonedDateTimeConverter() instanceof ZonedDateTimeConverter);
@@ -101,7 +101,7 @@ extends AbstractConverterTest {
      * Test {@link GregorianCalendarConverter#GregorianCalendarConverter(Converter)}.
      */
     @Test
-    public void testConstructorFormatter() {
+    void testConstructorFormatter() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(
                 instantConverter);
@@ -112,7 +112,7 @@ extends AbstractConverterTest {
      * Test {@link GregorianCalendarConverter#GregorianCalendarConverter(Converter, GregorianCalendar)}.
      */
     @Test
-    public void testConstructorFormatterDefaultValue() {
+    void testConstructorFormatterDefaultValue() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(
                 instantConverter,
@@ -125,7 +125,7 @@ extends AbstractConverterTest {
      * in nested converter when converting to {@code Calendar}.
      */
     @Test
-    public void testDelegatedZonedDateTimeConversionsToCalendar() {
+    void testDelegatedZonedDateTimeConversionsToCalendar() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
         final ZonedDateTime now = ZonedDateTime.now();
@@ -142,7 +142,7 @@ extends AbstractConverterTest {
      * in nested converter when converting to {@code GregorianCalendar}.
      */
     @Test
-    public void testDelegatedZonedDateTimeConversionsToGregorianCalendar() {
+    void testDelegatedZonedDateTimeConversionsToGregorianCalendar() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
         final ZonedDateTime now = ZonedDateTime.now();
@@ -159,7 +159,7 @@ extends AbstractConverterTest {
      * in nested converter when converting to {@code String}.
      */
     @Test
-    public void testDelegatedZonedDateTimeConversionsToString() {
+    void testDelegatedZonedDateTimeConversionsToString() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
         final ZonedDateTime now = ZonedDateTime.now();
@@ -176,7 +176,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code null} and {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(AbstractTimeConverterTest.LOCAL_DATE);
         assertFail(AbstractTimeConverterTest.YEAR);
@@ -196,7 +196,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code null} and {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final GregorianCalendar defaultValue = null;
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(defaultValue);
         assertSuccess(converter, (Object) null, defaultValue, defaultValue);
@@ -218,7 +218,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code null} and {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(ZONED_CALENDAR, ZONED_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.ZONED_DATE_TIME, ZONED_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.OFFSET_DATE_TIME, OFFSET_CALENDAR);
@@ -232,7 +232,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversions() {
+    void testFromStringInvalidConversions() {
         assertFail(AbstractTimeConverterTest.STR_EMPTY);
         assertFail(AbstractTimeConverterTest.STR_NON_DATE);
         assertFail(AbstractTimeConverterTest.STR_ISO_OFFSET_DATE);
@@ -252,7 +252,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversionsWithDefaultValue() {
+    void testFromStringInvalidConversionsWithDefaultValue() {
         final GregorianCalendar defaultValue = null;
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(defaultValue);
         assertSuccess(converter, AbstractTimeConverterTest.STR_EMPTY, defaultValue, defaultValue);
@@ -275,7 +275,7 @@ extends AbstractConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromStringValidConversions() {
+    void testFromStringValidConversions() {
         assertSuccess(AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME, ZONED_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.STR_ISO_OFFSET_DATE_TIME, OFFSET_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.STR_ISO_LOCAL_DATE_TIME, LOCAL_CALENDAR);
@@ -289,7 +289,7 @@ extends AbstractConverterTest {
      * a {@code String} or a {@code Date}.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final GregorianCalendarConverter converter = new GregorianCalendarConverter();
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
@@ -313,7 +313,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is an invalid object.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         final GregorianCalendarConverter converter = new GregorianCalendarConverter();
         assertFail(converter, String.class, new Object());
     }

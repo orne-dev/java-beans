@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
  * @see IdentityToken
  */
 @Tag("ut")
-public class IdentityTokenTest {
+class IdentityTokenTest {
 
     /**
      * Test {@link TokenIdentity#TokenIdentity(String)}.
      */
     @Test
-    public void testConstructorNullToken() {
+    void testConstructorNullToken() {
         assertThrows(NullPointerException.class, () -> {
             new TokenIdentity(null);
         });
@@ -53,7 +53,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#TokenIdentity(String)}.
      */
     @Test
-    public void testConstructorEmptyToken() {
+    void testConstructorEmptyToken() {
         assertThrows(IllegalArgumentException.class, () -> {
             new TokenIdentity("");
         });
@@ -63,7 +63,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#TokenIdentity(String)}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final String identityToken = "mock identity token";
         final TokenIdentity identity = new TokenIdentity(identityToken);
         assertEquals(identityToken, identity.getIdentityToken());
@@ -73,7 +73,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#equals(Object)} and {@link TokenIdentity#hashCode()}.
      */
     @Test
-    public void testEqualsHashSameToken() {
+    void testEqualsHashSameToken() {
         final TokenIdentity identity1 = new TokenIdentity(
                 "mock identity token");
         final TokenIdentity identity2 = new TokenIdentity(
@@ -86,7 +86,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#equals(Object)} and {@link TokenIdentity#hashCode()}.
      */
     @Test
-    public void testEqualsHashEqualTokens() {
+    void testEqualsHashEqualTokens() {
         final TokenIdentity identity1 = new TokenIdentity(
                 new String("mock identity token"));
         final TokenIdentity identity2 = new TokenIdentity(
@@ -99,7 +99,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#equals(Object)} and {@link TokenIdentity#hashCode()}.
      */
     @Test
-    public void testEqualsHashNonEqualTokens() {
+    void testEqualsHashNonEqualTokens() {
         final TokenIdentity identity1 = new TokenIdentity(
                 "mock identity token");
         final TokenIdentity identity2 = new TokenIdentity(
@@ -113,7 +113,7 @@ public class IdentityTokenTest {
      */
     @Test
     @SuppressWarnings("unlikely-arg-type")
-    public void testEqualsEdgeCases() {
+    void testEqualsEdgeCases() {
         final TokenIdentity identity1 = new TokenIdentity(
                 "mock identity token");
         assertFalse(identity1.equals(null));
@@ -124,7 +124,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#toString()}.
      */
     @Test
-    public void testToString() {
+    void testToString() {
         final String identityToken = "mock identity token";
         final TokenIdentity identity = new TokenIdentity(identityToken);
         assertEquals(identityToken, identity.toString());
@@ -134,7 +134,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#fromToken(String)}.
      */
     @Test
-    public void testFromToken() {
+    void testFromToken() {
         final String identityToken = "mock identity token";
         final TokenIdentity identity = TokenIdentity.fromToken(identityToken);
         assertEquals(identityToken, identity.getIdentityToken());
@@ -144,7 +144,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#fromToken(String)}.
      */
     @Test
-    public void testFromTokenNull() {
+    void testFromTokenNull() {
         final TokenIdentity result = TokenIdentity.fromToken(null);
         assertNull(result);
     }
@@ -153,7 +153,7 @@ public class IdentityTokenTest {
      * Test {@link TokenIdentity#fromToken(String)}.
      */
     @Test
-    public void testFromTokenEmpty() {
+    void testFromTokenEmpty() {
         final TokenIdentity result = TokenIdentity.fromToken("");
         assertNull(result);
     }
@@ -163,7 +163,7 @@ public class IdentityTokenTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testTokenIdentityXmlAdapterUnmarshall()
+    void testTokenIdentityXmlAdapterUnmarshall()
     throws Throwable {
         final TokenIdentity.IdentityXmlAdapter adapter = new TokenIdentity.IdentityXmlAdapter();
         assertNull(adapter.unmarshal(null));
@@ -178,7 +178,7 @@ public class IdentityTokenTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testTokenIdentityXmlAdapterMarshall()
+    void testTokenIdentityXmlAdapterMarshall()
     throws Throwable {
         final String identityToken = "mock identity token";
         final Identity identity = mock(Identity.class);

@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * @see DayOfWeekConverter
  */
 @Tag("ut")
-public class DayOfWeekConverterTest
+class DayOfWeekConverterTest
 extends AbstractTimeConverterTest {
 
     public DayOfWeekConverterTest() {
@@ -50,7 +50,7 @@ extends AbstractTimeConverterTest {
      * Test {@link DayOfWeekConverter#DayOfWeekConverter()}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final DayOfWeekConverter converter = new DayOfWeekConverter();
         assertConstructor(converter,
                 DayOfWeekConverter.BY_VALUE_PARSER,
@@ -71,7 +71,7 @@ extends AbstractTimeConverterTest {
      * Test {@link DayOfWeekConverter#DayOfWeekConverter(DayOfWeek)}.
      */
     @Test
-    public void testConstructorDefaultValue() {
+    void testConstructorDefaultValue() {
         final DayOfWeekConverter converter = new DayOfWeekConverter(
                 (DayOfWeek) null);
         assertConstructor(converter,
@@ -93,7 +93,7 @@ extends AbstractTimeConverterTest {
      * Test {@link DayOfWeekConverter#DayOfWeekConverter(DateTimeFormatter)}.
      */
     @Test
-    public void testConstructorFormatter() {
+    void testConstructorFormatter() {
         final DayOfWeekConverter converter = new DayOfWeekConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME);
         assertConstructor(converter,
@@ -115,7 +115,7 @@ extends AbstractTimeConverterTest {
      * Test {@link DayOfWeekConverter#DayOfWeekConverter(DateTimeFormatter, DayOfWeek)}.
      */
     @Test
-    public void testConstructorFormatterDefaultValue() {
+    void testConstructorFormatterDefaultValue() {
         final DayOfWeekConverter converter = new DayOfWeekConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME,
                 (DayOfWeek) null);
@@ -139,7 +139,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(YEAR);
         assertFail(YEAR_MONTH);
@@ -157,7 +157,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final DayOfWeek defaultValue = null;
         final DayOfWeekConverter converter = new DayOfWeekConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -178,7 +178,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(ZONED_DATE_TIME, DAY_OF_WEEK);
         assertSuccess(OFFSET_DATE_TIME, DAY_OF_WEEK);
         assertSuccess(LOCAL_DATE_TIME, DAY_OF_WEEK);
@@ -194,7 +194,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversions() {
+    void testFromStringInvalidConversions() {
         assertFail(STR_EMPTY);
         assertFail(STR_NON_DATE);
         assertFail(STR_ISO_YEAR_MONTH);
@@ -209,7 +209,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversionsWithDefaultValue() {
+    void testFromStringInvalidConversionsWithDefaultValue() {
         final DayOfWeek defaultValue = null;
         final DayOfWeekConverter converter = new DayOfWeekConverter(defaultValue);
         assertSuccess(converter, STR_EMPTY, defaultValue, defaultValue);
@@ -227,7 +227,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromStringValidConversions() {
+    void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, DAY_OF_WEEK);
         assertSuccess(STR_ISO_OFFSET_DATE_TIME, DAY_OF_WEEK);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, DAY_OF_WEEK);
@@ -247,7 +247,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final DayOfWeekConverter converter = new DayOfWeekConverter();
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
