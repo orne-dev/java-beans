@@ -32,8 +32,7 @@ import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation of {@code Converter} that converts {@code Instant} instances
@@ -83,8 +82,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public InstantConverter(
-            @Nonnull
-            final DateTimeFormatter formatter) {
+            final @NotNull DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -97,9 +95,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public InstantConverter(
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nullable
+            final @NotNull DateTimeFormatter formatter,
             final Instant defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
@@ -119,7 +115,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<Instant> getDefaultType() {
+    protected @NotNull Class<Instant> getDefaultType() {
         return Instant.class;
     }
 
@@ -128,10 +124,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            @Nonnull
-            final Class<T> type,
-            @Nonnull
-            final TemporalAccessor value) {
+            final @NotNull Class<T> type,
+            final @NotNull TemporalAccessor value) {
         try {
             return type.cast(Instant.from(value));
         } catch (final DateTimeException dte) {

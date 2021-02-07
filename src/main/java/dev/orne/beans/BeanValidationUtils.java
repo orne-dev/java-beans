@@ -24,11 +24,11 @@ package dev.orne.beans;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
 
@@ -45,7 +45,7 @@ import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
 public final class BeanValidationUtils {
 
     /** The shared {@code Validator} used to validate beans. */
-    private static Validator validator =
+    private static @NotNull Validator validator =
             Validation.buildDefaultValidatorFactory().getValidator();
 
     /**
@@ -70,8 +70,7 @@ public final class BeanValidationUtils {
      * @param validator The shared {@code Validator} used to validate beans
      */
     public static void setValidator(
-            @Nonnull
-            final Validator validator) {
+            final @NotNull Validator validator) {
         Validate.notNull(validator, "Validator is required.");
         BeanValidationUtils.validator = validator;
     }
@@ -90,10 +89,8 @@ public final class BeanValidationUtils {
      *         during the validation process
      */
     public static boolean isValid(
-            @Nonnull
-            final Object obj,
-            @Nonnull
-            final Class<?>... groups) {
+            final @NotNull Object obj,
+            final @NotNull Class<?>... groups) {
         return validate(obj, groups).isEmpty();
     }
 
@@ -107,8 +104,7 @@ public final class BeanValidationUtils {
      *         during the validation process
      */
     public static boolean isValidBeanIdentity(
-            @Nonnull
-            final Object obj) {
+            final @NotNull Object obj) {
         return ValidBeanIdentityValidator.isValid(obj);
     }
 
@@ -122,8 +118,7 @@ public final class BeanValidationUtils {
      *         during the validation process
      */
     public static boolean isValidBeanReference(
-            @Nonnull
-            final Object obj) {
+            final @NotNull Object obj) {
         return ValidBeanReferenceValidator.isValid(obj);
     }
 
@@ -140,12 +135,9 @@ public final class BeanValidationUtils {
      * @throws ValidationException if a non recoverable error happens
      *         during the validation process
      */
-    @Nonnull
-    public static <T> Set<ConstraintViolation<T>> validate(
-            @Nonnull
-            final T obj,
-            @Nonnull
-            final Class<?>... groups) {
+    public static <T> @NotNull Set<ConstraintViolation<T>> validate(
+            final @NotNull T obj,
+            final @NotNull Class<?>... groups) {
         return BeanValidationUtils.validator.validate(obj, groups);
     }
 }

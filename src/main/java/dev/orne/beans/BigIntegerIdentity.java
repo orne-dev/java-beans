@@ -1,7 +1,5 @@
 package dev.orne.beans;
 
-import java.math.BigInteger;
-
 /*-
  * #%L
  * Orne Beans
@@ -24,8 +22,9 @@ import java.math.BigInteger;
  * #L%
  */
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.math.BigInteger;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation for {@code Identity} for identities composed
@@ -47,7 +46,6 @@ extends AbstractSimpleIdentity<BigInteger> {
      * @param value The identity value
      */
     public BigIntegerIdentity(
-            @Nullable
             final BigInteger value) {
         super(value);
     }
@@ -58,8 +56,7 @@ extends AbstractSimpleIdentity<BigInteger> {
      * @param copy The instance to copy
      */
     public BigIntegerIdentity(
-            @Nonnull
-            final BigIntegerIdentity copy) {
+            final @NotNull BigIntegerIdentity copy) {
         super(copy);
     }
 
@@ -73,11 +70,9 @@ extends AbstractSimpleIdentity<BigInteger> {
      * @throws UnrecognizedIdentityTokenException If the identity token is not
      * a valid identity token or it doesn't start with the expected prefix
      */
-    @Nonnull
     @IdentityTokenResolver
-    public static BigIntegerIdentity fromIdentityToken(
-            @Nonnull
-            final String token)
+    public static @NotNull BigIntegerIdentity fromIdentityToken(
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         final String body = IdentityTokenFormatter.parse(
                 IdentityTokenFormatter.DEFAULT_PREFIX,

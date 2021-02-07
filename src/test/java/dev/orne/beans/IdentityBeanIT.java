@@ -53,14 +53,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @see IdentityBean
  */
 @Tag("it")
-public class IdentityBeanIT {
+class IdentityBeanIT {
 
     /**
      * Test {@link IdentityBean} Jackson serialization.
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonSerialization()
+    void testJacksonSerialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final Identity identity = mock(Identity.class);
@@ -83,7 +83,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonSerializationNullIdentity()
+    void testJacksonSerializationNullIdentity()
     throws Throwable {
         final TestBean bean = new TestBean();
         final String expectedResult =
@@ -99,7 +99,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonDeserialization()
+    void testJacksonDeserialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final String json = String.format(
@@ -118,7 +118,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonDeserializationNullIdentity()
+    void testJacksonDeserializationNullIdentity()
     throws Throwable {
         final String json =
                 "{" +
@@ -134,7 +134,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonDeserializationNoIdentity()
+    void testJacksonDeserializationNoIdentity()
     throws Throwable {
         final String json = "{}";
         final TestBean expectedBean = new TestBean();
@@ -147,7 +147,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonContainerDeserialization()
+    void testJacksonContainerDeserialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final String json = String.format(
@@ -170,7 +170,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonContainerDeserializationNullIdentity()
+    void testJacksonContainerDeserializationNullIdentity()
     throws Throwable {
         final String json =
                 "{" +
@@ -190,7 +190,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonContainerDeserializationNoIdentity()
+    void testJacksonContainerDeserializationNoIdentity()
     throws Throwable {
         final String json =
                 "{" +
@@ -210,7 +210,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbSerialization()
+    void testJaxbSerialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final Identity identity = mock(Identity.class);
@@ -241,7 +241,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbSerializationNullIdentity()
+    void testJaxbSerializationNullIdentity()
     throws Throwable {
         final TestBean bean = new TestBean();
         final IdentityBeanContainer container = new IdentityBeanContainer();
@@ -263,7 +263,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbDeserialization()
+    void testJaxbDeserialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final String xml = String.format(
@@ -288,7 +288,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbDeserializationNoIdentity()
+    void testJaxbDeserializationNoIdentity()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -310,7 +310,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbDeserializationEmptyIdentity()
+    void testJaxbDeserializationEmptyIdentity()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -332,7 +332,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbDeserializationNullIdentity()
+    void testJaxbDeserializationNullIdentity()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -356,7 +356,7 @@ public class IdentityBeanIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testValidation()
+    void testValidation()
     throws Throwable {
         final TestBean bean = new TestBean();
         assertTrue(BeanValidationUtils.isValid(bean));

@@ -41,8 +41,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.Converter;
 import org.junit.jupiter.api.BeforeAll;
@@ -56,7 +55,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @see AbstractDateTimeConverter
  */
-public abstract class AbstractTimeConverterTest
+abstract class AbstractTimeConverterTest
 extends AbstractConverterTest {
 
     // Zoned values (13)
@@ -114,11 +113,9 @@ extends AbstractConverterTest {
     protected static Long EPOCH_MILLIS;
     protected static Object WRONG_TYPE_VALUE = new Object();
 
-    public AbstractTimeConverterTest(
-            @Nonnull
-            final Class<? extends TemporalAccessor> targetType,
-            @Nonnull
-            final AbstractDateTimeConverter converter) {
+    protected AbstractTimeConverterTest(
+            final @NotNull Class<? extends TemporalAccessor> targetType,
+            final @NotNull AbstractDateTimeConverter converter) {
         super(targetType, converter);
     }
 
@@ -178,12 +175,9 @@ extends AbstractConverterTest {
     }
 
     protected void assertConstructor(
-            @Nonnull
-            final AbstractDateTimeConverter converter,
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nonnull
-            final DateTimeFormatter... parsers) {
+            final @NotNull AbstractDateTimeConverter converter,
+            final @NotNull DateTimeFormatter formatter,
+            final @NotNull DateTimeFormatter... parsers) {
         assertNotNull(converter.getFormatter());
         assertEquals(formatter, converter.getFormatter());
         assertNotNull(converter.getParsers());
@@ -196,36 +190,29 @@ extends AbstractConverterTest {
      * Test {@link LocalTimeConverter#getDefaultType()}.
      */
     @Test
-    public void testDefaultType() {
+    void testDefaultType() {
         final Class<?> defaultType = ((AbstractDateTimeConverter) this.converter).getDefaultType();
         assertNotNull(defaultType);
         assertEquals(this.targetType, defaultType);
     }
 
     protected void assertFail(
-            @Nullable
             final Object value) {
         super.assertFail(value);
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
     protected void assertSuccess(
-            @Nullable
             final Object value,
-            @Nullable
             final Object expectedResult) {
         super.assertSuccess(value, expectedResult);
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
     protected void assertSuccess(
-            @Nonnull
-            final Converter converter,
-            @Nullable
+            final @NotNull Converter converter,
             final Object value,
-            @Nullable
             final Object expectedResult,
-            @Nullable
             final Object defaultValue) {
         super.assertSuccess(converter, value, expectedResult, defaultValue);
         assertSuccess(converter, UnimplementedTemporal.class, value, defaultValue);

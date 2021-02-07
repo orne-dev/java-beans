@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * @see LocalTimeConverter
  */
 @Tag("ut")
-public class LocalTimeConverterTest
+class LocalTimeConverterTest
 extends AbstractTimeConverterTest {
 
     public LocalTimeConverterTest() {
@@ -50,7 +50,7 @@ extends AbstractTimeConverterTest {
      * Test {@link LocalTimeConverter#LocalTimeConverter()}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final LocalTimeConverter converter = new LocalTimeConverter();
         assertConstructor(converter,
                 DateTimeFormatter.ISO_LOCAL_TIME,
@@ -64,7 +64,7 @@ extends AbstractTimeConverterTest {
      * Test {@link LocalTimeConverter#LocalTimeConverter(LocalDate)}.
      */
     @Test
-    public void testConstructorDefaultValue() {
+    void testConstructorDefaultValue() {
         final LocalTimeConverter converter = new LocalTimeConverter(
                 (LocalTime) null);
         assertConstructor(converter,
@@ -79,7 +79,7 @@ extends AbstractTimeConverterTest {
      * Test {@link LocalTimeConverter#LocalTimeConverter(DateTimeFormatter)}.
      */
     @Test
-    public void testConstructorFormatter() {
+    void testConstructorFormatter() {
         final LocalTimeConverter converter = new LocalTimeConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME);
         assertConstructor(converter,
@@ -94,7 +94,7 @@ extends AbstractTimeConverterTest {
      * Test {@link LocalTimeConverter#LocalTimeConverter(DateTimeFormatter, LocalDateTime)}.
      */
     @Test
-    public void testConstructorFormatterDefaultValue() {
+    void testConstructorFormatterDefaultValue() {
         final LocalTimeConverter converter = new LocalTimeConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME,
                 (LocalTime) null);
@@ -111,7 +111,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(LOCAL_DATE);
         assertFail(YEAR);
@@ -129,7 +129,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final LocalTime defaultValue = null;
         final LocalTimeConverter converter = new LocalTimeConverter(defaultValue);
         assertSuccess(converter, (Object) null, defaultValue, defaultValue);
@@ -150,7 +150,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(ZONED_DATE_TIME, LOCAL_TIME);
         assertSuccess(OFFSET_DATE_TIME, LOCAL_TIME);
         assertSuccess(LOCAL_DATE_TIME, LOCAL_TIME);
@@ -165,7 +165,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversions() {
+    void testFromStringInvalidConversions() {
         assertFail(STR_EMPTY);
         assertFail(STR_NON_DATE);
         assertFail(STR_ISO_OFFSET_DATE);
@@ -183,7 +183,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversionsWithDefaultValue() {
+    void testFromStringInvalidConversionsWithDefaultValue() {
         final LocalTime defaultValue = null;
         final LocalTimeConverter converter = new LocalTimeConverter(defaultValue);
         assertSuccess(converter, STR_EMPTY, defaultValue, defaultValue);
@@ -204,7 +204,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromStringValidConversions() {
+    void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, LOCAL_TIME);
         assertSuccess(STR_ISO_OFFSET_DATE_TIME, LOCAL_TIME);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, LOCAL_TIME);
@@ -220,7 +220,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final LocalTimeConverter converter = new LocalTimeConverter();
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");

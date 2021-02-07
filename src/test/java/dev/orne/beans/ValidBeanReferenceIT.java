@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -44,7 +45,7 @@ import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
  * @see ValidBeanReference
  */
 @Tag("it")
-public class ValidBeanReferenceIT {
+class ValidBeanReferenceIT {
 
     private static final String ERR_MSG = "Failed expectation for bean #%d";
     private static final String ERR_MANY_MSG = "Failed expectation for beans #%d and #%d";
@@ -69,7 +70,7 @@ public class ValidBeanReferenceIT {
      * 
      * @return The created {@code ValidBeanReferenceValidator}
      */
-    protected ValidBeanReferenceValidator createValidator() {
+    protected @NotNull ValidBeanReferenceValidator createValidator() {
         return new ValidBeanReferenceValidator();
     }
 
@@ -77,7 +78,7 @@ public class ValidBeanReferenceIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateBean() {
+    void testValidateBean() {
         for (int i = 0; i < testBeans.length; i++) {
             final TestBean bean = testBeans[i];
             if ((i & 1) == 0 || (i & 2) == 0) {
@@ -126,7 +127,7 @@ public class ValidBeanReferenceIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateSimpleContainer() {
+    void testValidateSimpleContainer() {
         final SimpleContainer container = new SimpleContainer();
         for (int i = 0; i < testBeans.length; i++) {
             container.bean = testBeans[i];
@@ -144,7 +145,7 @@ public class ValidBeanReferenceIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateIterableContainer() {
+    void testValidateIterableContainer() {
         final IterableContainer container = new IterableContainer();
         for (int i = 0; i < testBeans.length; i++) {
             for (int j = 0; j < testBeans.length; j++) {
@@ -164,7 +165,7 @@ public class ValidBeanReferenceIT {
      * Test {@link ValidBeanReference) validations.
      */
     @Test
-    public void testValidateArrayContainer() {
+    void testValidateArrayContainer() {
         final ArrayContainer container = new ArrayContainer();
         for (int i = 0; i < testBeans.length; i++) {
             for (int j = 0; j < testBeans.length; j++) {

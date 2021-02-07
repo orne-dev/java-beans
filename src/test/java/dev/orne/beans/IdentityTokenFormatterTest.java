@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
 
+import javax.validation.constraints.NotNull;
+
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * @see IdentityTokenFormatter
  */
 @Tag("ut")
-public class IdentityTokenFormatterTest {
+class IdentityTokenFormatterTest {
 
     /** The random value generator. */
     private static final Random RND = new Random();
@@ -48,7 +50,7 @@ public class IdentityTokenFormatterTest {
      * 
      * @return a random {@code String}.
      */
-    protected String randomValue() {
+    protected @NotNull String randomValue() {
         final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
         RND.nextBytes(bodyBytes);
         return new String(bodyBytes);
@@ -58,7 +60,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyNull() {
+    void testEncodeBodyNull() {
         final String body = null;
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertEquals(IdentityTokenFormatter.NULL_TOKEN, result);
@@ -68,7 +70,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyEmpty() {
+    void testEncodeBodyEmpty() {
         final String body = "";
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertEquals(body, result);
@@ -78,7 +80,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyValid() {
+    void testEncodeBodyValid() {
         final String body = "ThisIsAValidBody";
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertEquals(body, result);
@@ -88,7 +90,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyB32Length1() {
+    void testEncodeBodyB32Length1() {
         final String body = ".";
         final String expectedResult =
                 IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
@@ -101,7 +103,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyB32Length2() {
+    void testEncodeBodyB32Length2() {
         final String body = ".a";
         final String expectedResult =
                 IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
@@ -114,7 +116,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyB32Length3() {
+    void testEncodeBodyB32Length3() {
         final String body = ".aa";
         final String expectedResult =
                 IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
@@ -127,7 +129,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyB32Length4() {
+    void testEncodeBodyB32Length4() {
         final String body = ".aaa";
         final String expectedResult =
                 IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
@@ -140,7 +142,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyB32Length5() {
+    void testEncodeBodyB32Length5() {
         final String body = ".aaaa";
         final String expectedResult =
                 IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
@@ -153,7 +155,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBodyDecimal() {
+    void testEncodeBodyDecimal() {
         final String body = "4455456057.5454861231321357";
         final String expectedResult =
                 IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
@@ -166,7 +168,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    public void testEncodeBody() {
+    void testEncodeBody() {
         final String body = randomValue();
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertNotNull(result);
@@ -179,7 +181,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyNullEncodedBody()
+    void testDecodeBodyNullEncodedBody()
     throws Throwable {
         assertThrows(NullPointerException.class, () -> {
             IdentityTokenFormatter.decodeBody(null);
@@ -191,7 +193,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyInvalidEncodedBody()
+    void testDecodeBodyInvalidEncodedBody()
     throws Throwable {
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
             IdentityTokenFormatter.decodeBody("invalid body");
@@ -203,7 +205,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyNull()
+    void testDecodeBodyNull()
     throws Throwable {
         final String result = IdentityTokenFormatter.decodeBody(
                 IdentityTokenFormatter.NULL_TOKEN);
@@ -215,7 +217,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyEmpty()
+    void testDecodeBodyEmpty()
     throws Throwable {
         final String body = "";
         final String result = IdentityTokenFormatter.decodeBody(body);
@@ -227,7 +229,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyValid()
+    void testDecodeBodyValid()
     throws Throwable {
         final String body = "ThisIsAValidBody";
         final String result = IdentityTokenFormatter.decodeBody(body);
@@ -239,7 +241,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyB32Length1()
+    void testDecodeBodyB32Length1()
     throws Throwable {
         final String expectedResult = ".";
         final String encoded =
@@ -254,7 +256,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyB32Length2()
+    void testDecodeBodyB32Length2()
     throws Throwable {
         final String expectedResult = ".a";
         final String encoded =
@@ -269,7 +271,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyB32Length3()
+    void testDecodeBodyB32Length3()
     throws Throwable {
         final String expectedResult = ".aa";
         final String encoded =
@@ -284,7 +286,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyB32Length4()
+    void testDecodeBodyB32Length4()
     throws Throwable {
         final String expectedResult = ".aaa";
         final String encoded =
@@ -299,7 +301,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyB32Length5()
+    void testDecodeBodyB32Length5()
     throws Throwable {
         final String expectedResult = ".aaaa";
         final String encoded =
@@ -314,7 +316,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBodyDecimal()
+    void testDecodeBodyDecimal()
     throws Throwable {
         final String expectedResult = "4455456057.5454861231321357";
         final String encoded =
@@ -329,7 +331,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testDecodeBody()
+    void testDecodeBody()
     throws Throwable {
         final String body = randomValue();
         final String encoded = IdentityTokenFormatter.encodeBody(body);
@@ -342,7 +344,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#format(String)}.
      */
     @Test
-    public void testFormat() {
+    void testFormat() {
         final String body = randomValue();
         final String expectedResult =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
@@ -356,7 +358,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#format(String, String)}.
      */
     @Test
-    public void testFormatPrefixNullPrefix() {
+    void testFormatPrefixNullPrefix() {
         final String body = "valid unencoded body";
         assertThrows(NullPointerException.class, () -> {
             IdentityTokenFormatter.format(null, body);
@@ -367,7 +369,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#format(String, String)}.
      */
     @Test
-    public void testFormatPrefixInvalidPrefix() {
+    void testFormatPrefixInvalidPrefix() {
         final String body = "valid unencoded body";
         assertThrows(IllegalArgumentException.class, () -> {
             IdentityTokenFormatter.format("invalid prefix", body);
@@ -378,7 +380,7 @@ public class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#format(String, String)}.
      */
     @Test
-    public void testFormatPrefix() {
+    void testFormatPrefix() {
         final String prefix = "CustomPrefix";
         final String body = randomValue();
         final String expectedResult =
@@ -394,7 +396,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParseNullToken()
+    void testParseNullToken()
     throws Throwable {
         assertThrows(NullPointerException.class, () -> {
             IdentityTokenFormatter.parse(null);
@@ -406,7 +408,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParseInvalidToken()
+    void testParseInvalidToken()
     throws Throwable {
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
             IdentityTokenFormatter.parse("invalid token");
@@ -418,7 +420,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParse()
+    void testParse()
     throws Throwable {
         final String body = randomValue();
         final String token =
@@ -434,7 +436,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParsePrefixNullPrefix() {
+    void testParsePrefixNullPrefix() {
         final String token = "IDVALID";
         assertThrows(NullPointerException.class, () -> {
             IdentityTokenFormatter.parse(null, token);
@@ -446,7 +448,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParsePrefixInvalidPrefix() {
+    void testParsePrefixInvalidPrefix() {
         final String token = "IDVALID";
         assertThrows(IllegalArgumentException.class, () -> {
             IdentityTokenFormatter.parse("invalid prefix", token);
@@ -458,7 +460,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParsePrefixNullToken() {
+    void testParsePrefixNullToken() {
         final String prefix = "CustomPrefix";
         assertThrows(NullPointerException.class, () -> {
             IdentityTokenFormatter.parse(prefix, null);
@@ -470,7 +472,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParsePrefixInvalidToken() {
+    void testParsePrefixInvalidToken() {
         final String prefix = "CustomPrefix";
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
             IdentityTokenFormatter.parse(prefix, "invalid token");
@@ -482,7 +484,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParsePrefixUnexpectedTokenPrefix() {
+    void testParsePrefixUnexpectedTokenPrefix() {
         final String prefix = "CustomPrefix";
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
             IdentityTokenFormatter.parse(prefix, "OtherPrefix");
@@ -494,7 +496,7 @@ public class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParsePrefix()
+    void testParsePrefix()
             throws Throwable  {
         final String prefix = "CustomPrefix";
         final String body = randomValue();

@@ -24,8 +24,7 @@ package dev.orne.beans.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.Converter;
@@ -45,17 +44,14 @@ public abstract class AbstractConverterTest {
     protected final Class<?> targetType;
 
     public AbstractConverterTest(
-            @Nonnull
-            final Class<?> targetType,
-            @Nonnull
-            final AbstractConverter converter) {
+            final @NotNull Class<?> targetType,
+            final @NotNull AbstractConverter converter) {
         super();
         this.targetType = targetType;
         this.converter = converter;
     }
 
     protected void assertFail(
-            @Nullable
             final Object value) {
         assertFail(this.converter, this.targetType, value);
         assertFail(this.converter, null, value);
@@ -63,11 +59,8 @@ public abstract class AbstractConverterTest {
     }
 
     protected void assertFail(
-            @Nonnull
-            final Converter converter,
-            @Nonnull
-            final Class<?> type,
-            @Nullable
+            final @NotNull Converter converter,
+            final @NotNull Class<?> type,
             final Object value) {
         assertThrows(ConversionException.class, () -> {
             converter.convert(type, value);
@@ -75,9 +68,7 @@ public abstract class AbstractConverterTest {
     }
 
     protected void assertSuccess(
-            @Nullable
             final Object value,
-            @Nullable
             final Object expectedResult) {
         assertSuccess(this.converter, this.targetType, value, expectedResult);
         assertSuccess(this.converter, null, value, expectedResult);
@@ -85,13 +76,9 @@ public abstract class AbstractConverterTest {
     }
 
     protected void assertSuccess(
-            @Nonnull
-            final Converter converter,
-            @Nullable
+            final @NotNull Converter converter,
             final Object value,
-            @Nullable
             final Object expectedResult,
-            @Nullable
             final Object defaultValue) {
         assertSuccess(converter, this.targetType, value, expectedResult);
         assertSuccess(converter, null, value, expectedResult);
@@ -99,13 +86,9 @@ public abstract class AbstractConverterTest {
     }
 
     protected void assertSuccess(
-            @Nonnull
-            final Converter converter,
-            @Nonnull
-            final Class<?> type,
-            @Nullable
+            final @NotNull Converter converter,
+            final @NotNull Class<?> type,
             final Object value,
-            @Nullable
             final Object expectedResult) {
         final Object result = converter.convert(
                 type,

@@ -24,6 +24,7 @@ package dev.orne.beans.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
@@ -40,6 +41,8 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -59,7 +62,7 @@ import dev.orne.beans.Identity;
  * @see OrneBeansConverters
  */
 @Tag("ut")
-public class OrneBeansConvertersTest {
+class OrneBeansConvertersTest {
 
     /**
      * Restored registered conversors in {@code ConvertUtils}.
@@ -73,9 +76,11 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#register()}.
      */
     @Test
-    public void testRegister() {
+    void testRegister() {
         OrneBeansConverters.register();
         assertNotNull(ConvertUtils.lookup(Identity.class));
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
         assertNotNull(ConvertUtils.lookup(Instant.class));
         assertNotNull(ConvertUtils.lookup(Year.class));
@@ -99,9 +104,11 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#register(boolean)}.
      */
     @Test
-    public void testRegisterNulls() {
+    void testRegisterNulls() {
         OrneBeansConverters.register(true);
         assertNotNull(ConvertUtils.lookup(Identity.class));
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
         assertNotNull(ConvertUtils.lookup(Instant.class));
         assertNotNull(ConvertUtils.lookup(Year.class));
@@ -125,7 +132,7 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerBeansConversors()}.
      */
     @Test
-    public void testRegisterBeans() {
+    void testRegisterBeans() {
         OrneBeansConverters.registerBeansConversors();
         assertNotNull(ConvertUtils.lookup(Identity.class));
     }
@@ -134,17 +141,37 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerBeansConversors(boolean)}.
      */
     @Test
-    public void testRegisterBeansNulls() {
+    void testRegisterBeansNulls() {
         OrneBeansConverters.registerBeansConversors(true);
         assertNotNull(ConvertUtils.lookup(Identity.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors()}.
+     */
+    @Test
+    void testRegisterNet() {
+        OrneBeansConverters.registerNetConversors();
+        assertNotNull(ConvertUtils.lookup(URI.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors(boolean)}.
+     */
+    @Test
+    void testRegisterNetNulls() {
+        OrneBeansConverters.registerNetConversors(true);
+        assertNotNull(ConvertUtils.lookup(URI.class));
     }
 
     /**
      * Test for {@code OrneBeansConverters#registerUtilConversors()}.
      */
     @Test
-    public void testRegisterUtil() {
+    void testRegisterUtil() {
         OrneBeansConverters.registerUtilConversors();
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
     }
 
@@ -152,8 +179,10 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerUtilConversors(boolean)}.
      */
     @Test
-    public void testRegisterUtilNulls() {
+    void testRegisterUtilNulls() {
         OrneBeansConverters.registerUtilConversors(true);
+        assertNotNull(ConvertUtils.lookup(Calendar.class));
+        assertNotNull(ConvertUtils.lookup(Date.class));
         assertNotNull(ConvertUtils.lookup(Locale.class));
     }
 
@@ -161,7 +190,7 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerTimeConversors()}.
      */
     @Test
-    public void testRegisterTime() {
+    void testRegisterTime() {
         OrneBeansConverters.registerTimeConversors();
         assertNotNull(ConvertUtils.lookup(Instant.class));
         assertNotNull(ConvertUtils.lookup(Year.class));
@@ -185,7 +214,7 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerTimeConversors(boolean)}.
      */
     @Test
-    public void testRegisterTimeNulls() {
+    void testRegisterTimeNulls() {
         OrneBeansConverters.registerTimeConversors(true);
         assertNotNull(ConvertUtils.lookup(Instant.class));
         assertNotNull(ConvertUtils.lookup(Year.class));
@@ -209,10 +238,12 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#register(ConvertUtilsBean)}.
      */
     @Test
-    public void testRegisterInBean() {
+    void testRegisterInBean() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.register(converter);
         assertNotNull(converter.lookup(Identity.class));
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
         assertNotNull(converter.lookup(Instant.class));
         assertNotNull(converter.lookup(Year.class));
@@ -236,10 +267,12 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#register(ConvertUtilsBean, boolean)}.
      */
     @Test
-    public void testRegisterInBeanNulls() {
+    void testRegisterInBeanNulls() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.register(converter, true);
         assertNotNull(converter.lookup(Identity.class));
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
         assertNotNull(converter.lookup(Instant.class));
         assertNotNull(converter.lookup(Year.class));
@@ -263,7 +296,7 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerBeansConversors(ConvertUtilsBean)}.
      */
     @Test
-    public void testRegisterBeansInBean() {
+    void testRegisterBeansInBean() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerBeansConversors(converter);
         assertNotNull(converter.lookup(Identity.class));
@@ -273,19 +306,41 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerBeansConversors(ConvertUtilsBean, boolean)}.
      */
     @Test
-    public void testRegisterBeansInBeanNulls() {
+    void testRegisterBeansInBeanNulls() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerBeansConversors(converter, true);
         assertNotNull(converter.lookup(Identity.class));
     }
 
     /**
+     * Test for {@code OrneBeansConverters#registerNetConversors(ConvertUtilsBean)}.
+     */
+    @Test
+    void testRegisterNetInBean() {
+        final ConvertUtilsBean converter = new ConvertUtilsBean();
+        OrneBeansConverters.registerNetConversors(converter);
+        assertNotNull(converter.lookup(URI.class));
+    }
+
+    /**
+     * Test for {@code OrneBeansConverters#registerNetConversors(ConvertUtilsBean, boolean)}.
+     */
+    @Test
+    void testRegisterNetInBeanNulls() {
+        final ConvertUtilsBean converter = new ConvertUtilsBean();
+        OrneBeansConverters.registerNetConversors(converter, true);
+        assertNotNull(converter.lookup(URI.class));
+    }
+
+    /**
      * Test for {@code OrneBeansConverters#registerUtilConversors(ConvertUtilsBean)}.
      */
     @Test
-    public void testRegisterUtilInBean() {
+    void testRegisterUtilInBean() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerUtilConversors(converter);
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
     }
 
@@ -293,9 +348,11 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerUtilConversors(ConvertUtilsBean, boolean)}.
      */
     @Test
-    public void testRegisterUtilInBeanNulls() {
+    void testRegisterUtilInBeanNulls() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerUtilConversors(converter, true);
+        assertNotNull(converter.lookup(Calendar.class));
+        assertNotNull(converter.lookup(Date.class));
         assertNotNull(converter.lookup(Locale.class));
     }
 
@@ -303,7 +360,7 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerTimeConversors(ConvertUtilsBean)}.
      */
     @Test
-    public void testRegisterTimeInBean() {
+    void testRegisterTimeInBean() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerTimeConversors(converter);
         assertNotNull(converter.lookup(Instant.class));
@@ -328,7 +385,7 @@ public class OrneBeansConvertersTest {
      * Test for {@code OrneBeansConverters#registerTimeConversors(ConvertUtilsBean, boolean)}.
      */
     @Test
-    public void testRegisterTimeInBeanNullst() {
+    void testRegisterTimeInBeanNullst() {
         final ConvertUtilsBean converter = new ConvertUtilsBean();
         OrneBeansConverters.registerTimeConversors(converter, true);
         assertNotNull(converter.lookup(Instant.class));

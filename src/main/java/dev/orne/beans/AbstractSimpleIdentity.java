@@ -24,8 +24,7 @@ package dev.orne.beans;
 
 import java.io.Serializable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -47,7 +46,6 @@ extends AbstractIdentity {
     private static final long serialVersionUID = -4740745453560262909L;
 
     /** The identity inner value. */
-    @Nullable
     private final T value;
 
     /**
@@ -56,7 +54,6 @@ extends AbstractIdentity {
      * @param value The identity value
      */
     public AbstractSimpleIdentity(
-            @Nullable
             final T value) {
         super();
         this.value = value;
@@ -68,8 +65,7 @@ extends AbstractIdentity {
      * @param copy The instance to copy
      */
     public AbstractSimpleIdentity(
-            @Nonnull
-            final AbstractSimpleIdentity<T> copy) {
+            final @NotNull AbstractSimpleIdentity<T> copy) {
         super();
         Validate.notNull(copy, "Template instance is required");
         this.value = copy.value;
@@ -88,7 +84,6 @@ extends AbstractIdentity {
      * {@inheritDoc}
      */
     @Override
-    @Nullable
     protected String getIdentityTokenBody() {
         return this.value == null ? null : this.value.toString();
     }

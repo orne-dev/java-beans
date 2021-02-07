@@ -1,7 +1,5 @@
 package dev.orne.beans.converters;
 
-import javax.annotation.Nonnull;
-
 /*-
  * #%L
  * Orne Beans
@@ -24,7 +22,7 @@ import javax.annotation.Nonnull;
  * #L%
  */
 
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
 
@@ -59,7 +57,6 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public IdentityConverter(
-            @Nullable
             final Identity defaultValue) {
         super(defaultValue);
     }
@@ -68,8 +65,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    @Nonnull
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return Identity.class;
     }
 
@@ -78,9 +74,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            @Nonnull
-            final Class<T> type,
-            @Nonnull
+            final @NotNull Class<T> type,
             final Object value) {
         if (type.isAssignableFrom(TokenIdentity.class)) {
             if (type.isInstance(value)) {
@@ -98,7 +92,6 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            @Nonnull
             final Object value)
     throws Throwable {
         if (value instanceof Identity) {

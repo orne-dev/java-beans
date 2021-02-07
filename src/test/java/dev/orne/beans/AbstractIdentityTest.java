@@ -25,7 +25,7 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -39,15 +39,14 @@ import org.junit.jupiter.api.Test;
  * @see AbstractIdentity
  */
 @Tag("ut")
-public class AbstractIdentityTest {
+class AbstractIdentityTest {
 
     /**
      * Creates the identity to be tested.
      * 
      * @return The identity created
      */
-    @Nonnull
-    protected AbstractIdentity createInstance() {
+    protected @NotNull AbstractIdentity createInstance() {
         return new TestIdentity();
     }
 
@@ -57,10 +56,8 @@ public class AbstractIdentityTest {
      * @param copy The identity to copy, created with {@link #createInstance()}
      * @return The identity created
      */
-    @Nonnull
-    protected AbstractIdentity createCopy(
-            @Nonnull
-            final AbstractIdentity copy) {
+    protected @NotNull AbstractIdentity createCopy(
+            final @NotNull AbstractIdentity copy) {
         return new TestIdentity();
     }
 
@@ -69,7 +66,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetIdentityTokenPrefix()
+    void testGetIdentityTokenPrefix()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final String result = identity.getIdentityTokenPrefix();
@@ -82,7 +79,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetIdentityToken()
+    void testGetIdentityToken()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final String result = identity.getIdentityToken();
@@ -95,7 +92,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetIdentityTokenCache()
+    void testGetIdentityTokenCache()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final String first = identity.getIdentityToken();
@@ -109,7 +106,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testParseIdentityTokenBody()
+    void testParseIdentityTokenBody()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final String body = "mock identity token body";
@@ -127,7 +124,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeNull()
+    void testEqualsHashCodeNull()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         assertFalse(identity.equals(null));
@@ -139,7 +136,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeSame()
+    void testEqualsHashCodeSame()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         assertTrue(identity.equals(identity));
@@ -152,7 +149,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeDiferentClass()
+    void testEqualsHashCodeDiferentClass()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final AbstractIdentity other = mock(AbstractIdentity.class); 
@@ -165,7 +162,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testEqualsHashCodeCopy()
+    void testEqualsHashCodeCopy()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final AbstractIdentity other = createCopy(identity);
@@ -178,7 +175,7 @@ public class AbstractIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testToString()
+    void testToString()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final String identityToken = identity.getIdentityToken();

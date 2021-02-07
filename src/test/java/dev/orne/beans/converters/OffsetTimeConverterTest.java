@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * @see OffsetTimeConverter
  */
 @Tag("ut")
-public class OffsetTimeConverterTest
+class OffsetTimeConverterTest
 extends AbstractTimeConverterTest {
 
     public OffsetTimeConverterTest() {
@@ -50,7 +50,7 @@ extends AbstractTimeConverterTest {
      * Test {@link OffsetTimeConverter#OffsetTimeConverter()}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final OffsetTimeConverter converter = new OffsetTimeConverter();
         assertConstructor(converter,
                 DateTimeFormatter.ISO_OFFSET_TIME,
@@ -64,7 +64,7 @@ extends AbstractTimeConverterTest {
      * Test {@link OffsetTimeConverter#OffsetTimeConverter(LocalDate)}.
      */
     @Test
-    public void testConstructorDefaultValue() {
+    void testConstructorDefaultValue() {
         final OffsetTimeConverter converter = new OffsetTimeConverter(
                 (OffsetTime) null);
         assertConstructor(converter,
@@ -79,7 +79,7 @@ extends AbstractTimeConverterTest {
      * Test {@link OffsetTimeConverter#OffsetTimeConverter(DateTimeFormatter)}.
      */
     @Test
-    public void testConstructorFormatter() {
+    void testConstructorFormatter() {
         final OffsetTimeConverter converter = new OffsetTimeConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME);
         assertConstructor(converter,
@@ -94,7 +94,7 @@ extends AbstractTimeConverterTest {
      * Test {@link OffsetTimeConverter#OffsetTimeConverter(DateTimeFormatter, LocalDateTime)}.
      */
     @Test
-    public void testConstructorFormatterDefaultValue() {
+    void testConstructorFormatterDefaultValue() {
         final OffsetTimeConverter converter = new OffsetTimeConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME,
                 (OffsetTime) null);
@@ -111,7 +111,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(LOCAL_DATE);
         assertFail(YEAR);
@@ -129,7 +129,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final OffsetTime defaultValue = null;
         final OffsetTimeConverter converter = new OffsetTimeConverter(defaultValue);
         assertSuccess(converter, (Object) null, defaultValue, defaultValue);
@@ -150,7 +150,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(ZONED_DATE_TIME, OFFSET_TIME);
         assertSuccess(OFFSET_DATE_TIME, OFFSET_TIME);
         assertSuccess(UTC_LOCAL_DATE_TIME, UTC_OFFSET_TIME);
@@ -165,7 +165,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversions() {
+    void testFromStringInvalidConversions() {
         assertFail(STR_EMPTY);
         assertFail(STR_NON_DATE);
         assertFail(STR_ISO_OFFSET_DATE);
@@ -183,7 +183,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversionsWithDefaultValue() {
+    void testFromStringInvalidConversionsWithDefaultValue() {
         final OffsetTime defaultValue = null;
         final OffsetTimeConverter converter = new OffsetTimeConverter(defaultValue);
         assertSuccess(converter, STR_EMPTY, defaultValue, defaultValue);
@@ -204,7 +204,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromStringValidConversions() {
+    void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, OFFSET_TIME);
         assertSuccess(STR_ISO_OFFSET_DATE_TIME, OFFSET_TIME);
         assertSuccess(STR_UTC_ISO_LOCAL_DATE_TIME, UTC_OFFSET_TIME);
@@ -220,7 +220,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final OffsetTimeConverter converter = new OffsetTimeConverter();
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");

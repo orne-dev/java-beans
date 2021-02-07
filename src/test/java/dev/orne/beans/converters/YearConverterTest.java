@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * @see YearConverter
  */
 @Tag("ut")
-public class YearConverterTest
+class YearConverterTest
 extends AbstractTimeConverterTest {
 
     public YearConverterTest() {
@@ -50,7 +50,7 @@ extends AbstractTimeConverterTest {
      * Test {@link YearConverter#YearConverter()}.
      */
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final YearConverter converter = new YearConverter();
         assertConstructor(converter,
                 YearConverter.BY_VALUE_PARSER,
@@ -72,7 +72,7 @@ extends AbstractTimeConverterTest {
      * Test {@link YearConverter#YearConverter(Year)}.
      */
     @Test
-    public void testConstructorDefaultValue() {
+    void testConstructorDefaultValue() {
         final YearConverter converter = new YearConverter(
                 (Year) null);
         assertConstructor(converter,
@@ -95,7 +95,7 @@ extends AbstractTimeConverterTest {
      * Test {@link YearConverter#YearConverter(DateTimeFormatter)}.
      */
     @Test
-    public void testConstructorFormatter() {
+    void testConstructorFormatter() {
         final YearConverter converter = new YearConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME);
         assertConstructor(converter,
@@ -118,7 +118,7 @@ extends AbstractTimeConverterTest {
      * Test {@link YearConverter#YearConverter(DateTimeFormatter, Year)}.
      */
     @Test
-    public void testConstructorFormatterDefaultValue() {
+    void testConstructorFormatterDefaultValue() {
         final YearConverter converter = new YearConverter(
                 DateTimeFormatter.RFC_1123_DATE_TIME,
                 (Year) null);
@@ -143,7 +143,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail(MONTH);
         assertFail(MONTH_DAY);
@@ -160,7 +160,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final Year defaultValue = null;
         final YearConverter converter = new YearConverter(defaultValue);
         assertSuccess(converter, (Object) null, defaultValue, defaultValue);
@@ -180,7 +180,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(ZONED_DATE_TIME, YEAR);
         assertSuccess(OFFSET_DATE_TIME, YEAR);
         assertSuccess(LOCAL_DATE_TIME, YEAR);
@@ -197,7 +197,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversions() {
+    void testFromStringInvalidConversions() {
         assertFail(STR_EMPTY);
         assertFail(STR_NON_DATE);
         assertFail(STR_ISO_MONTH_DAY);
@@ -211,7 +211,7 @@ extends AbstractTimeConverterTest {
      * {@code type} is {@code null} and {@code value} is {@code null}.
      */
     @Test
-    public void testFromStringInvalidConversionsWithDefaultValue() {
+    void testFromStringInvalidConversionsWithDefaultValue() {
         final Year defaultValue = null;
         final YearConverter converter = new YearConverter(defaultValue);
         assertSuccess(converter, STR_EMPTY, defaultValue, defaultValue);
@@ -228,7 +228,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testFromStringValidConversions() {
+    void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, YEAR);
         assertSuccess(STR_ISO_OFFSET_DATE_TIME, YEAR);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, YEAR);
@@ -249,7 +249,7 @@ extends AbstractTimeConverterTest {
      * ISO-8601 representation.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final YearConverter converter = new YearConverter();
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");

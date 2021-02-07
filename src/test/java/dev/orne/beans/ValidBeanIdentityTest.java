@@ -32,6 +32,7 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Tag;
@@ -49,7 +50,7 @@ import dev.orne.beans.ValidBeanIdentity.ValidBeanIdentityValidator;
  * @see ValidBeanIdentity
  */
 @Tag("ut")
-public class ValidBeanIdentityTest {
+class ValidBeanIdentityTest {
 
     /**
      * Resets original shared validator.
@@ -65,7 +66,7 @@ public class ValidBeanIdentityTest {
      * 
      * @return The created {@code ValidBeanIdentityValidator}
      */
-    protected ValidBeanIdentityValidator createValidator() {
+    protected @NotNull ValidBeanIdentityValidator createValidator() {
         return new ValidBeanIdentityValidator();
     }
 
@@ -73,7 +74,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceNull() {
+    void testIsValidInstanceNull() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -87,7 +88,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceFail() {
+    void testIsValidInstanceFail() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -111,7 +112,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceSuccess() {
+    void testIsValidInstanceSuccess() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -134,7 +135,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceIterableFail1() {
+    void testIsValidInstanceIterableFail1() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -164,7 +165,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceIterableFail2() {
+    void testIsValidInstanceIterableFail2() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -194,7 +195,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceIterableSuccess() {
+    void testIsValidInstanceIterableSuccess() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -222,7 +223,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceArrayFail1() {
+    void testIsValidInstanceArrayFail1() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -252,7 +253,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceArrayFail2() {
+    void testIsValidInstanceArrayFail2() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -282,7 +283,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object, ConstraintValidatorContext)}.
      */
     @Test
-    public void testIsValidInstanceArraySuccess() {
+    void testIsValidInstanceArraySuccess() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final ConstraintValidatorContext context = mock(ConstraintValidatorContext.class);
@@ -310,7 +311,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object)}.
      */
     @Test
-    public void testIsValidStaticFail() {
+    void testIsValidStaticFail() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final TestBean value = new TestBean();
@@ -330,7 +331,7 @@ public class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object)}.
      */
     @Test
-    public void testIsValidStaticSuccess() {
+    void testIsValidStaticSuccess() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final TestBean value = new TestBean();
@@ -350,7 +351,7 @@ public class ValidBeanIdentityTest {
      * Test {@link BeanValidationUtils#isValidBeanIdentity(Object)}.
      */
     @Test
-    public void testUtilsIsValidBeanIdentityFail() {
+    void testUtilsIsValidBeanIdentityFail() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final TestBean value = new TestBean();
@@ -370,7 +371,7 @@ public class ValidBeanIdentityTest {
      * Test {@link BeanValidationUtils#isValidBeanIdentity(Object)}.
      */
     @Test
-    public void testUtilsIsValidBeanIdentitySuccess() {
+    void testUtilsIsValidBeanIdentitySuccess() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);
         final TestBean value = new TestBean();

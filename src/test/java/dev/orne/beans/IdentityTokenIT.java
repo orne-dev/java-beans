@@ -49,14 +49,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @see IdentityToken
  */
 @Tag("it")
-public class IdentityTokenIT {
+class IdentityTokenIT {
 
     /**
      * Test {@link TokenIdentity} and {@link Identity} Jackson serialization.
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonSerialization()
+    void testJacksonSerialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final Identity identity = mock(Identity.class);
@@ -74,7 +74,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonDeserialization()
+    void testJacksonDeserialization()
     throws Throwable {
         final String identityToken = "mock identity token";
         final String json = String.format("\"%s\"", identityToken);
@@ -89,7 +89,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJacksonDeserializationNull()
+    void testJacksonDeserializationNull()
     throws Throwable {
         final String json = "null";
         final ObjectMapper mapper = new ObjectMapper();
@@ -102,7 +102,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbAttributeSerializationIdentity()
+    void testJaxbAttributeSerializationIdentity()
     throws Throwable {
         final String identityToken = "mock identity token";
         final Identity identity = mock(Identity.class);
@@ -125,7 +125,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbAttributeSerializationTokenIdentity()
+    void testJaxbAttributeSerializationTokenIdentity()
     throws Throwable {
         final String identityToken = "mock identity token";
         final TokenIdentity tokenIdentity = new TokenIdentity(identityToken);
@@ -147,7 +147,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbAttributeSerializationIdentityNull()
+    void testJaxbAttributeSerializationIdentityNull()
     throws Throwable {
         final IdentityAttributeContainer container = new IdentityAttributeContainer();
         final String expectedResult =
@@ -165,7 +165,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbAttributeDeserializationIdentity()
+    void testJaxbAttributeDeserializationIdentity()
     throws Throwable {
         final String identityToken = "mock identity token";
         final String xml = String.format(
@@ -187,7 +187,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbAttributeDeserializationIdentityNull()
+    void testJaxbAttributeDeserializationIdentityNull()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -205,7 +205,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbAttributeDeserializationIdentityEmpty()
+    void testJaxbAttributeDeserializationIdentityEmpty()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -223,7 +223,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementSerializationIdentity()
+    void testJaxbElementSerializationIdentity()
     throws Throwable {
         final String identityToken = "mock identity token";
         final Identity identity = mock(Identity.class);
@@ -248,7 +248,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementSerializationTokenIdentity()
+    void testJaxbElementSerializationTokenIdentity()
     throws Throwable {
         final String identityToken = "mock identity token";
         final TokenIdentity tokenIdentity = new TokenIdentity(identityToken);
@@ -272,7 +272,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementSerializationIdentityNull()
+    void testJaxbElementSerializationIdentityNull()
     throws Throwable {
         final IdentityElementContainer container = new IdentityElementContainer();
         final String expectedResult =
@@ -290,7 +290,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementDeserializationIdentity()
+    void testJaxbElementDeserializationIdentity()
     throws Throwable {
         final String identityToken = "mock identity token";
         final String xml = String.format(
@@ -314,7 +314,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementDeserializationIdentityNull()
+    void testJaxbElementDeserializationIdentityNull()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -332,7 +332,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementDeserializationIdentityNull2()
+    void testJaxbElementDeserializationIdentityNull2()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -351,7 +351,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementDeserializationIdentityNull3()
+    void testJaxbElementDeserializationIdentityNull3()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -371,7 +371,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementDeserializationIdentityEmpty()
+    void testJaxbElementDeserializationIdentityEmpty()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
@@ -391,7 +391,7 @@ public class IdentityTokenIT {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testJaxbElementDeserializationIdentityEmpty2()
+    void testJaxbElementDeserializationIdentityEmpty2()
     throws Throwable {
         final String xml =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +

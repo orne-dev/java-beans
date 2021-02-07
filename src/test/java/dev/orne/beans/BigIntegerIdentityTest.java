@@ -27,8 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigInteger;
 import java.util.Random;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * @see BigIntegerIdentity
  */
 @Tag("ut")
-public class BigIntegerIdentityTest
+class BigIntegerIdentityTest
 extends AbstractSimpleIdentityTest {
 
     /** The random value generator. */
@@ -53,7 +52,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructorNullValue()
+    void testConstructorNullValue()
     throws Throwable {
         final BigIntegerIdentity identity = new BigIntegerIdentity((BigInteger) null);
         assertNull(identity.getValue());
@@ -64,7 +63,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testConstructor()
+    void testConstructor()
     throws Throwable {
         final BigInteger value = randomValue();
         final BigIntegerIdentity identity = new BigIntegerIdentity(value);
@@ -77,8 +76,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return a random {@code BigInteger}.
      */
-    @Nonnull
-    protected BigInteger randomValue() {
+    protected @NotNull BigInteger randomValue() {
         final byte[] buffer = new byte[RND.nextInt(20) + 1];
         RND.nextBytes(buffer);
         return new BigInteger(buffer);
@@ -87,8 +85,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected BigIntegerIdentity createInstance() {
+    protected @NotNull BigIntegerIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -96,26 +93,22 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    @Nonnull
-    protected BigIntegerIdentity createCopy(
-            @Nonnull
-            final AbstractIdentity copy) {
+    protected @NotNull BigIntegerIdentity createCopy(
+            final @NotNull AbstractIdentity copy) {
         return new BigIntegerIdentity((BigIntegerIdentity) copy);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected BigIntegerIdentity createInstanceWithNullValue() {
+    protected @NotNull BigIntegerIdentity createInstanceWithNullValue() {
         return new BigIntegerIdentity((BigInteger) null);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Nonnull
-    protected BigIntegerIdentity createInstanceWithNonNullValue() {
+    protected @NotNull BigIntegerIdentity createInstanceWithNonNullValue() {
         return new BigIntegerIdentity(randomValue());
     }
 
@@ -125,8 +118,7 @@ extends AbstractSimpleIdentityTest {
      * @param value The value to create the identity token for
      * @return The identity token created
      */
-    protected String createIdentityToken(
-            @Nullable
+    protected @NotNull String createIdentityToken(
             final BigInteger value) {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
@@ -138,7 +130,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return The identity token created
      */
-    protected String createNoNumberIdentityToken() {
+    protected @NotNull String createNoNumberIdentityToken() {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 "not a number");
@@ -150,9 +142,8 @@ extends AbstractSimpleIdentityTest {
      * @param value The value to create the identity token for
      * @return The identity token created
      */
-    protected BigIntegerIdentity resolveIdentityToken(
-            @Nonnull
-            final String token)
+    protected @NotNull BigIntegerIdentity resolveIdentityToken(
+            final @NotNull String token)
     throws UnrecognizedIdentityTokenException {
         return BigIntegerIdentity.fromIdentityToken(token);
     }
@@ -162,7 +153,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityTokenNullValue()
+    void testFromIdentityTokenNullValue()
     throws Throwable {
         final String token = createIdentityToken(null);
         final BigIntegerIdentity result = resolveIdentityToken(token);
@@ -175,7 +166,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityTokenInvalidValue()
+    void testFromIdentityTokenInvalidValue()
     throws Throwable {
         final String token = createNoNumberIdentityToken();
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
@@ -188,7 +179,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFromIdentityToken()
+    void testFromIdentityToken()
     throws Throwable {
         final BigInteger expectedValue = randomValue();
         final String token = createIdentityToken(expectedValue);

@@ -50,13 +50,13 @@ import dev.orne.beans.BeanAnnotationFinder.CacheEntryKey;
  * @see BeanAnnotationFinder
  */
 @Tag("it")
-public class BeanAnnotationFinderIT {
+class BeanAnnotationFinderIT {
 
     /**
      * Test {@link BeanAnnotationFinder#find(Class)}.
      */
     @Test
-    public void testFindInDepth() {
+    void testFindInDepth() {
         final HashMap<CacheEntryKey<?>, Set<?>> cacheMap = new HashMap<>();
         final TestCache testCache = new TestCache(cacheMap);
         final BeanAnnotationFinder<TestAnnotation, ?> finder =
@@ -82,7 +82,7 @@ public class BeanAnnotationFinderIT {
      * Test {@link BeanAnnotationFinder#find(Class)}.
      */
     @Test
-    public void testFindInDepthWithList() {
+    void testFindInDepthWithList() {
         final HashMap<CacheEntryKey<?>, Set<?>> cacheMap = new HashMap<>();
         final TestCache testCache = new TestCache(cacheMap);
         final BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> finder =

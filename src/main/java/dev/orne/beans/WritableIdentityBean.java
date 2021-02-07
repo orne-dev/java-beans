@@ -22,38 +22,22 @@ package dev.orne.beans;
  * #L%
  */
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-
 /**
- * Interface representing the identity of a bean. Allows hiding the actual
- * identity implementation from referencing users.
- * 
- * The implementations of this interface must be inmutable.
+ * Interface representing a bean with identity that allows assigning its
+ * identity.
  * 
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  */
-@XmlJavaTypeAdapter(TokenIdentity.IdentityXmlAdapter.class)
-@JsonDeserialize(as=TokenIdentity.class)
-public interface Identity
-extends Serializable {
+public interface WritableIdentityBean
+extends IdentityBean {
 
     /**
-     * Returns the identity token. This token must be unique among non equal
-     * instances of the same type of tokens.
+     * Sets the instance's identity.
      * 
-     * @return The identity token
+     * @param identity The instance's identity
      */
-    @NotNull
-    @ValidIdentityToken
-    @JsonValue
-    String getIdentityToken();
+    void setIdentity(
+            Identity identity);
 }

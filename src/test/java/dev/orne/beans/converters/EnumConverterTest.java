@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @see EnumConverter
  */
 @Tag("ut")
-public class EnumConverterTest
+class EnumConverterTest
 extends AbstractConverterTest {
 
     public EnumConverterTest() {
@@ -49,7 +49,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
         assertFail("");
         assertFail("VALUE_D");
@@ -62,7 +62,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final TestEnum defaultValue = null;
         final EnumConverter<TestEnum> converter = new EnumConverter<>(
                 TestEnum.class,
@@ -79,7 +79,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         assertSuccess(TestEnum.VALUE_B.name(), TestEnum.VALUE_B);
         assertSuccess(TestEnum.VALUE_B, TestEnum.VALUE_B);
     }
@@ -89,7 +89,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -99,7 +99,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final TestEnum defaultValue = null;
         final EnumConverter<TestEnum> converter = new EnumConverter<>(
                 TestEnum.class,
@@ -112,7 +112,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
         assertSuccess(converter, String.class, "test string", "test string");

@@ -30,6 +30,7 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -48,13 +49,13 @@ import dev.orne.beans.IdentityResolver.UnresolvableIdentityException;
  * @see IdentityResolver
  */
 @Tag("ut")
-public class IdentityResolverTest {
+class IdentityResolverTest {
 
     /**
      * Test {@link IdentityResolver#getInstance()}.
      */
     @Test
-    public void testGetInstance() {
+    void testGetInstance() {
         final IdentityResolver instance1 = IdentityResolver.getInstance();
         assertNotNull(instance1);
         final IdentityResolver instance2 = IdentityResolver.getInstance();
@@ -67,7 +68,7 @@ public class IdentityResolverTest {
      * 
      * @return The created instance
      */
-    protected IdentityResolver createInstance() {
+    protected @NotNull IdentityResolver createInstance() {
         return new IdentityResolver();
     }
 
@@ -75,7 +76,7 @@ public class IdentityResolverTest {
      * Test {@link IdentityResolver#setCache(BeanAnnotationFinder.Cache)}.
      */
     @Test
-    public void testSetCache() {
+    void testSetCache() {
         final IdentityResolver instance = createInstance();
         final Cache sharedCache = instance.getCache();
         final Cache mockCache = mock(Cache.class);
@@ -92,7 +93,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveIdentityNullType()
+    void testResolveIdentityNullType()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -109,7 +110,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveNullIdentity()
+    void testResolveNullIdentity()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -128,7 +129,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveSameTypeIdentity()
+    void testResolveSameTypeIdentity()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -149,7 +150,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveIdentity()
+    void testResolveIdentity()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -175,7 +176,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenNullType()
+    void testResolveTokenNullType()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -192,7 +193,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveNullToken()
+    void testResolveNullToken()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -211,7 +212,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenUnresolvableIdentity()
+    void testResolveTokenUnresolvableIdentity()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -239,7 +240,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenUnknownExecutableType()
+    void testResolveTokenUnknownExecutableType()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -266,7 +267,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenConstructor()
+    void testResolveTokenConstructor()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -292,7 +293,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenConstructorUnrecognized()
+    void testResolveTokenConstructorUnrecognized()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -321,7 +322,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenConstructorException()
+    void testResolveTokenConstructorException()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -351,7 +352,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenConstructorNoInstanciable()
+    void testResolveTokenConstructorNoInstanciable()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -380,7 +381,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenMethod()
+    void testResolveTokenMethod()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -406,7 +407,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenMethodUnrecognized()
+    void testResolveTokenMethodUnrecognized()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -435,7 +436,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testResolveTokenMethodException()
+    void testResolveTokenMethodException()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -465,7 +466,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverNullType()
+    void testGetResolverNullType()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -481,7 +482,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverCache()
+    void testGetResolverCache()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -504,7 +505,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverMethodFail()
+    void testGetResolverMethodFail()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -534,7 +535,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverMethodFailSecurity()
+    void testGetResolverMethodFailSecurity()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -564,7 +565,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverMethod()
+    void testGetResolverMethod()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -591,7 +592,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverConstructorFail()
+    void testGetResolverConstructorFail()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -622,7 +623,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverConstructorFailSecurity()
+    void testGetResolverConstructorFailSecurity()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -654,7 +655,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverConstructor()
+    void testGetResolverConstructor()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -682,7 +683,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testGetResolverFail()
+    void testGetResolverFail()
     throws Throwable {
         final IdentityResolver instance = spy(createInstance());
         final Cache mockCache = mock(Cache.class);
@@ -708,7 +709,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverMethodNullType()
+    void testFindTokenResolverMethodNullType()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         assertThrows(NullPointerException.class, () -> {
@@ -721,7 +722,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverNotAnnotatedMethod()
+    void testFindTokenResolverNotAnnotatedMethod()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         assertNull(instance.findTokenResolverMethod(
@@ -739,7 +740,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverNoStaticMethod()
+    void testFindTokenResolverNoStaticMethod()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         assertThrows(UnresolvableIdentityException.class, () -> {
@@ -753,7 +754,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverNoPublicMethod()
+    void testFindTokenResolverNoPublicMethod()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         assertThrows(UnresolvableIdentityException.class, () -> {
@@ -767,7 +768,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverWrongParamsMethod()
+    void testFindTokenResolverWrongParamsMethod()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         assertThrows(UnresolvableIdentityException.class, () -> {
@@ -781,7 +782,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverWrongReturnTypeMethod()
+    void testFindTokenResolverWrongReturnTypeMethod()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         assertThrows(UnresolvableIdentityException.class, () -> {
@@ -795,7 +796,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenResolverMethod()
+    void testFindTokenResolverMethod()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         final Method expectedResult = TestTokenResolverIdentity.class
@@ -810,7 +811,7 @@ public class IdentityResolverTest {
      * Test {@link IdentityResolver#findTokenConstructor(Class)}.
      */
     @Test
-    public void testFindTokenConstructorNullType() {
+    void testFindTokenConstructorNullType() {
         final IdentityResolver instance = createInstance();
         assertThrows(NullPointerException.class, () -> {
             instance.findTokenConstructor(null);
@@ -821,7 +822,7 @@ public class IdentityResolverTest {
      * Test {@link IdentityResolver#findTokenConstructor(Class)}.
      */
     @Test
-    public void testFindTokenConstructorNoConstructor() {
+    void testFindTokenConstructorNoConstructor() {
         final IdentityResolver instance = createInstance();
         assertThrows(UnresolvableIdentityException.class, () -> {
             instance.findTokenConstructor(TestEmptyIdentity.class);
@@ -832,7 +833,7 @@ public class IdentityResolverTest {
      * Test {@link IdentityResolver#findTokenConstructor(Class)}.
      */
     @Test
-    public void testFindTokenConstructorNoPublicConstructor() {
+    void testFindTokenConstructorNoPublicConstructor() {
         final IdentityResolver instance = createInstance();
         assertThrows(UnresolvableIdentityException.class, () -> {
             instance.findTokenConstructor(TestPrivateTokenConstructorIdentity.class);
@@ -844,7 +845,7 @@ public class IdentityResolverTest {
      * @throws Throwable Should not happen
      */
     @Test
-    public void testFindTokenConstructor()
+    void testFindTokenConstructor()
     throws Throwable {
         final IdentityResolver instance = createInstance();
         final Constructor<?> expectedResult = TestTokenConstructorIdentity.class

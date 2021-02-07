@@ -40,7 +40,7 @@ import dev.orne.beans.TokenIdentity;
  * @see IdentityConverter
  */
 @Tag("ut")
-public class IdentityConverterTest
+class IdentityConverterTest
 extends AbstractConverterTest {
 
     public IdentityConverterTest() {
@@ -53,7 +53,7 @@ extends AbstractConverterTest {
      * {@code value} is invalid.
      */
     @Test
-    public void testFromValueInvalidConversions() {
+    void testFromValueInvalidConversions() {
         assertFail(null);
     }
 
@@ -63,7 +63,7 @@ extends AbstractConverterTest {
      * is invalid and a default value is set.
      */
     @Test
-    public void testFromValueInvalidConversionsWithDefaultValue() {
+    void testFromValueInvalidConversionsWithDefaultValue() {
         final Identity defaultValue = null;
         final IdentityConverter converter = new IdentityConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -75,7 +75,7 @@ extends AbstractConverterTest {
      * {@code value} is valid.
      */
     @Test
-    public void testFromValueValidConversions() {
+    void testFromValueValidConversions() {
         final Identity identity = mock(Identity.class);
         final String mockIdentityToken = "mock identity token";
         final TokenIdentity tokenIdentity = new TokenIdentity(mockIdentityToken);
@@ -91,7 +91,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversions() {
+    void testInvalidToStringConversions() {
         assertFail(converter, String.class, 123456);
         
     }
@@ -101,7 +101,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
-    public void testInvalidToStringConversionsWithDefaultValue() {
+    void testInvalidToStringConversionsWithDefaultValue() {
         final Identity defaultValue = null;
         final IdentityConverter converter = new IdentityConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
@@ -112,7 +112,7 @@ extends AbstractConverterTest {
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
-    public void testValidToStringConversions() {
+    void testValidToStringConversions() {
         final Identity identity = mock(Identity.class);
         final String mockIdentityToken = "mock identity token";
         final TokenIdentity tokenIdentity = new TokenIdentity(mockIdentityToken);

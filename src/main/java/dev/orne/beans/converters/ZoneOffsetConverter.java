@@ -27,8 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Implementation of {@code Converter} that converts {@code ZoneOffset} instances
@@ -71,7 +70,6 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZoneOffsetConverter(
-            @Nullable
             final ZoneOffset defaultValue) {
         super(BY_ID_PARSER, defaultValue);
         setDefaultParsers();
@@ -84,8 +82,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public ZoneOffsetConverter(
-            @Nonnull
-            final DateTimeFormatter formatter) {
+            final @NotNull DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -98,9 +95,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZoneOffsetConverter(
-            @Nonnull
-            final DateTimeFormatter formatter,
-            @Nullable
+            final @NotNull DateTimeFormatter formatter,
             final ZoneOffset defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
@@ -122,7 +117,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected Class<?> getDefaultType() {
+    protected @NotNull Class<?> getDefaultType() {
         return ZoneOffset.class;
     }
 
@@ -131,8 +126,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final Class<T> type,
-            final TemporalAccessor value) {
+            final @NotNull Class<T> type,
+            final @NotNull TemporalAccessor value) {
         return type.cast(ZoneOffset.from(value));
     }
 }

@@ -24,72 +24,77 @@ package dev.orne.beans.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Locale;
+import java.net.URI;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@code LocaleConverter}.
+ * Unit tests for {@code UriConverter}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
- * @since 0.1
- * @see LocaleConverter
+ * @version 1.0, 2020-08
+ * @since 0.3
+ * @see UriConverter
  */
 @Tag("ut")
-class LocaleConverterTest
+class UriConverterTest
 extends AbstractConverterTest {
 
-    private static final Locale CUSTOM_LOCALE = new Locale("xx", "YY", "ZZZ");
+    private static final URI EMPTY_URI = URI.create("");
+    private static final URI NUMBER_URI = URI.create("123456");
+    private static final URI ROOT_URI = URI.create("/");
+    private static final URI SERVER_URI = URI.create("scope://example.org:1234/");
+    private static final URI FULL_URI = URI.create("scp://example.org:1234/xx/YY/ZZZ");
+    private static final URI ABSOLUTE_PATH_URI = URI.create("/xx/YY/ZZZ");
+    private static final URI RELATIVE_PATH_URI = URI.create("xx/YY/ZZZ");
 
-    public LocaleConverterTest() {
-        super(Locale.class, new LocaleConverter());
+    public UriConverterTest() {
+        super(URI.class, new UriConverter());
     }
 
     /**
-     * Test {@link LocaleConverter#convert(Class, Object)} when
+     * Test {@link UriConverter#convert(Class, Object)} when
      * {@code type} is {@code null} or {@code Locale} and
      * {@code value} is invalid.
      */
     @Test
     void testFromValueInvalidConversions() {
         assertFail(null);
-        assertFail("");
-        assertFail(123456);
+        assertFail(":invalid:uri");
     }
 
     /**
-     * Test {@link LocaleConverter#convert(Class, Object)} when
+     * Test {@link UriConverter#convert(Class, Object)} when
      * {@code type} is {@code null} or {@code Locale}, {@code value}
      * is invalid and a default value is set.
      */
     @Test
     void testFromValueInvalidConversionsWithDefaultValue() {
-        final Locale defaultValue = null;
-        final LocaleConverter converter = new LocaleConverter(defaultValue);
+        final URI defaultValue = null;
+        final UriConverter converter = new UriConverter(defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
-        assertSuccess(converter, "", defaultValue, defaultValue);
-        assertSuccess(converter, 123456, defaultValue, defaultValue);
+        assertSuccess(converter, ":invalid:uri", defaultValue, defaultValue);
     }
 
     /**
-     * Test {@link LocaleConverter#convert(Class, Object)} when
+     * Test {@link UriConverter#convert(Class, Object)} when
      * {@code type} is {@code null} or {@code Locale} and
      * {@code value} is valid.
      */
     @Test
     void testFromValueValidConversions() {
-        assertSuccess(Locale.ENGLISH.toLanguageTag(), Locale.ENGLISH);
-        assertSuccess(Locale.ENGLISH, Locale.ENGLISH);
-        assertSuccess(Locale.UK.toLanguageTag(), Locale.UK);
-        assertSuccess(Locale.UK, Locale.UK);
-        assertSuccess(CUSTOM_LOCALE.toLanguageTag(), CUSTOM_LOCALE);
-        assertSuccess(CUSTOM_LOCALE, CUSTOM_LOCALE);
+        assertSuccess("", EMPTY_URI);
+        assertSuccess(123456L, NUMBER_URI);
+        assertSuccess(ROOT_URI.toString(), ROOT_URI);
+        assertSuccess(SERVER_URI.toString(), SERVER_URI);
+        assertSuccess(FULL_URI.toString(), FULL_URI);
+        assertSuccess(ABSOLUTE_PATH_URI.toString(), ABSOLUTE_PATH_URI);
+        assertSuccess(RELATIVE_PATH_URI.toString(), RELATIVE_PATH_URI);
     }
 
     /**
-     * Test {@link LocaleConverter#convert(Class, Object)} when
+     * Test {@link UriConverter#convert(Class, Object)} when
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
@@ -99,27 +104,31 @@ extends AbstractConverterTest {
     }
 
     /**
-     * Test {@link LocaleConverter#convert(Class, Object)} when
+     * Test {@link UriConverter#convert(Class, Object)} when
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
     void testInvalidToStringConversionsWithDefaultValue() {
-        final Locale defaultValue = null;
-        final LocaleConverter converter = new LocaleConverter(defaultValue);
+        final URI defaultValue = null;
+        final UriConverter converter = new UriConverter(defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);
     }
 
     /**
-     * Test {@link LocaleConverter#convert(Class, Object)} when
+     * Test {@link UriConverter#convert(Class, Object)} when
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
     void testValidToStringConversions() {
         assertNull(converter.convert(String.class, null));
         assertSuccess(converter, String.class, "", "");
+        assertSuccess(converter, String.class, ROOT_URI.toString(), ROOT_URI.toString());
         assertSuccess(converter, String.class, "test string", "test string");
-        assertSuccess(converter, String.class, Locale.ENGLISH, Locale.ENGLISH.toLanguageTag());
-        assertSuccess(converter, String.class, Locale.UK, Locale.UK.toLanguageTag());
-        assertSuccess(converter, String.class, CUSTOM_LOCALE, CUSTOM_LOCALE.toLanguageTag());
+        assertSuccess(converter, String.class, EMPTY_URI, "");
+        assertSuccess(converter, String.class, ROOT_URI, ROOT_URI.toString());
+        assertSuccess(converter, String.class, SERVER_URI, SERVER_URI.toString());
+        assertSuccess(converter, String.class, FULL_URI, FULL_URI.toString());
+        assertSuccess(converter, String.class, ABSOLUTE_PATH_URI, ABSOLUTE_PATH_URI.toString());
+        assertSuccess(converter, String.class, RELATIVE_PATH_URI, RELATIVE_PATH_URI.toString());
     }
 }
