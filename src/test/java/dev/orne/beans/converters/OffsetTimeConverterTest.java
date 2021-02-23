@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -157,7 +158,7 @@ extends AbstractTimeConverterTest {
         assertSuccess(OFFSET_TIME, OFFSET_TIME);
         assertSuccess(UTC_LOCAL_TIME, UTC_OFFSET_TIME);
         assertSuccess(INSTANT, UTC_OFFSET_TIME);
-        assertSuccess(EPOCH_MILLIS, UTC_OFFSET_TIME);
+        assertSuccess(EPOCH_MILLIS, UTC_OFFSET_TIME.truncatedTo(ChronoUnit.MILLIS));
     }
 
     /**
@@ -211,7 +212,7 @@ extends AbstractTimeConverterTest {
         assertSuccess(STR_ISO_OFFSET_TIME, OFFSET_TIME);
         assertSuccess(STR_UTC_ISO_LOCAL_TIME, UTC_OFFSET_TIME);
         assertSuccess(STR_ISO_INSTANT, UTC_OFFSET_TIME);
-        assertSuccess(STR_EPOCH_MILLIS, UTC_OFFSET_TIME);
+        assertSuccess(STR_EPOCH_MILLIS, UTC_OFFSET_TIME.truncatedTo(ChronoUnit.MILLIS));
     }
 
     /**

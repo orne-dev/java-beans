@@ -27,6 +27,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -162,7 +163,7 @@ extends AbstractConverterTest {
     void testDelegatedZonedDateTimeConversionsToString() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
-        final ZonedDateTime now = ZonedDateTime.now();
+        final ZonedDateTime now = ZonedDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         final GregorianCalendar value = GregorianCalendar.from(now);
         final String mockResult = "mockResult";
         willReturn(mockResult).given(instantConverter).convert(same(String.class), eq(now));
@@ -298,14 +299,14 @@ extends AbstractConverterTest {
                 AbstractTimeConverterTest.STR_NON_DATE);
         assertSuccess(converter, String.class,
                 ZONED_CALENDAR,
-                AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME);
+                AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME_MILLIS);
         final Calendar japValue = new Calendar.Builder()
                 .setCalendarType("japanese")
                 .setInstant(AbstractTimeConverterTest.EPOCH_MILLIS)
                 .build();
         assertSuccess(converter, String.class,
                 japValue,
-                AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME);
+                AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME_MILLIS);
     }
 
     /**

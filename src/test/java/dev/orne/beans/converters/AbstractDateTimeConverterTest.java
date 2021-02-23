@@ -33,6 +33,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -310,7 +311,8 @@ class AbstractDateTimeConverterTest {
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
         final Calendar value = mock(Calendar.class);
-        final Instant valueInstant = Instant.now();
+        final Instant valueInstant = Instant.now()
+                .truncatedTo(ChronoUnit.MILLIS);
         final LocalDate expectedResult = LocalDate.now();
         doReturn(valueInstant.toEpochMilli())
                 .when(value)
