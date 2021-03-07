@@ -27,10 +27,8 @@ indent_size = 2
 [*.xml]
 indent_size = 2
 
-# Package.json
-#
-# This indentation style is the one used by npm.
-[/package.json]
+# JSON
+[*.json]
 indent_size = 2
 
 # Jade
