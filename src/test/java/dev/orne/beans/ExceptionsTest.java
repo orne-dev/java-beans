@@ -57,7 +57,6 @@ class ExceptionsTest {
         assertMessageException(new UnrecognizedIdentityTokenException(TEST_MESSAGE));
         assertCauseException(new UnrecognizedIdentityTokenException(TEST_CAUSE));
         assertFullException(new UnrecognizedIdentityTokenException(TEST_MESSAGE, TEST_CAUSE));
-        assertFullException(new UnrecognizedIdentityTokenException(TEST_MESSAGE, TEST_CAUSE, false, false));
     }
 
     /**

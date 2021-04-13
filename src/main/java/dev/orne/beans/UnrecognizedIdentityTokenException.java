@@ -27,11 +27,11 @@ package dev.orne.beans;
  * {@code Identity} type.
  * 
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 2.0, 2021-04
  * @since 0.1
  */
 public class UnrecognizedIdentityTokenException
-extends Exception {
+extends IllegalArgumentException {
 
     /** The Serial Version UID. */
     private static final long serialVersionUID = 1L;
@@ -93,26 +93,5 @@ extends Exception {
             final String message,
             final Throwable cause) {
         super(message, cause);
-    }
-
-    /**
-     * Constructs a new exception with the specified detail message,
-     * cause, suppression enabled or disabled, and writable stack
-     * trace enabled or disabled.
-     *
-     * @param  message the detail message.
-     * @param cause the cause.  (A {@code null} value is permitted,
-     * and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled
-     *                          or disabled
-     * @param writableStackTrace whether or not the stack trace should
-     *                           be writable
-     */
-    public UnrecognizedIdentityTokenException(
-            final String message,
-            final Throwable cause,
-            final boolean enableSuppression,
-            final boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

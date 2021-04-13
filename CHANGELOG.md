@@ -1,3 +1,8 @@
+# :package: 0.4.0
+
+01. :boom: Changed `dev.orne.beans.UnrecognizedIdentityTokenException` hierarchy.
+    Extends `IllegalArgumentException` now.
+
 # :package: 0.3.0
 
 01. :gift: Added interface `dev.orne.beans.WritableIdentityBean`
