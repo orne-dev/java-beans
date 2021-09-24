@@ -61,7 +61,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZonedDateTimeConverter(
-            final @NotNull ZonedDateTime defaultValue) {
+            final ZonedDateTime defaultValue) {
         super(DateTimeFormatter.ISO_ZONED_DATE_TIME, defaultValue);
         setDefaultParsers();
     }
