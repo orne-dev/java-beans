@@ -40,7 +40,7 @@ class EnumConverterTest
 extends AbstractConverterTest {
 
     public EnumConverterTest() {
-        super(TestEnum.class, new EnumConverter<>(TestEnum.class));
+        super(TestEnum.class, EnumConverter.GENERIC);
     }
 
     /**
@@ -64,7 +64,7 @@ extends AbstractConverterTest {
     @Test
     void testFromValueInvalidConversionsWithDefaultValue() {
         final TestEnum defaultValue = null;
-        final EnumConverter<TestEnum> converter = new EnumConverter<>(
+        final EnumTypedConverter<TestEnum> converter = EnumTypedConverter.of(
                 TestEnum.class,
                 defaultValue);
         assertSuccess(converter, null, defaultValue, defaultValue);
@@ -80,8 +80,8 @@ extends AbstractConverterTest {
      */
     @Test
     void testFromValueValidConversions() {
-        assertSuccess(TestEnum.VALUE_B.name(), TestEnum.VALUE_B);
-        assertSuccess(TestEnum.VALUE_B, TestEnum.VALUE_B);
+        assertSuccessTyped(TestEnum.VALUE_B.name(), TestEnum.VALUE_B);
+        assertSuccessTyped(TestEnum.VALUE_B, TestEnum.VALUE_B);
     }
 
     /**
@@ -101,7 +101,7 @@ extends AbstractConverterTest {
     @Test
     void testInvalidToStringConversionsWithDefaultValue() {
         final TestEnum defaultValue = null;
-        final EnumConverter<TestEnum> converter = new EnumConverter<>(
+        final EnumTypedConverter<TestEnum> converter = EnumTypedConverter.of(
                 TestEnum.class,
                 defaultValue);
         assertSuccess(converter, String.class, 123456, defaultValue);

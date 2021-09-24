@@ -75,6 +75,14 @@ public abstract class AbstractConverterTest {
         assertFail(this.converter, Exception.class, value);
     }
 
+    protected void assertSuccessTyped(
+            final Object value,
+            final Object expectedResult) {
+        assertSuccess(this.converter, this.targetType, value, expectedResult);
+        assertFail(this.converter, null, value);
+        assertFail(this.converter, Exception.class, value);
+    }
+
     protected void assertSuccess(
             final @NotNull Converter converter,
             final Object value,
