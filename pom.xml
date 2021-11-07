@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -18,7 +16,7 @@
   <name>Orne Beans</name>
   <description>Orne bean manipulation utilities</description>
   <inceptionYear>2020</inceptionYear>
-  <url>http://projects.orne.dev/java/orne-config/</url>
+  <url>https://orne-dev.github.io/java-beans/</url>
 
   <licenses>
     <license>
@@ -31,7 +29,7 @@
     <developer>
       <id>wamphiry</id>
       <name>(w) Iker Hernaez</name>
-      <email>i.hernaez@orne.dev</email>
+      <url>https://github.com/ihernaez</url>
     </developer>
   </developers>
 
@@ -43,7 +41,8 @@
   </scm>
 
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>8</java.version>
+    <java.module.name>dev.orne.beans</java.module.name>
     <license.licenseName>lgpl_v3</license.licenseName>
 
     <commons.lang.version>3.10</commons.lang.version>
@@ -56,6 +55,8 @@
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
+
+    <sonar.projectKey>java-beans</sonar.projectKey>
   </properties>
 
   <dependencies>
@@ -96,15 +97,15 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${fasterxml.jackson.version}</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
       <version>${jaxb.api.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${fasterxml.jackson.version}</version>
       <optional>true</optional>
     </dependency>
 
@@ -158,14 +159,6 @@
           <artifactId>maven-failsafe-plugin</artifactId>
           <configuration>
             <groups>it</groups>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.amashchenko.maven.plugin</groupId>
-          <artifactId>gitflow-maven-plugin</artifactId>
-          <configuration>
-            <postReleaseGoals>clean verify deploy -Prelease,major-release</postReleaseGoals>
-            <postHotfixGoals>clean verify deploy -Prelease,major-release</postHotfixGoals>
           </configuration>
         </plugin>
       </plugins>
