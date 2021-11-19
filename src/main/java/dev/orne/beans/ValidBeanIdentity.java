@@ -49,6 +49,8 @@ import javax.validation.constraints.NotNull;
     ElementType.METHOD,
     ElementType.FIELD,
     ElementType.PARAMETER,
+    ElementType.LOCAL_VARIABLE,
+    ElementType.TYPE_USE,
     ElementType.ANNOTATION_TYPE
 })
 @Retention(

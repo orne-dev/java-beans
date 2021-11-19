@@ -24,10 +24,12 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.validation.constraints.NotNull;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +46,24 @@ class ValidIdentityTokenIT {
 
     /** The random values generator. */
     private static final Random RND = new Random();
+
+    private static final String ERR_MANY_MSG = "Failed expectation for tokens #%d and #%d";
+
+    private static String[] testTokens;
+
+    @BeforeAll
+    public static void createTestBeans() {
+        testTokens = new String[2];
+        for (int i = 0; i < testTokens.length; i++) {
+            String token = null;
+            if (i % 3 == 1) {
+                token = "IDsomeBody";
+            } else if (i % 3 == 2) {
+                token = "invalid token";
+            }
+            testTokens[i] = token;
+        }
+    }
 
     /**
      * Test {@link ValidIdentityToken) validations.
@@ -148,8 +168,52 @@ class ValidIdentityTokenIT {
         assertTrue(BeanValidationUtils.isValid(nonnullContainer));
     }
 
+    private boolean isValidToken(int index) {
+        return (index % 3) != 2;
+    }
+
     /**
-     * Bean with {@code @ValidIdentityToken} for testing.
+     * Test {@link ValidIdentityToken) validations.
+     */
+    @Test
+    void testValidateIterableContainer() {
+        final IterableElementContainer container = new IterableElementContainer();
+        for (int i = 0; i < testTokens.length; i++) {
+            for (int j = 0; j < testTokens.length; j++) {
+                container.tokens = Arrays.asList(testTokens[i], testTokens[j]);
+                if (isValidToken(i) && isValidToken(j)) {
+                    assertTrue(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                } else {
+                    assertFalse(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                }
+            }
+        }
+    }
+
+    /**
+     * Test {@link ValidIdentityToken) validations.
+     */
+    @Test
+    void testValidateArrayContainer() {
+        final ArrayElementContainer container = new ArrayElementContainer();
+        for (int i = 0; i < testTokens.length; i++) {
+            for (int j = 0; j < testTokens.length; j++) {
+                container.tokens = new String[] { testTokens[i], testTokens[j] };
+                if (isValidToken(i) && isValidToken(j)) {
+                    assertTrue(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                } else {
+                    assertFalse(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                }
+            }
+        }
+    }
+
+    /**
+     * Bean with {@code ValidIdentityToken} for testing.
      */
     protected static class TestContainer {
         @ValidIdentityToken
@@ -157,11 +221,23 @@ class ValidIdentityTokenIT {
     }
 
     /**
-     * Bean with {@code @ValidIdentityToken} for testing.
+     * Bean with {@code ValidIdentityToken} for testing.
      */
     protected static class TestNonNullContainer {
         @NotNull
         @ValidIdentityToken
         public String token;
+    }
+    /**
+     * Bean with {@code ValidIdentityToken} for testing.
+     */
+    protected static class IterableElementContainer {
+        public Iterable<@ValidIdentityToken String> tokens;
+    }
+    /**
+     * Bean with {@code ValidIdentityToken} for testing.
+     */
+    protected static class ArrayElementContainer {
+        public String @ValidIdentityToken[] tokens;
     }
 }
