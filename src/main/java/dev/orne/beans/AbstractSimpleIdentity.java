@@ -53,7 +53,7 @@ extends AbstractIdentity {
      * 
      * @param value The identity value
      */
-    public AbstractSimpleIdentity(
+    protected AbstractSimpleIdentity(
             final T value) {
         super();
         this.value = value;
@@ -64,7 +64,7 @@ extends AbstractIdentity {
      * 
      * @param copy The instance to copy
      */
-    public AbstractSimpleIdentity(
+    protected AbstractSimpleIdentity(
             final @NotNull AbstractSimpleIdentity<T> copy) {
         super();
         Validate.notNull(copy, "Template instance is required");

@@ -160,9 +160,7 @@ implements Identity {
         public String marshal(
                 final Identity identity) {
             final String result;
-            if (identity == null
-                    || identity.getIdentityToken() == null
-                    || identity.getIdentityToken().isEmpty()) {
+            if (identity == null || identity.getIdentityToken().isEmpty()) {
                 result = null;
             } else {
                 result = identity.getIdentityToken();
