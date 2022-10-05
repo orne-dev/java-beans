@@ -480,6 +480,37 @@ class BeanAnnotationFinderTest {
     }
 
     /**
+     * Test {@link BeanAnnotationFinder#addDirectAnnotationsList(Class, Set)}.
+     */
+    @Test
+    void testAddDirectAnnotationsListNoListAnnotation() {
+        final Cache mockCache = mock(Cache.class);
+        final BeanAnnotationFinder<TestAnnotation, ?> instance =
+                spy(createInstance(mockCache));
+        final Set<TestAnnotation> annotations = new HashSet<>();
+        instance.addDirectAnnotationsList(TestBean.class, annotations);
+        assertTrue(annotations.isEmpty());
+        then(mockCache).shouldHaveNoInteractions();
+    }
+
+    /**
+     * Test {@link BeanAnnotationFinder#addDirectAnnotationsList(Class, Set)}.
+     */
+    @Test
+    void testAddDirectAnnotationsListNoListAnnotationExtractor() {
+        final Cache mockCache = mock(Cache.class);
+        final BeanAnnotationFinder<TestAnnotation, ?> instance =
+                spy(new BeanAnnotationFinder<>(
+                        TestAnnotation.class,
+                        TestAnnotation.List.class,
+                        null));
+        final Set<TestAnnotation> annotations = new HashSet<>();
+        instance.addDirectAnnotationsList(TestBean.class, annotations);
+        assertTrue(annotations.isEmpty());
+        then(mockCache).shouldHaveNoInteractions();
+    }
+
+    /**
      * Test {@link BeanAnnotationFinder#addSuperclassAnnotations(Class, Set, Set)}.
      */
     @Test

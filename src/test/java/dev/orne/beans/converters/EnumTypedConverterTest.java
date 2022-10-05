@@ -26,29 +26,28 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@code EnumConverter}.
+ * Unit tests for {@code EnumTypedConverter}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.1, 2022-10
- * @since 0.1
- * @see EnumConverter
+ * @version 1.0, 2022-10
+ * @since 0.4
+ * @see EnumTypedConverter
  */
 @Tag("ut")
-class EnumConverterTest
+class EnumTypedConverterTest
 extends AbstractConverterTest {
 
-    public EnumConverterTest() {
-        super(TestEnum.class, EnumConverter.GENERIC);
+    public EnumTypedConverterTest() {
+        super(TestEnum.class, EnumTypedConverter.of(TestEnum.class));
     }
 
     /**
-     * Test {@link EnumConverter#convert(Class, Object)} when
+     * Test {@link EnumTypedConverter#convert(Class, Object)} when
      * {@code type} is {@code null} or {@code Locale} and
      * {@code value} is invalid.
      */
@@ -61,18 +60,35 @@ extends AbstractConverterTest {
     }
 
     /**
-     * Test {@link EnumConverter#convert(Class, Object)} when
+     * Test {@link EnumTypedConverter#convert(Class, Object)} when
+     * {@code type} is {@code null} or {@code Locale}, {@code value}
+     * is invalid and a default value is set.
+     */
+    @Test
+    void testFromValueInvalidConversionsWithDefaultValue() {
+        final TestEnum defaultValue = null;
+        final EnumTypedConverter<TestEnum> converter = EnumTypedConverter.of(
+                TestEnum.class,
+                defaultValue);
+        assertSuccess(converter, null, defaultValue, defaultValue);
+        assertSuccess(converter, "", defaultValue, defaultValue);
+        assertSuccess(converter, "VALUE_D", defaultValue, defaultValue);
+        assertSuccess(converter, 123456, defaultValue, defaultValue);
+    }
+
+    /**
+     * Test {@link EnumTypedConverter#convert(Class, Object)} when
      * {@code type} is {@code null} or {@code Locale} and
      * {@code value} is valid.
      */
     @Test
     void testFromValueValidConversions() {
-        assertSuccessTyped(TestEnum.VALUE_B.name(), TestEnum.VALUE_B);
-        assertSuccessTyped(TestEnum.VALUE_B, TestEnum.VALUE_B);
+        assertSuccess(TestEnum.VALUE_B.name(), TestEnum.VALUE_B);
+        assertSuccess(TestEnum.VALUE_B, TestEnum.VALUE_B);
     }
 
     /**
-     * Test {@link EnumConverter#convert(Class, Object)} when
+     * Test {@link EnumTypedConverter#convert(Class, Object)} when
      * {@code type} is {@code String} and {@code value} is invalid.
      */
     @Test
@@ -81,7 +97,7 @@ extends AbstractConverterTest {
     }
 
     /**
-     * Test {@link EnumConverter#convert(Class, Object)} when
+     * Test {@link EnumTypedConverter#convert(Class, Object)} when
      * {@code type} is {@code String} and {@code value} is valid.
      */
     @Test
@@ -93,36 +109,41 @@ extends AbstractConverterTest {
     }
 
     /**
-     * Test edge cases of {@link EnumConverter#convertToType(Class, Object)}.
+     * Test {@link EnumTypedConverter#convert(Class, Object)} when
+     * {@code type} is {@code String} and {@code value} is invalid.
+     */
+    @Test
+    void testInvalidToStringConversionsWithDefaultValue() {
+        final TestEnum defaultValue = null;
+        final EnumTypedConverter<TestEnum> converter = EnumTypedConverter.of(
+                TestEnum.class,
+                defaultValue);
+        assertSuccess(converter, String.class, 123456, defaultValue);
+    }
+
+    /**
+     * Test edge cases of {@link EnumTypedConverter#convertToType(Class, Object)}.
      */
     @Test
     void testGenericConvertToType()
     throws Throwable {
-        assertNull(EnumConverter.GENERIC.convertToType(TestEnum.class, null));
+        final EnumTypedConverter<TestEnum> converter = EnumTypedConverter.of(
+                TestEnum.class);
+        assertNull(converter.convertToType(TestEnum.class, null));
     }
 
     /**
-     * Test edge cases of {@link EnumConverter#enumFromName(Class, String)}.
-     */
-    @Test
-    void testGenericEnumFromName() {
-        assertThrows(ConversionException.class, () -> {
-            EnumConverter.GENERIC.enumFromName(Object.class, "Some name");
-        });
-    }
-
-    /**
-     * Test for {@link EnumConverter#register(ConvertUtilsBean)}.
+     * Test for {@link EnumTypedConverter#registerFor(ConvertUtilsBean, Class)}.
      */
     @Test
     void testRegisterFor() {
         final ConvertUtilsBean converter = mock(ConvertUtilsBean.class);
-        EnumConverter.register(converter);
-        then(converter).should().register(EnumConverter.GENERIC, Enum.class);
+        EnumTypedConverter.registerFor(converter, TestEnum.class);
+        then(converter).should().register(any(EnumTypedConverter.class), eq(TestEnum.class));
     }
 
     /**
-     * Test for {@link EnumConverter#register()}.
+     * Test for {@link EnumTypedConverter#registerFor(Class)}.
      */
     @Test
     void testRegisterForShared() {
@@ -130,41 +151,43 @@ extends AbstractConverterTest {
         final BeanUtilsBean backup = BeanUtilsBean.getInstance();
         BeanUtilsBean.setInstance(new BeanUtilsBean(converter));
         try {
-            EnumConverter.register();
-            then(converter).should().register(EnumConverter.GENERIC, Enum.class);
+            EnumTypedConverter.registerFor(TestEnum.class);
+            then(converter).should().register(any(EnumTypedConverter.class), eq(TestEnum.class));
         } finally {
             BeanUtilsBean.setInstance(backup);
         }
     }
 
     /**
-     * Test for {@link EnumConverter#registerWithDefault(ConvertUtilsBean)}.
+     * Test for {@link EnumTypedConverter#registerFor(ConvertUtilsBean, Class)}.
      */
     @Test
-    void testRegisterWithDefault() {
+    void testRegisterForDefault() {
         final ConvertUtilsBean converter = mock(ConvertUtilsBean.class);
-        EnumConverter.registerWithDefault(converter);
-        then(converter).should().register(EnumConverter.GENERIC_DEFAULT, Enum.class);
+        final TestEnum defaultValue = null;
+        EnumTypedConverter.registerFor(converter, TestEnum.class, defaultValue);
+        then(converter).should().register(any(EnumTypedConverter.class), eq(TestEnum.class));
     }
 
     /**
-     * Test for {@link EnumConverter#registerWithDefault()}.
+     * Test for {@link EnumTypedConverter#registerFor(Class)}.
      */
     @Test
-    void testRegisterWithDefaultForShared() {
+    void testRegisterForDefaultShared() {
         final ConvertUtilsBean converter = mock(ConvertUtilsBean.class);
+        final TestEnum defaultValue = null;
         final BeanUtilsBean backup = BeanUtilsBean.getInstance();
         BeanUtilsBean.setInstance(new BeanUtilsBean(converter));
         try {
-            EnumConverter.registerWithDefault();
-            then(converter).should().register(EnumConverter.GENERIC_DEFAULT, Enum.class);
+            EnumTypedConverter.registerFor(TestEnum.class, defaultValue);
+            then(converter).should().register(any(EnumTypedConverter.class), eq(TestEnum.class));
         } finally {
             BeanUtilsBean.setInstance(backup);
         }
     }
 
     /**
-     * Enumeration for {@code EnumConverter} tests.
+     * Enumeration for {@code EnumTypedConverter} tests.
      */
     public static enum TestEnum {
         VALUE_A,

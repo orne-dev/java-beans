@@ -24,6 +24,8 @@ package dev.orne.beans.converters;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apache.commons.lang3.Validate;
 
@@ -33,7 +35,7 @@ import org.apache.commons.lang3.Validate;
  * representation.
  * 
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 2.0, 2021-09
+ * @version 2.1, 2022-10
  * @since 0.1
  */
 public class EnumConverter
@@ -139,5 +141,71 @@ extends AbstractConverter {
         } else {
             throw conversionException(String.class, value);
         }
+    }
+
+    /**
+     * Registers {@code EnumConverter.GENERIC} for the {@code Enum} class in
+     * the singleton Apache commons bean utils converter.
+     * <p>
+     * Note that the default {@code ConvertUtilsBean} implementation doesn't
+     * fallback to {@code Enum} when converting enumerations. Instances of
+     * {@code EnumConvertUtilsBean} or {@code EnumConvertUtilsBean2} must
+     * be used to this converter apply.
+     */
+    public static void register() {
+        BeanUtilsBean.getInstance().getConvertUtils().register(
+                EnumConverter.GENERIC,
+                Enum.class);
+    }
+
+    /**
+     * Registers {@code EnumConverter.GENERIC} for the {@code Enum} class in
+     * the specified Apache commons bean utils converter.
+     * <p>
+     * Note that the default {@code ConvertUtilsBean} implementation doesn't
+     * fallback to {@code Enum} when converting enumerations. Instances of
+     * {@code EnumConvertUtilsBean} or {@code EnumConvertUtilsBean2} must
+     * be used to this converter apply.
+     * 
+     * @param converter The Apache commons bean utils converter to register to
+     */
+    public static <T extends Enum<T>> void register(
+            final ConvertUtilsBean converter) {
+        Validate.notNull(converter).register(
+                EnumConverter.GENERIC,
+                Enum.class);
+    }
+
+    /**
+     * Registers {@code EnumConverter.GENERIC_DEFAULT} for the {@code Enum}
+     * class in the singleton Apache commons bean utils converter.
+     * <p>
+     * Note that the default {@code ConvertUtilsBean} implementation doesn't
+     * fallback to {@code Enum} when converting enumerations. Instances of
+     * {@code EnumConvertUtilsBean} or {@code EnumConvertUtilsBean2} must
+     * be used to this converter apply.
+     */
+    public static void registerWithDefault() {
+        BeanUtilsBean.getInstance().getConvertUtils().register(
+                EnumConverter.GENERIC_DEFAULT,
+                Enum.class);
+    }
+
+    /**
+     * Registers {@code EnumConverter.GENERIC_DEFAULT} for the {@code Enum}
+     * class in the specified Apache commons bean utils converter.
+     * <p>
+     * Note that the default {@code ConvertUtilsBean} implementation doesn't
+     * fallback to {@code Enum} when converting enumerations. Instances of
+     * {@code EnumConvertUtilsBean} or {@code EnumConvertUtilsBean2} must
+     * be used to this converter apply.
+     * 
+     * @param converter The Apache commons bean utils converter to register to
+     */
+    public static <T extends Enum<T>> void registerWithDefault(
+            final ConvertUtilsBean converter) {
+        Validate.notNull(converter).register(
+                EnumConverter.GENERIC_DEFAULT,
+                Enum.class);
     }
 }

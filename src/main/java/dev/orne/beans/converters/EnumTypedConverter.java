@@ -27,6 +27,7 @@ import java.util.function.Function;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apache.commons.lang3.Validate;
@@ -36,15 +37,15 @@ import org.apache.commons.lang3.Validate;
  * to and from {@code String} using value name as {@code String}
  * representation.
  * 
- * @param <E> The type of enumeration this instance converters
+ * @param <E> The type of enumeration this instance converts
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 1.1, 2022-10
  * @since 0.1
  */
 public class EnumTypedConverter<E extends Enum<E>>
 extends AbstractConverter {
 
-    /** The type of enumeration this instance converters. */
+    /** The type of enumeration this instance converts. */
     private final Class<E> enumType;
     /** The {@code String} to {@code Enum} conversion function. */
     private final BiFunction<Class<E>, String, E> stringToEnum;
@@ -55,37 +56,31 @@ extends AbstractConverter {
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs.
      * 
-     * @param enumType The type of enumeration this instance converters
+     * @param enumType The type of enumeration this instance converts
      */
     public EnumTypedConverter(
             final @NotNull Class<E> enumType) {
-        super();
-        this.enumType = enumType;
-        this.enumToString = Enum::name;
-        this.stringToEnum = Enum::valueOf;
+        this(enumType, Enum::valueOf, Enum::name);
     }
 
     /**
      * Creates a new instance that returns a default value if an error occurs.
      * 
-     * @param enumType The type of enumeration this instance converters
+     * @param enumType The type of enumeration this instance converts
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
     public EnumTypedConverter(
             final @NotNull Class<E> enumType,
             final E defaultValue) {
-        super(defaultValue);
-        this.enumType = enumType;
-        this.enumToString = Enum::name;
-        this.stringToEnum = Enum::valueOf;
+        this(enumType, Enum::valueOf, Enum::name, defaultValue);
     }
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
      * error occurs.
      * 
-     * @param enumType The type of enumeration this instance converters
+     * @param enumType The type of enumeration this instance converts
      * @param stringToEnum The {@code String} to {@code Enum} conversion function
      * @param enumToString The {@code Enum} to {@code String} conversion function
      */
@@ -94,15 +89,15 @@ extends AbstractConverter {
             final @NotNull BiFunction<Class<E>, String, E> stringToEnum,
             final @NotNull Function<E, String> enumToString) {
         super();
-        this.enumType = enumType;
-        this.stringToEnum = stringToEnum;
-        this.enumToString = enumToString;
+        this.enumType = Validate.notNull(enumType);
+        this.stringToEnum = Validate.notNull(stringToEnum);
+        this.enumToString = Validate.notNull(enumToString);
     }
 
     /**
      * Creates a new instance that returns a default value if an error occurs.
      * 
-     * @param enumType The type of enumeration this instance converters
+     * @param enumType The type of enumeration this instance converts
      * @param stringToEnum The {@code String} to {@code Enum} conversion function
      * @param enumToString The {@code Enum} to {@code String} conversion function
      * @param defaultValue The default value to be returned if the value to be
@@ -114,22 +109,62 @@ extends AbstractConverter {
             final @NotNull Function<E, String> enumToString,
             final E defaultValue) {
         super(defaultValue);
-        this.enumType = enumType;
-        this.stringToEnum = stringToEnum;
-        this.enumToString = enumToString;
+        this.enumType = Validate.notNull(enumType);
+        this.stringToEnum = Validate.notNull(stringToEnum);
+        this.enumToString = Validate.notNull(enumToString);
     }
 
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param <T> The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     * @return The created converter
+     */
     public static <T extends Enum<T>> EnumTypedConverter<T> of(
             final Class<T> enumType) {
         return new EnumTypedConverter<>(enumType);
     }
 
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param <T> The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
     public static <T extends Enum<T>> EnumTypedConverter<T> of(
             final Class<T> enumType,
             final T defaultValue) {
         return new EnumTypedConverter<>(enumType, defaultValue);
     }
 
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that throws a {@code ConversionException} if an error occurs to the
+     * singleton Apache commons bean utils converter.
+     * 
+     * @param <T> The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     */
+    public static <T extends Enum<T>> void registerFor(
+            final Class<T> enumType) {
+        BeanUtilsBean.getInstance().getConvertUtils().register(
+                new EnumTypedConverter<>(enumType),
+                enumType);
+    }
+
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that throws a {@code ConversionException} if an error occurs to the
+     * specified Apache commons bean utils converter.
+     * 
+     * @param <T> The type of enumeration this instance converts
+     * @param converter The Apache commons bean utils converter to register to
+     * @param enumType The type of enumeration this instance converts
+     */
     public static <T extends Enum<T>> void registerFor(
             final ConvertUtilsBean converter,
             final Class<T> enumType) {
@@ -138,6 +173,35 @@ extends AbstractConverter {
                 enumType);
     }
 
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that returns a default value if an error occurs to the singleton
+     * Apache commons bean utils converter.
+     * 
+     * @param <T> The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public static <T extends Enum<T>> void registerFor(
+            final Class<T> enumType,
+            final T defaultValue) {
+        BeanUtilsBean.getInstance().getConvertUtils().register(
+                new EnumTypedConverter<>(enumType, defaultValue),
+                enumType);
+    }
+
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that returns a default value if an error occurs to the specified
+     * Apache commons beanutils2 converter.
+     * 
+     * @param <T> The type of enumeration this instance converts
+     * @param converter The Apache commons beanutils2 converter to register to
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
     public static <T extends Enum<T>> void registerFor(
             final ConvertUtilsBean converter,
             final Class<T> enumType,
