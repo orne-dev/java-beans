@@ -51,7 +51,7 @@
     <commons.codec.version>1.14</commons.codec.version>
 
     <javax.validation.version>2.0.1.Final</javax.validation.version>
-    <fasterxml.jackson.version>2.11.0</fasterxml.jackson.version>
+    <fasterxml.jackson.version>2.12.6.1</fasterxml.jackson.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
