@@ -25,6 +25,7 @@ package dev.orne.beans.converters;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apache.commons.lang3.Validate;
@@ -169,7 +170,7 @@ extends AbstractConverter {
      * 
      * @param converter The Apache commons bean utils converter to register to
      */
-    public static <T extends Enum<T>> void register(
+    public static void register(
             final ConvertUtilsBean converter) {
         Validate.notNull(converter).register(
                 EnumConverter.GENERIC,
@@ -202,7 +203,7 @@ extends AbstractConverter {
      * 
      * @param converter The Apache commons bean utils converter to register to
      */
-    public static <T extends Enum<T>> void registerWithDefault(
+    public static void registerWithDefault(
             final ConvertUtilsBean converter) {
         Validate.notNull(converter).register(
                 EnumConverter.GENERIC_DEFAULT,
