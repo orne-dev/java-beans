@@ -68,7 +68,7 @@ extends AbstractConverter {
      * 
      * @param formatter The temporal value formatter and default parser
      */
-    public AbstractDateTimeConverter(
+    protected AbstractDateTimeConverter(
             final @NotNull DateTimeFormatter formatter) {
         super();
         this.formatter = formatter;
@@ -82,9 +82,9 @@ extends AbstractConverter {
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public AbstractDateTimeConverter(
+    protected AbstractDateTimeConverter(
             final @NotNull DateTimeFormatter formatter,
-            final @NotNull TemporalAccessor defaultValue) {
+            final TemporalAccessor defaultValue) {
         super(defaultValue);
         this.formatter = formatter;
         this.parsers.add(formatter);

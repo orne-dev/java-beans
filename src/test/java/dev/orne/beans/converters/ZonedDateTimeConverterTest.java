@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -155,7 +156,7 @@ extends AbstractTimeConverterTest {
         assertSuccess(OFFSET_DATE_TIME, UTC_ZONED_OFFSET_DATE_TIME);
         assertSuccess(UTC_LOCAL_DATE_TIME, UTC_ZONED_DATE_TIME);
         assertSuccess(INSTANT, UTC_ZONED_DATE_TIME);
-        assertSuccess(EPOCH_MILLIS, UTC_ZONED_DATE_TIME);
+        assertSuccess(EPOCH_MILLIS, UTC_ZONED_DATE_TIME.truncatedTo(ChronoUnit.MILLIS));
     }
 
     /**
@@ -211,7 +212,7 @@ extends AbstractTimeConverterTest {
         assertSuccess(STR_ISO_OFFSET_DATE_TIME, UTC_ZONED_OFFSET_DATE_TIME);
         assertSuccess(STR_UTC_ISO_LOCAL_DATE_TIME, UTC_ZONED_DATE_TIME);
         assertSuccess(STR_ISO_INSTANT, UTC_ZONED_DATE_TIME);
-        assertSuccess(STR_EPOCH_MILLIS, UTC_ZONED_DATE_TIME);
+        assertSuccess(STR_EPOCH_MILLIS, UTC_ZONED_DATE_TIME.truncatedTo(ChronoUnit.MILLIS));
     }
 
     /**

@@ -1,3 +1,23 @@
+# :package: 0.4.0
+
+01. :boom: Changed `dev.orne.beans.UnrecognizedIdentityTokenException` hierarchy.
+    Extends `IllegalArgumentException` now.
+01. :gift: Improved Apache `beanutils` enumerations converter
+    01. :boom: Removed generic nature of `EnumConverter` and exposed as singleton instance
+    01. :gift: Added class `dev.orne.beans.converters.EnumTypedConverter`
+        01. :gift: Added to method `OrneBeansConverters.registerBeansConversors(ConvertUtilsBean, ...)`
+    01. :gift: Added class `dev.orne.beans.converters.EnumConvertUtilsBean`
+        Extends `org.apache.commons.beanutils.ConvertUtilsBean` but lookups for
+        converter for `Enum` if no converter is found for concrete enumeration
+        type.
+    01. :gift: Added class `dev.orne.beans.converters.EnumConvertUtilsBean2`
+        Extends `org.apache.commons.beanutils.ConvertUtilsBean2` but lookups for
+        converter for `Enum` if no converter is found for concrete enumeration
+        type.
+01. :gift: Added annotation `dev.orne.beans.ValidIdentity`
+    01. Added class `dev.orne.beans.ValidIdentity.ValidIdentityValidator`
+    01. Added class `dev.orne.beans.ValidIdentity.ValidIdentityValidatorForString`
+
 # :package: 0.3.0
 
 01. :gift: Added interface `dev.orne.beans.WritableIdentityBean`

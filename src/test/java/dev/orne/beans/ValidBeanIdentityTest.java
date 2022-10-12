@@ -311,6 +311,19 @@ class ValidBeanIdentityTest {
      * Test {@link ValidBeanIdentityValidator#isValid(Object)}.
      */
     @Test
+    void testIsValidStaticNoIdentityBean() {
+        final Validator validator = mock(Validator.class);
+        BeanValidationUtils.setValidator(validator);
+        final Object value = new Object();
+        final boolean result = ValidBeanIdentityValidator.isValid(value);
+        then(validator).shouldHaveNoInteractions();
+        assertFalse(result);
+    }
+
+    /**
+     * Test {@link ValidBeanIdentityValidator#isValid(Object)}.
+     */
+    @Test
     void testIsValidStaticFail() {
         final Validator validator = mock(Validator.class);
         BeanValidationUtils.setValidator(validator);

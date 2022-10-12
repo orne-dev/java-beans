@@ -46,6 +46,8 @@ import javax.validation.constraints.Pattern;
     ElementType.METHOD,
     ElementType.FIELD,
     ElementType.PARAMETER,
+    ElementType.LOCAL_VARIABLE,
+    ElementType.TYPE_USE,
     ElementType.ANNOTATION_TYPE
 })
 @Retention(

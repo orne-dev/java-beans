@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-
 /**
  * Interface representing the identity of a bean. Allows hiding the actual
  * identity implementation from referencing users.

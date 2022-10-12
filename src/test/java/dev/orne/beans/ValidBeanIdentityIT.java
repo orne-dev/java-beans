@@ -28,10 +28,9 @@ import static org.mockito.BDDMockito.*;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import dev.orne.beans.ValidBeanIdentity.ValidBeanIdentityValidator;
 
 /**
  * Integration tests for {@code ValidBeanIdentity}.
@@ -65,16 +64,7 @@ class ValidBeanIdentityIT {
     }
 
     /**
-     * Creates an instance {@code ValidBeanIdentityValidator} to test.
-     * 
-     * @return The created {@code ValidBeanIdentityValidator}
-     */
-    protected ValidBeanIdentityValidator createValidator() {
-        return new ValidBeanIdentityValidator();
-    }
-
-    /**
-     * Test {@link ValidBeanReference) validations.
+     * Test {@link ValidBeanIdentity) validations.
      */
     @Test
     void testValidateBean() {
@@ -95,7 +85,7 @@ class ValidBeanIdentityIT {
     }
 
     /**
-     * Test {@link ValidBeanReference) validations.
+     * Test {@link ValidBeanIdentity) validations.
      */
     @Test
     void testValidateSimpleContainer() {
@@ -113,7 +103,7 @@ class ValidBeanIdentityIT {
     }
 
     /**
-     * Test {@link ValidBeanReference) validations.
+     * Test {@link ValidBeanIdentity) validations.
      */
     @Test
     void testValidateIterableContainer() {
@@ -133,7 +123,27 @@ class ValidBeanIdentityIT {
     }
 
     /**
-     * Test {@link ValidBeanReference) validations.
+     * Test {@link ValidBeanIdentity) validations.
+     */
+    @Test
+    void testValidateIterableElementContainer() {
+        final IterableElementContainer container = new IterableElementContainer();
+        for (int i = 0; i < testBeans.length; i++) {
+            for (int j = 0; j < testBeans.length; j++) {
+                container.beans = Arrays.asList(testBeans[i], testBeans[j]);
+                if (isValidIdentity(i) && isValidIdentity(j)) {
+                    assertTrue(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                } else {
+                    assertFalse(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                }
+            }
+        }
+    }
+
+    /**
+     * Test {@link ValidBeanIdentity) validations.
      */
     @Test
     void testValidateArrayContainer() {
@@ -153,25 +163,55 @@ class ValidBeanIdentityIT {
     }
 
     /**
+     * Test {@link ValidBeanIdentity) validations.
+     */
+    @Test
+    @Disabled("Disabled by HV-1428")
+    void testValidateArrayElementContainer() {
+        final ArrayElementContainer container = new ArrayElementContainer();
+        for (int i = 0; i < testBeans.length; i++) {
+            for (int j = 0; j < testBeans.length; j++) {
+                container.beans = new TestBean[] { testBeans[i], testBeans[j] };
+                if (isValidIdentity(i) && isValidIdentity(j)) {
+                    assertTrue(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                } else {
+                    assertFalse(BeanValidationUtils.isValid(container),
+                            String.format(ERR_MANY_MSG, i, j));
+                }
+            }
+        }
+    }
+
+    /**
      * Bean with {@code @ValidBeanIdentity} for testing.
      */
     protected static class SimpleContainer {
-        @ValidBeanIdentity
-        public TestBean bean;
+        public @ValidBeanIdentity TestBean bean;
     }
     /**
      * Bean with {@code @ValidBeanIdentity} for testing.
      */
     protected static class IterableContainer {
-        @ValidBeanIdentity
-        public Iterable<TestBean> beans;
+        public @ValidBeanIdentity Iterable<TestBean> beans;
+    }
+    /**
+     * Bean with {@code @ValidBeanIdentity} for testing.
+     */
+    protected static class IterableElementContainer {
+        public Iterable<@ValidBeanIdentity TestBean> beans;
     }
     /**
      * Bean with {@code @ValidBeanIdentity} for testing.
      */
     protected static class ArrayContainer {
-        @ValidBeanIdentity
-        public TestBean[] beans;
+        public @ValidBeanIdentity TestBean[] beans;
+    }
+    /**
+     * Bean with {@code @ValidBeanIdentity} for testing.
+     */
+    protected static class ArrayElementContainer {
+        public TestBean @ValidBeanIdentity[] beans;
     }
 
     /**

@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import org.apache.commons.beanutils.Converter;
@@ -138,7 +139,7 @@ extends AbstractConverterTest {
     void testDelegatedInstantConversionsToString() {
         final Converter instantConverter = mock(Converter.class);
         final DateConverter converter = new DateConverter(instantConverter);
-        final Instant now = Instant.now();
+        final Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
         final Date value = Date.from(now);
         final String mockResult = "mockResult";
         willReturn(mockResult).given(instantConverter).convert(same(String.class), eq(now));
@@ -273,7 +274,7 @@ extends AbstractConverterTest {
                 AbstractTimeConverterTest.STR_NON_DATE);
         assertSuccess(converter, String.class,
                 DATE,
-                AbstractTimeConverterTest.STR_ISO_INSTANT);
+                AbstractTimeConverterTest.STR_ISO_INSTANT_MILLIS);
     }
 
     /**

@@ -39,6 +39,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 
 import javax.validation.constraints.NotNull;
@@ -91,7 +92,9 @@ extends AbstractConverterTest {
     protected static String STR_EMPTY = "";
     protected static String STR_NON_DATE = "not date";
     protected static String STR_ISO_INSTANT;
+    protected static String STR_ISO_INSTANT_MILLIS;
     protected static String STR_ISO_ZONED_DATE_TIME;
+    protected static String STR_ISO_ZONED_DATE_TIME_MILLIS;
     protected static String STR_ISO_OFFSET_DATE_TIME;
     protected static String STR_ISO_LOCAL_DATE_TIME;
     protected static String STR_UTC_ISO_LOCAL_DATE_TIME;
@@ -157,7 +160,11 @@ extends AbstractConverterTest {
         UTC_ZONE_OFFSET = ZoneOffset.from(UTC_ZONED_DATE_TIME);
         // Zoned values as string
         STR_ISO_INSTANT = DateTimeFormatter.ISO_INSTANT.format(ZONED_DATE_TIME);
+        STR_ISO_INSTANT_MILLIS = DateTimeFormatter.ISO_INSTANT.format(
+                ZONED_DATE_TIME.truncatedTo(ChronoUnit.MILLIS));
         STR_ISO_ZONED_DATE_TIME = DateTimeFormatter.ISO_ZONED_DATE_TIME.format(ZONED_DATE_TIME);
+        STR_ISO_ZONED_DATE_TIME_MILLIS = DateTimeFormatter.ISO_ZONED_DATE_TIME.format(
+                ZONED_DATE_TIME.truncatedTo(ChronoUnit.MILLIS));
         STR_ISO_OFFSET_DATE_TIME = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZONED_DATE_TIME);
         STR_ISO_LOCAL_DATE_TIME = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(ZONED_DATE_TIME);
         STR_UTC_ISO_LOCAL_DATE_TIME = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(UTC_ZONED_DATE_TIME);

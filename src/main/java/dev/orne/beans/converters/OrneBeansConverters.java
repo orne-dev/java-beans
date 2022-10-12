@@ -227,8 +227,10 @@ public final class OrneBeansConverters {
             final boolean defaultToNull) {
         if (defaultToNull) {
             converter.register(new IdentityConverter((Identity) null), Identity.class);
+            converter.register(EnumConverter.GENERIC_DEFAULT, Enum.class);
         } else {
             converter.register(new IdentityConverter(), Identity.class);
+            converter.register(EnumConverter.GENERIC, Enum.class);
         }
     }
 
