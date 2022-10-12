@@ -14,6 +14,9 @@
         Extends `org.apache.commons.beanutils.ConvertUtilsBean2` but lookups for
         converter for `Enum` if no converter is found for concrete enumeration
         type.
+01. :gift: Added annotation `dev.orne.beans.ValidIdentity`
+    01. Added class `dev.orne.beans.ValidIdentity.ValidIdentityValidator`
+    01. Added class `dev.orne.beans.ValidIdentity.ValidIdentityValidatorForString`
 
 # :package: 0.3.0
 
