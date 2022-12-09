@@ -34,7 +34,7 @@
   </developers>
 
   <scm>
-    <url>http://github.com/orne-dev/java-beans/tree/master</url>
+    <url>https://github.com/orne-dev/java-beans/tree/master</url>
     <connection>scm:git:git://github.com/orne-dev/java-beans.git</connection>
     <developerConnection>scm:git:ssh://github.com:orne-dev/java-beans.git</developerConnection>
     <tag>HEAD</tag>
@@ -58,6 +58,9 @@
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
 
     <sonar.projectKey>java-beans</sonar.projectKey>
+    <ut.coverage.xmlReport>${ut.coverage.reportDir}/jacoco.xml</ut.coverage.xmlReport>
+    <it.coverage.xmlReport>${it.coverage.reportDir}/jacoco.xml</it.coverage.xmlReport>
+    <sonar.coverage.jacoco.xmlReportPaths>${ut.coverage.xmlReport},${it.coverage.xmlReport}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencies>
