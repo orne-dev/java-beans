@@ -166,4 +166,12 @@
     </pluginManagement>
   </build>
 
+  <distributionManagement>
+    <site>
+      <id>github</id>
+      <name>Github Project Pages</name>
+      <url>${project.scm.connection}</url>
+    </site>
+  </distributionManagement>
+
 </project>
