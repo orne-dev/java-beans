@@ -4,7 +4,7 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.1</version>
     <relativePath />
   </parent>
 
@@ -58,9 +58,6 @@
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
 
     <sonar.projectKey>java-beans</sonar.projectKey>
-    <ut.coverage.xmlReport>${ut.coverage.reportDir}/jacoco.xml</ut.coverage.xmlReport>
-    <it.coverage.xmlReport>${it.coverage.reportDir}/jacoco.xml</it.coverage.xmlReport>
-    <sonar.coverage.jacoco.xmlReportPaths>${ut.coverage.xmlReport},${it.coverage.xmlReport}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencies>
