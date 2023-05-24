@@ -1,5 +1,9 @@
 # :package: 0.4.0
 
+01. :gift: Added class `dev.orne.beans.AbstractComposedIdentity`
+
+# :package: 0.4.0
+
 01. :boom: Changed `dev.orne.beans.UnrecognizedIdentityTokenException` hierarchy.
     Extends `IllegalArgumentException` now.
 01. :gift: Improved Apache `beanutils` enumerations converter
