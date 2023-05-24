@@ -1,6 +1,13 @@
 # :package: 0.4.0
 
-01. :gift: Added class `dev.orne.beans.AbstractComposedIdentity`
+01. :gift: Added utility methods to default `Identity` implementations.
+    01. Added `dev.orne.beans.LongIdentity.extractTokenValue(String, String)` method.
+    01. Added `dev.orne.beans.LongIdentity.extractRequiredTokenValue(String, String)` method.
+    01. Added `dev.orne.beans.BigIntegerIdentity.extractTokenValue(String, String)` method.
+    01. Added `dev.orne.beans.BigIntegerIdentity.extractRequiredTokenValue(String, String)` method.
+    01. Added `dev.orne.beans.StringIdentity.extractTokenValue(String, String)` method.
+    01. Added `dev.orne.beans.StringIdentity.extractRequiredTokenValue(String, String)` method.
+01. :gift: Added class `dev.orne.beans.AbstractComposedIdentity`.
 
 # :package: 0.4.0
 
