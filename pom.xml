@@ -57,7 +57,7 @@
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
 
-    <sonar.projectKey>java-beans</sonar.projectKey>
+    <sonar.projectKey>orne-dev_java-beans</sonar.projectKey>
   </properties>
 
   <dependencies>
