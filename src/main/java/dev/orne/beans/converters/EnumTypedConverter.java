@@ -134,6 +134,7 @@ extends AbstractConverter {
      * @param enumType The type of enumeration this instance converts
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
+     * @return The created converter
      */
     public static <T extends Enum<T>> EnumTypedConverter<T> of(
             final Class<T> enumType,

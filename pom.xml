@@ -4,13 +4,13 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.2</version>
     <relativePath />
   </parent>
 
   <groupId>dev.orne</groupId>
   <artifactId>beans</artifactId>
-  <version>0.4.0</version>
+  <version>0.5.0</version>
   <packaging>jar</packaging>
 
   <name>Orne Beans</name>
@@ -34,7 +34,7 @@
   </developers>
 
   <scm>
-    <url>http://github.com/orne-dev/java-beans/tree/master</url>
+    <url>https://github.com/orne-dev/java-beans/tree/master</url>
     <connection>scm:git:git://github.com/orne-dev/java-beans.git</connection>
     <developerConnection>scm:git:ssh://github.com:orne-dev/java-beans.git</developerConnection>
     <tag>HEAD</tag>
@@ -51,13 +51,13 @@
 
     <apiguardian.version>1.1.2</apiguardian.version>
     <javax.validation.version>2.0.1.Final</javax.validation.version>
-    <fasterxml.jackson.version>2.12.6.1</fasterxml.jackson.version>
+    <fasterxml.jackson.version>2.13.4</fasterxml.jackson.version>
     <jaxb.api.version>2.3.1</jaxb.api.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
 
-    <sonar.projectKey>java-beans</sonar.projectKey>
+    <sonar.projectKey>orne-dev_java-beans</sonar.projectKey>
   </properties>
 
   <dependencies>
@@ -165,5 +165,13 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <distributionManagement>
+    <site>
+      <id>github</id>
+      <name>Github Project Pages</name>
+      <url>${project.scm.connection}</url>
+    </site>
+  </distributionManagement>
 
 </project>
