@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -313,51 +315,21 @@ class IdentityTokenIT {
      * Test {@link TokenIdentity} and {@link Identity} Jaxb deserialization.
      * @throws Throwable Should not happen
      */
-    @Test
-    void testJaxbElementDeserializationIdentityNull()
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+            "<container />",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+            "<container>" +
+            "</container>",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+            "<container xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
+            "<value xsi:nil=\"true\" />" +
+            "</container>",
+    })
+    void testJaxbElementDeserializationIdentityNull(
+            final String xml)
     throws Throwable {
-        final String xml =
-                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-                    "<container />";
-        final JAXBContext context = JAXBContext.newInstance(IdentityElementContainer.class);
-        final Unmarshaller unmarshaller = context.createUnmarshaller();
-        final StringReader reader = new StringReader(xml);
-        final IdentityElementContainer result = (IdentityElementContainer) unmarshaller.unmarshal(reader);
-        assertNotNull(result);
-        assertNull(result.value);
-    }
-
-    /**
-     * Test {@link TokenIdentity} and {@link Identity} Jaxb deserialization.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testJaxbElementDeserializationIdentityNull2()
-    throws Throwable {
-        final String xml =
-                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-                    "<container>" +
-                    "</container>";
-        final JAXBContext context = JAXBContext.newInstance(IdentityElementContainer.class);
-        final Unmarshaller unmarshaller = context.createUnmarshaller();
-        final StringReader reader = new StringReader(xml);
-        final IdentityElementContainer result = (IdentityElementContainer) unmarshaller.unmarshal(reader);
-        assertNotNull(result);
-        assertNull(result.value);
-    }
-
-    /**
-     * Test {@link TokenIdentity} and {@link Identity} Jaxb deserialization.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testJaxbElementDeserializationIdentityNull3()
-    throws Throwable {
-        final String xml =
-                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-                    "<container xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">" +
-                    "<value xsi:nil=\"true\" />" +
-                    "</container>";
         final JAXBContext context = JAXBContext.newInstance(IdentityElementContainer.class);
         final Unmarshaller unmarshaller = context.createUnmarshaller();
         final StringReader reader = new StringReader(xml);

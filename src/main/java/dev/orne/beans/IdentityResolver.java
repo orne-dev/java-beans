@@ -130,8 +130,6 @@ public class IdentityResolver {
     /** Error message for no identity token constructor. */
     private static final String ERR_TOKEN_CONSTRUCTOR_NOT_FOUND =
             "No identity token contructor for identity type '%s'.";
-    /** The shared instance. */
-    private static IdentityResolver instance;
     /**
      * The identity type resolve methods cache for this instance. By default
      * shared between all instances.
@@ -144,12 +142,7 @@ public class IdentityResolver {
      * @return The singleton instance.
      */
     public static @NotNull IdentityResolver getInstance() {
-        synchronized (IdentityResolver.class) {
-            if (instance == null) {
-                instance = new IdentityResolver();
-            }
-            return instance;
-        }
+        return InstanceHolder.INSTANCE;
     }
 
     /**
@@ -364,6 +357,15 @@ public class IdentityResolver {
                         targetType),
                     nsme);
         }
+    }
+
+    /**
+     * Holder of shared {@code IdentityResolver} instance.
+     */
+    private static class InstanceHolder{
+
+        /** The shared instance. */
+        private static final IdentityResolver INSTANCE = new IdentityResolver();
     }
 
     /**

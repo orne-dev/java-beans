@@ -43,27 +43,13 @@ class IdentityTokenTest {
      * Test {@link TokenIdentity#TokenIdentity(String)}.
      */
     @Test
-    void testConstructorNullToken() {
+    void testConstructor() {
         assertThrows(NullPointerException.class, () -> {
             new TokenIdentity(null);
         });
-    }
-
-    /**
-     * Test {@link TokenIdentity#TokenIdentity(String)}.
-     */
-    @Test
-    void testConstructorEmptyToken() {
         assertThrows(IllegalArgumentException.class, () -> {
             new TokenIdentity("");
         });
-    }
-
-    /**
-     * Test {@link TokenIdentity#TokenIdentity(String)}.
-     */
-    @Test
-    void testConstructor() {
         final String identityToken = "mock identity token";
         final TokenIdentity identity = new TokenIdentity(identityToken);
         assertEquals(identityToken, identity.getIdentityToken());
@@ -73,51 +59,20 @@ class IdentityTokenTest {
      * Test {@link TokenIdentity#equals(Object)} and {@link TokenIdentity#hashCode()}.
      */
     @Test
-    void testEqualsHashSameToken() {
-        final TokenIdentity identity1 = new TokenIdentity(
-                "mock identity token");
-        final TokenIdentity identity2 = new TokenIdentity(
-                "mock identity token");
-        assertEquals(identity1, identity2);
-        assertEquals(identity1.hashCode(), identity2.hashCode());
-    }
-
-    /**
-     * Test {@link TokenIdentity#equals(Object)} and {@link TokenIdentity#hashCode()}.
-     */
-    @Test
-    void testEqualsHashEqualTokens() {
-        final TokenIdentity identity1 = new TokenIdentity(
-                new String("mock identity token"));
-        final TokenIdentity identity2 = new TokenIdentity(
-                new String("mock identity token"));
-        assertEquals(identity1, identity2);
-        assertEquals(identity1.hashCode(), identity2.hashCode());
-    }
-
-    /**
-     * Test {@link TokenIdentity#equals(Object)} and {@link TokenIdentity#hashCode()}.
-     */
-    @Test
-    void testEqualsHashNonEqualTokens() {
-        final TokenIdentity identity1 = new TokenIdentity(
-                "mock identity token");
-        final TokenIdentity identity2 = new TokenIdentity(
-                "different identity token");
-        assertNotEquals(identity1, identity2);
-        assertNotEquals(identity1.hashCode(), identity2.hashCode());
-    }
-
-    /**
-     * Test {@link TokenIdentity#equals(Object)}.
-     */
-    @Test
-    @SuppressWarnings("unlikely-arg-type")
-    void testEqualsEdgeCases() {
-        final TokenIdentity identity1 = new TokenIdentity(
-                "mock identity token");
-        assertFalse(identity1.equals(null));
-        assertFalse(identity1.equals("mock"));
+    void testEqualsHash() {
+        final TokenIdentity identity = new TokenIdentity("mock identity token");
+        final Object nullValue = null;
+        final TokenIdentity sameInstance = identity;
+        final Object wrongType = "mock";
+        final TokenIdentity equal = new TokenIdentity("mock identity token");
+        final TokenIdentity notEqual = new TokenIdentity("different identity token");
+        assertNotEquals(identity, nullValue);
+        assertEquals(identity, sameInstance);
+        assertEquals(identity.hashCode(), sameInstance.hashCode());
+        assertNotEquals(identity, wrongType);
+        assertEquals(identity, equal);
+        assertEquals(identity.hashCode(), equal.hashCode());
+        assertNotEquals(identity, notEqual);
     }
 
     /**
@@ -135,27 +90,11 @@ class IdentityTokenTest {
      */
     @Test
     void testFromToken() {
+        assertNull(TokenIdentity.fromToken(null));
+        assertNull(TokenIdentity.fromToken(""));
         final String identityToken = "mock identity token";
         final TokenIdentity identity = TokenIdentity.fromToken(identityToken);
         assertEquals(identityToken, identity.getIdentityToken());
-    }
-
-    /**
-     * Test {@link TokenIdentity#fromToken(String)}.
-     */
-    @Test
-    void testFromTokenNull() {
-        final TokenIdentity result = TokenIdentity.fromToken(null);
-        assertNull(result);
-    }
-
-    /**
-     * Test {@link TokenIdentity#fromToken(String)}.
-     */
-    @Test
-    void testFromTokenEmpty() {
-        final TokenIdentity result = TokenIdentity.fromToken("");
-        assertNull(result);
     }
 
     /**
