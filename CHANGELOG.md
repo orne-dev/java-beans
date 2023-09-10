@@ -1,4 +1,14 @@
-# :package: 0.4.0
+# :package: 0.5.1
+
+01. :bug: Fixed Apache `beanutils` date-time and time converters.
+    Unexpected `DateTimeFormatter.ISO_INSTANT` behavior change detected when executing test in Java 17.
+    01. Fixed `dev.orne.beans.converters.LocalDateTimeConverter`.
+    01. Fixed `dev.orne.beans.converters.LocalTimeConverter`.
+    01. Fixed `dev.orne.beans.converters.OffsetDateTimeConverter`.
+    01. Fixed `dev.orne.beans.converters.OffsetTimeConverter`.
+    01. Fixed `dev.orne.beans.converters.ZonedDateTimeConverter`.
+
+# :package: 0.5.0
 
 01. :gift: Added utility methods to default `Identity` implementations.
     01. Added `dev.orne.beans.LongIdentity.extractTokenValue(String, String)` method.

@@ -32,6 +32,7 @@ import java.lang.reflect.Method;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
@@ -50,6 +51,24 @@ import dev.orne.beans.IdentityResolver.UnresolvableIdentityException;
  */
 @Tag("ut")
 class IdentityResolverTest {
+
+    /** A sample executable that throws an error if invoked. */
+    static Executable mockExecutable;
+
+    /**
+     * Populates {@link #mockExecutable} with a reference to
+     * {@link #testExecutableMethod()}.
+     * <p>
+     * Used instead of {@link Executable} mocking for tests executed in
+     * Java17+. 
+     */
+    @BeforeAll
+    static void populateMockExecutable()
+    throws NoSuchMethodException {
+        mockExecutable = IdentityResolverTest.class.getDeclaredMethod(
+                "testExecutableMethod",
+                String.class);
+    }
 
     /**
      * Test {@link IdentityResolver#getInstance()}.
@@ -233,33 +252,6 @@ class IdentityResolverTest {
         assertNotNull(result);
         assertNotNull(result.getCause());
         assertSame(mockGetResolverResult, result.getCause());
-    }
-
-    /**
-     * Test {@link IdentityResolver#resolve(String, Class)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testResolveTokenUnknownExecutableType()
-    throws Throwable {
-        final IdentityResolver instance = spy(createInstance());
-        final Cache mockCache = mock(Cache.class);
-        instance.setCache(mockCache);
-        final String mockToken = "mock token";
-        final Class<? extends Identity> mockTargetType = mock(Identity.class).getClass();
-        final Executable mockResolver = mock(Executable.class);
-        willReturn(mockResolver).given(instance).getResolver(mockTargetType);
-        final UnrecognizedIdentityTokenException result =
-                assertThrows(UnrecognizedIdentityTokenException.class, () -> {
-            instance.resolve(mockToken, mockTargetType);
-        });
-        then(mockCache).shouldHaveNoInteractions();
-        then(instance).should().getResolver(mockTargetType);
-        then(instance).should(never()).findTokenResolverMethod(mockTargetType);
-        then(instance).should(never()).findTokenConstructor(mockTargetType);
-        assertNotNull(result);
-        assertNotNull(result.getCause());
-        assertTrue(result.getCause() instanceof UnresolvableIdentityException);
     }
 
     /**
@@ -489,15 +481,14 @@ class IdentityResolverTest {
         instance.setCache(mockCache);
         final Class<? extends Identity> mockTargetType =
                 mock(Identity.class).getClass();
-        final Executable expectedResult = mock(Executable.class);
         willReturn(true).given(mockCache).contains(mockTargetType);
-        willReturn(expectedResult).given(mockCache).get(mockTargetType);
+        willReturn(mockExecutable).given(mockCache).get(mockTargetType);
         final Executable result = instance.getResolver(mockTargetType);
         then(instance).should(never()).findTokenResolverMethod(mockTargetType);
         then(instance).should(never()).findTokenConstructor(mockTargetType);
         then(mockCache).should().get(mockTargetType);
         assertNotNull(result);
-        assertSame(expectedResult, result);
+        assertSame(mockExecutable, result);
     }
 
     /**
@@ -860,15 +851,25 @@ class IdentityResolverTest {
      * Tests for {@link IdentityResolver.WeakHashMapCache}.
      */
     @Test
-    public void testWeakHashMapCache() {
+    void testWeakHashMapCache() {
         final WeakHashMapCache cache = new WeakHashMapCache();
         final Class<? extends Identity> key = mock(Identity.class).getClass();
         assertFalse(cache.contains(key));
         assertNull(cache.get(key));
-        final Executable annotations = mock(Executable.class);
-        cache.put(key, annotations);
+        cache.put(key, mockExecutable);
         assertTrue(cache.contains(key));
-        assertSame(annotations, cache.get(key));
+        assertSame(mockExecutable, cache.get(key));
+    }
+
+    /**
+     * Method for mock executable.
+     * 
+     * @param arg The string argument.
+     * @return Will never return.
+     */
+    static Identity testExecutableMethod(
+            final String arg) {
+        throw new AssertionError("No invokations expected");
     }
 
     protected static class TestEmptyIdentity
