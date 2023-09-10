@@ -97,8 +97,8 @@ extends AbstractDateTimeConverter {
      */
     private final void setDefaultParsers() {
         setParsers(
-                DateTimeFormatter.ISO_INSTANT,
                 DateTimeFormatter.ISO_DATE_TIME,
+                DateTimeFormatter.ISO_INSTANT,
                 DateTimeFormatter.ISO_TIME,
                 InstantConverter.EPOCH_MILLIS_PARSER);
     }
