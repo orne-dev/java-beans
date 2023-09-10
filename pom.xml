@@ -10,7 +10,7 @@
 
   <groupId>dev.orne</groupId>
   <artifactId>beans</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.5.1</version>
   <packaging>jar</packaging>
 
   <name>Orne Beans</name>
