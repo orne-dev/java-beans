@@ -127,7 +127,8 @@ class AbstractIdentityTest {
     void testEqualsHashCodeNull()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
-        assertFalse(identity.equals(null));
+        final AbstractIdentity other = null;
+        assertNotEquals(identity, other);
     }
 
     /**
@@ -139,7 +140,7 @@ class AbstractIdentityTest {
     void testEqualsHashCodeSame()
     throws Throwable {
         final AbstractIdentity identity = createInstance();
-        assertTrue(identity.equals(identity));
+        assertEquals(identity, identity);
         assertEquals(identity.hashCode(), identity.hashCode());
     }
 
@@ -153,7 +154,7 @@ class AbstractIdentityTest {
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final AbstractIdentity other = mock(AbstractIdentity.class); 
-        assertFalse(identity.equals(other));
+        assertNotEquals(identity, other);
     }
 
     /**
@@ -166,7 +167,7 @@ class AbstractIdentityTest {
     throws Throwable {
         final AbstractIdentity identity = createInstance();
         final AbstractIdentity other = createCopy(identity);
-        assertTrue(identity.equals(other));
+        assertEquals(identity, other);
         assertEquals(identity.hashCode(), other.hashCode());
     }
 

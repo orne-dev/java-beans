@@ -49,9 +49,10 @@ public final class IdentityTokenFormatter {
     /** Regular expression for valid token body starting characters. */
     public static final String VALID_BODY_STARTING_CHAR_REGEX = "[a-zA-Z0-9]";
     /** Regular expression for valid token body non starting characters. */
-    public static final String VALID_BODY_CHAR_REGEX = "[a-zA-Z0-9_]";
+    public static final String VALID_BODY_CHAR_REGEX = "\\w";
     /** Regular expression for valid Base32 characters. */
     public static final String VALID_B32_CHAR_REGEXP = "[A-Z2-7]";
+
     /** The Base32 encoded identity token body prefix. */
     public static final String B32_ENCODED_BODY_PREFIX = "_";
     /** The Base32 padding character. */
@@ -83,7 +84,7 @@ public final class IdentityTokenFormatter {
                 + NULL_TOKEN + "|"
                 + VALID_UNENCODED_BODY_REGEX + "|"
                 + VALID_BASE32_ENCODED_BODY_REGEX
-            + "*)?";
+            + ")?";
 
     /** Regular expression for valid identity tokens. */
     public static final String VALID_TOKEN_REGEX =

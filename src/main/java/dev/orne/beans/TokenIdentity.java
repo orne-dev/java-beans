@@ -26,6 +26,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -160,12 +161,15 @@ implements Identity {
         public String marshal(
                 final Identity identity) {
             final String result;
-            if (identity == null ||
-                    identity.getIdentityToken() == null ||
-                    identity.getIdentityToken().isEmpty()) {
+            if (identity == null) {
                 result = null;
             } else {
-                result = identity.getIdentityToken();
+                final String token = identity.getIdentityToken();
+                if (StringUtils.isEmpty(token)) {
+                    result = null;
+                } else {
+                    result = identity.getIdentityToken();
+                }
             }
             return result;
         }
