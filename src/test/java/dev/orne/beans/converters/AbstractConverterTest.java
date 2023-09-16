@@ -40,9 +40,17 @@ import org.apache.commons.beanutils.converters.AbstractConverter;
  */
 public abstract class AbstractConverterTest {
 
+    /** The converter to test. */
     protected final AbstractConverter converter;
+    /** The conversion default target type. */
     protected final Class<?> targetType;
 
+    /**
+     * Creates a new instance.
+     * 
+     * @param targetType The conversion default target type.
+     * @param converter The converter to test.
+     */
     public AbstractConverterTest(
             final @NotNull Class<?> targetType,
             final @NotNull AbstractConverter converter) {
@@ -51,6 +59,13 @@ public abstract class AbstractConverterTest {
         this.converter = converter;
     }
 
+    /**
+     * Asserts that the conversion of the specified value fails both
+     * to the default target type, the tested converter default type and an
+     * unsupported type ({@code Exception}).
+     * 
+     * @param value The value to convert.
+     */
     protected void assertFail(
             final Object value) {
         assertFail(this.converter, this.targetType, value);
@@ -58,6 +73,14 @@ public abstract class AbstractConverterTest {
         assertFail(this.converter, Exception.class, value);
     }
 
+    /**
+     * Asserts that the conversion of the specified value to the specified type
+     * fails.
+     * 
+     * @param converter The converter to test.
+     * @param type The conversion target type.
+     * @param value The value to convert.
+     */
     protected void assertFail(
             final @NotNull Converter converter,
             final @NotNull Class<?> type,
@@ -67,6 +90,16 @@ public abstract class AbstractConverterTest {
         });
     }
 
+    /**
+     * Asserts that the conversion of the specified value results in
+     * the specified expected result both for the default target type
+     * and the tested converter default type.
+     * Also asserts that the conversion of the specified value to an
+     * unsupported type ({@code Exception}) fails.
+     * 
+     * @param value The value to convert.
+     * @param expectedResult The expected result.
+     */
     protected void assertSuccess(
             final Object value,
             final Object expectedResult) {
@@ -75,6 +108,16 @@ public abstract class AbstractConverterTest {
         assertFail(this.converter, Exception.class, value);
     }
 
+    /**
+     * Asserts that the conversion to the default target type results in
+     * the specified expected result.
+     * Also asserts that the conversion of the specified value to both
+     * the tested converter default type and an unsupported type
+     * ({@code Exception}) fails.
+     * 
+     * @param value The value to convert.
+     * @param expectedResult The expected result.
+     */
     protected void assertSuccessTyped(
             final Object value,
             final Object expectedResult) {
@@ -83,6 +126,20 @@ public abstract class AbstractConverterTest {
         assertFail(this.converter, Exception.class, value);
     }
 
+    /**
+     * Asserts that the conversion of the specified value results in
+     * the specified expected result both for the default target type
+     * and the tested converter default type.
+     * Also asserts that the conversion of the specified value to an
+     * unsupported type ({@code Exception}) results in the specified default
+     * value.
+     * 
+     * @param converter The converter to test.
+     * @param value The value to convert.
+     * @param expectedResult The expected result.
+     * @param defaultValue The expected result when target type is not
+     * supported.
+     */
     protected void assertSuccess(
             final @NotNull Converter converter,
             final Object value,
@@ -93,6 +150,15 @@ public abstract class AbstractConverterTest {
         assertSuccess(converter, Exception.class, value, defaultValue);
     }
 
+    /**
+     * Asserts that the conversion of the specified value to the specified type
+     * result in the specified result.
+     * 
+     * @param converter The converter to test.
+     * @param type The conversion target type.
+     * @param value The value to convert.
+     * @param expectedResult The expected result.
+     */
     protected void assertSuccess(
             final @NotNull Converter converter,
             final @NotNull Class<?> type,

@@ -4,27 +4,27 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
     <relativePath />
   </parent>
 
-  <groupId>dev.orne</groupId>
   <artifactId>beans</artifactId>
   <version>0.5.2</version>
   <packaging>jar</packaging>
 
   <name>Orne Beans</name>
-  <description>Orne bean manipulation utilities</description>
+  <description>Orne bean development utilities</description>
   <inceptionYear>2020</inceptionYear>
   <url>https://orne-dev.github.io/java-beans/</url>
 
   <licenses>
     <license>
       <name>GNU Lesser General Public License (LGPL) version 3.0</name>
-      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+      <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
+
   <developers>
     <developer>
       <id>wamphiry</id>
@@ -162,6 +162,13 @@
             <groups>it</groups>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <topSiteURL>https://orne-dev.github.io/java-beans/</topSiteURL>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -170,7 +177,7 @@
     <site>
       <id>github</id>
       <name>Github Project Pages</name>
-      <url>${project.scm.connection}</url>
+      <url>${project.url}</url>
     </site>
   </distributionManagement>
 
