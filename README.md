@@ -1,6 +1,6 @@
 # Orne Bean utilities
 
-Provides utilities for implementation and management of POJO Java beans.
+Provides utilities for development of POJO Java beans.
 
 ## Status
 

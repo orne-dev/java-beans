@@ -13,7 +13,7 @@
   <packaging>jar</packaging>
 
   <name>Orne Beans</name>
-  <description>Orne bean manipulation utilities</description>
+  <description>Orne bean development utilities</description>
   <inceptionYear>2020</inceptionYear>
   <url>https://orne-dev.github.io/java-beans/</url>
 
