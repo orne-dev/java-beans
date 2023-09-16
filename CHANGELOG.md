@@ -1,3 +1,5 @@
+# :package: 0.5.2
+
 # :package: 0.5.1
 
 01. :bug: Fixed Apache `beanutils` date-time and time converters.

@@ -4,7 +4,7 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.3-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -162,6 +162,13 @@
             <groups>it</groups>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <topSiteURL>https://orne-dev.github.io/java-beans/</topSiteURL>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -170,7 +177,7 @@
     <site>
       <id>github</id>
       <name>Github Project Pages</name>
-      <url>${project.scm.connection}</url>
+      <url>${project.url}</url>
     </site>
   </distributionManagement>
 
