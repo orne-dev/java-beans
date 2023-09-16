@@ -4,7 +4,7 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.5.3</version>
+    <version>0.6.0</version>
     <relativePath />
   </parent>
 
@@ -33,13 +33,6 @@
     </developer>
   </developers>
 
-  <scm>
-    <url>https://github.com/orne-dev/java-beans/tree/master</url>
-    <connection>scm:git:git://github.com/orne-dev/java-beans.git</connection>
-    <developerConnection>scm:git:ssh://github.com:orne-dev/java-beans.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-
   <properties>
     <java.version>8</java.version>
     <java.module.name>dev.orne.beans</java.module.name>
@@ -57,6 +50,7 @@
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
 
+    <github.project.id>java-beans</github.project.id>
     <sonar.projectKey>orne-dev_java-beans</sonar.projectKey>
   </properties>
 
@@ -162,17 +156,15 @@
             <groups>it</groups>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <configuration>
-            <topSiteURL>https://orne-dev.github.io/java-beans/</topSiteURL>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
   </build>
 
+  <scm>
+    <connection>${github.scm.connection}</connection>
+    <developerConnection>${github.scm.connection.dev}</developerConnection>
+    <url>${github.scm.url}</url>
+  </scm>
   <distributionManagement>
     <site>
       <id>github</id>
