@@ -1,8 +1,10 @@
 # :package: 0.5.2
 
+01. :beetle: Fixed issue in identity token validation regular expression.
+
 # :package: 0.5.1
 
-01. :bug: Fixed Apache `beanutils` date-time and time converters.
+01. :beetle: Fixed Apache `beanutils` date-time and time converters.
     Unexpected `DateTimeFormatter.ISO_INSTANT` behavior change detected when executing test in Java 17.
     01. Fixed `dev.orne.beans.converters.LocalDateTimeConverter`.
     01. Fixed `dev.orne.beans.converters.LocalTimeConverter`.
@@ -27,13 +29,13 @@
     Extends `IllegalArgumentException` now.
 01. :gift: Improved Apache `beanutils` enumerations converter
     01. :boom: Removed generic nature of `EnumConverter` and exposed as singleton instance
-    01. :gift: Added class `dev.orne.beans.converters.EnumTypedConverter`
-        01. :gift: Added to method `OrneBeansConverters.registerBeansConversors(ConvertUtilsBean, ...)`
-    01. :gift: Added class `dev.orne.beans.converters.EnumConvertUtilsBean`
+    01. Added class `dev.orne.beans.converters.EnumTypedConverter`
+        01. Added to method `OrneBeansConverters.registerBeansConversors(ConvertUtilsBean, ...)`
+    01. Added class `dev.orne.beans.converters.EnumConvertUtilsBean`
         Extends `org.apache.commons.beanutils.ConvertUtilsBean` but lookups for
         converter for `Enum` if no converter is found for concrete enumeration
         type.
-    01. :gift: Added class `dev.orne.beans.converters.EnumConvertUtilsBean2`
+    01. Added class `dev.orne.beans.converters.EnumConvertUtilsBean2`
         Extends `org.apache.commons.beanutils.ConvertUtilsBean2` but lookups for
         converter for `Enum` if no converter is found for concrete enumeration
         type.
@@ -44,33 +46,33 @@
 # :package: 0.3.0
 
 01. :gift: Added interface `dev.orne.beans.WritableIdentityBean`
-01. Improved class `BaseIdentityBean`
-    01. :gift: Implements `WritableIdentityBean`
+01. :gift: Improved class `BaseIdentityBean`
+    01. Implements `WritableIdentityBean`
 01. :gift: Added Apache `beanutils` converters
-    01. :gift: Added class `dev.orne.beans.converters.DateConverter`
-        01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
-    01. :gift: Added class `dev.orne.beans.converters.GregorianCalendarConverter`
-        01. :gift: Added to methods `OrneBeansConverters.registerUtilConversors(...)`
-    01. :gift: Added class `dev.orne.beans.converters.UriConverter`
-        01. :gift: Added to methods `OrneBeansConverters.registerNetConversors(...)`
-    01. :gift: Added class `dev.orne.beans.converters.IdentityBeanConverter`
+    01. Added class `dev.orne.beans.converters.DateConverter`
+        01. Added to methods `OrneBeansConverters.registerUtilConversors(...)`
+    01. Added class `dev.orne.beans.converters.GregorianCalendarConverter`
+        01. Added to methods `OrneBeansConverters.registerUtilConversors(...)`
+    01. Added class `dev.orne.beans.converters.UriConverter`
+        01. Added to methods `OrneBeansConverters.registerNetConversors(...)`
+    01. Added class `dev.orne.beans.converters.IdentityBeanConverter`
 01. :gift: Added methods `registerNetConversors` to `dev.orne.beans.converters.OrneBeansConverters`
 
 # :package: 0.2.0
 
-01. Improved class `AbstractIdentity`
-    01. :gift: Method `toString` returns identity token
-    01. :gift: Generated identity token is cached
-01. Improved class `AbstractSimpleIdentity`
-    01. :gift: Added copy constructor
-    01. :gift: Implemented `hashCode` and `equals`
-01. Improved class `StringIdentity`
-    01. :gift: Added copy constructor
-01. Improved class `LongIdentity`
-    01. :gift: Added copy constructor
-01. Improved class `BigIntegerIdentity`
-    01. :gift: Added copy constructor
-01. Improved class `BeanValidationUtils`
+01. :gift: Improved class `AbstractIdentity`
+    01. Method `toString` returns identity token
+    01. Generated identity token is cached
+01. :gift: Improved class `AbstractSimpleIdentity`
+    01. Added copy constructor
+    01. Implemented `hashCode` and `equals`
+01. :gift: Improved class `StringIdentity`
+    01. Added copy constructor
+01. :gift: Improved class `LongIdentity`
+    01. Added copy constructor
+01. :gift: Improved class `BigIntegerIdentity`
+    01. Added copy constructor
+01. :gift: Improved class `BeanValidationUtils`
     01. Added method `isValidBeanIdentity`
     01. Added method `isValidBeanReference`
 01. :gift: Added class `dev.orne.beans.BaseIdentityBean`
@@ -100,23 +102,23 @@
 01. :gift: Added class `dev.orne.beans.BeanValidationUtils`
 01. :gift: Added class `dev.orne.beans.BeanAnnotationFinder`
 01. :gift: Added Apache `beanutils` converters
-    01. :gift: Added class `dev.orne.beans.converters.OrneBeansConverters`
-    01. :gift: Added class `dev.orne.beans.converters.EnumConverter`
-    01. :gift: Added class `dev.orne.beans.converters.LocaleConverter`
-    01. :gift: Added class `dev.orne.beans.converters.IdentityConverter`
-    01. :gift: Added class `dev.orne.beans.converters.AbstractDateTimeConverter`
-    01. :gift: Added class `dev.orne.beans.converters.InstantConverter`
-    01. :gift: Added class `dev.orne.beans.converters.DayOfWeekConverter`
-    01. :gift: Added class `dev.orne.beans.converters.LocalDateConverter`
-    01. :gift: Added class `dev.orne.beans.converters.LocalDateTimeConverter`
-    01. :gift: Added class `dev.orne.beans.converters.LocalTimeConverter`
-    01. :gift: Added class `dev.orne.beans.converters.MonthConverter`
-    01. :gift: Added class `dev.orne.beans.converters.MonthDayConverter`
-    01. :gift: Added class `dev.orne.beans.converters.OffsetDateTimeConverter`
-    01. :gift: Added class `dev.orne.beans.converters.OffsetTimeConverter`
-    01. :gift: Added class `dev.orne.beans.converters.YearConverter`
-    01. :gift: Added class `dev.orne.beans.converters.YearMonthConverter`
-    01. :gift: Added class `dev.orne.beans.converters.ZonedDateTimeConverter`
-    01. :gift: Added class `dev.orne.beans.converters.ZoneOffsetConverter`
-    01. :gift: Added class `dev.orne.beans.converters.DurationConverter`
-    01. :gift: Added class `dev.orne.beans.converters.PeriodConverter`
+    01. Added class `dev.orne.beans.converters.OrneBeansConverters`
+    01. Added class `dev.orne.beans.converters.EnumConverter`
+    01. Added class `dev.orne.beans.converters.LocaleConverter`
+    01. Added class `dev.orne.beans.converters.IdentityConverter`
+    01. Added class `dev.orne.beans.converters.AbstractDateTimeConverter`
+    01. Added class `dev.orne.beans.converters.InstantConverter`
+    01. Added class `dev.orne.beans.converters.DayOfWeekConverter`
+    01. Added class `dev.orne.beans.converters.LocalDateConverter`
+    01. Added class `dev.orne.beans.converters.LocalDateTimeConverter`
+    01. Added class `dev.orne.beans.converters.LocalTimeConverter`
+    01. Added class `dev.orne.beans.converters.MonthConverter`
+    01. Added class `dev.orne.beans.converters.MonthDayConverter`
+    01. Added class `dev.orne.beans.converters.OffsetDateTimeConverter`
+    01. Added class `dev.orne.beans.converters.OffsetTimeConverter`
+    01. Added class `dev.orne.beans.converters.YearConverter`
+    01. Added class `dev.orne.beans.converters.YearMonthConverter`
+    01. Added class `dev.orne.beans.converters.ZonedDateTimeConverter`
+    01. Added class `dev.orne.beans.converters.ZoneOffsetConverter`
+    01. Added class `dev.orne.beans.converters.DurationConverter`
+    01. Added class `dev.orne.beans.converters.PeriodConverter`
