@@ -24,12 +24,11 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Random;
-
-import javax.validation.constraints.NotNull;
-
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Unit tests for {@code IdentityTokenFormatter}.
@@ -42,28 +41,25 @@ import org.junit.jupiter.api.Test;
 @Tag("ut")
 class IdentityTokenFormatterTest {
 
-    /** The random value generator. */
-    private static final Random RND = new Random();
-
-    /**
-     * Generates a random {@code String}.
-     * 
-     * @return a random {@code String}.
-     */
-    protected @NotNull String randomValue() {
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        return new String(bodyBytes);
-    }
-
     /**
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
-    @Test
-    void testEncodeBodyNull() {
-        final String body = null;
+    @ParameterizedTest
+    @CsvSource({
+        "," + IdentityTokenFormatter.NULL_TOKEN,
+        "ThisIsAValidBody,ThisIsAValidBody",
+        ".," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FY",
+        ".a," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQQ",
+        ".aa," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWC",
+        ".aaa," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYI",
+        ".aaaa," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYLB",
+        "4455456057.5454861231321357," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "GQ2DKNJUGU3DANJXFY2TINJUHA3DCMRTGEZTEMJTGU3Q",
+    })
+    void testEncodeBody(
+            final String body,
+            final String expectedResult) {
         final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(IdentityTokenFormatter.NULL_TOKEN, result);
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -80,96 +76,11 @@ class IdentityTokenFormatterTest {
      * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      */
     @Test
-    void testEncodeBodyValid() {
-        final String body = "ThisIsAValidBody";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(body, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBodyB32Length1() {
-        final String body = ".";
-        final String expectedResult =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FY";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBodyB32Length2() {
-        final String body = ".a";
-        final String expectedResult =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQQ";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBodyB32Length3() {
-        final String body = ".aa";
-        final String expectedResult =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQWC";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBodyB32Length4() {
-        final String body = ".aaa";
-        final String expectedResult =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQWCYI";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBodyB32Length5() {
-        final String body = ".aaaa";
-        final String expectedResult =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQWCYLB";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBodyDecimal() {
-        final String body = "4455456057.5454861231321357";
-        final String expectedResult =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "GQ2DKNJUGU3DANJXFY2TINJUHA3DCMRTGEZTEMJTGU3Q";
-        final String result = IdentityTokenFormatter.encodeBody(body);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     */
-    @Test
-    void testEncodeBody() {
-        final String body = randomValue();
+    void testEncodeInvalidBody() {
+        String body = RandomStringUtils.random(20);
+        while (body.matches(IdentityTokenFormatter.VALID_UNENCODED_BODY_REGEX)) {
+            body = RandomStringUtils.random(20);
+        }
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertNotNull(result);
         assertTrue(result.startsWith(
@@ -181,7 +92,7 @@ class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    void testDecodeBodyNullEncodedBody()
+    void testDecodeBodyNull()
     throws Throwable {
         assertThrows(NullPointerException.class, () -> {
             IdentityTokenFormatter.decodeBody(null);
@@ -193,7 +104,7 @@ class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    void testDecodeBodyInvalidEncodedBody()
+    void testDecodeBodyInvalid()
     throws Throwable {
         assertThrows(UnrecognizedIdentityTokenException.class, () -> {
             IdentityTokenFormatter.decodeBody("invalid body");
@@ -201,15 +112,26 @@ class IdentityTokenFormatterTest {
     }
 
     /**
-     * Test {@link IdentityTokenFormatter#decodeBody(String)}.
+     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
      * @throws Throwable Should not happen
      */
-    @Test
-    void testDecodeBodyNull()
+    @ParameterizedTest
+    @CsvSource({
+        IdentityTokenFormatter.NULL_TOKEN + ",",
+        "ThisIsAValidBody,ThisIsAValidBody",
+        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FY" + ",.",
+        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQQ" + ",.a",
+        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWC" + ",.aa",
+        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYI" + ",.aaa",
+        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYLB" + ",.aaaa",
+        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "GQ2DKNJUGU3DANJXFY2TINJUHA3DCMRTGEZTEMJTGU3Q" + ",4455456057.5454861231321357",
+    })
+    void testDecodeBody(
+            final String body,
+            final String expectedResult)
     throws Throwable {
-        final String result = IdentityTokenFormatter.decodeBody(
-                IdentityTokenFormatter.NULL_TOKEN);
-        assertNull(result);
+        final String result = IdentityTokenFormatter.decodeBody(body);
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -229,111 +151,12 @@ class IdentityTokenFormatterTest {
      * @throws Throwable Should not happen
      */
     @Test
-    void testDecodeBodyValid()
+    void testDecodeEncodedBody()
     throws Throwable {
-        final String body = "ThisIsAValidBody";
-        final String result = IdentityTokenFormatter.decodeBody(body);
-        assertEquals(body, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBodyB32Length1()
-    throws Throwable {
-        final String expectedResult = ".";
-        final String encoded =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FY";
-        final String result = IdentityTokenFormatter.decodeBody(encoded);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBodyB32Length2()
-    throws Throwable {
-        final String expectedResult = ".a";
-        final String encoded =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQQ";
-        final String result = IdentityTokenFormatter.decodeBody(encoded);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBodyB32Length3()
-    throws Throwable {
-        final String expectedResult = ".aa";
-        final String encoded =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQWC";
-        final String result = IdentityTokenFormatter.decodeBody(encoded);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBodyB32Length4()
-    throws Throwable {
-        final String expectedResult = ".aaa";
-        final String encoded =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQWCYI";
-        final String result = IdentityTokenFormatter.decodeBody(encoded);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBodyB32Length5()
-    throws Throwable {
-        final String expectedResult = ".aaaa";
-        final String encoded =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "FZQWCYLB";
-        final String result = IdentityTokenFormatter.decodeBody(encoded);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBodyDecimal()
-    throws Throwable {
-        final String expectedResult = "4455456057.5454861231321357";
-        final String encoded =
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX +
-                "GQ2DKNJUGU3DANJXFY2TINJUHA3DCMRTGEZTEMJTGU3Q";
-        final String result = IdentityTokenFormatter.decodeBody(encoded);
-        assertEquals(expectedResult, result);
-    }
-
-    /**
-     * Test {@link IdentityTokenFormatter#encodeBody(String)}.
-     * @throws Throwable Should not happen
-     */
-    @Test
-    void testDecodeBody()
-    throws Throwable {
-        final String body = randomValue();
+        String body = RandomStringUtils.random(20);
+        while (body.matches(IdentityTokenFormatter.VALID_UNENCODED_BODY_REGEX)) {
+            body = RandomStringUtils.random(20);
+        }
         final String encoded = IdentityTokenFormatter.encodeBody(body);
         final String result = IdentityTokenFormatter.decodeBody(encoded);
         assertNotNull(result);
@@ -345,7 +168,7 @@ class IdentityTokenFormatterTest {
      */
     @Test
     void testFormat() {
-        final String body = randomValue();
+        final String body = RandomStringUtils.random(20);
         final String expectedResult =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -382,7 +205,7 @@ class IdentityTokenFormatterTest {
     @Test
     void testFormatPrefix() {
         final String prefix = "CustomPrefix";
-        final String body = randomValue();
+        final String body = RandomStringUtils.random(20);
         final String expectedResult =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);
@@ -422,7 +245,7 @@ class IdentityTokenFormatterTest {
     @Test
     void testParse()
     throws Throwable {
-        final String body = randomValue();
+        final String body = RandomStringUtils.random(20);
         final String token =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -499,7 +322,7 @@ class IdentityTokenFormatterTest {
     void testParsePrefix()
             throws Throwable  {
         final String prefix = "CustomPrefix";
-        final String body = randomValue();
+        final String body = RandomStringUtils.random(20);
         final String token =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);

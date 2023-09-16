@@ -86,7 +86,8 @@ class BaseIdentityBeanTest {
     void testEqualsHashCodeNull()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
-        assertFalse(bean.equals(null));
+        final Object other = null;
+        assertNotEquals(bean, other);
     }
 
     /**
@@ -98,7 +99,7 @@ class BaseIdentityBeanTest {
     void testEqualsHashCodeSame()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
-        assertTrue(bean.equals(bean));
+        assertEquals(bean, bean);
         assertEquals(bean.hashCode(), bean.hashCode());
     }
 
@@ -112,7 +113,7 @@ class BaseIdentityBeanTest {
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
         final BaseIdentityBean other = mock(BaseIdentityBean.class); 
-        assertFalse(bean.equals(other));
+        assertNotEquals(bean, other);
     }
 
     /**
@@ -125,7 +126,7 @@ class BaseIdentityBeanTest {
     throws Throwable {
         final BaseIdentityBean identity = createInstance();
         final BaseIdentityBean other = createCopy(identity);
-        assertTrue(identity.equals(other));
+        assertEquals(identity, other);
         assertEquals(identity.hashCode(), other.hashCode());
     }
 

@@ -635,7 +635,9 @@ class BeanAnnotationFinderTest {
     void testCacheEntryKey() {
         final CacheEntryKey<TestAnnotation> key =
                 new CacheEntryKey<>(TestBean.class, TestAnnotation.class);
+        final Object nullValue = null;
         final Object differentClass = new Object();
+        final CacheEntryKey<TestAnnotation> sameKey = key;
         final CacheEntryKey<TestAnnotation> equalKey =
                 new CacheEntryKey<>(TestBean.class, TestAnnotation.class);
         final CacheEntryKey<TestAnnotation> differentType =
@@ -645,16 +647,16 @@ class BeanAnnotationFinderTest {
         assertSame(TestBean.class, key.getType());
         assertSame(TestAnnotation.class, key.getAnnotationType());
         assertNotNull(key.toString());
-        assertFalse(key.equals(null));
-        assertFalse(key.equals(differentClass));
+        assertNotEquals(key, nullValue);
+        assertNotEquals(key, differentClass);
         assertNotEquals(key.hashCode(), differentClass.hashCode());
-        assertFalse(key.equals(differentType));
+        assertNotEquals(key, differentType);
         assertNotEquals(key.hashCode(), differentType.hashCode());
-        assertFalse(key.equals(differentAnnotationType));
+        assertNotEquals(key, differentAnnotationType);
         assertNotEquals(key.hashCode(), differentAnnotationType.hashCode());
-        assertTrue(key.equals(key));
+        assertEquals(key, sameKey);
         assertEquals(key.hashCode(), key.hashCode());
-        assertTrue(key.equals(equalKey));
+        assertEquals(key, equalKey);
         assertEquals(key.hashCode(), equalKey.hashCode());
     }
 
