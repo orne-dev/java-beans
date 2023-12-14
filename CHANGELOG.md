@@ -1,8 +1,8 @@
-# :package: 0.5.2
+# :package: 0.5.2 (2023-09-16)
 
 01. :beetle: Fixed issue in identity token validation regular expression.
 
-# :package: 0.5.1
+# :package: 0.5.1 (2023-09-10)
 
 01. :beetle: Fixed Apache `beanutils` date-time and time converters.
     Unexpected `DateTimeFormatter.ISO_INSTANT` behavior change detected when executing test in Java 17.
@@ -12,7 +12,7 @@
     01. Fixed `dev.orne.beans.converters.OffsetTimeConverter`.
     01. Fixed `dev.orne.beans.converters.ZonedDateTimeConverter`.
 
-# :package: 0.5.0
+# :package: 0.5.0 (2023-09-09)
 
 01. :gift: Added utility methods to default `Identity` implementations.
     01. Added `dev.orne.beans.LongIdentity.extractTokenValue(String, String)` method.
@@ -23,7 +23,7 @@
     01. Added `dev.orne.beans.StringIdentity.extractRequiredTokenValue(String, String)` method.
 01. :gift: Added class `dev.orne.beans.AbstractComposedIdentity`.
 
-# :package: 0.4.0
+# :package: 0.4.0 (2022-10-12)
 
 01. :boom: Changed `dev.orne.beans.UnrecognizedIdentityTokenException` hierarchy.
     Extends `IllegalArgumentException` now.
@@ -43,7 +43,7 @@
     01. Added class `dev.orne.beans.ValidIdentity.ValidIdentityValidator`
     01. Added class `dev.orne.beans.ValidIdentity.ValidIdentityValidatorForString`
 
-# :package: 0.3.0
+# :package: 0.3.0 (2021-02-07)
 
 01. :gift: Added interface `dev.orne.beans.WritableIdentityBean`
 01. :gift: Improved class `BaseIdentityBean`
@@ -58,7 +58,7 @@
     01. Added class `dev.orne.beans.converters.IdentityBeanConverter`
 01. :gift: Added methods `registerNetConversors` to `dev.orne.beans.converters.OrneBeansConverters`
 
-# :package: 0.2.0
+# :package: 0.2.0 (2020-08-14)
 
 01. :gift: Improved class `AbstractIdentity`
     01. Method `toString` returns identity token
@@ -78,7 +78,7 @@
 01. :gift: Added class `dev.orne.beans.BaseIdentityBean`
 01. :gift: Overloaded `OrneBeansConverters` methods with parameter `defaultToNull`
 
-# :package: 0.1.0
+# :package: 0.1.0 (2020-05-17)
 
 01. :gift: Added exception `dev.orne.beans.UnrecognizedIdentityTokenException`
 01. :gift: Added class `dev.orne.beans.IdentityTokenFormatter`
