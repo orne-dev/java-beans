@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,13 +25,14 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import dev.orne.test.rnd.Generators;
 
 /**
  * Integration tests for {@code ValidIdentityToken}.
@@ -43,9 +44,6 @@ import org.junit.jupiter.api.Test;
  */
 @Tag("it")
 class ValidIdentityTokenIT {
-
-    /** The random values generator. */
-    private static final Random RND = new Random();
 
     private static final String ERR_MANY_MSG = "Failed expectation for tokens #%d and #%d";
 
@@ -155,9 +153,7 @@ class ValidIdentityTokenIT {
     @Test
     void testValidTokenValidation() {
         final String prefix = "CustomPrefix";
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
+        final String body = Generators.randomValue(String.class);
         final String token =
                 IdentityTokenFormatter.format(prefix, body);
         final TestContainer nullableContainer = new TestContainer();

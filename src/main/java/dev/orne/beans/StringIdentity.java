@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,6 +23,8 @@ package dev.orne.beans;
  */
 
 import javax.validation.constraints.NotNull;
+
+import dev.orne.test.rnd.GeneratorMethod;
 
 /**
  * Implementation for {@code Identity} for identities composed
@@ -43,6 +45,7 @@ extends AbstractSimpleIdentity<String> {
      * 
      * @param value The identity value
      */
+    @GeneratorMethod
     public StringIdentity(
             final String value) {
         super(value);

@@ -1,3 +1,7 @@
+# :package: 0.6.0
+
+01. :gift: Added `orne-generators` support for identities and identity beans.
+
 # :package: 0.5.2 (2023-09-16)
 
 01. :beetle: Fixed issue in identity token validation regular expression.

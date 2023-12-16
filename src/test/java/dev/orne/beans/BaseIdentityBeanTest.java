@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,16 +25,25 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.stream.Stream;
+
 import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import dev.orne.test.rnd.Generators;
 
 /**
  * Unit tests for {@code BaseIdentityBean}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 1.2, 2023-12
  * @since 0.1
  * @see BaseIdentityBean
  */
@@ -142,5 +151,100 @@ class BaseIdentityBeanTest {
         bean.setIdentity(identity);
         final String result = bean.toString();
         assertNotNull(result);
+    }
+
+    /**
+     * Test for default {@link IdentityBean} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testIdentityBeanGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(IdentityBean.class));
+        assertNull(Generators.nullableDefaultValue(IdentityBean.class));
+        IdentityBean result = Generators.defaultValue(IdentityBean.class);
+        assertNotNull(result);
+        assertEquals(BaseIdentityBean.class, result.getClass());
+        assertNull(result.getIdentity());
+    }
+
+    /**
+     * Test for default {@link WritableIdentityBean} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testWritableIdentityBeanGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(WritableIdentityBean.class));
+        assertNull(Generators.nullableDefaultValue(WritableIdentityBean.class));
+        WritableIdentityBean result = Generators.defaultValue(WritableIdentityBean.class);
+        assertNotNull(result);
+        assertEquals(BaseIdentityBean.class, result.getClass());
+        assertNull(result.getIdentity());
+    }
+
+    /**
+     * Test for default {@link BaseIdentityBean} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testTokenIdentityGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(BaseIdentityBean.class));
+        assertNull(Generators.nullableDefaultValue(BaseIdentityBean.class));
+        BaseIdentityBean result = Generators.defaultValue(BaseIdentityBean.class);
+        assertNotNull(result);
+        assertEquals(BaseIdentityBean.class, result.getClass());
+        assertNull(result.getIdentity());
+    }
+
+    /**
+     * Test for random {Identity BaseIdentityBean} generation.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @MethodSource("testIdentityRandomGeneration")
+    void testIdentityRandomGeneration(
+            final Class<? extends IdentityBean> type, 
+            final boolean nullable)
+    throws Throwable {
+        final HashSet<BaseIdentityBean> results = new HashSet<>();
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+            boolean nullValues = false;
+            boolean nullIndentities = false;
+            boolean nonNullIndentities = false;
+            while (results.size() < 100 || (nullable && !nullValues) || !nullIndentities || !nonNullIndentities) {
+                final IdentityBean result;
+                if (nullable) {
+                    result = Generators.nullableRandomValue(type);
+                } else {
+                    result = Generators.randomValue(type);
+                }
+                if (result == null) {
+                    nullValues = true;
+                } else {
+                    assertEquals(BaseIdentityBean.class, result.getClass());
+                    if (result.getIdentity() == null) {
+                        nullIndentities = true;
+                    } else {
+                        nonNullIndentities = true;
+                    }
+                    results.add((BaseIdentityBean) result);
+                }
+            }
+            assertTrue(!nullable || nullValues);
+        });
+        assertTrue(results.size() >= 100);
+    }
+
+    private static Stream<Arguments> testIdentityRandomGeneration() {
+        return Stream.of(
+                Arguments.of(IdentityBean.class, false),
+                Arguments.of(WritableIdentityBean.class, false),
+                Arguments.of(BaseIdentityBean.class, false),
+                Arguments.of(IdentityBean.class, true),
+                Arguments.of(WritableIdentityBean.class, true),
+                Arguments.of(BaseIdentityBean.class, true)
+        );
     }
 }

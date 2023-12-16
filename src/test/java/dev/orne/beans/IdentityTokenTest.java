@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,14 +25,23 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import dev.orne.test.rnd.Generators;
 
 /**
  * Unit tests for {@code IdentityToken}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 1.1, 2023-12
  * @since 0.1
  * @see IdentityToken
  */
@@ -133,5 +142,79 @@ class IdentityTokenTest {
         assertNull(adapter.marshal(emptyIdentity));
         assertEquals(identityToken, adapter.marshal(identity));
         assertEquals(identityToken, adapter.marshal(tokenIdentity));
+    }
+
+    /**
+     * Test for default {@link Identity} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testIdentityGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(Identity.class));
+        assertNull(Generators.nullableDefaultValue(Identity.class));
+        Identity result = Generators.defaultValue(Identity.class);
+        assertNotNull(result);
+        assertEquals(TokenIdentity.class, result.getClass());
+        final String body = assertDoesNotThrow(() -> IdentityTokenFormatter.parse(result.getIdentityToken()));
+        assertNull(body);
+    }
+
+    /**
+     * Test for default {@link TokenIdentity} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testTokenIdentityGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(TokenIdentity.class));
+        assertNull(Generators.nullableDefaultValue(TokenIdentity.class));
+        TokenIdentity result = Generators.defaultValue(TokenIdentity.class);
+        assertNotNull(result);
+        assertEquals(TokenIdentity.class, result.getClass());
+        final String body = assertDoesNotThrow(() -> IdentityTokenFormatter.parse(result.getIdentityToken()));
+        assertNull(body);
+    }
+
+    /**
+     * Test for random {Identity StringIdentity} generation.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @MethodSource("testIdentityRandomGeneration")
+    void testIdentityRandomGeneration(
+            final Class<? extends Identity> type, 
+            final boolean nullable)
+    throws Throwable {
+        final HashSet<TokenIdentity> results = new HashSet<>();
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+            boolean nullValues = false;
+            while (results.size() < 100 || (nullable && !nullValues)) {
+                final Identity result;
+                if (nullable) {
+                    result = Generators.nullableRandomValue(type);
+                } else {
+                    result = Generators.randomValue(type);
+                }
+                if (result == null) {
+                    nullValues = true;
+                } else {
+                    assertEquals(TokenIdentity.class, result.getClass());
+                    result.getIdentityToken().matches(IdentityTokenFormatter.VALID_TOKEN_REGEX);
+                    results.add((TokenIdentity) result);
+                }
+            }
+            assertTrue(!nullable || nullValues);
+        });
+        assertTrue(results.size() >= 100);
+    }
+
+    private static Stream<Arguments> testIdentityRandomGeneration() {
+        return Stream.of(
+                Arguments.of(Identity.class, false),
+                Arguments.of(TokenIdentity.class, false),
+                Arguments.of(Identity.class, true),
+                Arguments.of(TokenIdentity.class, true)
+        );
     }
 }
