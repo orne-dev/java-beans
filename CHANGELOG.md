@@ -1,5 +1,6 @@
 # :package: 0.6.0
 
+01. :gift: Added SPI based Jackson type ID resolver.
 01. :gift: Added `orne-generators` support for identities and identity beans.
 
 # :package: 0.5.2 (2023-09-16)
