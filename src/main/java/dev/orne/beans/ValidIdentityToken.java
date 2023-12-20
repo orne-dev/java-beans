@@ -55,7 +55,7 @@ import javax.validation.constraints.Pattern;
 )
 @Documented
 @Constraint(validatedBy = {})
-@Pattern(regexp = IdentityTokenFormatter.VALID_TOKEN_REGEX)
+@Pattern(regexp = IdentityTokenFormatter.TOKEN)
 @ReportAsSingleViolation
 public @interface ValidIdentityToken {
 

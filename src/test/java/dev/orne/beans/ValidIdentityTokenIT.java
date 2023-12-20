@@ -110,7 +110,7 @@ class ValidIdentityTokenIT {
      */
     @Test
     void testValidTokenValidationNullBody() {
-        final String token = "ID" + IdentityTokenFormatter.NULL_TOKEN;
+        final String token = "ID" + IdentityTokenFormatter.NULL_BODY;
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
         assertTrue(BeanValidationUtils.isValid(nullableContainer));

@@ -135,7 +135,7 @@ extends AbstractIdentityTest {
                 new String[] {},
                 AbstractComposedIdentity.extractTokenBodyParts(
                     prefix,
-                    prefix + IdentityTokenFormatter.NULL_TOKEN));
+                    prefix + IdentityTokenFormatter.NULL_BODY));
         assertArrayEquals(
                 new String[] { "" },
                 AbstractComposedIdentity.extractTokenBodyParts(
@@ -202,7 +202,7 @@ extends AbstractIdentityTest {
                 new String[] {},
                 AbstractComposedIdentity.extractTokenBodyParts(
                     prefix,
-                    prefix + IdentityTokenFormatter.NULL_TOKEN,
+                    prefix + IdentityTokenFormatter.NULL_BODY,
                     separator));
         assertArrayEquals(
                 new String[] { "" },
@@ -284,7 +284,7 @@ extends AbstractIdentityTest {
                 new String[] {},
                 AbstractComposedIdentity.extractTokenBodyParts(
                     prefix,
-                    prefix + IdentityTokenFormatter.NULL_TOKEN,
+                    prefix + IdentityTokenFormatter.NULL_BODY,
                     separator,
                     nullPlaceholder));
         assertArrayEquals(
@@ -370,7 +370,7 @@ extends AbstractIdentityTest {
                 new String[] {},
                 AbstractComposedIdentity.extractRequiredTokenBodyParts(
                     prefix,
-                    prefix + IdentityTokenFormatter.NULL_TOKEN,
+                    prefix + IdentityTokenFormatter.NULL_BODY,
                     0));
         assertArrayEquals(
                 new String[] { "" },
@@ -459,7 +459,7 @@ extends AbstractIdentityTest {
                 new String[] {},
                 AbstractComposedIdentity.extractRequiredTokenBodyParts(
                     prefix,
-                    prefix + IdentityTokenFormatter.NULL_TOKEN,
+                    prefix + IdentityTokenFormatter.NULL_BODY,
                     separator,
                     0));
         assertArrayEquals(
@@ -567,7 +567,7 @@ extends AbstractIdentityTest {
                 new String[] {},
                 AbstractComposedIdentity.extractRequiredTokenBodyParts(
                     prefix,
-                    prefix + IdentityTokenFormatter.NULL_TOKEN,
+                    prefix + IdentityTokenFormatter.NULL_BODY,
                     separator,
                     nullPlaceholder,
                     0));

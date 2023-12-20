@@ -200,7 +200,7 @@ class IdentityTokenTest {
                     nullValues = true;
                 } else {
                     assertEquals(TokenIdentity.class, result.getClass());
-                    result.getIdentityToken().matches(IdentityTokenFormatter.VALID_TOKEN_REGEX);
+                    result.getIdentityToken().matches(IdentityTokenFormatter.TOKEN);
                     results.add((TokenIdentity) result);
                 }
             }

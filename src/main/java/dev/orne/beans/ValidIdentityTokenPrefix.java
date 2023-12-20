@@ -53,7 +53,7 @@ import javax.validation.constraints.Pattern;
 )
 @Documented
 @Constraint(validatedBy = {})
-@Pattern(regexp = IdentityTokenFormatter.VALID_PREFIX_FULL_REGEX)
+@Pattern(regexp = IdentityTokenFormatter.PREFIX)
 @ReportAsSingleViolation
 public @interface ValidIdentityTokenPrefix {
 

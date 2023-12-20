@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020-2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,12 +23,12 @@ package dev.orne.beans;
  */
 
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -36,79 +36,64 @@ import org.apache.commons.lang3.Validate;
  * Formatter and parser of identity tokens.
  * 
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 2.0, 2023-12
  * @since 0.1
  */
 public final class IdentityTokenFormatter {
 
-    /** Null token. */
-    public static final String NULL_TOKEN = "_";
-
-    /** Regular expression for valid token prefix characters. */
-    public static final String VALID_PREFIX_CHAR_REGEX = "[a-zA-Z]";
-    /** Regular expression for valid token body starting characters. */
-    public static final String VALID_BODY_STARTING_CHAR_REGEX = "[a-zA-Z0-9]";
-    /** Regular expression for valid token body non starting characters. */
-    public static final String VALID_BODY_CHAR_REGEX = "\\w";
-    /** Regular expression for valid Base32 characters. */
-    public static final String VALID_B32_CHAR_REGEXP = "[A-Z2-7]";
-
-    /** The Base32 encoded identity token body prefix. */
-    public static final String B32_ENCODED_BODY_PREFIX = "_";
-    /** The Base32 padding character. */
-    public static final char B32_PADDING_CHAR = '=';
-
-    /** Regular expression for valid identity token prefixes. */
-    public static final String VALID_PREFIX_REGEX =
-            VALID_PREFIX_CHAR_REGEX + "+";
-    /** Regular expression for valid identity token prefix strings. */
-    public static final String VALID_PREFIX_FULL_REGEX =
-            "^" + VALID_PREFIX_CHAR_REGEX + "+$";
+    /** Regular expression for valid token characters. */
+    public static final String TOKEN_CHAR = "[\\w-]";
+    /** Regular expression for valid token prefix strings. */
+    public static final String PREFIX =  "^" + TOKEN_CHAR + "*$";
+    /** Regular expression for valid unencoded body starting character. */
+    public static final String UNENCODED_BODY_STARTING_CHAR = "[a-zA-Z0-9-]";
     /** Regular expression for valid identity token unencoded bodies. */
-    public static final String VALID_UNENCODED_BODY_REGEX =
-            VALID_BODY_STARTING_CHAR_REGEX + VALID_BODY_CHAR_REGEX + "*";
+    public static final String UNENCODED_BODY =
+            UNENCODED_BODY_STARTING_CHAR + TOKEN_CHAR + "*";
+    /** Encoded body prefix. */
+    public static final String ENCODED_BODY_PREFIX = "_";
+    /** Null body. */
+    public static final String NULL_BODY = ENCODED_BODY_PREFIX;
     /** Regular expression for valid identity token Base32 encoded bodies. */
-    public static final String VALID_BASE32_ENCODED_BODY_REGEX =
-            B32_ENCODED_BODY_PREFIX
-                + "(?:" + VALID_B32_CHAR_REGEXP + "{8})*"
-                + "(?:"
-                    + VALID_B32_CHAR_REGEXP + "{2}" + "|"
-                    + VALID_B32_CHAR_REGEXP + "{4}" + "|"
-                    + VALID_B32_CHAR_REGEXP + "{5}" + "|"
-                    + VALID_B32_CHAR_REGEXP + "{7}" + "|"
-                    + VALID_B32_CHAR_REGEXP + "{8}"
-                + ")";
+    public static final String ENCODED_BODY =
+            ENCODED_BODY_PREFIX + TOKEN_CHAR + "*";
     /** Regular expression for valid identity token bodies. */
-    public static final String VALID_BODY_REGEX =
+    public static final String BODY =
             "(?:"
-                + NULL_TOKEN + "|"
-                + VALID_UNENCODED_BODY_REGEX + "|"
-                + VALID_BASE32_ENCODED_BODY_REGEX
-            + ")?";
-
+                + "|"
+                + UNENCODED_BODY + "|"
+                + ENCODED_BODY
+            + ")";
     /** Regular expression for valid identity tokens. */
-    public static final String VALID_TOKEN_REGEX =
-            "^" + VALID_PREFIX_REGEX
-                + VALID_BODY_REGEX
-            + "$";
+    public static final String TOKEN =
+            "^" + TOKEN_CHAR + "*$";
+
+    /** The Base64 padding character. */
+    private static final char B32_PADDING_CHAR = '=';
+
     /** Default identity token prefix. */
-    public static final String DEFAULT_PREFIX = "ID";
+    public static final String DEFAULT_PREFIX = "";
 
     /** Compiled pattern to detect valid identity token prefixes as predicate. */
     protected static final Predicate<String> VALID_PREFIX_PREDICATE =
-            Pattern.compile(VALID_PREFIX_FULL_REGEX).asPredicate();
+            Pattern.compile(PREFIX).asPredicate();
     /** Compiled pattern to detect valid identity token unencoded bodies as predicate. */
     protected static final Predicate<String> VALID_UNENCODED_BODY_PREDICATE =
-            Pattern.compile("^" + VALID_UNENCODED_BODY_REGEX + "$").asPredicate();
+            Pattern.compile("^" + UNENCODED_BODY + "$").asPredicate();
+    /** Compiled pattern to detect valid identity token encoded bodies as predicate. */
+    protected static final Predicate<String> VALID_ENCODED_BODY_PREDICATE =
+            Pattern.compile("^" + ENCODED_BODY + "$").asPredicate();
     /** Compiled pattern to detect valid identity token bodies as predicate. */
-    protected static final Predicate<String> VALID_TOKEN_BODY_PREDICATE =
-            Pattern.compile("^" + VALID_BODY_REGEX + "$").asPredicate();
+    protected static final Predicate<String> VALID_BODY_PREDICATE =
+            Pattern.compile("^" + BODY + "$").asPredicate();
     /** Compiled pattern to detect valid identity tokens as predicate. */
     protected static final Predicate<String> VALID_TOKEN_PREDICATE =
-            Pattern.compile(VALID_TOKEN_REGEX).asPredicate();
+            Pattern.compile(TOKEN).asPredicate();
 
-    /** The Base32 encoder and decoder. */
-    private static final Base32 BASE32 = new Base32();
+    /** The Base64 encoder. */
+    private static final Base64.Encoder ENCODER = Base64.getUrlEncoder();
+    /** The Base64 decoder. */
+    private static final Base64.Decoder DECODER = Base64.getUrlDecoder();
 
     /**
      * Private constructor.
@@ -139,14 +124,15 @@ public final class IdentityTokenFormatter {
             final String body) {
         final String result;
         if (body == null) {
-            result = NULL_TOKEN;
+            result = NULL_BODY;
         } else if (body.isEmpty() || VALID_UNENCODED_BODY_PREDICATE.test(body)) {
             result = body;
         } else {
-            final String b32 = BASE32.encodeAsString(body.getBytes(StandardCharsets.UTF_8));
-            final String b32NoPadding = b32.replaceAll(String.valueOf(B32_PADDING_CHAR), "");
-            result = new StringBuilder(B32_ENCODED_BODY_PREFIX)
-                    .append(b32NoPadding)
+            final String b64 = ENCODER.encodeToString(
+                    body.getBytes(StandardCharsets.UTF_8));
+            final String b64NoPadding = b64.replaceAll(String.valueOf(B32_PADDING_CHAR), "");
+            result = new StringBuilder(ENCODED_BODY_PREFIX)
+                    .append(b64NoPadding)
                     .toString();
         }
         return result;
@@ -166,23 +152,23 @@ public final class IdentityTokenFormatter {
             final @NotNull String encoded)
     throws UnrecognizedIdentityTokenException {
         Validate.notNull(encoded, "Encoded identity token body is required");
-        if (!VALID_TOKEN_BODY_PREDICATE.test(encoded)) {
+        if (!VALID_BODY_PREDICATE.test(encoded)) {
             throw new UnrecognizedIdentityTokenException(String.format(
                     "Invalid identity token body: %s",
                     encoded));
         }
         final String result;
-        if (NULL_TOKEN.equals(encoded)) {
-            result = null;
-        } else if (encoded.isEmpty()) {
+        if (encoded.isEmpty()) {
             result = encoded;
-        } else if (encoded.startsWith(B32_ENCODED_BODY_PREFIX)) {
-            String b32 = encoded.substring(1);
-            if (b32.length() % 8 != 0) {
-                b32 = StringUtils.rightPad(b32, 8 - (b32.length() % 8), B32_PADDING_CHAR);
+        } else if (ENCODED_BODY_PREFIX.equals(encoded)) {
+            result = null;
+        } else if (encoded.startsWith(ENCODED_BODY_PREFIX)) {
+            String b64 = encoded.substring(1);
+            if (b64.length() % 3 != 0) {
+                b64 = StringUtils.rightPad(b64, 3 - (b64.length() % 3), B32_PADDING_CHAR);
             }
             result = new String(
-                    BASE32.decode(b32),
+                    DECODER.decode(b64),
                     StandardCharsets.UTF_8);
         } else {
             result = encoded;
@@ -225,6 +211,63 @@ public final class IdentityTokenFormatter {
         return new StringBuilder(prefix)
                 .append(encodeBody(body))
                 .toString();
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token prefix is valid.
+     * 
+     * @param prefix The identity token prefix.
+     * @return If the identity token prefix is valid.
+     */
+    public static boolean isValidPrefix(
+            final @NotNull String prefix) {
+        return VALID_PREFIX_PREDICATE.test(prefix);
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token body is valid.
+     * 
+     * @param body The identity token body.
+     * @return If the identity token body is valid.
+     */
+    public static boolean isValidBody(
+            final @NotNull String body) {
+        return VALID_BODY_PREDICATE.test(body);
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token body is a valid
+     * unencoded body.
+     * 
+     * @param body The identity token body.
+     * @return If the identity token body is valid.
+     */
+    public static boolean isValidUncodedBody(
+            final @NotNull String body) {
+        return VALID_UNENCODED_BODY_PREDICATE.test(body);
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token body is a valid
+     * encoded body.
+     * 
+     * @param body The identity token body.
+     * @return If the identity token body is valid.
+     */
+    public static boolean isValidEncodedBody(
+            final @NotNull String body) {
+        return VALID_ENCODED_BODY_PREDICATE.test(body);
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token is valid.
+     * 
+     * @param token The identity token.
+     * @return If the identity token is valid.
+     */
+    public static boolean isValidToken(
+            final @NotNull String token) {
+        return VALID_TOKEN_PREDICATE.test(token);
     }
 
     /**

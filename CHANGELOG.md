@@ -1,5 +1,11 @@
 # :package: 0.6.0
 
+01. :wrench: Removed dependency with `commons-codec:commons-codec`.
+01. :boom: Changed `IdentityTokenFormatter` behavior.
+    01. :gift: Now accepts empty prefixes.
+    01. Default prefix is now empty.
+    01. Uses the URL and Filename safe type base64 encoding scheme to encode invalid token bodies.
+    01. :gift: Added validation utility methods.
 01. :gift: Added SPI based Jackson type ID resolver.
 01. :gift: Added `orne-generators` support for identities and identity beans.
 
