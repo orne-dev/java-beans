@@ -100,24 +100,25 @@ public @interface ValidBeanReference {
         public boolean isValid(
                 final Object value,
                 final ConstraintValidatorContext context) {
+            if (value == null) {
+                return true;
+            }
             boolean valid = true;
-            if (value != null) {
-                if (value instanceof Iterable || value.getClass().isArray()) {
-                    final Iterable<?> iterable;
-                    if (value instanceof Iterable) {
-                        iterable = (Iterable<?>) value;
-                    } else {
-                        iterable = Arrays.asList((Object[]) value);
-                    }
-                    for (final Object obj : iterable) {
-                        valid = isValid(obj);
-                        if (!valid) {
-                            break;
-                        }
-                    }
+            if (value instanceof Iterable || value.getClass().isArray()) {
+                final Iterable<?> iterable;
+                if (value instanceof Iterable) {
+                    iterable = (Iterable<?>) value;
                 } else {
-                    valid = isValid(value, FINDER);
+                    iterable = Arrays.asList((Object[]) value);
                 }
+                for (final Object obj : iterable) {
+                    valid = isValid(obj);
+                    if (!valid) {
+                        break;
+                    }
+                }
+            } else {
+                valid = isValid(value, FINDER);
             }
             return valid;
         }
