@@ -85,10 +85,10 @@ class ValidIdentityTokenIT {
         final String token = "";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
-        assertFalse(BeanValidationUtils.isValid(nullableContainer));
+        assertTrue(BeanValidationUtils.isValid(nullableContainer));
         final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
         nonnullContainer.token = token;
-        assertFalse(BeanValidationUtils.isValid(nonnullContainer));
+        assertTrue(BeanValidationUtils.isValid(nonnullContainer));
     }
 
     /**

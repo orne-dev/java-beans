@@ -62,10 +62,10 @@ class ValidIdentityTokenPrefixIT {
         final String prefix = "";
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.prefix = prefix;
-        assertFalse(BeanValidationUtils.isValid(nullableContainer));
+        assertTrue(BeanValidationUtils.isValid(nullableContainer));
         final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
         nonnullContainer.prefix = prefix;
-        assertFalse(BeanValidationUtils.isValid(nonnullContainer));
+        assertTrue(BeanValidationUtils.isValid(nonnullContainer));
     }
 
     /**

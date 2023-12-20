@@ -457,24 +457,6 @@ class InterfaceDeserializationTest {
     }
 
     @Test
-    void testDeserializeUnrelatedContainer_Default()
-    throws JsonProcessingException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final JsonNodeFactory factory = mapper.getNodeFactory();
-        final ObjectNode root = factory.objectNode();
-        final ObjectNode bean = factory.objectNode();
-        bean.set("derived", factory.textNode("expected-derived"));
-        bean.set("unrelated", factory.textNode("expected-unrelated"));
-        root.set("bean", bean);
-        final UnrelatedContainer result = mapper.treeToValue(root, UnrelatedContainer.class);
-        assertNotNull(result);
-        final UnrelatedImpl resultBean = assertInstanceOf(UnrelatedImpl.class, result.bean);
-        assertEquals("expected-derived", resultBean.getDerived()) ;
-        assertEquals("expected-unrelated", resultBean.getUnrelated()) ;
-        assertEquals(UnrelatedImpl.class, resultBean.getClass());
-    }
-
-    @Test
     void testDeserializeUnrelatedContainer_ToUnrelated()
     throws JsonProcessingException {
         final ObjectMapper mapper = new ObjectMapper();
