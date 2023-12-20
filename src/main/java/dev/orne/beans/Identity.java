@@ -55,4 +55,18 @@ extends Serializable {
     @ValidIdentityToken
     @JsonValue
     String getIdentityToken();
+
+    /**
+     * Resolves this identity to an identity of the specified target type.
+     * 
+     * @param <T> The target identity type
+     * @param type The target identity type
+     * @return An instance of target identity type
+     * @throws UnrecognizedIdentityTokenException If this identity's
+     * token cannot be resolved to target identity type
+     */
+    default <T extends Identity> @NotNull T resolve(
+            final @NotNull Class<T> type) {
+        return IdentityResolver.getInstance().resolve(this, type);
+    }
 }

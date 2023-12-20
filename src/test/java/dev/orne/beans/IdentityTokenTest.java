@@ -145,6 +145,30 @@ class IdentityTokenTest {
     }
 
     /**
+     * Test for {@link StringIdentity#resolve()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testResolve()
+    throws Throwable {
+        final StringIdentity strId = Generators.randomValue(StringIdentity.class);
+        final LongIdentity longId = Generators.randomValue(LongIdentity.class);
+        final BigIntegerIdentity bigIntId = Generators.randomValue(BigIntegerIdentity.class);
+        final TokenIdentity tokenId = Generators.randomValue(TokenIdentity.class);
+        assertSame(tokenId, tokenId.resolve(Identity.class));
+        assertSame(tokenId, tokenId.resolve(TokenIdentity.class));
+        assertEquals(
+                strId,
+                TokenIdentity.fromToken(strId.getIdentityToken()).resolve(StringIdentity.class));
+        assertEquals(
+                longId,
+                TokenIdentity.fromToken(longId.getIdentityToken()).resolve(LongIdentity.class));
+        assertEquals(
+                bigIntId,
+                TokenIdentity.fromToken(bigIntId.getIdentityToken()).resolve(BigIntegerIdentity.class));
+    }
+
+    /**
      * Test for default {@link Identity} generation.
      * @throws Throwable Should not happen
      */

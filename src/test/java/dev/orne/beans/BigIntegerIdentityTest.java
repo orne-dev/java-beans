@@ -238,6 +238,29 @@ extends AbstractSimpleIdentityTest {
     }
 
     /**
+     * Test for {@link BigIntegerIdentity#resolve()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testResolve()
+    throws Throwable {
+        final BigInteger value = Generators.randomValue(BigInteger.class);
+        final BigIntegerIdentity expected = new BigIntegerIdentity(value);
+        final String token = expected.getIdentityToken();
+        assertSame(expected, expected.resolve(BigIntegerIdentity.class));
+        assertEquals(expected, TokenIdentity.fromToken(token).resolve(BigIntegerIdentity.class));
+        final Long longValue = Generators.randomValue(Long.class);
+        assertEquals(
+                new BigIntegerIdentity(BigInteger.valueOf(longValue)),
+                new LongIdentity(longValue).resolve(BigIntegerIdentity.class));
+        assertEquals(expected, new StringIdentity(String.valueOf(value)).resolve(BigIntegerIdentity.class));
+        final Identity notNumber = new StringIdentity("NotALong");
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            notNumber.resolve(BigIntegerIdentity.class);
+        });
+    }
+
+    /**
      * Test for default {@link BigIntegerIdentity} generation.
      * @throws Throwable Should not happen
      */

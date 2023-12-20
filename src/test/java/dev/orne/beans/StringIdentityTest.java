@@ -24,6 +24,7 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigInteger;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.stream.Stream;
@@ -206,6 +207,28 @@ extends AbstractSimpleIdentityTest {
                 Arguments.of(CUSTOM_PREFIX, "SimpleValue"),
                 Arguments.of(CUSTOM_PREFIX, "mock value")
         );
+    }
+
+    /**
+     * Test for {@link StringIdentity#resolve()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testResolve()
+    throws Throwable {
+        final String value = Generators.randomValue(String.class);
+        final StringIdentity expected = new StringIdentity(value);
+        final String token = expected.getIdentityToken();
+        assertSame(expected, expected.resolve(StringIdentity.class));
+        assertEquals(expected, TokenIdentity.fromToken(token).resolve(StringIdentity.class));
+        final Long longValue = Generators.randomValue(Long.class);
+        assertEquals(
+                new StringIdentity(String.valueOf(longValue)),
+                new LongIdentity(longValue).resolve(StringIdentity.class));
+        final BigInteger bigIntValue = Generators.randomValue(BigInteger.class);
+        assertEquals(
+                new StringIdentity(String.valueOf(bigIntValue)),
+                new BigIntegerIdentity(bigIntValue).resolve(StringIdentity.class));
     }
 
     /**

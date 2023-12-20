@@ -24,6 +24,7 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigInteger;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.stream.Stream;
@@ -234,6 +235,32 @@ extends AbstractSimpleIdentityTest {
                 Arguments.of(CUSTOM_PREFIX, 1234567890L),
                 Arguments.of(CUSTOM_PREFIX, -1234567890L)
         );
+    }
+
+    /**
+     * Test for {@link LongIdentity#resolve()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testResolve()
+    throws Throwable {
+        final Long value = Generators.randomValue(Long.class);
+        final LongIdentity expected = new LongIdentity(value);
+        final String token = expected.getIdentityToken();
+        assertSame(expected, expected.resolve(LongIdentity.class));
+        assertEquals(expected, TokenIdentity.fromToken(token).resolve(LongIdentity.class));
+        assertEquals(expected, new BigIntegerIdentity(BigInteger.valueOf(value)).resolve(LongIdentity.class));
+        assertEquals(expected, new StringIdentity(String.valueOf(value)).resolve(LongIdentity.class));
+        final Identity notLongId = new StringIdentity("NotALong");
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            notLongId.resolve(LongIdentity.class);
+        });
+        final Identity longOverflowId = new BigIntegerIdentity(
+                BigInteger.valueOf(Long.MAX_VALUE)
+                    .add(BigInteger.ONE));
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            longOverflowId.resolve(LongIdentity.class);
+        });
     }
 
     /**
