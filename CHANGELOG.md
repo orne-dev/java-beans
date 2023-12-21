@@ -9,6 +9,7 @@
 01. :gift: Added `Identity.resolve(Class)` method.
 01. :gift: Added SPI based Jackson type ID resolver.
 01. :gift: Added `orne-generators` support for identities and identity beans.
+01. :gift: Added validation messages for 'en', 'es', 'fr' and 'eu' languages.
 
 # :package: 0.5.2 (2023-09-16)
 

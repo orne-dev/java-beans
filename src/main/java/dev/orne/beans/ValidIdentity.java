@@ -69,23 +69,32 @@ import org.apache.commons.lang3.Validate;
 @ReportAsSingleViolation
 public @interface ValidIdentity {
 
-    /** The default message key. */
-    public static final String DEFAULT_MESSAGE =
-            "dev.orne.beans.ValidIdentity.message";
-    /** The default message template. */
-    public static final String DEFAULT_ERROR_TEMPLATE =
-            "{" + DEFAULT_MESSAGE + "}";
-
-    /** @return The expected type of {@code Identity} to resolve to. */
+    /**
+     * Returns the type of {@code Identity} to resolve to.
+     * 
+     * @return The type of {@code Identity} to resolve to.
+     */
     Class<? extends Identity> value() default Identity.class;
 
-    /** @return The error message template. */
-    String message() default DEFAULT_ERROR_TEMPLATE;
+    /**
+     * Returns the error message.
+     * 
+     * @return The error message.
+     */
+    String message() default "{dev.orne.beans.ValidIdentity.message}";
 
-    /** @return  The validation groups. */
+    /**
+     * Returns the validation groups.
+     * 
+     * @return The validation groups.
+     */
     Class<?>[] groups() default { };
 
-    /** @return  The validation client payload. */
+    /**
+     * Returns the validation client payload.
+     * 
+     * @return The validation client payload.
+     */
     Class<? extends Payload>[] payload() default { };
 
     /**

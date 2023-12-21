@@ -62,20 +62,25 @@ import javax.validation.constraints.NotNull;
 @ReportAsSingleViolation
 public @interface ValidBeanReference {
 
-    /** The default message key. */
-    public static final String DEFAULT_MESSAGE =
-            "dev.orne.beans.ValidBeanReference.message";
-    /** The default message template. */
-    public static final String DEFAULT_ERROR_TEMPLATE =
-            "{" + DEFAULT_MESSAGE + "}";
+    /**
+     * Returns the error message.
+     * 
+     * @return The error message.
+     */
+    String message() default "{dev.orne.beans.ValidBeanReference.message}";
 
-    /** @return The error message template. */
-    String message() default DEFAULT_ERROR_TEMPLATE;
-
-    /** @return The validation groups. */
+    /**
+     * Returns the validation groups.
+     * 
+     * @return The validation groups.
+     */
     Class<?>[] groups() default { };
 
-    /** @return The validation client payload. */
+    /**
+     * Returns the validation client payload.
+     * 
+     * @return The validation client payload.
+     */
     Class<? extends Payload>[] payload() default { };
 
     /**
