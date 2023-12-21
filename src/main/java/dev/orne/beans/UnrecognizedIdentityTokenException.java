@@ -22,6 +22,9 @@ package dev.orne.beans;
  * #L%
  */
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Exception for identity tokens that cannot be resolved to expected
  * {@code Identity} type.
@@ -30,6 +33,7 @@ package dev.orne.beans;
  * @version 2.0, 2021-04
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class UnrecognizedIdentityTokenException
 extends IllegalArgumentException {
 

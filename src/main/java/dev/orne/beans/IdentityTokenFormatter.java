@@ -31,6 +31,8 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Formatter and parser of identity tokens.
@@ -39,6 +41,7 @@ import org.apache.commons.lang3.Validate;
  * @version 2.0, 2023-12
  * @since 0.1
  */
+@API(status=Status.INTERNAL, since="0.1")
 public final class IdentityTokenFormatter {
 
     /** Regular expression for valid token characters. */

@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 import dev.orne.beans.Identity;
 import dev.orne.beans.IdentityTokenFormatter;
@@ -39,6 +41,7 @@ import dev.orne.test.rnd.AbstractTypedGenerator;
  * @version 1.0, 2023-12
  * @since 0.6
  */
+@API(status=Status.INTERNAL, since="0.6")
 public class TokenIdentityGenerator
 extends AbstractTypedGenerator<TokenIdentity> {
 

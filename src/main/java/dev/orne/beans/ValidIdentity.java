@@ -37,6 +37,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Validation for valid identities.
@@ -48,6 +50,7 @@ import org.apache.commons.lang3.Validate;
  * @version 1.0, 2022-10
  * @since 0.4
  */
+@API(status=Status.STABLE, since="0.4")
 @Target({ 
     ElementType.CONSTRUCTOR,
     ElementType.METHOD,
@@ -103,6 +106,7 @@ public @interface ValidIdentity {
      * 
      * @see ValidBeanIdentity
      */
+    @API(status=Status.INTERNAL, since="0.4")
     public static class ValidIdentityValidator
     implements ConstraintValidator<ValidIdentity, Identity> {
 
@@ -183,6 +187,7 @@ public @interface ValidIdentity {
      * 
      * @see ValidBeanIdentity
      */
+    @API(status=Status.INTERNAL, since="0.4")
     public static class ValidIdentityValidatorForString
     implements ConstraintValidator<ValidIdentity, String> {
 

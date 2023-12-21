@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +80,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  * @since 0.6
  * @see TypeIdResolver
  */
+@API(status=Status.EXPERIMENTAL, since="0.6")
 public class JacksonSpiTypeIdResolver
 extends TypeIdResolverBase {
 

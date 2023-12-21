@@ -28,6 +28,8 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Base implementation of {@code IdentityBean}.
@@ -36,6 +38,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class BaseIdentityBean
 implements WritableIdentityBean {
 

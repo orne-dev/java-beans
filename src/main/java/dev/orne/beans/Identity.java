@@ -27,6 +27,9 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -40,6 +43,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @XmlJavaTypeAdapter(TokenIdentity.IdentityXmlAdapter.class)
 @JsonDeserialize(as=TokenIdentity.class)
 public interface Identity

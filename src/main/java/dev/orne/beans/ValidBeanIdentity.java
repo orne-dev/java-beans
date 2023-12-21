@@ -36,6 +36,9 @@ import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Validation for beans that require a valid, non null identity.
  * Validates that the bean, if non null, has a non null valid identity.
@@ -44,6 +47,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Target({ 
     ElementType.CONSTRUCTOR,
     ElementType.METHOD,
@@ -89,6 +93,7 @@ public @interface ValidBeanIdentity {
      * 
      * @see ValidBeanIdentity
      */
+    @API(status=Status.INTERNAL, since="0.1")
     public static class ValidBeanIdentityValidator
     implements ConstraintValidator<ValidBeanIdentity, Object> {
 

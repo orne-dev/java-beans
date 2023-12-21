@@ -34,6 +34,8 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,6 +78,7 @@ import org.slf4j.LoggerFactory;
  * @param <L> The supported annotation list type
  * @since 0.1
  */
+@API(status=Status.INTERNAL, since="0.1")
 public class BeanAnnotationFinder<
         T extends Annotation,
         L extends Annotation> {
@@ -340,6 +343,7 @@ public class BeanAnnotationFinder<
      * @param <T> The annotation type
      * @param <L> The annotation list type
      */
+    @API(status=Status.INTERNAL, since="0.1")
     @FunctionalInterface
     public static interface AnnotationListExtractor<
             L extends Annotation,
@@ -360,6 +364,7 @@ public class BeanAnnotationFinder<
      * 
      * @param <T> The annotation type
      */
+    @API(status=Status.INTERNAL, since="0.1")
     protected static final class CacheEntryKey<T extends Annotation> {
 
         /** The analyzed class. */
@@ -443,6 +448,7 @@ public class BeanAnnotationFinder<
     /**
      * Interface for type level annotations cache.
      */
+    @API(status=Status.INTERNAL, since="0.1")
     protected static interface Cache {
 
         /**
@@ -483,6 +489,7 @@ public class BeanAnnotationFinder<
      * @see Cache
      * @see WeakHashMap
      */
+    @API(status=Status.INTERNAL, since="0.1")
     protected static class WeakHashMapCache
     implements Cache {
 

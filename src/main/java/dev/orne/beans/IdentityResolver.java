@@ -33,6 +33,8 @@ import java.util.WeakHashMap;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,6 +88,7 @@ import org.slf4j.LoggerFactory;
  * @since 0.1
  * @see IdentityTokenResolver
  */
+@API(status=Status.STABLE, since="0.1")
 public class IdentityResolver {
 
     /** The class logger. */
@@ -369,6 +372,7 @@ public class IdentityResolver {
     /**
      * Holder of shared {@code IdentityResolver} instance.
      */
+    @API(status=Status.INTERNAL, since="0.1")
     private static class InstanceHolder{
 
         /** The shared instance. */
@@ -378,6 +382,7 @@ public class IdentityResolver {
     /**
      * Interface for identity resolve methods cache.
      */
+    @API(status=Status.INTERNAL, since="0.1")
     protected static interface Cache {
 
         /**
@@ -419,6 +424,7 @@ public class IdentityResolver {
      * @see Cache
      * @see WeakHashMap
      */
+    @API(status=Status.INTERNAL, since="0.1")
     protected static class WeakHashMapCache
     implements Cache {
 
@@ -473,7 +479,8 @@ public class IdentityResolver {
      * @see IdentityResolver
      * @see IdentityTokenResolver
      */
-    protected static class UnresolvableIdentityException
+    @API(status=Status.STABLE, since="0.1")
+    public static class UnresolvableIdentityException
     extends Exception {
 
         /** The Serial Version UID. */

@@ -27,6 +27,8 @@ import java.net.URI;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Implementation of {@code Converter} that converts {@code URI} instances
@@ -37,6 +39,7 @@ import org.apache.commons.beanutils.converters.AbstractConverter;
  * @version 1.0, 2020-08
  * @since 0.3
  */
+@API(status=Status.STABLE, since="0.3")
 public class UriConverter
 extends AbstractConverter {
 

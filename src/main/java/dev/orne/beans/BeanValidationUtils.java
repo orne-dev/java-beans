@@ -31,6 +31,8 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 import dev.orne.beans.ValidBeanIdentity.ValidBeanIdentityValidator;
 import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
@@ -42,6 +44,7 @@ import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public final class BeanValidationUtils {
 
     /** The shared {@code Validator} used to validate beans. */

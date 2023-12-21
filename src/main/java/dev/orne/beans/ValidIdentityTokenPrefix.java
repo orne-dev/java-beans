@@ -33,6 +33,9 @@ import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.Pattern;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Validation for valid identity token prefixes.
  * Validates that the token, if non null, is not empty and contains only
@@ -42,6 +45,7 @@ import javax.validation.constraints.Pattern;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Target({ 
     ElementType.METHOD,
     ElementType.FIELD,

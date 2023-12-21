@@ -24,6 +24,9 @@ package dev.orne.beans;
 
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 import dev.orne.test.rnd.GeneratorMethod;
 
 /**
@@ -34,6 +37,7 @@ import dev.orne.test.rnd.GeneratorMethod;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class StringIdentity
 extends AbstractSimpleIdentity<String> {
 

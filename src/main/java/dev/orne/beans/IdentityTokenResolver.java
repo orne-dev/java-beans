@@ -28,6 +28,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * <p>Marks a method as an identity token to identity resolver. Used for
  * {@code Identity} implementations which {@code String} constructor
@@ -59,6 +62,7 @@ import java.lang.annotation.Target;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

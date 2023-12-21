@@ -27,6 +27,8 @@ import java.time.Period;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Implementation of {@code Converter} that converts {@code Period} instances
@@ -37,6 +39,7 @@ import org.apache.commons.beanutils.converters.AbstractConverter;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class PeriodConverter
 extends AbstractConverter {
 

@@ -28,6 +28,8 @@ import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 import dev.orne.beans.BaseIdentityBean;
 import dev.orne.beans.Identity;
@@ -53,6 +55,7 @@ import dev.orne.beans.WritableIdentityBean;
  * @see IdentityBean
  * @see IdentityConverter
  */
+@API(status=Status.STABLE, since="0.3")
 public class IdentityBeanConverter
 extends AbstractConverter {
 

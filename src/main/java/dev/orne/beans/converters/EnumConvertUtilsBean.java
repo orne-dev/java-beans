@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.Converter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Extension of {@code ConvertUtilsBean} that falls back to converter registered
@@ -35,6 +37,7 @@ import org.apache.commons.beanutils.Converter;
  * @version 1.0, 2021-09
  * @since 0.4
  */
+@API(status=Status.STABLE, since="0.4")
 public class EnumConvertUtilsBean
 extends ConvertUtilsBean {
 

@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Abstract implementation for {@code Identity} for identities composed
@@ -35,6 +37,7 @@ import org.apache.commons.lang3.Validate;
  * @version 1.0, 2023-05
  * @since 0.5
  */
+@API(status=Status.MAINTAINED, since="0.5")
 public abstract class AbstractComposedIdentity
 extends AbstractIdentity {
 

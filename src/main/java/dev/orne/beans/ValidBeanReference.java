@@ -36,6 +36,9 @@ import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Validation for beans that require at least a valid bean reference.
  * Validates the the bean, if non null, validates against on of the validation
@@ -45,6 +48,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Target({ 
     ElementType.CONSTRUCTOR,
     ElementType.METHOD,
@@ -88,6 +92,7 @@ public @interface ValidBeanReference {
      * 
      * @see ValidBeanReference
      */
+    @API(status=Status.INTERNAL, since="0.1")
     public static class ValidBeanReferenceValidator
     implements ConstraintValidator<ValidBeanReference, Object> {
 

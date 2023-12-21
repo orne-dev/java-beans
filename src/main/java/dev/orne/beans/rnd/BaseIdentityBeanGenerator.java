@@ -24,6 +24,9 @@ package dev.orne.beans.rnd;
 
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 import dev.orne.beans.BaseIdentityBean;
 import dev.orne.beans.Identity;
 import dev.orne.beans.IdentityBean;
@@ -39,6 +42,7 @@ import dev.orne.test.rnd.Generators;
  * @version 1.0, 2023-12
  * @since 0.6
  */
+@API(status=Status.INTERNAL, since="0.6")
 public class BaseIdentityBeanGenerator
 extends AbstractTypedGenerator<BaseIdentityBean> {
 
