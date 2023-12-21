@@ -32,12 +32,20 @@ try to resolve the generic `TokenIdentity` to the required implementation.
 Other components should use the passed identity "as is".
 
 To resolve `TokenIdentity` instances to specific identity implementations
-the class `IdentityResolver` is provided. This class tries to create an
-instance of the requested identity type based on the target class configuration
-(see [Custom identities](#custom-identities)):
+the method `Identity.resolve(Class)` and the class `IdentityResolver`
+is provided.
+This class tries to create an instance of the requested identity type based on
+the target class configuration (see [Custom identities](#custom-identities)):
 
 ```java
 TokenIdentity unresolvedIdentity;
+// Through Identity interface
+MyIdentity resolvedIdentity = unresolvedIdentity.resolve(
+        MyIdentity.class);
+assertEquals(
+        unresolvedIdentity.getIdentityToken(),
+        resolvedIdentity.getIdentityToken());
+// Through IdentityResolver utility class
 IdentityResolver resolver = IdentityResolver.getInstance();
 MyIdentity resolvedIdentity = resolver.resolve(
         unresolvedIdentity,
@@ -45,16 +53,20 @@ MyIdentity resolvedIdentity = resolver.resolve(
 assertEquals(
         unresolvedIdentity.getIdentityToken(),
         resolvedIdentity.getIdentityToken());
+
 ```
 
 ## Custom identities
 
-To implement custom identities abstract classes `AbstractIdentity` and
-`AbstractSimpleIdentity` are provided. A custom identity must provide a
-identity body through method `getIdentityTokenBody()` that represents the
-identity components as `String` and a method to parse a identity token back to
-the identity type. Class `AbstractSimpleIdentity` provides base methods to
-identities composed by a single value.
+To implement custom identities abstract classes `AbstractIdentity`,
+`AbstractSimpleIdentity` and `AbstractComposedIdentity` are provided.
+A custom identity must provide a identity body through method
+`getIdentityTokenBody()` that represents the identity components as `String`
+and a method to parse a identity token back to the identity type.
+Class `AbstractSimpleIdentity` provides base methods to identities composed by
+a single value.
+Class `AbstractComposedIdentity` provides base methods to identities composed
+by a multiple values.
 
 To implement the token parsing method a constructor with a single `String`
 argument is allowed. For implementations that cannot provide such a
@@ -66,79 +78,173 @@ can be provided:
 class MyIdentity
 extends AbstractSimpleIdentity<CustomType> {
 
-  /**
-   * Creates a new instance.
-   * 
-   * @param value The identity value
-   */
-  public MyIdentity(
-      final CustomType value) {
-    super(value);
-  }
-
-  /**
-   * Copy constructor.
-   * 
-   * @param copy The instance to copy
-   */
-  public MyIdentity(
-      final MyIdentity copy) {
-    super(copy);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected String getIdentityTokenBody() {
-    // Implemented by AbstractSimpleIdentity. Can be overwritten
-    // to customize to String conversion.
-      return this.getValue() == null ? null : this.getValue().toString();
-  }
-
-  /**
-   * Resolves the specified identity token to a valid {@code MyIdentity}
-   * 
-   * @param token The identity token
-   * @return The resolved identity token
-   * @throws NullPointerException If the identity token is {@code null}
-   * @throws UnrecognizedIdentityTokenException If the identity token is not
-   * a valid identity token or it doesn't start with the expected prefix
-   */
-  @NotNull
-  @IdentityTokenResolver
-  public static MyIdentity fromIdentityToken(
-      @NotNull
-      final String token)
-  throws UnrecognizedIdentityTokenException {
-    final String body = IdentityTokenFormatter.parse(
-            IdentityTokenFormatter.DEFAULT_PREFIX,
-            token);
-    if (body == null) {
-        return new MyIdentity((CustomType) null);
-    } else {
-      try {
-        // Extract value from token body
-        final CustomType value = CustomType.fromString(body);
-        return new MyIdentity(value);
-      } catch (final SomeException se) {
-        throw new UnrecognizedIdentityTokenException(
-            "Unrecognized identity token", se);
-      }
+    /**
+     * Creates a new instance.
+     * 
+     * @param value The identity value
+     */
+    public MyIdentity(
+            final CustomType value) {
+        super(value);
     }
-  }
+
+    /**
+     * Copy constructor.
+     * 
+     * @param copy The instance to copy
+     */
+    public MyIdentity(
+            final @NotNull MyIdentity copy) {
+        super(copy);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getIdentityTokenBody() {
+        // Implemented by AbstractSimpleIdentity. Can be overwritten
+        // to customize String conversion.
+        return this.getValue() == null ? null : this.getValue().toString();
+    }
+
+    /**
+     * Resolves the specified identity token to a valid {@code MyIdentity}
+     * 
+     * @param token The identity token
+     * @return The resolved identity token
+     * @throws NullPointerException If the identity token is {@code null}
+     * @throws UnrecognizedIdentityTokenException If the identity token is not
+     * a valid identity token or it doesn't start with the expected prefix
+     */
+    @NotNull
+    @IdentityTokenResolver
+    public static MyIdentity fromIdentityToken(
+            final @NotNull String token)
+    throws UnrecognizedIdentityTokenException {
+        final String body = IdentityTokenFormatter.parse(token);
+        try {
+            // Extract value from token body
+            final CustomType value;
+            if (body == null) {
+                value = null;
+            } else {
+                value = CustomType.fromString(body);
+            }
+            return new MyIdentity(value);
+        } catch (final SomeException se) {
+            throw new UnrecognizedIdentityTokenException(
+                "Unrecognized identity token", se);
+        }
+    }
 }
 ```
 
 Identities composed by multiple values can choice any bidirectional method to
 format and parse the identity token body. The resulting `String` will be
-converted to Base32 to avoid illegal characters, so any suitable format is
+converted to Base64 to avoid illegal characters, so any suitable format is
 allowed.
+Abstract class `AbstractComposedIdentity` provides a default implementation
+that concatenates and splits the components with a custom separator (uses `,`
+by default):
+
+
+```java
+class MyIdentity
+extends AbstractComposedIdentity {
+
+    /** First identity component. */
+    private final CustomType value0;
+    /** Second identity component. */
+    private final CustomType2 value1;
+
+    /**
+     * Creates a new instance.
+     * 
+     * @param value0 The first identity component
+     * @param value1 The second identity component
+     */
+    public MyIdentity(
+            final CustomType value0,
+            final CustomType2 value1) {
+        super();
+        this.value0 = value0;
+        this.value1 = value1;
+    }
+
+    /**
+     * Returns the first identity component.
+     *
+     * @return The first identity component
+     */
+    public CustomType getValue0() {
+        return this.value0;
+    }
+
+    /**
+     * Returns the second identity component.
+     *
+     * @return The second identity component
+     */
+    public CustomType2 getValue1() {
+        return this.value1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected @NotNull String[] getIdentityTokenBodyParts() {
+        return new String[] {
+            this.value0 == null ? null : this.value0.toString(),
+            this.value1 == null ? null : this.value1.toString(),
+        };
+    }
+
+    /**
+     * Resolves the specified identity token to a valid {@code MyIdentity}
+     * 
+     * @param token The identity token
+     * @return The resolved identity token
+     * @throws NullPointerException If the identity token is {@code null}
+     * @throws UnrecognizedIdentityTokenException If the identity token is not
+     * a valid identity token or it doesn't start with the expected prefix
+     */
+    @NotNull
+    @IdentityTokenResolver
+    public static MyIdentity fromIdentityToken(
+            final @NotNull String token)
+    throws UnrecognizedIdentityTokenException {
+        final String[] parts = AbstractComposedIdentity.extractRequiredTokenBodyParts(
+                token,
+                2);
+        try {
+            final CustomType value0;
+            if (parts[0] == null) {
+                value0 = null;
+            } else {
+                value0 = CustomType.fromString(parts[0]);
+            }
+            final CustomType2 value1;
+            if (parts[1] == null) {
+                value1 = null;
+            } else {
+                value1 = CustomType2.fromString(parts[1]);
+            }
+            return new MyIdentity(value0, value1);
+        } catch (final SomeException se) {
+            throw new UnrecognizedIdentityTokenException(
+                "Unrecognized identity token", se);
+        }
+    }
+}
+```
 
 By default the default identity prefix provided by
-`IdentityTokenFormatter.DEFAULT_PREFIX` is used. If a custom identity prefers
-to generate token with a custom prefix method `getIdentityTokenPrefix` can
-be overwritten, remembering to use same prefix during token parsing:
+`IdentityTokenFormatter.DEFAULT_PREFIX` (an empty string) is used.
+If a custom identity prefers to generate token with a custom prefix method
+`getIdentityTokenPrefix` can be overwritten, remembering to use same prefix
+during token parsing:
 
 ```java
 class MyIdentity ... {
