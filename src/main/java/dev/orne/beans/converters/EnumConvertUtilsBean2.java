@@ -39,6 +39,13 @@ public class EnumConvertUtilsBean2
 extends ConvertUtilsBean2 {
 
     /**
+     * Creates a new instance.
+     */
+    public EnumConvertUtilsBean2() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -93,6 +93,13 @@ public @interface ValidBeanIdentity {
     implements ConstraintValidator<ValidBeanIdentity, Object> {
 
         /**
+         * Creates a new instance.
+         */
+        public ValidBeanIdentityValidator() {
+            super();
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override

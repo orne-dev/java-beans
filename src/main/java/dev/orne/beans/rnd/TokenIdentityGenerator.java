@@ -50,6 +50,13 @@ extends AbstractTypedGenerator<TokenIdentity> {
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 
     /**
+     * Creates a new instance.
+     */
+    public TokenIdentityGenerator() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

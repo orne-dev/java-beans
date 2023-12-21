@@ -235,7 +235,7 @@ extends TypeIdResolverBase {
      * 
      * @param known The known sub-types.
      * @param id The type ID to check.
-     * @param id The type to check.
+     * @param type The type to check.
      * @throws IllegalArgumentException If the ID has been used for another
      * sub-type.
      */
@@ -293,7 +293,7 @@ extends TypeIdResolverBase {
      * @param cls The type class
      * @return The non-qualified class name
      * 
-     * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver._defaultTypeId(Class<?>)
+     * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver
      */
     public static String defaultTypeId(
             final @NotNull Class<?> cls) {
@@ -307,7 +307,7 @@ extends TypeIdResolverBase {
      * @param clsName The class name
      * @return The non-qualified class name
      * 
-     * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver._defaultTypeId(Class<?>)
+     * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver
      */
     public static String defaultTypeId(
             final @NotNull String clsName) {

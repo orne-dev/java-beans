@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020-2023 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -54,7 +54,7 @@ public final class IdentityTokenFormatter {
     public static final String ENCODED_BODY_PREFIX = "_";
     /** Null body. */
     public static final String NULL_BODY = ENCODED_BODY_PREFIX;
-    /** Regular expression for valid identity token Base32 encoded bodies. */
+    /** Regular expression for valid identity token Base64 encoded bodies. */
     public static final String ENCODED_BODY =
             ENCODED_BODY_PREFIX + TOKEN_CHAR + "*";
     /** Regular expression for valid identity token bodies. */
@@ -107,14 +107,14 @@ public final class IdentityTokenFormatter {
      * body.</p>
      * 
      * <ol>
-     * <li>If the specified body is {@code null} {@link #NULL_TOKEN} is
+     * <li>If the specified body is {@code null} {@link #NULL_BODY} is
      * returned.</li>
      * <li>If the specified body is empty an empty {@code String} is
      * returned.</li>
      * <li>If the specified body is a valid unencoded body the passed body is
      * returned.</li>
-     * <li>Otherwise the passed body is encoded in Base32, with paddings
-     * removed and prefixed by {@link #B32_ENCODED_BODY_PREFIX}.</li>
+     * <li>Otherwise the passed body is encoded in URI friendly Base64, with
+     * paddings removed and prefixed by {@link #ENCODED_BODY_PREFIX}.</li>
      * </ol>
      * 
      * @param body The identity token body to encode

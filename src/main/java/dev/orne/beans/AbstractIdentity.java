@@ -44,6 +44,13 @@ implements Identity {
     private transient String identityToken;
 
     /**
+     * Creates a new instance.
+     */
+    protected AbstractIdentity() {
+        super();
+    }
+
+    /**
      * Return the identity token prefix used for instances of this identity
      * type. Must return same value for instances of the same class.
      * 

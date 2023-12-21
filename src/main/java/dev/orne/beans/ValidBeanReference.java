@@ -99,6 +99,13 @@ public @interface ValidBeanReference {
                     BeanReference.List::value);
 
         /**
+         * Creates a new instance.
+         */
+        public ValidBeanReferenceValidator() {
+            super();
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override

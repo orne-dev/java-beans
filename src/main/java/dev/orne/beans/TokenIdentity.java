@@ -134,6 +134,13 @@ implements Identity {
     extends XmlAdapter<String, Identity> {
 
         /**
+         * Creates a new instance.
+         */
+        public IdentityXmlAdapter() {
+            super();
+        }
+
+        /**
          * Parses specified {@code String} as a {@code TokenIdentity} instance.
          * 
          * @param value The value to be converted. Can be null

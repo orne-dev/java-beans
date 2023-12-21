@@ -43,6 +43,13 @@ public class BaseIdentityBeanGenerator
 extends AbstractTypedGenerator<BaseIdentityBean> {
 
     /**
+     * Creates a new instance.
+     */
+    public BaseIdentityBeanGenerator() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

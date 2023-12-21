@@ -42,7 +42,11 @@ import java.lang.annotation.Target;
 @Documented
 public @interface BeanReference {
 
-    /** @return The validation groups that compose a bean reference. */
+    /**
+     * Returns the validation groups that compose a bean reference.
+     * 
+     * @return The validation groups that compose a bean reference.
+     */
     Class<?>[] value();
 
     /**
@@ -55,7 +59,11 @@ public @interface BeanReference {
     @Documented
     public @interface List {
 
-        /** @return The valid bean references. */
+        /**
+         * Returns the valid bean references.
+         * 
+         * @return The valid bean references.
+         */
         BeanReference[] value();
     }
 }

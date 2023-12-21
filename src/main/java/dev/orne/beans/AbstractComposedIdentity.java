@@ -47,6 +47,13 @@ extends AbstractIdentity {
     public static final String DEFAULT_NULL_PLACEHOLDER = "\0";
 
     /**
+     * Creates a new instance.
+     */
+    protected AbstractComposedIdentity() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

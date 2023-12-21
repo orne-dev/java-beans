@@ -110,6 +110,13 @@ public @interface ValidIdentity {
         private @NotNull Class<? extends Identity> expectedType;
 
         /**
+         * Creates a new instance.
+         */
+        public ValidIdentityValidator() {
+            super();
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override
@@ -181,6 +188,13 @@ public @interface ValidIdentity {
 
         /** The expected type of identity. */
         private @NotNull Class<? extends Identity> expectedType;
+
+        /**
+         * Creates a new instance.
+         */
+        public ValidIdentityValidatorForString() {
+            super();
+        }
 
         /**
          * {@inheritDoc}

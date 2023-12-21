@@ -137,6 +137,13 @@ public class IdentityResolver {
     private @NotNull Cache cache = SHARED_CACHE;
 
     /**
+     * Creates a new instance.
+     */
+    protected IdentityResolver() {
+        super();
+    }
+
+    /**
      * Returns the shared, singleton instance.
      * 
      * @return The singleton instance.
@@ -418,6 +425,13 @@ public class IdentityResolver {
         /** The cache entries. */
         private final WeakHashMap<Class<? extends Identity>, Executable> entries =
                 new WeakHashMap<>();
+
+        /**
+         * Creates a new instance.
+         */
+        public WeakHashMapCache() {
+            super();
+        }
 
         /**
          * {@inheritDoc}

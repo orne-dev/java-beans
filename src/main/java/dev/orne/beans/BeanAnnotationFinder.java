@@ -491,6 +491,13 @@ public class BeanAnnotationFinder<
                 new WeakHashMap<>();
 
         /**
+         * Creates a new instance.
+         */
+        public WeakHashMapCache() {
+            super();
+        }
+
+        /**
          * {@inheritDoc}
          */
         @Override
