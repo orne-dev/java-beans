@@ -30,6 +30,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -41,6 +43,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class TokenIdentity
 implements Identity {
 
@@ -130,8 +133,16 @@ implements Identity {
      * to and from {@code String} using the identity token as {@code String}
      * representation.
      */
+    @API(status=Status.INTERNAL, since="0.1")
     public static class IdentityXmlAdapter
     extends XmlAdapter<String, Identity> {
+
+        /**
+         * Creates a new instance.
+         */
+        public IdentityXmlAdapter() {
+            super();
+        }
 
         /**
          * Parses specified {@code String} as a {@code TokenIdentity} instance.

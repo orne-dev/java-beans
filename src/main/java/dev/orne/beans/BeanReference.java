@@ -29,6 +29,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Defines a valid bean reference.
  * 
@@ -36,13 +39,18 @@ import java.lang.annotation.Target;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(BeanReference.List.class)
 @Documented
 public @interface BeanReference {
 
-    /** @return The validation groups that compose a bean reference. */
+    /**
+     * Returns the validation groups that compose a bean reference.
+     * 
+     * @return The validation groups that compose a bean reference.
+     */
     Class<?>[] value();
 
     /**
@@ -50,12 +58,17 @@ public @interface BeanReference {
      * 
      * @see BeanReference
      */
+    @API(status=Status.STABLE, since="0.1")
     @Target({ ElementType.TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     public @interface List {
 
-        /** @return The valid bean references. */
+        /**
+         * Returns the valid bean references.
+         * 
+         * @return The valid bean references.
+         */
         BeanReference[] value();
     }
 }

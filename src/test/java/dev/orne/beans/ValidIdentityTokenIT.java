@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,13 +25,15 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Integration tests for {@code ValidIdentityToken}.
@@ -43,9 +45,6 @@ import org.junit.jupiter.api.Test;
  */
 @Tag("it")
 class ValidIdentityTokenIT {
-
-    /** The random values generator. */
-    private static final Random RND = new Random();
 
     private static final String ERR_MANY_MSG = "Failed expectation for tokens #%d and #%d";
 
@@ -70,102 +69,26 @@ class ValidIdentityTokenIT {
      */
     @Test
     void testNullTokenValidation() {
-        final String token = null;
         final TestContainer nullableContainer = new TestContainer();
-        nullableContainer.token = token;
         assertTrue(BeanValidationUtils.isValid(nullableContainer));
         final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
-        nonnullContainer.token = token;
         assertFalse(BeanValidationUtils.isValid(nonnullContainer));
     }
 
     /**
      * Test {@link ValidIdentityToken) validations.
      */
-    @Test
-    void testEmptyTokenValidation() {
-        final String token = "";
+    @ParameterizedTest
+    @MethodSource("testTokens")
+    void testTokenValidation(
+            final String token,
+            final boolean validToken) {
         final TestContainer nullableContainer = new TestContainer();
         nullableContainer.token = token;
-        assertFalse(BeanValidationUtils.isValid(nullableContainer));
+        assertEquals(validToken, BeanValidationUtils.isValid(nullableContainer));
         final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
         nonnullContainer.token = token;
-        assertFalse(BeanValidationUtils.isValid(nonnullContainer));
-    }
-
-    /**
-     * Test {@link ValidIdentityToken) validations.
-     */
-    @Test
-    void testInvalidTokenValidation() {
-        final String token = "invalid token";
-        final TestContainer nullableContainer = new TestContainer();
-        nullableContainer.token = token;
-        assertFalse(BeanValidationUtils.isValid(nullableContainer));
-        final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
-        nonnullContainer.token = token;
-        assertFalse(BeanValidationUtils.isValid(nonnullContainer));
-    }
-
-    /**
-     * Test {@link ValidIdentityToken) validations.
-     */
-    @Test
-    void testValidTokenValidationNullBody() {
-        final String token = "ID" + IdentityTokenFormatter.NULL_TOKEN;
-        final TestContainer nullableContainer = new TestContainer();
-        nullableContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nullableContainer));
-        final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
-        nonnullContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nonnullContainer));
-    }
-
-    /**
-     * Test {@link ValidIdentityToken) validations.
-     */
-    @Test
-    void testValidTokenValidationEmptyBody() {
-        final String token = "ID";
-        final TestContainer nullableContainer = new TestContainer();
-        nullableContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nullableContainer));
-        final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
-        nonnullContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nonnullContainer));
-    }
-
-    /**
-     * Test {@link ValidIdentityToken) validations.
-     */
-    @Test
-    void testValidTokenValidationSimpleBody() {
-        final String token = "IDsomeBody";
-        final TestContainer nullableContainer = new TestContainer();
-        nullableContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nullableContainer));
-        final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
-        nonnullContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nonnullContainer));
-    }
-
-    /**
-     * Test {@link ValidIdentityToken) validations.
-     */
-    @Test
-    void testValidTokenValidation() {
-        final String prefix = "CustomPrefix";
-        final byte[] bodyBytes = new byte[RND.nextInt(100) + 1];
-        RND.nextBytes(bodyBytes);
-        final String body = new String(bodyBytes);
-        final String token =
-                IdentityTokenFormatter.format(prefix, body);
-        final TestContainer nullableContainer = new TestContainer();
-        nullableContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nullableContainer));
-        final TestNonNullContainer nonnullContainer = new TestNonNullContainer();
-        nonnullContainer.token = token;
-        assertTrue(BeanValidationUtils.isValid(nonnullContainer));
+        assertEquals(validToken, BeanValidationUtils.isValid(nonnullContainer));
     }
 
     private boolean isValidToken(int index) {
@@ -210,6 +133,23 @@ class ValidIdentityTokenIT {
                 }
             }
         }
+    }
+
+    static Arguments[] testTokens() {
+        return new Arguments[] {
+                Arguments.of("_", true),
+                Arguments.of("", true),
+                Arguments.of("validBodyWithoutPrefix", true),
+                Arguments.of("_Base64BodyWithoutPrefix", true),
+                Arguments.of("CustomPrefix_", true),
+                Arguments.of("CustomPrefix", true),
+                Arguments.of("CustomPrefixValidBody", true),
+                Arguments.of("CustomPrefix_Base64Body", true),
+                Arguments.of("invalid body", false),
+                Arguments.of("_invalid/base/64/body", false),
+                Arguments.of("CustomPrefix invalid body", false),
+                Arguments.of("CustomPrefix_invalid/base/64/body", false),
+        };
     }
 
     /**

@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,12 +25,20 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
-import java.util.Random;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import dev.orne.test.rnd.Generators;
 
 /**
  * Unit tests for {@code BigIntegerIdentity}.
@@ -44,8 +52,8 @@ import org.junit.jupiter.api.Test;
 class BigIntegerIdentityTest
 extends AbstractSimpleIdentityTest {
 
-    /** The random value generator. */
-    private static final Random RND = new Random();
+    /** Custom prefix. */
+    private static final String CUSTOM_PREFIX = "CustomPrefix";
 
     /**
      * Test for {@link BigIntegerIdentity#BigIntegerIdentity(String)}.
@@ -65,21 +73,10 @@ extends AbstractSimpleIdentityTest {
     @Test
     void testConstructor()
     throws Throwable {
-        final BigInteger value = randomValue();
+        final BigInteger value = Generators.randomValue(BigInteger.class);
         final BigIntegerIdentity identity = new BigIntegerIdentity(value);
         assertNotNull(value);
         assertSame(value, identity.getValue());
-    }
-
-    /**
-     * Generates a random {@code BigInteger}.
-     * 
-     * @return a random {@code BigInteger}.
-     */
-    protected @NotNull BigInteger randomValue() {
-        final byte[] buffer = new byte[RND.nextInt(20) + 1];
-        RND.nextBytes(buffer);
-        return new BigInteger(buffer);
     }
 
     /**
@@ -109,7 +106,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     protected @NotNull BigIntegerIdentity createInstanceWithNonNullValue() {
-        return new BigIntegerIdentity(randomValue());
+        return new BigIntegerIdentity(Generators.randomValue(BigInteger.class));
     }
 
     /**
@@ -181,11 +178,129 @@ extends AbstractSimpleIdentityTest {
     @Test
     void testFromIdentityToken()
     throws Throwable {
-        final BigInteger expectedValue = randomValue();
+        final BigInteger expectedValue = Generators.randomValue(BigInteger.class);
         final String token = createIdentityToken(expectedValue);
         final BigIntegerIdentity result = resolveIdentityToken(token);
         assertNotNull(result);
         assertNotNull(result.getValue());
         assertEquals(expectedValue, result.getValue());
+    }
+
+    /**
+     * Test for {@link BigIntegerIdentity#extractTokenValue(String)}.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @MethodSource("testExtractTokenValue")
+    void testExtractTokenValue(
+            final String prefix,
+            final BigInteger value)
+    throws Throwable {
+        final String token = IdentityTokenFormatter.format(prefix,
+                value == null ? null : value.toString());
+        final BigInteger result = BigIntegerIdentity.extractTokenValue(prefix, token);
+        assertEquals(value, result);
+    }
+
+    /**
+     * Test for {@link BigIntegerIdentity#extractRequiredTokenValue(String)}.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @MethodSource("testExtractTokenValue")
+    void testExtractRequiredTokenValue(
+            final String prefix,
+            final BigInteger value)
+    throws Throwable {
+        final String token = IdentityTokenFormatter.format(prefix,
+                value == null ? null : value.toString());
+        if (value == null) {
+            assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+                BigIntegerIdentity.extractRequiredTokenValue(prefix, token);
+            });
+        } else {
+            final BigInteger result = BigIntegerIdentity.extractRequiredTokenValue(prefix, token);
+            assertEquals(value, result);
+        }
+    }
+
+    private static Stream<Arguments> testExtractTokenValue() {
+        return Stream.of(
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, (BigInteger) null),
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, BigInteger.ZERO),
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, BigInteger.valueOf(1234567890L)),
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, BigInteger.valueOf(-1234567890L)),
+                Arguments.of(CUSTOM_PREFIX, (Long) null),
+                Arguments.of(CUSTOM_PREFIX, BigInteger.ZERO),
+                Arguments.of(CUSTOM_PREFIX, BigInteger.valueOf(1234567890L)),
+                Arguments.of(CUSTOM_PREFIX, BigInteger.valueOf(-1234567890L))
+        );
+    }
+
+    /**
+     * Test for {@link BigIntegerIdentity#resolve()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testResolve()
+    throws Throwable {
+        final BigInteger value = Generators.randomValue(BigInteger.class);
+        final BigIntegerIdentity expected = new BigIntegerIdentity(value);
+        final String token = expected.getIdentityToken();
+        assertSame(expected, expected.resolve(BigIntegerIdentity.class));
+        assertEquals(expected, TokenIdentity.fromToken(token).resolve(BigIntegerIdentity.class));
+        final Long longValue = Generators.randomValue(Long.class);
+        assertEquals(
+                new BigIntegerIdentity(BigInteger.valueOf(longValue)),
+                new LongIdentity(longValue).resolve(BigIntegerIdentity.class));
+        assertEquals(expected, new StringIdentity(String.valueOf(value)).resolve(BigIntegerIdentity.class));
+        final Identity notNumber = new StringIdentity("NotALong");
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            notNumber.resolve(BigIntegerIdentity.class);
+        });
+    }
+
+    /**
+     * Test for default {@link BigIntegerIdentity} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(BigIntegerIdentity.class));
+        assertNull(Generators.nullableDefaultValue(BigIntegerIdentity.class));
+        BigIntegerIdentity result = Generators.defaultValue(BigIntegerIdentity.class);
+        assertNotNull(result);
+        assertNull(result.getValue());
+    }
+
+    /**
+     * Test for random {@link BigIntegerIdentity} generation.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void testRandomGeneration(
+            final boolean nullable)
+    throws Throwable {
+        final HashSet<BigIntegerIdentity> results = new HashSet<>();
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+            boolean nullValues = false;
+            while (results.size() < 100 || (nullable && !nullValues)) {
+                final BigIntegerIdentity result;
+                if (nullable) {
+                    result = Generators.nullableRandomValue(BigIntegerIdentity.class);
+                } else {
+                    result = Generators.randomValue(BigIntegerIdentity.class);
+                }
+                if (result == null) {
+                    nullValues = true;
+                } else {
+                    results.add(result);
+                }
+            }
+            assertTrue(!nullable || nullValues);
+        });
+        assertTrue(results.size() >= 100);
     }
 }

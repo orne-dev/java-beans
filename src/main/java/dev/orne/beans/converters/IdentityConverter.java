@@ -25,6 +25,8 @@ package dev.orne.beans.converters;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 import dev.orne.beans.Identity;
 import dev.orne.beans.TokenIdentity;
@@ -39,6 +41,7 @@ import dev.orne.beans.TokenIdentity;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class IdentityConverter
 extends AbstractConverter {
 

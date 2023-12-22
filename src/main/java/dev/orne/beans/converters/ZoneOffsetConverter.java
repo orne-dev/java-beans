@@ -29,6 +29,9 @@ import java.time.temporal.TemporalAccessor;
 
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Implementation of {@code Converter} that converts {@code ZoneOffset} instances
  * to and from {@code String} using ID as {@code String} representation by default.
@@ -37,6 +40,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class ZoneOffsetConverter
 extends AbstractDateTimeConverter {
 

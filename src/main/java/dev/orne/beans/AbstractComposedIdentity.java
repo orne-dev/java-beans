@@ -25,6 +25,9 @@ package dev.orne.beans;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Abstract implementation for {@code Identity} for identities composed
@@ -34,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0, 2023-05
  * @since 0.5
  */
+@API(status=Status.MAINTAINED, since="0.5")
 public abstract class AbstractComposedIdentity
 extends AbstractIdentity {
 
@@ -46,12 +50,19 @@ extends AbstractIdentity {
     public static final String DEFAULT_NULL_PLACEHOLDER = "\0";
 
     /**
+     * Creates a new instance.
+     */
+    protected AbstractComposedIdentity() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected String getIdentityTokenBody() {
         final String[] parts = getIdentityTokenBodyParts();
-        if (parts == null) {
+        if (parts.length == 0) {
             return null;
         }
         final String placeholder = getIdentityTokenBodyPartsNullPlaceholder();
@@ -71,7 +82,7 @@ extends AbstractIdentity {
      * 
      * @return The identity token body for this instance
      */
-    protected abstract String[] getIdentityTokenBodyParts();
+    protected abstract @NotNull String[] getIdentityTokenBodyParts();
 
     /**
      * Return the identity token body parts separator.
@@ -106,10 +117,14 @@ extends AbstractIdentity {
      * prefix.
      * @see #extractTokenBodyParts(String, String, String, String)
      */
-    public static String[] extractTokenBodyParts(
+    public static @NotNull String[] extractTokenBodyParts(
             final @NotNull String prefix,
             final @NotNull String token) {
-        return extractTokenBodyParts(prefix, token, DEFAULT_SEPARATOR);
+        return extractTokenBodyParts(
+                prefix,
+                token,
+                DEFAULT_SEPARATOR,
+                DEFAULT_NULL_PLACEHOLDER);
     }
 
     /**
@@ -126,11 +141,15 @@ extends AbstractIdentity {
      * prefix.
      * @see #extractTokenBodyParts(String, String, String, String)
      */
-    public static String[] extractTokenBodyParts(
+    public static @NotNull String[] extractTokenBodyParts(
             final @NotNull String prefix,
             final @NotNull String token,
             final @NotNull String separator) {
-        return extractTokenBodyParts(prefix, token, separator, DEFAULT_NULL_PLACEHOLDER);
+        return extractTokenBodyParts(
+                prefix,
+                token,
+                separator,
+                DEFAULT_NULL_PLACEHOLDER);
     }
 
     /**
@@ -147,15 +166,19 @@ extends AbstractIdentity {
      * a valid simple identity token or if it doesn't start with the expected
      * prefix.
      */
-    public static String[] extractTokenBodyParts(
+    public static @NotNull String[] extractTokenBodyParts(
             final @NotNull String prefix,
             final @NotNull String token,
             final @NotNull String separator,
             final @NotNull String placeholder) {
+        Validate.notNull(prefix);
+        Validate.notNull(token);
+        Validate.notNull(separator);
+        Validate.notNull(placeholder);
         final String body = IdentityTokenFormatter.parse(prefix, token);
         final String[] result;
         if (body == null) {
-            result = null;
+            result = new String[0];
         } else {
             result = body.split(separator);
             for (int i = 0; i < result.length; i++) {
@@ -189,9 +212,12 @@ extends AbstractIdentity {
             final @NotNull String prefix,
             final @NotNull String token,
             final int expectedParts) {
-        final String[] result = extractTokenBodyParts(prefix, token);
-        validateTokenBodyParts(token, result, expectedParts);
-        return result;
+        return extractRequiredTokenBodyParts(
+                prefix,
+                token,
+                DEFAULT_SEPARATOR,
+                DEFAULT_NULL_PLACEHOLDER,
+                expectedParts);
     }
 
     /**
@@ -218,9 +244,12 @@ extends AbstractIdentity {
             final @NotNull String token,
             final @NotNull String separator,
             final int expectedParts) {
-        final String[] result = extractTokenBodyParts(prefix, token, separator);
-        validateTokenBodyParts(token, result, expectedParts);
-        return result;
+        return extractRequiredTokenBodyParts(
+                prefix,
+                token,
+                separator,
+                DEFAULT_NULL_PLACEHOLDER,
+                expectedParts);
     }
 
     /**
@@ -249,7 +278,7 @@ extends AbstractIdentity {
             final @NotNull String separator,
             final @NotNull String placeholder,
             final int expectedParts) {
-        final String[] result = extractTokenBodyParts(prefix, token, separator);
+        final String[] result = extractTokenBodyParts(prefix, token, separator, placeholder);
         validateTokenBodyParts(token, result, expectedParts);
         return result;
     }
@@ -267,9 +296,9 @@ extends AbstractIdentity {
      */
     private static void validateTokenBodyParts(
             final @NotNull String token,
-            final String[] parts,
+            final @NotNull String[] parts,
             final int expectedParts) {
-        if (parts == null || parts.length != expectedParts) {
+        if (parts.length != expectedParts) {
             throw new UnrecognizedIdentityTokenException(
                     "Unrecognized identity token: " + token);
         }

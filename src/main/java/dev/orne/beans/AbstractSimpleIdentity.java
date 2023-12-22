@@ -29,6 +29,8 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Abstract implementation for {@code Identity} for identities composed
@@ -39,6 +41,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @since 0.1
  * @param <T> The type of the identity value
  */
+@API(status=Status.STABLE, since="0.1")
 public abstract class AbstractSimpleIdentity<T extends Serializable>
 extends AbstractIdentity {
 

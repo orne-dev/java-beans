@@ -22,6 +22,9 @@ package dev.orne.beans;
  * #L%
  */
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Interface representing a bean with identity that allows assigning its
  * identity.
@@ -30,6 +33,7 @@ package dev.orne.beans;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public interface WritableIdentityBean
 extends IdentityBean {
 

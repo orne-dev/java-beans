@@ -33,6 +33,9 @@ import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.Pattern;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Validation for valid identity token prefixes.
  * Validates that the token, if non null, is not empty and contains only
@@ -42,6 +45,7 @@ import javax.validation.constraints.Pattern;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Target({ 
     ElementType.METHOD,
     ElementType.FIELD,
@@ -53,23 +57,28 @@ import javax.validation.constraints.Pattern;
 )
 @Documented
 @Constraint(validatedBy = {})
-@Pattern(regexp = IdentityTokenFormatter.VALID_PREFIX_FULL_REGEX)
+@Pattern(regexp = IdentityTokenFormatter.PREFIX)
 @ReportAsSingleViolation
 public @interface ValidIdentityTokenPrefix {
 
-    /** The default message key. */
-    public static final String DEFAULT_MESSAGE =
-            "dev.orne.beans.ValidIdentityTokenPrefix.message";
-    /** The default message template. */
-    public static final String DEFAULT_ERROR_TEMPLATE =
-            "{" + DEFAULT_MESSAGE + "}";
+    /**
+     * Returns the error message.
+     * 
+     * @return The error message.
+     */
+    String message() default "{dev.orne.beans.ValidIdentityTokenPrefix.message}";
 
-    /** @return The error message template. */
-    String message() default DEFAULT_ERROR_TEMPLATE;
-
-    /** @return  The validation groups. */
+    /**
+     * Returns the validation groups.
+     * 
+     * @return The validation groups.
+     */
     Class<?>[] groups() default { };
 
-    /** @return  The validation client payload. */
+    /**
+     * Returns the validation client payload.
+     * 
+     * @return The validation client payload.
+     */
     Class<? extends Payload>[] payload() default { };
 }

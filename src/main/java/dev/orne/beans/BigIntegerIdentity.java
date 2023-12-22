@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -26,6 +26,11 @@ import java.math.BigInteger;
 
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+import dev.orne.test.rnd.GeneratorMethod;
+
 /**
  * Implementation for {@code Identity} for identities composed
  * of a single inner {@code BigInteger} value.
@@ -34,6 +39,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class BigIntegerIdentity
 extends AbstractSimpleIdentity<BigInteger> {
 
@@ -45,6 +51,7 @@ extends AbstractSimpleIdentity<BigInteger> {
      * 
      * @param value The identity value
      */
+    @GeneratorMethod
     public BigIntegerIdentity(
             final BigInteger value) {
         super(value);

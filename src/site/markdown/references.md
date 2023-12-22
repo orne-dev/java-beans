@@ -17,10 +17,8 @@ protected static class MyBean {
   @NotNull(groups=RequireCode.class)
   @ValidCode(groups=Default.class,RequireCode.class)
   private String code;
-  // ...
-  public static interface RequireCode {
-    // Validation group
-  }
+  // Validation group
+  public static interface RequireCode {}
 }
 ```
 

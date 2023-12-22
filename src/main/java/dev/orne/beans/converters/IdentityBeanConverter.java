@@ -27,6 +27,9 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 import dev.orne.beans.BaseIdentityBean;
 import dev.orne.beans.Identity;
@@ -52,6 +55,7 @@ import dev.orne.beans.WritableIdentityBean;
  * @see IdentityBean
  * @see IdentityConverter
  */
+@API(status=Status.STABLE, since="0.3")
 public class IdentityBeanConverter
 extends AbstractConverter {
 
@@ -250,8 +254,8 @@ extends AbstractConverter {
             final @NotNull Class<T> type,
             final Object value) {
         try {
-            return type.newInstance();
-        } catch (final InstantiationException | IllegalAccessException e) {
+            return ConstructorUtils.invokeConstructor(type);
+        } catch (final ReflectiveOperationException e) {
             throw new ConversionException(
                     String.format(
                         NEW_INSTANCE_ERROR,

@@ -36,6 +36,9 @@ import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.NotNull;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Validation for beans that require a valid, non null identity.
  * Validates that the bean, if non null, has a non null valid identity.
@@ -44,6 +47,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @Target({ 
     ElementType.CONSTRUCTOR,
     ElementType.METHOD,
@@ -63,20 +67,25 @@ import javax.validation.constraints.NotNull;
 @ReportAsSingleViolation
 public @interface ValidBeanIdentity {
 
-    /** The default message key. */
-    public static final String DEFAULT_MESSAGE =
-            "dev.orne.beans.ValidBeanIdentity.message";
-    /** The default message template. */
-    public static final String DEFAULT_ERROR_TEMPLATE =
-            "{" + DEFAULT_MESSAGE + "}";
+    /**
+     * Returns the error message.
+     * 
+     * @return The error message.
+     */
+    String message() default "{dev.orne.beans.ValidBeanIdentity.message}";
 
-    /** @return The error message template. */
-    String message() default DEFAULT_ERROR_TEMPLATE;
-
-    /** @return  The validation groups. */
+    /**
+     * Returns the validation groups.
+     * 
+     * @return The validation groups.
+     */
     Class<?>[] groups() default { };
 
-    /** @return  The validation client payload. */
+    /**
+     * Returns the validation client payload.
+     * 
+     * @return The validation client payload.
+     */
     Class<? extends Payload>[] payload() default { };
 
     /**
@@ -84,8 +93,16 @@ public @interface ValidBeanIdentity {
      * 
      * @see ValidBeanIdentity
      */
+    @API(status=Status.INTERNAL, since="0.1")
     public static class ValidBeanIdentityValidator
     implements ConstraintValidator<ValidBeanIdentity, Object> {
+
+        /**
+         * Creates a new instance.
+         */
+        public ValidBeanIdentityValidator() {
+            super();
+        }
 
         /**
          * {@inheritDoc}
@@ -94,24 +111,25 @@ public @interface ValidBeanIdentity {
         public boolean isValid(
                 final Object value,
                 final ConstraintValidatorContext context) {
+            if (value == null) {
+                return true;
+            }
             boolean valid = true;
-            if (value != null) {
-                if (value instanceof Iterable || value.getClass().isArray()) {
-                    final Iterable<?> iterable;
-                    if (value instanceof Iterable) {
-                        iterable = (Iterable<?>) value;
-                    } else {
-                        iterable = Arrays.asList((Object[]) value);
-                    }
-                    for (final Object obj : iterable) {
-                        valid = isValid(obj);
-                        if (!valid) {
-                            break;
-                        }
-                    }
+            if (value instanceof Iterable || value.getClass().isArray()) {
+                final Iterable<?> iterable;
+                if (value instanceof Iterable) {
+                    iterable = (Iterable<?>) value;
                 } else {
-                    valid = isValid(value);
+                    iterable = Arrays.asList((Object[]) value);
                 }
+                for (final Object obj : iterable) {
+                    valid = isValid(obj);
+                    if (!valid) {
+                        break;
+                    }
+                }
+            } else {
+                valid = isValid(value);
             }
             return valid;
         }

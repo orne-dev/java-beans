@@ -4,12 +4,12 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.5.3</version>
+    <version>0.7.0</version>
     <relativePath />
   </parent>
 
   <artifactId>beans</artifactId>
-  <version>0.5.2</version>
+  <version>0.6.0</version>
   <packaging>jar</packaging>
 
   <name>Orne Beans</name>
@@ -33,13 +33,6 @@
     </developer>
   </developers>
 
-  <scm>
-    <url>https://github.com/orne-dev/java-beans/tree/master</url>
-    <connection>scm:git:git://github.com/orne-dev/java-beans.git</connection>
-    <developerConnection>scm:git:ssh://github.com:orne-dev/java-beans.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-
   <properties>
     <java.version>8</java.version>
     <java.module.name>dev.orne.beans</java.module.name>
@@ -47,16 +40,17 @@
 
     <commons.lang.version>3.10</commons.lang.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
-    <commons.codec.version>1.14</commons.codec.version>
 
     <apiguardian.version>1.1.2</apiguardian.version>
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <fasterxml.jackson.version>2.15.2</fasterxml.jackson.version>
     <jaxb.api.version>2.3.1</jaxb.api.version>
+    <dev.orne.generators.version>0.2.0</dev.orne.generators.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
 
+    <github.project.id>java-beans</github.project.id>
     <sonar.projectKey>orne-dev_java-beans</sonar.projectKey>
   </properties>
 
@@ -85,12 +79,12 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>${commons.codec.version}</version>
-    </dependency>
 
+    <dependency>
+      <groupId>org.apiguardian</groupId>
+      <artifactId>apiguardian-api</artifactId>
+      <optional>true</optional>
+    </dependency>
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
@@ -107,6 +101,12 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>${fasterxml.jackson.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>dev.orne.test</groupId>
+      <artifactId>generators</artifactId>
+      <version>${dev.orne.generators.version}</version>
       <optional>true</optional>
     </dependency>
 
@@ -162,17 +162,15 @@
             <groups>it</groups>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <configuration>
-            <topSiteURL>https://orne-dev.github.io/java-beans/</topSiteURL>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
   </build>
 
+  <scm>
+    <connection>${github.scm.connection}</connection>
+    <developerConnection>${github.scm.connection.dev}</developerConnection>
+    <url>${github.scm.url}</url>
+  </scm>
   <distributionManagement>
     <site>
       <id>github</id>

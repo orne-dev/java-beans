@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2023 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -24,18 +24,27 @@ package dev.orne.beans;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Random;
+import java.math.BigInteger;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import dev.orne.test.rnd.Generators;
 
 /**
  * Unit tests for {@code LongIdentity}.
  *
  * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
- * @version 1.0, 2020-05
+ * @version 1.1, 2023-11
  * @since 0.1
  * @see LongIdentity
  */
@@ -43,8 +52,8 @@ import org.junit.jupiter.api.Test;
 class LongIdentityTest
 extends AbstractSimpleIdentityTest {
 
-    /** The random value generator. */
-    private static final Random RND = new Random();
+    /** Custom prefix. */
+    private static final String CUSTOM_PREFIX = "CustomPrefix";
 
     /**
      * Test for {@link LongIdentity#LongIdentity(String)}.
@@ -64,19 +73,10 @@ extends AbstractSimpleIdentityTest {
     @Test
     void testConstructor()
     throws Throwable {
-        final Long value = randomValue();
+        final Long value = Generators.randomValue(Long.class);
         final LongIdentity identity = new LongIdentity(value);
         assertNotNull(value);
         assertSame(value, identity.getValue());
-    }
-
-    /**
-     * Generates a random {@code long}.
-     * 
-     * @return a random {@code long}.
-     */
-    protected long randomValue() {
-        return RND.nextLong();
     }
 
     /**
@@ -106,7 +106,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     protected @NotNull LongIdentity createInstanceWithNonNullValue() {
-        return new LongIdentity(randomValue());
+        return new LongIdentity(Generators.randomValue(Long.class));
     }
 
     /**
@@ -178,11 +178,132 @@ extends AbstractSimpleIdentityTest {
     @Test
     void testFromIdentityToken()
     throws Throwable {
-        final Long expectedValue = randomValue();
+        final Long expectedValue = Generators.randomValue(Long.class);
         final String token = createIdentityToken(expectedValue);
         final LongIdentity result = resolveIdentityToken(token);
         assertNotNull(result);
         assertNotNull(result.getValue());
         assertEquals(expectedValue, result.getValue());
+    }
+
+    /**
+     * Test for {@link LongIdentity#extractTokenValue(String)}.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @MethodSource("testExtractTokenValue")
+    void testExtractTokenValue(
+            final String prefix,
+            final Long value)
+    throws Throwable {
+        final String token = IdentityTokenFormatter.format(prefix,
+                value == null ? null : value.toString());
+        final Long result = LongIdentity.extractTokenValue(prefix, token);
+        assertEquals(value, result);
+    }
+
+    /**
+     * Test for {@link LongIdentity#extractRequiredTokenValue(String)}.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @MethodSource("testExtractTokenValue")
+    void testExtractRequiredTokenValue(
+            final String prefix,
+            final Long value)
+    throws Throwable {
+        final String token = IdentityTokenFormatter.format(prefix,
+                value == null ? null : value.toString());
+        if (value == null) {
+            assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+                LongIdentity.extractRequiredTokenValue(prefix, token);
+            });
+        } else {
+            final Long result = LongIdentity.extractRequiredTokenValue(prefix, token);
+            assertEquals(value, result);
+        }
+    }
+
+    private static Stream<Arguments> testExtractTokenValue() {
+        return Stream.of(
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, (Long) null),
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, 0L),
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, 1234567890L),
+                Arguments.of(IdentityTokenFormatter.DEFAULT_PREFIX, -1234567890L),
+                Arguments.of(CUSTOM_PREFIX, (Long) null),
+                Arguments.of(CUSTOM_PREFIX, 0L),
+                Arguments.of(CUSTOM_PREFIX, 1234567890L),
+                Arguments.of(CUSTOM_PREFIX, -1234567890L)
+        );
+    }
+
+    /**
+     * Test for {@link LongIdentity#resolve()}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testResolve()
+    throws Throwable {
+        final Long value = Generators.randomValue(Long.class);
+        final LongIdentity expected = new LongIdentity(value);
+        final String token = expected.getIdentityToken();
+        assertSame(expected, expected.resolve(LongIdentity.class));
+        assertEquals(expected, TokenIdentity.fromToken(token).resolve(LongIdentity.class));
+        assertEquals(expected, new BigIntegerIdentity(BigInteger.valueOf(value)).resolve(LongIdentity.class));
+        assertEquals(expected, new StringIdentity(String.valueOf(value)).resolve(LongIdentity.class));
+        final Identity notLongId = new StringIdentity("NotALong");
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            notLongId.resolve(LongIdentity.class);
+        });
+        final Identity longOverflowId = new BigIntegerIdentity(
+                BigInteger.valueOf(Long.MAX_VALUE)
+                    .add(BigInteger.ONE));
+        assertThrows(UnrecognizedIdentityTokenException.class, () -> {
+            longOverflowId.resolve(LongIdentity.class);
+        });
+    }
+
+    /**
+     * Test for default {@link LongIdentity} generation.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testGenerable()
+    throws Throwable {
+        assertTrue(Generators.supports(LongIdentity.class));
+        assertNull(Generators.nullableDefaultValue(LongIdentity.class));
+        LongIdentity result = Generators.defaultValue(LongIdentity.class);
+        assertNotNull(result);
+        assertNull(result.getValue());
+    }
+
+    /**
+     * Test for random {@link LongIdentity} generation.
+     * @throws Throwable Should not happen
+     */
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void testRandomGeneration(
+            final boolean nullable)
+    throws Throwable {
+        final HashSet<LongIdentity> results = new HashSet<>();
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+            boolean nullValues = false;
+            while (results.size() < 100 || (nullable && !nullValues)) {
+                final LongIdentity result;
+                if (nullable) {
+                    result = Generators.nullableRandomValue(LongIdentity.class);
+                } else {
+                    result = Generators.randomValue(LongIdentity.class);
+                }
+                if (result == null) {
+                    nullValues = true;
+                } else {
+                    results.add(result);
+                }
+            }
+            assertTrue(!nullable || nullValues);
+        });
+        assertTrue(results.size() >= 100);
     }
 }

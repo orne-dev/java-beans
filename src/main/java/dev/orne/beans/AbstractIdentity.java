@@ -25,6 +25,8 @@ package dev.orne.beans;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Base abstract implementation for {@code Identity}. Manages the formatting
@@ -34,6 +36,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public abstract class AbstractIdentity
 implements Identity {
 
@@ -42,6 +45,13 @@ implements Identity {
 
     /** The generated identity token cache. */
     private transient String identityToken;
+
+    /**
+     * Creates a new instance.
+     */
+    protected AbstractIdentity() {
+        super();
+    }
 
     /**
      * Return the identity token prefix used for instances of this identity

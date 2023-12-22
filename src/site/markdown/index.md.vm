@@ -31,3 +31,7 @@ Provides utilities for implementation and management of POJO Java Beans.
 - [Apache Commons BeanUtils converters](converters.html)
 
   Adds extra supported conversions to Apache Commons BeanUtils.
+
+- **Experimental** [SPI based Jackson polymorphism](jackson.html#spi-based-polymorphism)
+
+  Adds SPI based name based polymorphism to Jackson.

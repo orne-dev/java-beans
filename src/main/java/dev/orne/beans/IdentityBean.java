@@ -27,6 +27,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
 /**
  * Interface representing a bean with identity. Allows hiding the actual
  * identity implementation from referencing users.
@@ -35,6 +38,7 @@ import javax.validation.groups.Default;
  * @version 1.0, 2020-05
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 @BeanReference(IdentityBean.RequireIdentity.class)
 public interface IdentityBean {
 

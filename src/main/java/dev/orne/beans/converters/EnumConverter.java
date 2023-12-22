@@ -29,6 +29,8 @@ import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
 
 /**
  * Implementation of {@code Converter} that converts {@code Enum} instances
@@ -39,6 +41,7 @@ import org.apache.commons.lang3.Validate;
  * @version 2.1, 2022-10
  * @since 0.1
  */
+@API(status=Status.STABLE, since="0.1")
 public class EnumConverter
 extends AbstractConverter {
 

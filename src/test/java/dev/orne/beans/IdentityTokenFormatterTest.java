@@ -46,14 +46,14 @@ class IdentityTokenFormatterTest {
      */
     @ParameterizedTest
     @CsvSource({
-        "," + IdentityTokenFormatter.NULL_TOKEN,
+        "," + IdentityTokenFormatter.NULL_BODY,
         "ThisIsAValidBody,ThisIsAValidBody",
-        ".," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FY",
-        ".a," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQQ",
-        ".aa," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWC",
-        ".aaa," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYI",
-        ".aaaa," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYLB",
-        "4455456057.5454861231321357," + IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "GQ2DKNJUGU3DANJXFY2TINJUHA3DCMRTGEZTEMJTGU3Q",
+        ".," + IdentityTokenFormatter.ENCODED_BODY_PREFIX + "Lg",
+        ".a," + IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmE",
+        ".aa," + IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmFh",
+        ".aaa," + IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmFhYQ",
+        ".aaaa," + IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmFhYWE",
+        "4455456057.5454861231321357," + IdentityTokenFormatter.ENCODED_BODY_PREFIX + "NDQ1NTQ1NjA1Ny41NDU0ODYxMjMxMzIxMzU3",
     })
     void testEncodeBody(
             final String body,
@@ -78,13 +78,13 @@ class IdentityTokenFormatterTest {
     @Test
     void testEncodeInvalidBody() {
         String body = RandomStringUtils.random(20);
-        while (body.matches(IdentityTokenFormatter.VALID_UNENCODED_BODY_REGEX)) {
+        while (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
             body = RandomStringUtils.random(20);
         }
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertNotNull(result);
         assertTrue(result.startsWith(
-                IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX));
+                IdentityTokenFormatter.ENCODED_BODY_PREFIX));
     }
 
     /**
@@ -117,14 +117,14 @@ class IdentityTokenFormatterTest {
      */
     @ParameterizedTest
     @CsvSource({
-        IdentityTokenFormatter.NULL_TOKEN + ",",
+        IdentityTokenFormatter.NULL_BODY + ",",
         "ThisIsAValidBody,ThisIsAValidBody",
-        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FY" + ",.",
-        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQQ" + ",.a",
-        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWC" + ",.aa",
-        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYI" + ",.aaa",
-        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "FZQWCYLB" + ",.aaaa",
-        IdentityTokenFormatter.B32_ENCODED_BODY_PREFIX + "GQ2DKNJUGU3DANJXFY2TINJUHA3DCMRTGEZTEMJTGU3Q" + ",4455456057.5454861231321357",
+        IdentityTokenFormatter.ENCODED_BODY_PREFIX + "Lg" + ",.",
+        IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmE" + ",.a",
+        IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmFh" + ",.aa",
+        IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmFhYQ" + ",.aaa",
+        IdentityTokenFormatter.ENCODED_BODY_PREFIX + "LmFhYWE" + ",.aaaa",
+        IdentityTokenFormatter.ENCODED_BODY_PREFIX + "NDQ1NTQ1NjA1Ny41NDU0ODYxMjMxMzIxMzU3" + ",4455456057.5454861231321357",
     })
     void testDecodeBody(
             final String body,
@@ -154,7 +154,7 @@ class IdentityTokenFormatterTest {
     void testDecodeEncodedBody()
     throws Throwable {
         String body = RandomStringUtils.random(20);
-        while (body.matches(IdentityTokenFormatter.VALID_UNENCODED_BODY_REGEX)) {
+        while (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
             body = RandomStringUtils.random(20);
         }
         final String encoded = IdentityTokenFormatter.encodeBody(body);
@@ -322,6 +322,23 @@ class IdentityTokenFormatterTest {
     void testParsePrefix()
             throws Throwable  {
         final String prefix = "CustomPrefix";
+        final String body = RandomStringUtils.random(20);
+        final String token =
+                prefix +
+                IdentityTokenFormatter.encodeBody(body);
+        final String result = IdentityTokenFormatter.parse(prefix, token);
+        assertNotNull(result);
+        assertEquals(body, result);
+    }
+
+    /**
+     * Test {@link IdentityTokenFormatter#parse(String, String)}.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testParseEmptyPrefix()
+            throws Throwable  {
+        final String prefix = "";
         final String body = RandomStringUtils.random(20);
         final String token =
                 prefix +

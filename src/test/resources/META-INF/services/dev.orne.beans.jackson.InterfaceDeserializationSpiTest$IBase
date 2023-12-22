@@ -1,0 +1,4 @@
+dev.orne.beans.jackson.InterfaceDeserializationSpiTest$DefaultImpl
+dev.orne.beans.jackson.InterfaceDeserializationSpiTest$ExtraImpl
+dev.orne.beans.jackson.InterfaceDeserializationSpiTest$DerivedImpl
+dev.orne.beans.jackson.InterfaceDeserializationSpiTest$UnnamedImpl
