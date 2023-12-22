@@ -1,4 +1,4 @@
-# :package: 0.6.0
+# :package: 0.6.0 (2023-12-22)
 
 01. :wrench: Removed dependency with `commons-codec:commons-codec`.
 01. :boom: Changed `IdentityTokenFormatter` behavior.
