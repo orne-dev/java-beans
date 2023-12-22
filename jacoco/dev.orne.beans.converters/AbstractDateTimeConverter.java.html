@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractDateTimeConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.converters</a> &gt; <span class="el_source">AbstractDateTimeConverter.java</span></div><h1>AbstractDateTimeConverter.java</h1><pre class="source lang-java linenums">package dev.orne.beans.converters;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Implementation of {@code Converter} that converts {@code LocalDate} instances
+ * to and from {@code String} using ISO-8601 as {@code String}
+ * representation by default.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public abstract class AbstractDateTimeConverter
+extends AbstractConverter {
+
+    /** The temporal value formatter. */
+    private final @NotNull DateTimeFormatter formatter;
+    /** The temporal value parsers. */
+<span class="fc" id="L64">    private final @NotNull Set&lt;DateTimeFormatter&gt; parsers = new LinkedHashSet&lt;&gt;();</span>
+    /** The logger for this instance. */
+    private Logger logger;
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param formatter The temporal value formatter and default parser
+     */
+    protected AbstractDateTimeConverter(
+            final @NotNull DateTimeFormatter formatter) {
+<span class="fc" id="L76">        super();</span>
+<span class="fc" id="L77">        this.formatter = formatter;</span>
+<span class="fc" id="L78">        this.parsers.add(formatter);</span>
+<span class="fc" id="L79">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param formatter The temporal value formatter and default parser
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    protected AbstractDateTimeConverter(
+            final @NotNull DateTimeFormatter formatter,
+            final TemporalAccessor defaultValue) {
+<span class="fc" id="L91">        super(defaultValue);</span>
+<span class="fc" id="L92">        this.formatter = formatter;</span>
+<span class="fc" id="L93">        this.parsers.add(formatter);</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Returns the temporal value formatter and default parser.
+     * 
+     * @return The temporal value formatter and default parser
+     */
+    public @NotNull DateTimeFormatter getFormatter() {
+<span class="fc" id="L102">        return this.formatter;</span>
+    }
+
+    /**
+     * Returns the extra temporal value parsers.
+     * 
+     * @return The extra temporal value parsers
+     */
+    public @NotNull List&lt;DateTimeFormatter&gt; getParsers() {
+<span class="fc" id="L111">        return Collections.unmodifiableList(new ArrayList&lt;&gt;(this.parsers));</span>
+    }
+
+    /**
+     * Sets the temporal value parsers.
+     * 
+     * @param parsers The temporal value parsers
+     */
+    public void setParsers(
+            final @NotNull DateTimeFormatter... parsers) {
+<span class="fc" id="L121">        setParsers(Arrays.asList(parsers));</span>
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * Sets the temporal value parsers.
+     * 
+     * @param parsers The temporal value parsers
+     */
+    public void setParsers(
+            final @NotNull Collection&lt;DateTimeFormatter&gt; parsers) {
+<span class="fc" id="L131">        this.parsers.clear();</span>
+<span class="fc" id="L132">        this.parsers.addAll(parsers);</span>
+<span class="fc" id="L133">    }</span>
+
+    /**
+     * Adds specified parsers to the temporal value parsers.
+     * 
+     * @param parsers The temporal value parsers to add
+     */
+    public void addParsers(
+            final @NotNull DateTimeFormatter... parsers) {
+<span class="fc" id="L142">        addParsers(Arrays.asList(parsers));</span>
+<span class="fc" id="L143">    }</span>
+
+    /**
+     * Adds specified parsers to the temporal value parsers.
+     * 
+     * @param parsers The temporal value parsers to add
+     */
+    public void addParsers(
+            final @NotNull Collection&lt;DateTimeFormatter&gt; parsers) {
+<span class="fc" id="L152">        this.parsers.addAll(parsers);</span>
+<span class="fc" id="L153">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected abstract Class&lt;?&gt; getDefaultType();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected &lt;T&gt; T convertToType(
+            final @NotNull Class&lt;T&gt; type,
+            final Object value) {
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if (TemporalAccessor.class.isAssignableFrom(type)) {</span>
+            @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L170">            final Class&lt;? extends TemporalAccessor&gt; temporalType =</span>
+                    (Class&lt;? extends TemporalAccessor&gt;) type;
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            if (value instanceof TemporalAccessor) {</span>
+<span class="fc" id="L173">                return type.cast(fromTemporalAccessor(</span>
+                        temporalType,
+                        (TemporalAccessor) value));
+<span class="fc bfc" id="L176" title="All 2 branches covered.">            } else if (value instanceof Long) {</span>
+<span class="fc" id="L177">                return type.cast(fromTemporalAccessor(</span>
+                        temporalType,
+<span class="fc" id="L179">                        Instant.ofEpochMilli((long) value)));</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">            } else if (value instanceof GregorianCalendar) {</span>
+<span class="fc" id="L181">                return type.cast(fromTemporalAccessor(</span>
+                        temporalType,
+<span class="fc" id="L183">                        ((GregorianCalendar) value).toZonedDateTime()));</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            } else if (value instanceof Calendar) {</span>
+<span class="fc" id="L185">                return type.cast(fromTemporalAccessor(</span>
+                        temporalType,
+<span class="fc" id="L187">                        ((Calendar) value).toInstant()));</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">            } else if (value instanceof Date) {</span>
+<span class="fc" id="L189">                return type.cast(fromTemporalAccessor(</span>
+                        temporalType,
+<span class="fc" id="L191">                        ((Date) value).toInstant()));</span>
+            } else {
+<span class="fc" id="L193">                return type.cast(parseString(temporalType, value.toString()));</span>
+            }
+        }
+<span class="fc" id="L196">        throw conversionException(type, value);</span>
+    }
+
+    /**
+     * Tries to parse a {@code TemporalAccessor} of the specified type
+     * from the specified {@code String} value. Tries the parses in order
+     * calling {@link #parse(Class, DateTimeFormatter, String)}. If all
+     * parsers fail throws exception thrown by first parser.
+     * 
+     * @param &lt;T&gt; The expected type of {@code TemporalAccessor}
+     * @param type The expected type of {@code TemporalAccessor}
+     * @param value The value to parse
+     * @return The parsed {@code TemporalAccessor} of the expected type
+     * @throws DateTimeException If the value cannot be parsed
+     */
+    protected &lt;T extends TemporalAccessor&gt; T parseString(
+            final @NotNull Class&lt;T&gt; type,
+            final @NotNull String value) {
+<span class="fc" id="L214">        DateTimeException firstException = null;</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        for (final DateTimeFormatter parser : this.parsers) {</span>
+            try {
+<span class="fc" id="L217">                return type.cast(parse(type, parser, value));</span>
+<span class="fc" id="L218">            } catch (final DateTimeException dte) {</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">                if (firstException == null) {</span>
+<span class="fc" id="L220">                    firstException = dte;</span>
+                } else {
+<span class="fc" id="L222">                    firstException.addSuppressed(dte);</span>
+                }
+<span class="fc" id="L224">                getLogger().debug(&quot;Failed to parse temporal value&quot;, dte);</span>
+            }
+<span class="fc" id="L226">        }</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        if (firstException == null) {</span>
+<span class="fc" id="L228">            throw conversionException(type, value);</span>
+        } else {
+<span class="fc" id="L230">            throw firstException;</span>
+        }
+    }
+
+    /**
+     * Tries to parse a {@code TemporalAccessor} of the specified type
+     * from the specified value.
+     * 
+     * @param &lt;T&gt; The expected type of {@code TemporalAccessor}
+     * @param type The expected type of {@code TemporalAccessor}
+     * @param parser The parser to use for parsing the value
+     * @param value The value to parse
+     * @return The parsed {@code TemporalAccessor} of the expected type
+     * @throws DateTimeException If the value cannot be parsed
+     */
+    protected &lt;T extends TemporalAccessor&gt; T parse(
+            final @NotNull Class&lt;T&gt; type,
+            final @NotNull DateTimeFormatter parser,
+            final @NotNull String value) {
+<span class="fc" id="L249">        return fromTemporalAccessor(type, parser.parse(value));</span>
+    }
+
+    /**
+     * Converts the {@code TemporalAccessor} passed as argument to the
+     * specified type.
+     * 
+     * @param &lt;T&gt; The expected type of {@code TemporalAccessor}
+     * @param type The expected type of {@code TemporalAccessor}
+     * @param value The {@code TemporalAccessor} to convert to the
+     * expected type
+     * @return The converted {@code TemporalAccessor} of the expected type
+     * @throws DateTimeException If the value cannot be converted
+     */
+    protected abstract &lt;T extends TemporalAccessor&gt; T fromTemporalAccessor(
+            @NotNull Class&lt;T&gt; type,
+            @NotNull TemporalAccessor value);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String convertToString(
+            final Object value) {
+<span class="fc bfc" id="L273" title="All 2 branches covered.">        if (value instanceof TemporalAccessor) {</span>
+<span class="fc" id="L274">            return this.formatter.format((TemporalAccessor) value);</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        } else if (value instanceof String) {</span>
+<span class="fc" id="L276">            return value.toString();</span>
+        } else {
+<span class="fc" id="L278">            throw conversionException(String.class, value);</span>
+        }
+    }
+
+    /**
+     * Returns the logger for this instance
+     * 
+     * @return The logger for this instance
+     */
+    protected @NotNull Logger getLogger() {
+<span class="fc" id="L288">        synchronized (this) {</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">            if (this.logger == null) {</span>
+<span class="fc" id="L290">                this.logger = LoggerFactory.getLogger(getClass());</span>
+            }
+<span class="fc" id="L292">            return this.logger;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

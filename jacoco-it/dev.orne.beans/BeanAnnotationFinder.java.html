@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeanAnnotationFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">BeanAnnotationFinder.java</span></div><h1>BeanAnnotationFinder.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.WeakHashMap;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * &lt;p&gt;Type level annotation finder. Detects annotations in classes,
+ * directly implemented interfaces, super classes and inherited
+ * interfaces. Supports detection of annotation list annotations.&lt;/p&gt;
+ *
+ * &lt;p&gt;Examples:&lt;/p&gt;
+ * 
+ * &lt;p&gt;To search for type level annotations:&lt;/p&gt;
+ * &lt;pre&gt;
+ * Set&amp;lt;?&amp;gt; annotations = new BeanAnnotationFinder&amp;lt;&amp;gt;(annotationType)
+ *     .find(beanType);
+ * // Real case
+ * Set&amp;lt;NotNull&amp;gt; annotations = new BeanAnnotationFinder&amp;lt;&amp;gt;(NotNull.class)
+ *     .find(beanType);
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;To search for type level annotations with annotation list support:&lt;/p&gt;
+ * &lt;pre&gt;
+ * Set&amp;lt;?&amp;gt; annotations = new BeanAnnotationFinder&amp;lt;&amp;gt;(
+ *         annotationType,
+ *         annotationListType,
+ *         annotationListExtractor)
+ *     .find(beanType);
+ * // Real case
+ * Set&amp;lt;NotNull&amp;gt; annotations = new BeanAnnotationFinder&amp;lt;&amp;gt;(
+ *         NotNull.class,
+ *         NotNull.List.class,
+ *         NotNull.List::values)
+ *     .find(beanType);
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;Instances are reusable and thread-safe.&lt;/p&gt;
+ *
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @param &lt;T&gt; The supported annotation type
+ * @param &lt;L&gt; The supported annotation list type
+ * @since 0.1
+ */
+@API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+public class BeanAnnotationFinder&lt;
+        T extends Annotation,
+        L extends Annotation&gt; {
+
+    /** The class logger. */
+<span class="fc" id="L87">    private static final Logger LOG = LoggerFactory.getLogger(BeanAnnotationFinder.class);</span>
+    /** The type level annotations shared cache. */
+<span class="fc" id="L89">    private static final Cache SHARED_CACHE = new WeakHashMapCache();</span>
+
+    /** The searched annotation type. */
+    private final @NotNull Class&lt;T&gt; annotationType;
+    /** The searched annotation list type. */
+    private final Class&lt;L&gt; annotationListType;
+    /** The searched annotation list extractor. */
+    private final AnnotationListExtractor&lt;L, T&gt; extractor;
+    /**
+     * The type level annotations cache for this instance. By default shared
+     * between all instances.
+     */
+<span class="fc" id="L101">    private @NotNull Cache cache = SHARED_CACHE;</span>
+
+    /**
+     * Creates a new instance.
+     * 
+     * @param annotationType The searched annotation type
+     */
+    public BeanAnnotationFinder(
+            final @NotNull Class&lt;T&gt; annotationType) {
+<span class="fc" id="L110">        this(annotationType, null, null);</span>
+<span class="fc" id="L111">    }</span>
+
+    /**
+     * Creates a new instance. To support annotation list both
+     * {@code annotationListType} and {@code extractor} must be supplied.
+     * 
+     * @param annotationType The searched annotation type
+     * @param annotationListType The searched annotation list type
+     * @param extractor The searched annotation list extractor
+     */
+    public BeanAnnotationFinder(
+            final @NotNull Class&lt;T&gt; annotationType,
+            final Class&lt;L&gt; annotationListType,
+            final AnnotationListExtractor&lt;L, T&gt; extractor) {
+<span class="fc" id="L125">        super();</span>
+<span class="fc" id="L126">        Validate.notNull(annotationType, &quot;Annotation type is required.&quot;);</span>
+<span class="fc" id="L127">        this.annotationType = annotationType;</span>
+<span class="pc bpc" id="L128" title="1 of 6 branches missed.">        if ((annotationListType == null) != (extractor == null)) {</span>
+<span class="nc" id="L129">            LOG.warn(</span>
+                    &quot;To support annotation lists both 'annotationListType'&quot; +
+                        &quot; and 'extractor' are required.&quot; +
+                        &quot; Annotation list support is disabled.&quot; +
+                        &quot; Passed values are: '{}' and '{}'&quot;,
+                    annotationListType,
+                    extractor);
+        }
+<span class="fc" id="L137">        this.annotationListType = annotationListType;</span>
+<span class="fc" id="L138">        this.extractor = extractor;</span>
+<span class="fc" id="L139">    }</span>
+
+    /**
+     * Returns the searched annotation type.
+     * 
+     * @return The searched annotation type
+     */
+    public @NotNull Class&lt;T&gt; getAnnotationType() {
+<span class="nc" id="L147">        return this.annotationType;</span>
+    }
+
+    /**
+     * Returns the searched annotation list type.
+     * 
+     * @return The searched annotation list type
+     */
+    public Class&lt;L&gt; getAnnotationListType() {
+<span class="nc" id="L156">        return this.annotationListType;</span>
+    }
+
+    /**
+     * Returns the searched annotation list extractor.
+     * 
+     * @return The searched annotation list extractor
+     */
+    public AnnotationListExtractor&lt;L, T&gt; getExtractor() {
+<span class="nc" id="L165">        return this.extractor;</span>
+    }
+
+    /**
+     * Returns the cache to be used by this instance.
+     * 
+     * @return The cache to be used by this instance
+     */
+    protected @NotNull Cache getCache() {
+<span class="nc" id="L174">        return this.cache;</span>
+    }
+
+    /**
+     * &lt;p&gt;Sets the type level annotations cache for this instance.
+     * If {@code cache} is {@code null} shared cache will be used.&lt;/p&gt;
+     * 
+     * @param cache The cache to be used by this instance
+     * @return This instance for method chaining
+     */
+    protected BeanAnnotationFinder&lt;T, L&gt; setCache(
+            final Cache cache) {
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if (cache == null) {</span>
+<span class="nc" id="L187">            this.cache = SHARED_CACHE;</span>
+        } else {
+<span class="fc" id="L189">            this.cache = cache;</span>
+        }
+<span class="fc" id="L191">        return this;</span>
+    }
+
+    /**
+     * Finds the type level annotations this instance supports in the specified
+     * type.
+     * 
+     * @param type The type to search for supported annotations
+     * @return The type level annotations of the type
+     */
+    public @NotNull Set&lt;T&gt; find(
+            final @NotNull Class&lt;?&gt; type) {
+<span class="fc" id="L203">        Validate.notNull(type, &quot;Type is required.&quot;);</span>
+<span class="fc" id="L204">        return findAnnotations(type, new HashSet&lt;&gt;());</span>
+    }
+
+    /**
+     * Finds type level annotations of the supported annotation type in the
+     * specified type. If the type has been already processed returns an
+     * empty set. Found annotations are cached for future uses.
+     * 
+     * @param type The type to found annotations on
+     * @param visitedTypes The visited types record to prevent loops
+     * and repeated searches
+     * @return The found annotations
+     */
+    protected @NotNull Set&lt;T&gt; findAnnotations(
+            final @NotNull Class&lt;?&gt; type,
+            final @NotNull Set&lt;Class&lt;?&gt;&gt; visitedTypes) {
+<span class="fc" id="L220">        final Set&lt;T&gt; annotations = new HashSet&lt;&gt;(0);</span>
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">        if (!visitedTypes.contains(type)) {</span>
+<span class="fc" id="L222">            synchronized (this.cache) {</span>
+<span class="fc" id="L223">                final CacheEntryKey&lt;T&gt; cacheKey = new CacheEntryKey&lt;&gt;(</span>
+                        type,
+                        this.annotationType);
+<span class="fc" id="L226">                final Set&lt;T&gt; cachedDefinitions = this.cache.get(cacheKey);</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">                if (cachedDefinitions == null) {</span>
+<span class="fc" id="L228">                    final Set&lt;T&gt; foundAnnotatios = findAllAnnotations(type);</span>
+<span class="fc" id="L229">                    annotations.addAll(foundAnnotatios);</span>
+<span class="fc" id="L230">                    LOG.debug(</span>
+                            &quot;Caching annotations for type {}: {}&quot;,
+                            type,
+                            annotations);
+<span class="fc" id="L234">                    this.cache.put(cacheKey, foundAnnotatios);</span>
+<span class="fc" id="L235">                } else {</span>
+<span class="fc" id="L236">                    annotations.addAll(cachedDefinitions);</span>
+                }
+<span class="fc" id="L238">            }</span>
+<span class="fc" id="L239">            visitedTypes.add(type);</span>
+        }
+<span class="fc" id="L241">        return annotations;</span>
+    }
+
+    /**
+     * Finds type level annotations of the supported annotation type in the
+     * specified type. Finds direct annotations (detecting annotation lists if
+     * configured) and annotations in super class and implemented interfaces.
+     * 
+     * @param type The type to found annotations on
+     * @return The found annotations
+     */
+    protected @NotNull Set&lt;T&gt; findAllAnnotations(
+            final @NotNull Class&lt;?&gt; type) {
+<span class="fc" id="L254">        final Set&lt;T&gt; annotations = new HashSet&lt;&gt;(0);</span>
+<span class="fc" id="L255">        final Set&lt;Class&lt;?&gt;&gt; visitedTypes = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L256">        visitedTypes.add(type);</span>
+<span class="fc" id="L257">        addDirectAnnotation(type, annotations);</span>
+<span class="fc" id="L258">        addDirectAnnotationsList(type, annotations);</span>
+<span class="fc" id="L259">        addInterfacesAnnotations(type, annotations, visitedTypes);</span>
+<span class="fc" id="L260">        addSuperclassAnnotations(type, annotations, visitedTypes);</span>
+<span class="fc" id="L261">        return annotations;</span>
+    }
+
+    /**
+     * Finds direct type level annotations of the supported annotation type in
+     * the specified type.
+     * 
+     * @param type The type to found annotations on
+     * @param annotations The set to add the found annotations on
+     */
+    protected void addDirectAnnotation(
+            final @NotNull Class&lt;?&gt; type,
+            final @NotNull Set&lt;T&gt; annotations) {
+<span class="fc" id="L274">        final T annotation = type.getAnnotation(this.annotationType);</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        if (annotation != null) {</span>
+<span class="fc" id="L276">            annotations.add(annotation);</span>
+        }
+<span class="fc" id="L278">    }</span>
+
+    /**
+     * Finds direct type level annotations of the supported annotation list
+     * type in the specified type, if configured. If {@code annotationListType}
+     * or {@code extractor} are {@code null} no searching is done.
+     * 
+     * @param type The type to found annotations on
+     * @param annotations The set to add the found annotations on
+     */
+    protected void addDirectAnnotationsList(
+            final @NotNull Class&lt;?&gt; type,
+            final @NotNull Set&lt;T&gt; annotations) {
+<span class="pc bpc" id="L291" title="1 of 4 branches missed.">        if (this.annotationListType != null &amp;&amp; this.extractor != null) {</span>
+<span class="fc" id="L292">            final L annotationsList = type.getAnnotation(</span>
+                    this.annotationListType);
+<span class="fc bfc" id="L294" title="All 2 branches covered.">            if (annotationsList != null) {</span>
+<span class="fc" id="L295">                annotations.addAll(Arrays.asList(</span>
+<span class="fc" id="L296">                        this.extractor.extract(annotationsList)));</span>
+            }
+        }
+<span class="fc" id="L299">    }</span>
+ 
+    /**
+     * Finds type level annotations of the supported annotation type in
+     * the super class of the specified type, if any.
+     * 
+     * @param type The type to found annotations on
+     * @param annotations The set to add the found annotations on
+     * @param visitedTypes The visited types record to prevent loops
+     * and repeated searches
+     */
+    protected void addSuperclassAnnotations(
+            final @NotNull Class&lt;?&gt; type,
+            final @NotNull Set&lt;T&gt; annotations,
+            final @NotNull Set&lt;Class&lt;?&gt;&gt; visitedTypes) {
+<span class="fc bfc" id="L314" title="All 2 branches covered.">        if (type.getSuperclass() != null) {</span>
+<span class="fc" id="L315">            annotations.addAll(findAnnotations(</span>
+<span class="fc" id="L316">                    type.getSuperclass(),</span>
+                    visitedTypes));
+        }
+<span class="fc" id="L319">    }</span>
+
+    /**
+     * Finds type level annotations of the supported annotation type in
+     * the interfaces implemented by the specified type, if any.
+     * 
+     * @param type The type to found annotations on
+     * @param annotations The set to add the found annotations on
+     * @param visitedTypes The visited types record to prevent loops
+     * and repeated searches
+     */
+    protected void addInterfacesAnnotations(
+            final @NotNull Class&lt;?&gt; type,
+            final @NotNull Set&lt;T&gt; annotations,
+            final @NotNull Set&lt;Class&lt;?&gt;&gt; visitedTypes) {
+<span class="fc bfc" id="L334" title="All 2 branches covered.">        for (final Class&lt;?&gt; iface : type.getInterfaces()) {</span>
+<span class="fc" id="L335">            annotations.addAll(findAnnotations(iface, visitedTypes));</span>
+        }
+<span class="fc" id="L337">    }</span>
+
+    /**
+     * &lt;p&gt;Functional interface for extractor of individual annotations from
+     * annotation list annotations.&lt;/p&gt;
+     * 
+     * @param &lt;T&gt; The annotation type
+     * @param &lt;L&gt; The annotation list type
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    @FunctionalInterface
+    public static interface AnnotationListExtractor&lt;
+            L extends Annotation,
+            T extends Annotation&gt; {
+
+        /**
+         * Extracts the nested annotations from the list annotation
+         * passed as argument.
+         * 
+         * @param list The annotation list annotation
+         * @return The nested annotations
+         */
+        @NotNull T[] extract(L list);
+    }
+
+    /**
+     * Class level annotations cache entry. This class is immutable.
+     * 
+     * @param &lt;T&gt; The annotation type
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    protected static final class CacheEntryKey&lt;T extends Annotation&gt; {
+
+        /** The analyzed class. */
+        private final @NotNull Class&lt;?&gt; type;
+        /** The annotation type searched. */
+        private final @NotNull Class&lt;T&gt; annotationType;
+
+        /**
+         * Creates a new instance.
+         * 
+         * @param type The analyzed class
+         * @param annotationType The annotation type searched
+         */
+        public CacheEntryKey(
+                final @NotNull Class&lt;?&gt; type,
+                final @NotNull Class&lt;T&gt; annotationType) {
+<span class="fc" id="L384">            super();</span>
+<span class="fc" id="L385">            this.type = type;</span>
+<span class="fc" id="L386">            this.annotationType = annotationType;</span>
+<span class="fc" id="L387">        }</span>
+
+        /**
+         * Returns the analyzed class.
+         * 
+         * @return The analyzed class
+         */
+        public @NotNull Class&lt;?&gt; getType() {
+<span class="nc" id="L395">            return this.type;</span>
+        }
+
+        /**
+         * Returns the annotation type searched.
+         * 
+         * @return The annotation type searched
+         */
+        public @NotNull Class&lt;T&gt; getAnnotationType() {
+<span class="nc" id="L404">            return this.annotationType;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+<span class="fc" id="L412">            return new HashCodeBuilder()</span>
+<span class="fc" id="L413">                    .append(getClass())</span>
+<span class="fc" id="L414">                    .append(this.type)</span>
+<span class="fc" id="L415">                    .append(this.annotationType)</span>
+<span class="fc" id="L416">                    .toHashCode();</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(final Object obj) {
+<span class="pc bpc" id="L424" title="1 of 2 branches missed.">            if (obj == null) { return false; }</span>
+<span class="pc bpc" id="L425" title="1 of 2 branches missed.">            if (obj == this) { return true; }</span>
+<span class="pc bpc" id="L426" title="1 of 2 branches missed.">            if (obj.getClass() != getClass()) {</span>
+<span class="nc" id="L427">                return false;</span>
+            }
+<span class="fc" id="L429">            final CacheEntryKey&lt;?&gt; other = (CacheEntryKey&lt;?&gt;) obj;</span>
+<span class="fc" id="L430">            return new EqualsBuilder()</span>
+<span class="fc" id="L431">                    .append(this.type, other.type)</span>
+<span class="fc" id="L432">                    .append(this.annotationType, other.annotationType)</span>
+<span class="fc" id="L433">                    .isEquals();</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+<span class="nc" id="L441">            return new ToStringBuilder(this)</span>
+<span class="nc" id="L442">                    .append(&quot;type&quot;, this.type)</span>
+<span class="nc" id="L443">                    .append(&quot;annotationType&quot;, this.annotationType)</span>
+<span class="nc" id="L444">                    .toString();</span>
+        }
+    }
+
+    /**
+     * Interface for type level annotations cache.
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    protected static interface Cache {
+
+        /**
+         * Returns {@code true} if this instance contains an entry for
+         * the specified key.
+         * 
+         * @param key The cache entry key
+         * @return If this instance contains an entry for the key
+         */
+        boolean contains(
+                @NotNull CacheEntryKey&lt;?&gt; key);
+
+        /**
+         * Returns the cached found annotations for the specified key, if any.
+         * 
+         * @param &lt;T&gt; The type of annotations
+         * @param key The cache entry key
+         * @return The annotations found, or {@code null} if not cached o cache expired
+         */
+        &lt;T extends Annotation&gt; Set&lt;T&gt; get(
+                @NotNull CacheEntryKey&lt;T&gt; key);
+
+        /**
+         * Puts the specified found annotations for the specified key.
+         * 
+         * @param &lt;T&gt; The type of annotations
+         * @param key The cache entry key
+         * @param value The annotations found
+         */
+        &lt;T extends Annotation&gt; void put(
+                @NotNull CacheEntryKey&lt;T&gt; key,
+                @NotNull Set&lt;T&gt; value);
+    }
+
+    /**
+     * Implementation of {@code Cache} based on {@code WeakHashMap}.
+     * 
+     * @see Cache
+     * @see WeakHashMap
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    protected static class WeakHashMapCache
+    implements Cache {
+
+        /** The cache entries. */
+<span class="fc" id="L497">        private final WeakHashMap&lt;CacheEntryKey&lt;?&gt;, Set&lt;? extends Annotation&gt;&gt; entries =</span>
+                new WeakHashMap&lt;&gt;();
+
+        /**
+         * Creates a new instance.
+         */
+        public WeakHashMapCache() {
+<span class="fc" id="L504">            super();</span>
+<span class="fc" id="L505">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public synchronized boolean contains(
+                final @NotNull CacheEntryKey&lt;?&gt; key) {
+<span class="nc" id="L513">            return this.entries.containsKey(key);</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public synchronized @NotNull &lt;T extends Annotation&gt; void put(
+                final @NotNull CacheEntryKey&lt;T&gt; key,
+                final @NotNull Set&lt;T&gt; value) {
+<span class="fc" id="L523">            this.entries.put(key, value);</span>
+<span class="fc" id="L524">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        @SuppressWarnings(&quot;unchecked&quot;)
+        public synchronized &lt;T extends Annotation&gt; Set&lt;T&gt; get(
+                final @NotNull CacheEntryKey&lt;T&gt; key) {
+<span class="fc" id="L533">            return (Set&lt;T&gt;) this.entries.get(key);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

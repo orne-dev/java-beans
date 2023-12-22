@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">ValidIdentity.java</span></div><h1>ValidIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2022 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+import javax.validation.ReportAsSingleViolation;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Validation for valid identities.
+ * Validates that the identity, if non null, is of the expected type or can be
+ * resolved to an identity of the expected type. If no identity type is
+ * specified 
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2022-10
+ * @since 0.4
+ */
+@API(status=Status.STABLE, since=&quot;0.4&quot;)
+@Target({ 
+    ElementType.CONSTRUCTOR,
+    ElementType.METHOD,
+    ElementType.FIELD,
+    ElementType.PARAMETER,
+    ElementType.LOCAL_VARIABLE,
+    ElementType.TYPE_USE,
+    ElementType.ANNOTATION_TYPE
+})
+@Retention(
+    RetentionPolicy.RUNTIME
+)
+@Documented
+@Valid
+@Constraint(validatedBy = {
+        ValidIdentity.ValidIdentityValidator.class,
+        ValidIdentity.ValidIdentityValidatorForString.class,
+    })
+@ReportAsSingleViolation
+public @interface ValidIdentity {
+
+    /**
+     * Returns the type of {@code Identity} to resolve to.
+     * 
+     * @return The type of {@code Identity} to resolve to.
+     */
+    Class&lt;? extends Identity&gt; value() default Identity.class;
+
+    /**
+     * Returns the error message.
+     * 
+     * @return The error message.
+     */
+    String message() default &quot;{dev.orne.beans.ValidIdentity.message}&quot;;
+
+    /**
+     * Returns the validation groups.
+     * 
+     * @return The validation groups.
+     */
+    Class&lt;?&gt;[] groups() default { };
+
+    /**
+     * Returns the validation client payload.
+     * 
+     * @return The validation client payload.
+     */
+    Class&lt;? extends Payload&gt;[] payload() default { };
+
+    /**
+     * Constraint validator for {@code ValidBeanIdentity} on {@code Identity}
+     * instances.
+     * 
+     * @see ValidBeanIdentity
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.4&quot;)
+    public static class ValidIdentityValidator
+    implements ConstraintValidator&lt;ValidIdentity, Identity&gt; {
+
+        /** The expected type of identity. */
+        private @NotNull Class&lt;? extends Identity&gt; expectedType;
+
+        /**
+         * Creates a new instance.
+         */
+        public ValidIdentityValidator() {
+<span class="fc" id="L120">            super();</span>
+<span class="fc" id="L121">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void initialize(
+                final @NotNull ValidIdentity annotation) {
+<span class="fc" id="L129">            this.expectedType = annotation.value();</span>
+<span class="fc" id="L130">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isValid(
+                final Identity value,
+                final ConstraintValidatorContext context) {
+<span class="fc" id="L139">            boolean valid = true;</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            if (value != null) {</span>
+<span class="fc" id="L141">                valid = isValid(value, this.expectedType);</span>
+            }
+<span class="fc" id="L143">            return valid;</span>
+        }
+
+        /**
+         * Returns {@code true} if specified bean is valid reference to it's
+         * bean type.
+         * 
+         * @param value The bean to validate
+         * @return If the bean is a valid bean reference
+         */
+        public static boolean isValid(
+                final @NotNull Identity value) {
+<span class="fc" id="L155">            return isValid(value, Identity.class);</span>
+        }
+
+        /**
+         * Returns {@code true} if specified bean is valid reference to it's
+         * bean type.
+         * 
+         * @param value The bean to validate
+         * @param expectedType The expected type of identity
+         * @return If the bean is a valid bean reference
+         */
+        public static boolean isValid(
+                final @NotNull Identity value,
+                final @NotNull Class&lt;? extends Identity&gt; expectedType) {
+<span class="fc" id="L169">            Validate.notNull(value);</span>
+<span class="fc" id="L170">            Validate.notNull(expectedType);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (expectedType.isInstance(value)) {</span>
+<span class="fc" id="L172">                return true;</span>
+            } else {
+                try {
+<span class="fc" id="L175">                    IdentityResolver.getInstance().resolve(value, expectedType);</span>
+<span class="fc" id="L176">                    return true;</span>
+<span class="fc" id="L177">                } catch (final UnrecognizedIdentityTokenException ignore) {</span>
+<span class="fc" id="L178">                    return false;</span>
+                }
+            }
+        }
+    }
+
+    /**
+     * Constraint validator for {@code ValidBeanIdentity} on {@code String}
+     * identity tokens.
+     * 
+     * @see ValidBeanIdentity
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.4&quot;)
+    public static class ValidIdentityValidatorForString
+    implements ConstraintValidator&lt;ValidIdentity, String&gt; {
+
+        /** The expected type of identity. */
+        private @NotNull Class&lt;? extends Identity&gt; expectedType;
+
+        /**
+         * Creates a new instance.
+         */
+        public ValidIdentityValidatorForString() {
+<span class="fc" id="L201">            super();</span>
+<span class="fc" id="L202">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void initialize(
+                final @NotNull ValidIdentity annotation) {
+<span class="fc" id="L210">            this.expectedType = annotation.value();</span>
+<span class="fc" id="L211">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isValid(
+                final String value,
+                final ConstraintValidatorContext context) {
+<span class="fc" id="L220">            boolean valid = true;</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">            if (value != null) {</span>
+<span class="fc" id="L222">                valid = isValid(value, this.expectedType);</span>
+            }
+<span class="fc" id="L224">            return valid;</span>
+        }
+
+        /**
+         * Returns {@code true} if specified bean is valid reference to it's
+         * bean type.
+         * 
+         * @param value The bean to validate
+         * @return If the bean is a valid bean reference
+         */
+        public static boolean isValid(
+                final @NotNull String value) {
+<span class="fc" id="L236">            return isValid(value, Identity.class);</span>
+        }
+
+        /**
+         * Returns {@code true} if specified bean is valid reference to it's
+         * bean type.
+         * 
+         * @param value The bean to validate
+         * @param expectedType The expected type of identity
+         * @return If the bean is a valid bean reference
+         */
+        public static boolean isValid(
+                final @NotNull String value,
+                final @NotNull Class&lt;? extends Identity&gt; expectedType) {
+<span class="fc" id="L250">            Validate.notNull(value);</span>
+<span class="fc" id="L251">            Validate.notNull(expectedType);</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            if (Identity.class.equals(expectedType)) {</span>
+<span class="fc" id="L253">                return true;</span>
+            } else {
+                try {
+<span class="fc" id="L256">                    IdentityResolver.getInstance().resolve(value, expectedType);</span>
+<span class="fc" id="L257">                    return true;</span>
+<span class="fc" id="L258">                } catch (final UnrecognizedIdentityTokenException ignore) {</span>
+<span class="fc" id="L259">                    return false;</span>
+                }
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

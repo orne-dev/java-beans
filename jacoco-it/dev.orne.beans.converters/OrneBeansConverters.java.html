@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrneBeansConverters.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.converters</a> &gt; <span class="el_source">OrneBeansConverters.java</span></div><h1>OrneBeansConverters.java</h1><pre class="source lang-java linenums">package dev.orne.beans.converters;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.net.URI;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.MonthDay;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.Period;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.ConvertUtilsBean;
+import org.apache.commons.beanutils.Converter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+import dev.orne.beans.Identity;
+
+/**
+ * &lt;p&gt;Utility class for registration of default implementations
+ * of Orne custom converters&lt;/p&gt;.
+ * 
+ * &lt;p&gt;Registers the following converters:&lt;/p&gt;
+ * 
+ * &lt;dl&gt;
+ *   &lt;dt&gt;Beans converters&lt;/dt&gt;
+ *   &lt;dd&gt;
+ *      &lt;ul&gt;
+ *       &lt;li&gt;{@link IdentityConverter}&lt;/li&gt;
+ *      &lt;/ul&gt;
+ *   &lt;/dd&gt;
+ *   &lt;dt&gt;Net converters&lt;/dt&gt;
+ *   &lt;dd&gt;
+ *      &lt;ul&gt;
+ *       &lt;li&gt;{@link UriConverter}&lt;/li&gt;
+ *      &lt;/ul&gt;
+ *   &lt;/dd&gt;
+ *   &lt;dt&gt;Util converters&lt;/dt&gt;
+ *   &lt;dd&gt;
+ *      &lt;ul&gt;
+ *       &lt;li&gt;{@link GregorianCalendarConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link DateConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link LocaleConverter}&lt;/li&gt;
+ *      &lt;/ul&gt;
+ *   &lt;/dd&gt;
+ *   &lt;dt&gt;Time converters&lt;/dt&gt;
+ *   &lt;dd&gt;
+ *     &lt;ul&gt;
+ *       &lt;li&gt;{@link InstantConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link YearConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link YearMonthConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link MonthConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link MonthDayConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link DayOfWeekConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link LocalDateConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link LocalDateTimeConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link LocalTimeConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link OffsetDateTimeConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link OffsetTimeConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link ZonedDateTimeConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link ZoneOffsetConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link DurationConverter}&lt;/li&gt;
+ *       &lt;li&gt;{@link PeriodConverter}&lt;/li&gt;
+ *     &lt;/ul&gt;
+ *   &lt;/dd&gt;
+ * &lt;/dl&gt;
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public final class OrneBeansConverters {
+
+    /**
+     * Utility class.
+     */
+    private OrneBeansConverters() {
+        // No instances allowed
+    }
+
+    /**
+     * Registers all the Orne custom converters in {@code ConvertUtils}.
+     *
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void register() {
+<span class="nc" id="L126">        registerBeansConversors();</span>
+<span class="nc" id="L127">        registerNetConversors();</span>
+<span class="nc" id="L128">        registerUtilConversors();</span>
+<span class="nc" id="L129">        registerTimeConversors();</span>
+<span class="nc" id="L130">    }</span>
+
+    /**
+     * Registers all the Orne custom converters in {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void register(
+            final boolean defaultToNull) {
+<span class="nc" id="L141">        registerBeansConversors(defaultToNull);</span>
+<span class="nc" id="L142">        registerNetConversors(defaultToNull);</span>
+<span class="nc" id="L143">        registerUtilConversors(defaultToNull);</span>
+<span class="nc" id="L144">        registerTimeConversors(defaultToNull);</span>
+<span class="nc" id="L145">    }</span>
+
+    /**
+     * Registers all the Orne custom converters in the specified
+     * {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void register(
+            final @NotNull ConvertUtilsBean converter) {
+<span class="fc" id="L156">        registerBeansConversors(converter);</span>
+<span class="fc" id="L157">        registerNetConversors(converter);</span>
+<span class="fc" id="L158">        registerUtilConversors(converter);</span>
+<span class="fc" id="L159">        registerTimeConversors(converter);</span>
+<span class="fc" id="L160">    }</span>
+
+    /**
+     * Registers all the Orne custom converters in the specified
+     * {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void register(
+            final @NotNull ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+<span class="nc" id="L174">        registerBeansConversors(converter, defaultToNull);</span>
+<span class="nc" id="L175">        registerNetConversors(converter, defaultToNull);</span>
+<span class="nc" id="L176">        registerUtilConversors(converter, defaultToNull);</span>
+<span class="nc" id="L177">        registerTimeConversors(converter, defaultToNull);</span>
+<span class="nc" id="L178">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code dev.orne.beans} in
+     * {@code ConvertUtils}.
+     *
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerBeansConversors() {
+<span class="nc" id="L187">        registerBeansConversors(false);</span>
+<span class="nc" id="L188">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code dev.orne.beans} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerBeansConversors(
+            final boolean defaultToNull) {
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L201">            ConvertUtils.register(new IdentityConverter((Identity) null), Identity.class);</span>
+        } else {
+<span class="nc" id="L203">            ConvertUtils.register(new IdentityConverter(), Identity.class);</span>
+        }
+<span class="nc" id="L205">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code dev.orne.beans} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerBeansConversors(
+            final @NotNull ConvertUtilsBean converter) {
+<span class="fc" id="L216">        registerBeansConversors(converter, false);</span>
+<span class="fc" id="L217">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code dev.orne.beans} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerBeansConversors(
+            final @NotNull ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L232">            converter.register(new IdentityConverter((Identity) null), Identity.class);</span>
+<span class="nc" id="L233">            converter.register(EnumConverter.GENERIC_DEFAULT, Enum.class);</span>
+        } else {
+<span class="fc" id="L235">            converter.register(new IdentityConverter(), Identity.class);</span>
+<span class="fc" id="L236">            converter.register(EnumConverter.GENERIC, Enum.class);</span>
+        }
+<span class="fc" id="L238">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * {@code ConvertUtils}.
+     *
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerNetConversors() {
+<span class="nc" id="L247">        registerNetConversors(false);</span>
+<span class="nc" id="L248">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.net} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerNetConversors(
+            final boolean defaultToNull) {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L261">            ConvertUtils.register(new UriConverter((URI) null), URI.class);</span>
+        } else {
+<span class="nc" id="L263">            ConvertUtils.register(new UriConverter(), URI.class);</span>
+        }
+<span class="nc" id="L265">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.net} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerNetConversors(
+            final @NotNull ConvertUtilsBean converter) {
+<span class="fc" id="L276">        registerNetConversors(converter, false);</span>
+<span class="fc" id="L277">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.net} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerNetConversors(
+            final @NotNull ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+<span class="pc bpc" id="L291" title="1 of 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L292">            converter.register(new UriConverter((URI) null), URI.class);</span>
+        } else {
+<span class="fc" id="L294">            converter.register(new UriConverter(), URI.class);</span>
+        }
+<span class="fc" id="L296">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * {@code ConvertUtils}.
+     *
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerUtilConversors() {
+<span class="nc" id="L305">        registerUtilConversors(false);</span>
+<span class="nc" id="L306">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerUtilConversors(
+            final boolean defaultToNull) {
+<span class="nc bnc" id="L318" title="All 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L319">            ConvertUtils.register(new GregorianCalendarConverter((GregorianCalendar) null), GregorianCalendar.class);</span>
+<span class="nc" id="L320">            ConvertUtils.register(new GregorianCalendarConverter((GregorianCalendar) null), Calendar.class);</span>
+<span class="nc" id="L321">            ConvertUtils.register(new DateConverter((Date) null), Date.class);</span>
+<span class="nc" id="L322">            ConvertUtils.register(new LocaleConverter((Locale) null), Locale.class);</span>
+        } else {
+<span class="nc" id="L324">            ConvertUtils.register(new GregorianCalendarConverter(), GregorianCalendar.class);</span>
+<span class="nc" id="L325">            ConvertUtils.register(new GregorianCalendarConverter(), Calendar.class);</span>
+<span class="nc" id="L326">            ConvertUtils.register(new DateConverter(), Date.class);</span>
+<span class="nc" id="L327">            ConvertUtils.register(new LocaleConverter(), Locale.class);</span>
+        }
+<span class="nc" id="L329">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerUtilConversors(
+            final @NotNull ConvertUtilsBean converter) {
+<span class="fc" id="L340">        registerUtilConversors(converter, false);</span>
+<span class="fc" id="L341">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.util} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerUtilConversors(
+            final @NotNull ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L356">            converter.register(new GregorianCalendarConverter((GregorianCalendar) null), GregorianCalendar.class);</span>
+<span class="nc" id="L357">            converter.register(new GregorianCalendarConverter((GregorianCalendar) null), Calendar.class);</span>
+<span class="nc" id="L358">            converter.register(new DateConverter((Date) null), Date.class);</span>
+<span class="nc" id="L359">            converter.register(new LocaleConverter((Locale) null), Locale.class);</span>
+        } else {
+<span class="fc" id="L361">            converter.register(new GregorianCalendarConverter(), GregorianCalendar.class);</span>
+<span class="fc" id="L362">            converter.register(new GregorianCalendarConverter(), Calendar.class);</span>
+<span class="fc" id="L363">            converter.register(new DateConverter(), Date.class);</span>
+<span class="fc" id="L364">            converter.register(new LocaleConverter(), Locale.class);</span>
+        }
+<span class="fc" id="L366">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.time} in
+     * {@code ConvertUtils}.
+     *
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerTimeConversors() {
+<span class="nc" id="L375">        registerTimeConversors(false);</span>
+<span class="nc" id="L376">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.time} in
+     * {@code ConvertUtils}.
+     *
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtils#register(Converter, Class)
+     */
+    public static void registerTimeConversors(
+            final boolean defaultToNull) {
+<span class="nc bnc" id="L388" title="All 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L389">            ConvertUtils.register(new InstantConverter((Instant) null), Instant.class);</span>
+<span class="nc" id="L390">            ConvertUtils.register(new YearConverter((Year) null), Year.class);</span>
+<span class="nc" id="L391">            ConvertUtils.register(new YearMonthConverter((YearMonth) null), YearMonth.class);</span>
+<span class="nc" id="L392">            ConvertUtils.register(new MonthConverter((Month) null), Month.class);</span>
+<span class="nc" id="L393">            ConvertUtils.register(new MonthDayConverter((MonthDay) null), MonthDay.class);</span>
+<span class="nc" id="L394">            ConvertUtils.register(new DayOfWeekConverter((DayOfWeek) null), DayOfWeek.class);</span>
+<span class="nc" id="L395">            ConvertUtils.register(new LocalDateConverter((LocalDate) null), LocalDate.class);</span>
+<span class="nc" id="L396">            ConvertUtils.register(new LocalTimeConverter((LocalTime) null), LocalTime.class);</span>
+<span class="nc" id="L397">            ConvertUtils.register(new LocalDateTimeConverter((LocalDateTime) null), LocalDateTime.class);</span>
+<span class="nc" id="L398">            ConvertUtils.register(new OffsetTimeConverter((OffsetTime) null), OffsetTime.class);</span>
+<span class="nc" id="L399">            ConvertUtils.register(new OffsetDateTimeConverter((OffsetDateTime) null), OffsetDateTime.class);</span>
+<span class="nc" id="L400">            ConvertUtils.register(new ZonedDateTimeConverter((ZonedDateTime) null), ZonedDateTime.class);</span>
+<span class="nc" id="L401">            ConvertUtils.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneId.class);</span>
+<span class="nc" id="L402">            ConvertUtils.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneOffset.class);</span>
+<span class="nc" id="L403">            ConvertUtils.register(new DurationConverter((Duration) null), Duration.class);</span>
+<span class="nc" id="L404">            ConvertUtils.register(new PeriodConverter((Period) null), Period.class);</span>
+        } else {
+<span class="nc" id="L406">            ConvertUtils.register(new InstantConverter(), Instant.class);</span>
+<span class="nc" id="L407">            ConvertUtils.register(new YearConverter(), Year.class);</span>
+<span class="nc" id="L408">            ConvertUtils.register(new YearMonthConverter(), YearMonth.class);</span>
+<span class="nc" id="L409">            ConvertUtils.register(new MonthConverter(), Month.class);</span>
+<span class="nc" id="L410">            ConvertUtils.register(new MonthDayConverter(), MonthDay.class);</span>
+<span class="nc" id="L411">            ConvertUtils.register(new DayOfWeekConverter(), DayOfWeek.class);</span>
+<span class="nc" id="L412">            ConvertUtils.register(new LocalDateConverter(), LocalDate.class);</span>
+<span class="nc" id="L413">            ConvertUtils.register(new LocalTimeConverter(), LocalTime.class);</span>
+<span class="nc" id="L414">            ConvertUtils.register(new LocalDateTimeConverter(), LocalDateTime.class);</span>
+<span class="nc" id="L415">            ConvertUtils.register(new OffsetTimeConverter(), OffsetTime.class);</span>
+<span class="nc" id="L416">            ConvertUtils.register(new OffsetDateTimeConverter(), OffsetDateTime.class);</span>
+<span class="nc" id="L417">            ConvertUtils.register(new ZonedDateTimeConverter(), ZonedDateTime.class);</span>
+<span class="nc" id="L418">            ConvertUtils.register(new ZoneOffsetConverter(), ZoneId.class);</span>
+<span class="nc" id="L419">            ConvertUtils.register(new ZoneOffsetConverter(), ZoneOffset.class);</span>
+<span class="nc" id="L420">            ConvertUtils.register(new DurationConverter(), Duration.class);</span>
+<span class="nc" id="L421">            ConvertUtils.register(new PeriodConverter(), Period.class);</span>
+        }
+<span class="nc" id="L423">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.time} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerTimeConversors(
+            final @NotNull ConvertUtilsBean converter) {
+<span class="fc" id="L434">        registerTimeConversors(converter, false);</span>
+<span class="fc" id="L435">    }</span>
+
+    /**
+     * Registers all the Orne custom converters for {@code java.time} in
+     * the specified {@code ConvertUtilsBean}.
+     *
+     * @param converter Converter to register the Orne converters to
+     * @param defaultToNull If {@code null} must be returned on missing
+     * ({@code null}) values and on conversion exceptions
+     * @see ConvertUtilsBean#register(Converter, Class)
+     */
+    public static void registerTimeConversors(
+            final @NotNull ConvertUtilsBean converter,
+            final boolean defaultToNull) {
+<span class="pc bpc" id="L449" title="1 of 2 branches missed.">        if (defaultToNull) {</span>
+<span class="nc" id="L450">            converter.register(new InstantConverter((Instant) null), Instant.class);</span>
+<span class="nc" id="L451">            converter.register(new YearConverter((Year) null), Year.class);</span>
+<span class="nc" id="L452">            converter.register(new YearMonthConverter((YearMonth) null), YearMonth.class);</span>
+<span class="nc" id="L453">            converter.register(new MonthConverter((Month) null), Month.class);</span>
+<span class="nc" id="L454">            converter.register(new MonthDayConverter((MonthDay) null), MonthDay.class);</span>
+<span class="nc" id="L455">            converter.register(new DayOfWeekConverter((DayOfWeek) null), DayOfWeek.class);</span>
+<span class="nc" id="L456">            converter.register(new LocalDateConverter((LocalDate) null), LocalDate.class);</span>
+<span class="nc" id="L457">            converter.register(new LocalTimeConverter((LocalTime) null), LocalTime.class);</span>
+<span class="nc" id="L458">            converter.register(new LocalDateTimeConverter((LocalDateTime) null), LocalDateTime.class);</span>
+<span class="nc" id="L459">            converter.register(new OffsetTimeConverter((OffsetTime) null), OffsetTime.class);</span>
+<span class="nc" id="L460">            converter.register(new OffsetDateTimeConverter((OffsetDateTime) null), OffsetDateTime.class);</span>
+<span class="nc" id="L461">            converter.register(new ZonedDateTimeConverter((ZonedDateTime) null), ZonedDateTime.class);</span>
+<span class="nc" id="L462">            converter.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneId.class);</span>
+<span class="nc" id="L463">            converter.register(new ZoneOffsetConverter((ZoneOffset) null), ZoneOffset.class);</span>
+<span class="nc" id="L464">            converter.register(new DurationConverter((Duration) null), Duration.class);</span>
+<span class="nc" id="L465">            converter.register(new PeriodConverter((Period) null), Period.class);</span>
+        } else {
+<span class="fc" id="L467">            converter.register(new InstantConverter(), Instant.class);</span>
+<span class="fc" id="L468">            converter.register(new YearConverter(), Year.class);</span>
+<span class="fc" id="L469">            converter.register(new YearMonthConverter(), YearMonth.class);</span>
+<span class="fc" id="L470">            converter.register(new MonthConverter(), Month.class);</span>
+<span class="fc" id="L471">            converter.register(new MonthDayConverter(), MonthDay.class);</span>
+<span class="fc" id="L472">            converter.register(new DayOfWeekConverter(), DayOfWeek.class);</span>
+<span class="fc" id="L473">            converter.register(new LocalDateConverter(), LocalDate.class);</span>
+<span class="fc" id="L474">            converter.register(new LocalTimeConverter(), LocalTime.class);</span>
+<span class="fc" id="L475">            converter.register(new LocalDateTimeConverter(), LocalDateTime.class);</span>
+<span class="fc" id="L476">            converter.register(new OffsetTimeConverter(), OffsetTime.class);</span>
+<span class="fc" id="L477">            converter.register(new OffsetDateTimeConverter(), OffsetDateTime.class);</span>
+<span class="fc" id="L478">            converter.register(new ZonedDateTimeConverter(), ZonedDateTime.class);</span>
+<span class="fc" id="L479">            converter.register(new ZoneOffsetConverter(), ZoneId.class);</span>
+<span class="fc" id="L480">            converter.register(new ZoneOffsetConverter(), ZoneOffset.class);</span>
+<span class="fc" id="L481">            converter.register(new DurationConverter(), Duration.class);</span>
+<span class="fc" id="L482">            converter.register(new PeriodConverter(), Period.class);</span>
+        }
+<span class="fc" id="L484">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

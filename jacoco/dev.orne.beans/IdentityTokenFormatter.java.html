@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentityTokenFormatter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">IdentityTokenFormatter.java</span></div><h1>IdentityTokenFormatter.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 - 2023 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Formatter and parser of identity tokens.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 2.0, 2023-12
+ * @since 0.1
+ */
+@API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+public final class IdentityTokenFormatter {
+
+    /** Regular expression for valid token characters. */
+    public static final String TOKEN_CHAR = &quot;[\\w-]&quot;;
+    /** Regular expression for valid token prefix strings. */
+    public static final String PREFIX =  &quot;^&quot; + TOKEN_CHAR + &quot;*$&quot;;
+    /** Regular expression for valid unencoded body starting character. */
+    public static final String UNENCODED_BODY_STARTING_CHAR = &quot;[a-zA-Z0-9-]&quot;;
+    /** Regular expression for valid identity token unencoded bodies. */
+    public static final String UNENCODED_BODY =
+            UNENCODED_BODY_STARTING_CHAR + TOKEN_CHAR + &quot;*&quot;;
+    /** Encoded body prefix. */
+    public static final String ENCODED_BODY_PREFIX = &quot;_&quot;;
+    /** Null body. */
+    public static final String NULL_BODY = ENCODED_BODY_PREFIX;
+    /** Regular expression for valid identity token Base64 encoded bodies. */
+    public static final String ENCODED_BODY =
+            ENCODED_BODY_PREFIX + TOKEN_CHAR + &quot;*&quot;;
+    /** Regular expression for valid identity token bodies. */
+    public static final String BODY =
+            &quot;(?:&quot;
+                + &quot;|&quot;
+                + UNENCODED_BODY + &quot;|&quot;
+                + ENCODED_BODY
+            + &quot;)&quot;;
+    /** Regular expression for valid identity tokens. */
+    public static final String TOKEN =
+            &quot;^&quot; + TOKEN_CHAR + &quot;*$&quot;;
+
+    /** The Base64 padding character. */
+    private static final char B32_PADDING_CHAR = '=';
+
+    /** Default identity token prefix. */
+    public static final String DEFAULT_PREFIX = &quot;&quot;;
+
+    /** Compiled pattern to detect valid identity token prefixes as predicate. */
+<span class="fc" id="L81">    protected static final Predicate&lt;String&gt; VALID_PREFIX_PREDICATE =</span>
+<span class="fc" id="L82">            Pattern.compile(PREFIX).asPredicate();</span>
+    /** Compiled pattern to detect valid identity token unencoded bodies as predicate. */
+<span class="fc" id="L84">    protected static final Predicate&lt;String&gt; VALID_UNENCODED_BODY_PREDICATE =</span>
+<span class="fc" id="L85">            Pattern.compile(&quot;^&quot; + UNENCODED_BODY + &quot;$&quot;).asPredicate();</span>
+    /** Compiled pattern to detect valid identity token encoded bodies as predicate. */
+<span class="fc" id="L87">    protected static final Predicate&lt;String&gt; VALID_ENCODED_BODY_PREDICATE =</span>
+<span class="fc" id="L88">            Pattern.compile(&quot;^&quot; + ENCODED_BODY + &quot;$&quot;).asPredicate();</span>
+    /** Compiled pattern to detect valid identity token bodies as predicate. */
+<span class="fc" id="L90">    protected static final Predicate&lt;String&gt; VALID_BODY_PREDICATE =</span>
+<span class="fc" id="L91">            Pattern.compile(&quot;^&quot; + BODY + &quot;$&quot;).asPredicate();</span>
+    /** Compiled pattern to detect valid identity tokens as predicate. */
+<span class="fc" id="L93">    protected static final Predicate&lt;String&gt; VALID_TOKEN_PREDICATE =</span>
+<span class="fc" id="L94">            Pattern.compile(TOKEN).asPredicate();</span>
+
+    /** The Base64 encoder. */
+<span class="fc" id="L97">    private static final Base64.Encoder ENCODER = Base64.getUrlEncoder();</span>
+    /** The Base64 decoder. */
+<span class="fc" id="L99">    private static final Base64.Decoder DECODER = Base64.getUrlDecoder();</span>
+
+    /**
+     * Private constructor.
+     */
+    private IdentityTokenFormatter() {
+        // Utility class
+    }
+
+    /**
+     * &lt;p&gt;Encodes the specified identity token body as a valid identity token
+     * body.&lt;/p&gt;
+     * 
+     * &lt;ol&gt;
+     * &lt;li&gt;If the specified body is {@code null} {@link #NULL_BODY} is
+     * returned.&lt;/li&gt;
+     * &lt;li&gt;If the specified body is empty an empty {@code String} is
+     * returned.&lt;/li&gt;
+     * &lt;li&gt;If the specified body is a valid unencoded body the passed body is
+     * returned.&lt;/li&gt;
+     * &lt;li&gt;Otherwise the passed body is encoded in URI friendly Base64, with
+     * paddings removed and prefixed by {@link #ENCODED_BODY_PREFIX}.&lt;/li&gt;
+     * &lt;/ol&gt;
+     * 
+     * @param body The identity token body to encode
+     * @return The encoded identity token part
+     */
+    protected static @NotNull String encodeBody(
+            final String body) {
+        final String result;
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (body == null) {</span>
+<span class="fc" id="L130">            result = NULL_BODY;</span>
+<span class="fc bfc" id="L131" title="All 4 branches covered.">        } else if (body.isEmpty() || VALID_UNENCODED_BODY_PREDICATE.test(body)) {</span>
+<span class="fc" id="L132">            result = body;</span>
+        } else {
+<span class="fc" id="L134">            final String b64 = ENCODER.encodeToString(</span>
+<span class="fc" id="L135">                    body.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L136">            final String b64NoPadding = b64.replaceAll(String.valueOf(B32_PADDING_CHAR), &quot;&quot;);</span>
+<span class="fc" id="L137">            result = new StringBuilder(ENCODED_BODY_PREFIX)</span>
+<span class="fc" id="L138">                    .append(b64NoPadding)</span>
+<span class="fc" id="L139">                    .toString();</span>
+        }
+<span class="fc" id="L141">        return result;</span>
+    }
+
+    /**
+     * &lt;p&gt;Decodes the specified valid identity token body to the original identity
+     * token body.&lt;/p&gt;
+     * 
+     * @param encoded The valid identity token body to decode
+     * @return The original identity token body
+     * @throws NullPointerException If the encoded body is {@code null}
+     * @throws UnrecognizedIdentityTokenException If the encoded body is not a
+     * valid identity token body
+     */
+    protected static String decodeBody(
+            final @NotNull String encoded)
+    throws UnrecognizedIdentityTokenException {
+<span class="fc" id="L157">        Validate.notNull(encoded, &quot;Encoded identity token body is required&quot;);</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        if (!VALID_BODY_PREDICATE.test(encoded)) {</span>
+<span class="fc" id="L159">            throw new UnrecognizedIdentityTokenException(String.format(</span>
+                    &quot;Invalid identity token body: %s&quot;,
+                    encoded));
+        }
+        final String result;
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (encoded.isEmpty()) {</span>
+<span class="fc" id="L165">            result = encoded;</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        } else if (ENCODED_BODY_PREFIX.equals(encoded)) {</span>
+<span class="fc" id="L167">            result = null;</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        } else if (encoded.startsWith(ENCODED_BODY_PREFIX)) {</span>
+<span class="fc" id="L169">            String b64 = encoded.substring(1);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">            if (b64.length() % 3 != 0) {</span>
+<span class="fc" id="L171">                b64 = StringUtils.rightPad(b64, 3 - (b64.length() % 3), B32_PADDING_CHAR);</span>
+            }
+<span class="fc" id="L173">            result = new String(</span>
+<span class="fc" id="L174">                    DECODER.decode(b64),</span>
+                    StandardCharsets.UTF_8);
+<span class="fc" id="L176">        } else {</span>
+<span class="fc" id="L177">            result = encoded;</span>
+        }
+<span class="fc" id="L179">        return result;</span>
+    }
+
+    /**
+     * Formats a valid identity token for the specified identity token body
+     * and the default identity token prefix.
+     * 
+     * @param body The identity token body
+     * @return The formatted identity token
+     */
+    public static @NotNull String format(
+            final String body) {
+<span class="fc" id="L191">        return format(DEFAULT_PREFIX, body);</span>
+    }
+
+    /**
+     * Formats a valid identity token for the specified identity token prefix
+     * and body.
+     * 
+     * @param prefix The identity token prefix
+     * @param body The identity token body
+     * @return The formatted identity token
+     * @throws NullPointerException If the prefix is {@code null}
+     * @throws IllegalArgumentException If the prefix is not a valid identity
+     * token prefix
+     */
+    public static @NotNull String format(
+            final @NotNull String prefix,
+            final String body) {
+<span class="fc" id="L208">        Validate.notNull(prefix, &quot;Identity token prefix is required&quot;);</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">        if (!VALID_PREFIX_PREDICATE.test(prefix)) {</span>
+<span class="fc" id="L210">            throw new IllegalArgumentException(String.format(</span>
+                    &quot;Identity token prefix is not valid: %s&quot;,
+                    prefix));
+        }
+<span class="fc" id="L214">        return new StringBuilder(prefix)</span>
+<span class="fc" id="L215">                .append(encodeBody(body))</span>
+<span class="fc" id="L216">                .toString();</span>
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token prefix is valid.
+     * 
+     * @param prefix The identity token prefix.
+     * @return If the identity token prefix is valid.
+     */
+    public static boolean isValidPrefix(
+            final @NotNull String prefix) {
+<span class="nc" id="L227">        return VALID_PREFIX_PREDICATE.test(prefix);</span>
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token body is valid.
+     * 
+     * @param body The identity token body.
+     * @return If the identity token body is valid.
+     */
+    public static boolean isValidBody(
+            final @NotNull String body) {
+<span class="nc" id="L238">        return VALID_BODY_PREDICATE.test(body);</span>
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token body is a valid
+     * unencoded body.
+     * 
+     * @param body The identity token body.
+     * @return If the identity token body is valid.
+     */
+    public static boolean isValidUncodedBody(
+            final @NotNull String body) {
+<span class="nc" id="L250">        return VALID_UNENCODED_BODY_PREDICATE.test(body);</span>
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token body is a valid
+     * encoded body.
+     * 
+     * @param body The identity token body.
+     * @return If the identity token body is valid.
+     */
+    public static boolean isValidEncodedBody(
+            final @NotNull String body) {
+<span class="nc" id="L262">        return VALID_ENCODED_BODY_PREDICATE.test(body);</span>
+    }
+
+    /**
+     * Returns {@code true} if the specified identity token is valid.
+     * 
+     * @param token The identity token.
+     * @return If the identity token is valid.
+     */
+    public static boolean isValidToken(
+            final @NotNull String token) {
+<span class="nc" id="L273">        return VALID_TOKEN_PREDICATE.test(token);</span>
+    }
+
+    /**
+     * Parses the specified identity token for the default identity token
+     * prefix. If the token is valid and starts with the default prefix
+     * the original identity token body used when formatted is returned.
+     * 
+     * @param token The identity token
+     * @return The original identity token body
+     * @throws NullPointerException If the identity token is {@code null}
+     * @throws UnrecognizedIdentityTokenException If the identity token is not a
+     * valid identity token or it doesn't start with the expected prefix
+     */
+    public static String parse(
+            final @NotNull String token)
+    throws UnrecognizedIdentityTokenException {
+<span class="fc" id="L290">        return parse(DEFAULT_PREFIX, token);</span>
+    }
+
+    /**
+     * Parses the specified identity token for the specified expected identity
+     * token prefix. If the token is valid and starts with the specified prefix
+     * the original identity token body used when formatted is returned.
+     * 
+     * @param prefix The expected identity token prefix
+     * @param token The identity token
+     * @return The original identity token body
+     * @throws NullPointerException If the prefix or the identity token are
+     * {@code null}
+     * @throws IllegalArgumentException If the prefix is not a valid identity
+     * token prefix
+     * @throws UnrecognizedIdentityTokenException If the identity token is not a
+     * valid identity token or it doesn't start with the expected prefix
+     */
+    public static String parse(
+            final @NotNull String prefix,
+            final @NotNull String token)
+    throws UnrecognizedIdentityTokenException {
+<span class="fc" id="L312">        Validate.notNull(prefix, &quot;Identity token prefix is required&quot;);</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        if (!VALID_PREFIX_PREDICATE.test(prefix)) {</span>
+<span class="fc" id="L314">            throw new IllegalArgumentException(String.format(</span>
+                    &quot;Identity token prefix is not valid: %s&quot;,
+                    prefix));
+        }
+<span class="fc" id="L318">        Validate.notNull(token, &quot;Identity token is required&quot;);</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        if (!VALID_TOKEN_PREDICATE.test(token)) {</span>
+<span class="fc" id="L320">            throw new UnrecognizedIdentityTokenException(String.format(</span>
+                    &quot;Invalid identity token: %s&quot;,
+                    token));
+        }
+<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (!token.startsWith(prefix)) {</span>
+<span class="fc" id="L325">            throw new UnrecognizedIdentityTokenException(String.format(</span>
+                    &quot;Unrecognized identity token: %s&quot;,
+                    token));
+        }
+<span class="fc" id="L329">        return decodeBody(token.substring(prefix.length()));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnumTypedConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.converters</a> &gt; <span class="el_source">EnumTypedConverter.java</span></div><h1>EnumTypedConverter.java</h1><pre class="source lang-java linenums">package dev.orne.beans.converters;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 - 2021 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtilsBean;
+import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Implementation of {@code Converter} that converts {@code Enum} instances
+ * to and from {@code String} using value name as {@code String}
+ * representation.
+ * 
+ * @param &lt;E&gt; The type of enumeration this instance converts
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.1, 2022-10
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public class EnumTypedConverter&lt;E extends Enum&lt;E&gt;&gt;
+extends AbstractConverter {
+
+    /** The type of enumeration this instance converts. */
+    private final Class&lt;E&gt; enumType;
+    /** The {@code String} to {@code Enum} conversion function. */
+    private final BiFunction&lt;Class&lt;E&gt;, String, E&gt; stringToEnum;
+    /** The {@code Enum} to {@code String} conversion function. */
+    private final Function&lt;E, String&gt; enumToString;
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param enumType The type of enumeration this instance converts
+     */
+    public EnumTypedConverter(
+            final @NotNull Class&lt;E&gt; enumType) {
+<span class="nc" id="L66">        this(enumType, Enum::valueOf, Enum::name);</span>
+<span class="nc" id="L67">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public EnumTypedConverter(
+            final @NotNull Class&lt;E&gt; enumType,
+            final E defaultValue) {
+<span class="nc" id="L79">        this(enumType, Enum::valueOf, Enum::name, defaultValue);</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param enumType The type of enumeration this instance converts
+     * @param stringToEnum The {@code String} to {@code Enum} conversion function
+     * @param enumToString The {@code Enum} to {@code String} conversion function
+     */
+    public EnumTypedConverter(
+            final @NotNull Class&lt;E&gt; enumType,
+            final @NotNull BiFunction&lt;Class&lt;E&gt;, String, E&gt; stringToEnum,
+            final @NotNull Function&lt;E, String&gt; enumToString) {
+<span class="nc" id="L94">        super();</span>
+<span class="nc" id="L95">        this.enumType = Validate.notNull(enumType);</span>
+<span class="nc" id="L96">        this.stringToEnum = Validate.notNull(stringToEnum);</span>
+<span class="nc" id="L97">        this.enumToString = Validate.notNull(enumToString);</span>
+<span class="nc" id="L98">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param enumType The type of enumeration this instance converts
+     * @param stringToEnum The {@code String} to {@code Enum} conversion function
+     * @param enumToString The {@code Enum} to {@code String} conversion function
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public EnumTypedConverter(
+            final @NotNull Class&lt;E&gt; enumType,
+            final @NotNull BiFunction&lt;Class&lt;E&gt;, String, E&gt; stringToEnum,
+            final @NotNull Function&lt;E, String&gt; enumToString,
+            final E defaultValue) {
+<span class="nc" id="L114">        super(defaultValue);</span>
+<span class="nc" id="L115">        this.enumType = Validate.notNull(enumType);</span>
+<span class="nc" id="L116">        this.stringToEnum = Validate.notNull(stringToEnum);</span>
+<span class="nc" id="L117">        this.enumToString = Validate.notNull(enumToString);</span>
+<span class="nc" id="L118">    }</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param &lt;T&gt; The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     * @return The created converter
+     */
+    public static &lt;T extends Enum&lt;T&gt;&gt; EnumTypedConverter&lt;T&gt; of(
+            final Class&lt;T&gt; enumType) {
+<span class="nc" id="L130">        return new EnumTypedConverter&lt;&gt;(enumType);</span>
+    }
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param &lt;T&gt; The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     * @return The created converter
+     */
+    public static &lt;T extends Enum&lt;T&gt;&gt; EnumTypedConverter&lt;T&gt; of(
+            final Class&lt;T&gt; enumType,
+            final T defaultValue) {
+<span class="nc" id="L145">        return new EnumTypedConverter&lt;&gt;(enumType, defaultValue);</span>
+    }
+
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that throws a {@code ConversionException} if an error occurs to the
+     * singleton Apache commons bean utils converter.
+     * 
+     * @param &lt;T&gt; The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     */
+    public static &lt;T extends Enum&lt;T&gt;&gt; void registerFor(
+            final Class&lt;T&gt; enumType) {
+<span class="nc" id="L158">        BeanUtilsBean.getInstance().getConvertUtils().register(</span>
+                new EnumTypedConverter&lt;&gt;(enumType),
+                enumType);
+<span class="nc" id="L161">    }</span>
+
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that throws a {@code ConversionException} if an error occurs to the
+     * specified Apache commons bean utils converter.
+     * 
+     * @param &lt;T&gt; The type of enumeration this instance converts
+     * @param converter The Apache commons bean utils converter to register to
+     * @param enumType The type of enumeration this instance converts
+     */
+    public static &lt;T extends Enum&lt;T&gt;&gt; void registerFor(
+            final ConvertUtilsBean converter,
+            final Class&lt;T&gt; enumType) {
+<span class="nc" id="L175">        Validate.notNull(converter).register(</span>
+                new EnumTypedConverter&lt;&gt;(enumType),
+                enumType);
+<span class="nc" id="L178">    }</span>
+
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that returns a default value if an error occurs to the singleton
+     * Apache commons bean utils converter.
+     * 
+     * @param &lt;T&gt; The type of enumeration this instance converts
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public static &lt;T extends Enum&lt;T&gt;&gt; void registerFor(
+            final Class&lt;T&gt; enumType,
+            final T defaultValue) {
+<span class="nc" id="L193">        BeanUtilsBean.getInstance().getConvertUtils().register(</span>
+                new EnumTypedConverter&lt;&gt;(enumType, defaultValue),
+                enumType);
+<span class="nc" id="L196">    }</span>
+
+    /**
+     * Registers a new {@code EnumTypedConverter} for the specified enumeration
+     * type that returns a default value if an error occurs to the specified
+     * Apache commons beanutils2 converter.
+     * 
+     * @param &lt;T&gt; The type of enumeration this instance converts
+     * @param converter The Apache commons beanutils2 converter to register to
+     * @param enumType The type of enumeration this instance converts
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public static &lt;T extends Enum&lt;T&gt;&gt; void registerFor(
+            final ConvertUtilsBean converter,
+            final Class&lt;T&gt; enumType,
+            final T defaultValue) {
+<span class="nc" id="L213">        Validate.notNull(converter).register(</span>
+                new EnumTypedConverter&lt;&gt;(enumType, defaultValue),
+                enumType);
+<span class="nc" id="L216">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected @NotNull Class&lt;?&gt; getDefaultType() {
+<span class="nc" id="L223">        return this.enumType;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected &lt;T&gt; T convertToType(
+            final @NotNull Class&lt;T&gt; type,
+            final Object value)
+    throws Throwable {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (type.isAssignableFrom(this.enumType)) {</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            if (value == null) {</span>
+<span class="nc" id="L236">                return null;</span>
+            } else {
+<span class="nc" id="L238">                return type.cast(stringToEnum.apply(this.enumType, value.toString()));</span>
+            }
+        }
+<span class="nc" id="L241">        throw conversionException(type, value);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String convertToString(
+            final Object value)
+    throws Throwable {
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        if (this.enumType.isInstance(value)) {</span>
+<span class="nc" id="L252">            return this.enumToString.apply(this.enumType.cast(value));</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        } else if (value instanceof String) {</span>
+<span class="nc" id="L254">            return value.toString();</span>
+        } else {
+<span class="nc" id="L256">            throw conversionException(String.class, value);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GregorianCalendarConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.converters</a> &gt; <span class="el_source">GregorianCalendarConverter.java</span></div><h1>GregorianCalendarConverter.java</h1><pre class="source lang-java linenums">package dev.orne.beans.converters;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.beanutils.Converter;
+import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Implementation of {@code Converter} that converts {@code Calendar} instances
+ * to and from {@code String} using delegating in a instance of
+ * {@code InstantConverter}.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-08
+ * @since 0.3
+ */
+@API(status=Status.STABLE, since=&quot;0.3&quot;)
+public class GregorianCalendarConverter
+extends AbstractConverter {
+
+    /** The converter to use when converting {@code ZonedDateTime} instances. */
+    private final @NotNull Converter zonedDateTimeConverter;
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     */
+    public GregorianCalendarConverter() {
+<span class="fc" id="L58">        super();</span>
+<span class="fc" id="L59">        this.zonedDateTimeConverter = new ZonedDateTimeConverter();</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public GregorianCalendarConverter(final GregorianCalendar defaultValue) {
+<span class="nc" id="L69">        super(defaultValue);</span>
+<span class="nc" id="L70">        this.zonedDateTimeConverter = new ZonedDateTimeConverter(</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                defaultValue == null ? null : defaultValue.toZonedDateTime());</span>
+<span class="nc" id="L72">    }</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param instantConverter The converter to use when converting
+     * {@code ZonedDateTime} instances
+     */
+    public GregorianCalendarConverter(
+            final @NotNull Converter instantConverter) {
+<span class="nc" id="L83">        super();</span>
+<span class="nc" id="L84">        this.zonedDateTimeConverter = instantConverter;</span>
+<span class="nc" id="L85">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param instantConverter The converter to use when converting
+     * {@code ZonedDateTime} instances
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public GregorianCalendarConverter(
+            final @NotNull Converter instantConverter,
+            final GregorianCalendar defaultValue) {
+<span class="nc" id="L98">        super(defaultValue);</span>
+<span class="nc" id="L99">        this.zonedDateTimeConverter = instantConverter;</span>
+<span class="nc" id="L100">    }</span>
+
+    /**
+     * Returns the converter to use when converting {@code ZonedDateTime}
+     * instances.
+     * 
+     * @return The converter to use when converting {@code ZonedDateTime}
+     * instances
+     */
+    protected @NotNull Converter getZonedDateTimeConverter() {
+<span class="nc" id="L110">        return this.zonedDateTimeConverter;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected @NotNull Class&lt;GregorianCalendar&gt; getDefaultType() {
+<span class="nc" id="L118">        return GregorianCalendar.class;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected &lt;T&gt; T convertToType(
+            final @NotNull Class&lt;T&gt; type,
+            final Object value)
+    throws Throwable {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (type.isAssignableFrom(GregorianCalendar.class)) {</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (type.isInstance(value)) {</span>
+<span class="nc" id="L131">                return type.cast(value);</span>
+            }
+<span class="nc" id="L133">            final ZonedDateTime instant = this.zonedDateTimeConverter.convert(ZonedDateTime.class, value);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (instant == null) {</span>
+<span class="nc" id="L135">                return null;</span>
+            } else {
+<span class="nc" id="L137">                return type.cast(GregorianCalendar.from(instant));</span>
+            }
+        }
+<span class="nc" id="L140">        throw conversionException(type, value);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String convertToString(
+            final Object value)
+    throws Throwable {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (value instanceof Calendar) {</span>
+            final ZonedDateTime zdt;
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (value instanceof GregorianCalendar) {</span>
+<span class="nc" id="L153">                zdt = ((GregorianCalendar) value).toZonedDateTime();</span>
+            } else {
+<span class="nc" id="L155">                zdt = ZonedDateTime.ofInstant(((Calendar) value).toInstant(), ZoneId.systemDefault());</span>
+            }
+<span class="nc" id="L157">            return this.zonedDateTimeConverter.convert(String.class, zdt);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        } else if (value instanceof String) {</span>
+<span class="nc" id="L159">            return value.toString();</span>
+        } else {
+<span class="nc" id="L161">            throw conversionException(String.class, value);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

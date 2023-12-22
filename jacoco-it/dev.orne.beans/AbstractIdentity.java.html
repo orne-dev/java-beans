@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">AbstractIdentity.java</span></div><h1>AbstractIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Base abstract implementation for {@code Identity}. Manages the formatting
+ * and parsing of identity tokens.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public abstract class AbstractIdentity
+implements Identity {
+
+    /** The serial version UID. */
+    private static final long serialVersionUID = 1L;
+
+    /** The generated identity token cache. */
+    private transient String identityToken;
+
+    /**
+     * Creates a new instance.
+     */
+    protected AbstractIdentity() {
+<span class="nc" id="L53">        super();</span>
+<span class="nc" id="L54">    }</span>
+
+    /**
+     * Return the identity token prefix used for instances of this identity
+     * type. Must return same value for instances of the same class.
+     * 
+     * @return The identity token prefix for this class
+     */
+    @NotNull
+    @ValidIdentityTokenPrefix
+    protected String getIdentityTokenPrefix() {
+<span class="nc" id="L65">        return IdentityTokenFormatter.DEFAULT_PREFIX;</span>
+    }
+
+    /**
+     * Returns the identity token body composed from the values of this
+     * identity. Equal instances must return equal identity token body.
+     * 
+     * @return The identity token body for this instance
+     */
+    protected abstract String getIdentityTokenBody();
+
+    /**
+     * Parses the specified identity token and returns the original identity
+     * token body used during formatting.
+     * 
+     * @param token The token identity
+     * @return The original token identity body
+     * @throws UnrecognizedIdentityTokenException If the identity token
+     * is not recognized
+     */
+    protected final String parseIdentityTokenBody(
+            final @NotNull String token)
+    throws UnrecognizedIdentityTokenException {
+<span class="nc" id="L88">        return IdentityTokenFormatter.parse(</span>
+<span class="nc" id="L89">                getIdentityTokenPrefix(),</span>
+                token);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @NotNull
+    @ValidIdentityToken
+    public String getIdentityToken() {
+<span class="nc" id="L100">        synchronized (this) {</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (this.identityToken == null) {</span>
+<span class="nc" id="L102">                this.identityToken = IdentityTokenFormatter.format(</span>
+<span class="nc" id="L103">                        getIdentityTokenPrefix(),</span>
+<span class="nc" id="L104">                        getIdentityTokenBody());</span>
+            }
+<span class="nc" id="L106">            return this.identityToken;</span>
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L115">        return new HashCodeBuilder()</span>
+<span class="nc" id="L116">                .append(getClass())</span>
+<span class="nc" id="L117">                .build();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (obj == null) { return false; }</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (obj == this) { return true; }</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        return obj.getClass() == getClass();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L135">        return getIdentityToken();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

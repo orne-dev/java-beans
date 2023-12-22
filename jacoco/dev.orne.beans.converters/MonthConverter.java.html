@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonthConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.converters</a> &gt; <span class="el_source">MonthConverter.java</span></div><h1>MonthConverter.java</h1><pre class="source lang-java linenums">package dev.orne.beans.converters;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.Month;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
+
+import javax.validation.constraints.NotNull;
+
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Implementation of {@code Converter} that converts {@code Month} instances
+ * to and from {@code String} using &quot;YYYY-MM&quot; as {@code String}
+ * representation.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public class MonthConverter
+extends AbstractDateTimeConverter {
+
+    /**
+     * The month by value parser. 
+     */
+<span class="fc" id="L56">    public static final DateTimeFormatter BY_VALUE_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L58">                .appendValue(ChronoField.MONTH_OF_YEAR)</span>
+<span class="fc" id="L59">                .toFormatter();</span>
+    /**
+     * The month by full text parser, for default locale. 
+     */
+<span class="fc" id="L63">    public static final DateTimeFormatter BY_FULL_TEXT_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L65">                .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.FULL_STANDALONE)</span>
+<span class="fc" id="L66">                .toFormatter();</span>
+    /**
+     * The month by short text parser, for default locale. 
+     */
+<span class="fc" id="L70">    public static final DateTimeFormatter BY_SHORT_TEXT_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L72">                .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.SHORT_STANDALONE)</span>
+<span class="fc" id="L73">                .toFormatter();</span>
+    /**
+     * The month by short text parser, for default locale. 
+     */
+<span class="fc" id="L77">    public static final DateTimeFormatter BY_NARROW_TEXT_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L79">                .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.NARROW_STANDALONE)</span>
+<span class="fc" id="L80">                .toFormatter();</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     */
+    public MonthConverter() {
+<span class="fc" id="L87">        super(BY_VALUE_PARSER);</span>
+<span class="fc" id="L88">        setDefaultParsers();</span>
+<span class="fc" id="L89">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public MonthConverter(
+            final Month defaultValue) {
+<span class="fc" id="L99">        super(BY_VALUE_PARSER, defaultValue);</span>
+<span class="fc" id="L100">        setDefaultParsers();</span>
+<span class="fc" id="L101">    }</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param formatter The temporal value formatter and default parser
+     */
+    public MonthConverter(
+            final @NotNull DateTimeFormatter formatter) {
+<span class="fc" id="L111">        super(formatter);</span>
+<span class="fc" id="L112">        setDefaultParsers();</span>
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param formatter The temporal value formatter and default parser
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public MonthConverter(
+            final @NotNull DateTimeFormatter formatter,
+            final Month defaultValue) {
+<span class="fc" id="L125">        super(formatter, defaultValue);</span>
+<span class="fc" id="L126">        setDefaultParsers();</span>
+<span class="fc" id="L127">    }</span>
+
+    /**
+     * Sets the default parsers for this converter.
+     */
+    private final void setDefaultParsers() {
+<span class="fc" id="L133">        setParsers(</span>
+                BY_VALUE_PARSER,
+                BY_FULL_TEXT_PARSER,
+                BY_SHORT_TEXT_PARSER,
+                BY_NARROW_TEXT_PARSER,
+                YearMonthConverter.ISO_8601_PARSER,
+                YearMonthConverter.BY_FULL_TEXT_PARSER,
+                YearMonthConverter.BY_SHORT_TEXT_PARSER,
+                YearMonthConverter.BY_NARROW_TEXT_PARSER,
+                MonthDayConverter.ISO_8601_PARSER,
+                MonthDayConverter.BY_FULL_TEXT_PARSER,
+                MonthDayConverter.BY_SHORT_TEXT_PARSER,
+                MonthDayConverter.BY_NARROW_TEXT_PARSER,
+                DateTimeFormatter.ISO_INSTANT,
+                DateTimeFormatter.ISO_DATE_TIME,
+                DateTimeFormatter.ISO_DATE,
+                DateTimeFormatter.ISO_ORDINAL_DATE,
+                DateTimeFormatter.ISO_WEEK_DATE,
+                DateTimeFormatter.BASIC_ISO_DATE,
+                InstantConverter.EPOCH_MILLIS_PARSER);
+<span class="fc" id="L153">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected @NotNull Class&lt;?&gt; getDefaultType() {
+<span class="fc" id="L160">        return Month.class;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected &lt;T&gt; T convertToType(
+            final @NotNull Class&lt;T&gt; type,
+            final Object value) {
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (type.isAssignableFrom(Month.class)) {</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (value instanceof String) {</span>
+                try {
+<span class="fc" id="L173">                    return type.cast(Month.valueOf((String) value));</span>
+<span class="fc" id="L174">                } catch (final IllegalArgumentException iae) {</span>
+<span class="fc" id="L175">                    getLogger().debug(&quot;Failed to parse value as constant name&quot;, iae);</span>
+<span class="fc" id="L176">                    return super.convertToType(type, value);</span>
+                }
+<span class="fc bfc" id="L178" title="All 2 branches covered.">            } else if (value instanceof Number) {</span>
+                try {
+<span class="fc" id="L180">                    return type.cast(Month.of(</span>
+<span class="fc" id="L181">                            ((Number) value).intValue()));</span>
+<span class="fc" id="L182">                } catch (final DateTimeException dte) {</span>
+<span class="fc" id="L183">                    getLogger().debug(&quot;Failed to parse value as constant value&quot;, dte);</span>
+<span class="fc" id="L184">                    return super.convertToType(type, value);</span>
+                }
+            } else {
+<span class="fc" id="L187">                return super.convertToType(type, value);</span>
+            }
+        } else {
+<span class="fc" id="L190">            throw conversionException(type, value);</span>
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected &lt;T extends TemporalAccessor&gt; T fromTemporalAccessor(
+            final @NotNull Class&lt;T&gt; type,
+            final @NotNull TemporalAccessor value) {
+        try {
+<span class="fc" id="L202">            return type.cast(Month.from(value));</span>
+<span class="fc" id="L203">        } catch (final DateTimeException dte) {</span>
+<span class="fc" id="L204">            getLogger().debug(&quot;Failed to convert temporal accessor to DayOfWeek directly&quot;, dte);</span>
+        }
+<span class="fc" id="L206">        return type.cast(Instant.from(value).atOffset(ZoneOffset.UTC).getMonth());</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String convertToString(
+            final Object value) {
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        if (value instanceof Month) {</span>
+<span class="fc" id="L216">            return ((Month) value).name();</span>
+        } else {
+<span class="fc" id="L218">            return super.convertToString(value);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

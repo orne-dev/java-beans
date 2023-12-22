@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractSimpleIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">AbstractSimpleIdentity.java</span></div><h1>AbstractSimpleIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.io.Serializable;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Abstract implementation for {@code Identity} for identities composed
+ * of a single inner value.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ * @param &lt;T&gt; The type of the identity value
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public abstract class AbstractSimpleIdentity&lt;T extends Serializable&gt;
+extends AbstractIdentity {
+
+    /** The serial version UID. */
+    private static final long serialVersionUID = -4740745453560262909L;
+
+    /** The identity inner value. */
+    private final T value;
+
+    /**
+     * Creates a new instance.
+     * 
+     * @param value The identity value
+     */
+    protected AbstractSimpleIdentity(
+            final T value) {
+<span class="nc" id="L61">        super();</span>
+<span class="nc" id="L62">        this.value = value;</span>
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * Copy constructor.
+     * 
+     * @param copy The instance to copy
+     */
+    protected AbstractSimpleIdentity(
+            final @NotNull AbstractSimpleIdentity&lt;T&gt; copy) {
+<span class="nc" id="L72">        super();</span>
+<span class="nc" id="L73">        Validate.notNull(copy, &quot;Template instance is required&quot;);</span>
+<span class="nc" id="L74">        this.value = copy.value;</span>
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * Returns the identity inner value.
+     * 
+     * @return The identity inner value
+     */
+    public T getValue() {
+<span class="nc" id="L83">        return this.value;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getIdentityTokenBody() {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        return this.value == null ? null : this.value.toString();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L99">        return new HashCodeBuilder()</span>
+<span class="nc" id="L100">                .appendSuper(super.hashCode())</span>
+<span class="nc" id="L101">                .append(this.value)</span>
+<span class="nc" id="L102">                .build();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (obj == null) { return false; }</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (obj == this) { return true; }</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (obj.getClass() != getClass()) { return false; }</span>
+<span class="nc" id="L113">        final AbstractSimpleIdentity&lt;?&gt; other = (AbstractSimpleIdentity&lt;?&gt;) obj;</span>
+<span class="nc" id="L114">        return new EqualsBuilder()</span>
+<span class="nc" id="L115">                .appendSuper(super.equals(obj))</span>
+<span class="nc" id="L116">                .append(this.value, other.value)</span>
+<span class="nc" id="L117">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

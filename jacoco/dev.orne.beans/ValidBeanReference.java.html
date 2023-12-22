@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidBeanReference.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">ValidBeanReference.java</span></div><h1>ValidBeanReference.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.Arrays;
+
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+import javax.validation.ReportAsSingleViolation;
+import javax.validation.constraints.NotNull;
+
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Validation for beans that require at least a valid bean reference.
+ * Validates the the bean, if non null, validates against on of the validation
+ * group sets defined through {@code BeanReference} annotations.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+@Target({ 
+    ElementType.CONSTRUCTOR,
+    ElementType.METHOD,
+    ElementType.FIELD,
+    ElementType.PARAMETER,
+    ElementType.ANNOTATION_TYPE
+})
+@Retention(
+    RetentionPolicy.RUNTIME
+)
+@Documented
+@Constraint(validatedBy = {
+    ValidBeanReference.ValidBeanReferenceValidator.class
+})
+@ReportAsSingleViolation
+public @interface ValidBeanReference {
+
+    /**
+     * Returns the error message.
+     * 
+     * @return The error message.
+     */
+    String message() default &quot;{dev.orne.beans.ValidBeanReference.message}&quot;;
+
+    /**
+     * Returns the validation groups.
+     * 
+     * @return The validation groups.
+     */
+    Class&lt;?&gt;[] groups() default { };
+
+    /**
+     * Returns the validation client payload.
+     * 
+     * @return The validation client payload.
+     */
+    Class&lt;? extends Payload&gt;[] payload() default { };
+
+    /**
+     * Constraint validator for {@code ValidBeanReference}.
+     * 
+     * @see ValidBeanReference
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    public static class ValidBeanReferenceValidator
+    implements ConstraintValidator&lt;ValidBeanReference, Object&gt; {
+
+        /** The {@code BeanReference} annotation finder. */
+<span class="fc" id="L100">        public static final BeanAnnotationFinder&lt;BeanReference, BeanReference.List&gt; FINDER =</span>
+                new BeanAnnotationFinder&lt;&gt;(
+                    BeanReference.class,
+                    BeanReference.List.class,
+                    BeanReference.List::value);
+
+        /**
+         * Creates a new instance.
+         */
+        public ValidBeanReferenceValidator() {
+<span class="fc" id="L110">            super();</span>
+<span class="fc" id="L111">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isValid(
+                final Object value,
+                final ConstraintValidatorContext context) {
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            if (value == null) {</span>
+<span class="fc" id="L121">                return true;</span>
+            }
+<span class="fc" id="L123">            boolean valid = true;</span>
+<span class="fc bfc" id="L124" title="All 4 branches covered.">            if (value instanceof Iterable || value.getClass().isArray()) {</span>
+                final Iterable&lt;?&gt; iterable;
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                if (value instanceof Iterable) {</span>
+<span class="fc" id="L127">                    iterable = (Iterable&lt;?&gt;) value;</span>
+                } else {
+<span class="fc" id="L129">                    iterable = Arrays.asList((Object[]) value);</span>
+                }
+<span class="fc bfc" id="L131" title="All 2 branches covered.">                for (final Object obj : iterable) {</span>
+<span class="fc" id="L132">                    valid = isValid(obj);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">                    if (!valid) {</span>
+<span class="fc" id="L134">                        break;</span>
+                    }
+<span class="fc" id="L136">                }</span>
+<span class="fc" id="L137">            } else {</span>
+<span class="fc" id="L138">                valid = isValid(value, FINDER);</span>
+            }
+<span class="fc" id="L140">            return valid;</span>
+        }
+
+        /**
+         * Returns {@code true} if specified bean is valid reference to it's
+         * bean type.
+         * 
+         * @param value The bean to validate
+         * @return If the bean is a valid bean reference
+         */
+        public static boolean isValid(
+                @NotNull
+                final Object value) {
+<span class="fc" id="L153">            return isValid(value, FINDER);</span>
+        }
+
+        /**
+         * Returns {@code true} if specified bean is valid reference to it's
+         * bean type.
+         * 
+         * @param value The bean to validate
+         * @param annotationFinder The {@code BeanAnnotationFinder} to use
+         * @return If the bean is a valid bean reference
+         */
+        public static boolean isValid(
+                @NotNull
+                final Object value,
+                @NotNull
+                final BeanAnnotationFinder&lt;? extends BeanReference, ?&gt; annotationFinder) {
+<span class="fc" id="L169">            boolean valid = false;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">            for (final BeanReference reference : annotationFinder.find(value.getClass())) {</span>
+<span class="fc" id="L171">                valid = BeanValidationUtils.isValid(value, reference.value());</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">                if (valid) {</span>
+<span class="fc" id="L173">                    break;</span>
+                }
+<span class="fc" id="L175">            }</span>
+<span class="fc" id="L176">            return valid;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

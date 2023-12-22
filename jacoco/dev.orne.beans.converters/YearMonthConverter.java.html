@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>YearMonthConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.converters</a> &gt; <span class="el_source">YearMonthConverter.java</span></div><h1>YearMonthConverter.java</h1><pre class="source lang-java linenums">package dev.orne.beans.converters;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR;
+
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.SignStyle;
+import java.time.format.TextStyle;
+import java.time.temporal.TemporalAccessor;
+
+import javax.validation.constraints.NotNull;
+
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+/**
+ * Implementation of {@code Converter} that converts {@code YearMonth} instances
+ * to and from {@code String} using &quot;YYYY-MM&quot; as {@code String}
+ * representation.
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public class YearMonthConverter
+extends AbstractDateTimeConverter {
+
+    /**
+     * The month-day by value parser. 
+     */
+<span class="fc" id="L59">    public static final DateTimeFormatter ISO_8601_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L61">                .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L62">                .appendLiteral('-')</span>
+<span class="fc" id="L63">                .appendValue(MONTH_OF_YEAR, 2)</span>
+<span class="fc" id="L64">                .toFormatter();</span>
+    /**
+     * The month-day by full text parser, for default locale. 
+     */
+<span class="fc" id="L68">    public static final DateTimeFormatter BY_FULL_TEXT_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L70">                .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L71">                .appendLiteral('-')</span>
+<span class="fc" id="L72">                .appendText(MONTH_OF_YEAR, TextStyle.FULL)</span>
+<span class="fc" id="L73">                .toFormatter();</span>
+    /**
+     * The month-day by short text parser, for default locale. 
+     */
+<span class="fc" id="L77">    public static final DateTimeFormatter BY_SHORT_TEXT_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L79">                .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L80">                .appendLiteral('-')</span>
+<span class="fc" id="L81">                .appendText(MONTH_OF_YEAR, TextStyle.SHORT)</span>
+<span class="fc" id="L82">                .toFormatter();</span>
+    /**
+     * The month-day by short text parser, for default locale. 
+     */
+<span class="fc" id="L86">    public static final DateTimeFormatter BY_NARROW_TEXT_PARSER =</span>
+            new DateTimeFormatterBuilder()
+<span class="fc" id="L88">                .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L89">                .appendLiteral('-')</span>
+<span class="fc" id="L90">                .appendText(MONTH_OF_YEAR, TextStyle.NARROW)</span>
+<span class="fc" id="L91">                .toFormatter();</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs, using ISO-8601 as default conversion format.
+     */
+    public YearMonthConverter() {
+<span class="fc" id="L98">        super(ISO_8601_PARSER);</span>
+<span class="fc" id="L99">        setDefaultParsers();</span>
+<span class="fc" id="L100">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs,
+     * using ISO-8601 as default conversion format.
+     * 
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public YearMonthConverter(
+            final YearMonth defaultValue) {
+<span class="fc" id="L111">        super(ISO_8601_PARSER, defaultValue);</span>
+<span class="fc" id="L112">        setDefaultParsers();</span>
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Creates a new instance that throws a {@code ConversionException} if an
+     * error occurs.
+     * 
+     * @param formatter The temporal value formatter and default parser
+     */
+    public YearMonthConverter(
+            final @NotNull DateTimeFormatter formatter) {
+<span class="fc" id="L123">        super(formatter);</span>
+<span class="fc" id="L124">        setDefaultParsers();</span>
+<span class="fc" id="L125">    }</span>
+
+    /**
+     * Creates a new instance that returns a default value if an error occurs.
+     * 
+     * @param formatter The temporal value formatter and default parser
+     * @param defaultValue The default value to be returned if the value to be
+     * converted is missing or an error occurs converting the value
+     */
+    public YearMonthConverter(
+            final @NotNull DateTimeFormatter formatter,
+            final YearMonth defaultValue) {
+<span class="fc" id="L137">        super(formatter, defaultValue);</span>
+<span class="fc" id="L138">        setDefaultParsers();</span>
+<span class="fc" id="L139">    }</span>
+
+    /**
+     * Sets the default parsers for this converter.
+     */
+    private final void setDefaultParsers() {
+<span class="fc" id="L145">        setParsers(</span>
+                ISO_8601_PARSER,
+                BY_FULL_TEXT_PARSER,
+                BY_SHORT_TEXT_PARSER,
+                BY_NARROW_TEXT_PARSER,
+                DateTimeFormatter.ISO_INSTANT,
+                DateTimeFormatter.ISO_DATE_TIME,
+                DateTimeFormatter.ISO_DATE,
+                DateTimeFormatter.ISO_ORDINAL_DATE,
+                DateTimeFormatter.ISO_WEEK_DATE,
+                DateTimeFormatter.BASIC_ISO_DATE,
+                InstantConverter.EPOCH_MILLIS_PARSER);
+<span class="fc" id="L157">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected @NotNull Class&lt;?&gt; getDefaultType() {
+<span class="fc" id="L164">        return YearMonth.class;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected &lt;T extends TemporalAccessor&gt; T fromTemporalAccessor(
+            final @NotNull Class&lt;T&gt; type,
+            final @NotNull TemporalAccessor value) {
+        try {
+<span class="fc" id="L175">            return type.cast(YearMonth.from(value));</span>
+<span class="fc" id="L176">        } catch (final DateTimeException dte) {</span>
+<span class="fc" id="L177">            getLogger().debug(&quot;Failed to convert temporal accessor to YearMonth directly&quot;, dte);</span>
+        }
+<span class="fc" id="L179">        return type.cast(YearMonth.from(Instant.from(value).atOffset(ZoneOffset.UTC)));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

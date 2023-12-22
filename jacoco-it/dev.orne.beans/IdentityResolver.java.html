@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentityResolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">IdentityResolver.java</span></div><h1>IdentityResolver.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.WeakHashMap;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.Validate;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * &lt;p&gt;Identity resolver that converts an instance of {@code Identity}
+ * of unknown type to an instance of a concrete type.&lt;/p&gt;
+ * 
+ * &lt;p&gt;The target identity type must have a public constructor that accepts a
+ * single {@code String} argument. If such constructor is not an identity token
+ * resolution constructor a public, static method that accepts a single
+ * {@code String} argument and returns instances of identity type can be
+ * annotated with {@code IdentityTokenResolver} to provide an alternative
+ * identity token resolution method.&lt;/p&gt;
+ * 
+ * &lt;p&gt;If no constructor and no static method is valid a warning is logged and
+ * every future resolution attempt for that identity type will fail.&lt;/p&gt;
+ * 
+ * &lt;p&gt;Valid examples:&lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * class MyIdentity
+ * implements Identity {
+ *   ...
+ *   public MyIdentity(String token)
+ *   throws UnrecognizedIdentityTokenException {
+ *     ...
+ *   }
+ *   ...
+ * }
+ * &lt;/pre&gt;
+ * 
+ * &lt;pre&gt;
+ * class MyIdentity
+ * implements Identity {
+ *   ...
+ *   public MyIdentity(String notAToken) {
+ *     ...
+ *   }
+ *   ...
+ *   {@code @}IdentityTokenResolver
+ *   public static MyIdentity resolve(String identityToken)
+ *   throws UnrecognizedIdentityTokenException {
+ *     // Resolve identity token
+ *   }
+ *   ...
+ * }
+ * &lt;/pre&gt;
+ * 
+ * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2020-05
+ * @since 0.1
+ * @see IdentityTokenResolver
+ */
+@API(status=Status.STABLE, since=&quot;0.1&quot;)
+public class IdentityResolver {
+
+    /** The class logger. */
+<span class="fc" id="L95">    private static final Logger LOG = LoggerFactory.getLogger(IdentityResolver.class);</span>
+    /** The type level annotations shared cache. */
+<span class="fc" id="L97">    private static final Cache SHARED_CACHE = new WeakHashMapCache();</span>
+    /** Error message for unresolvable identity token. */
+    private static final String ERR_UNRESOLVABLE_TOKEN =
+            &quot;Identity token cannot be resolved&quot;;
+    /** Error message for misconfigured identity types. */
+    private static final String ERR_MISCONFIGURED =
+            &quot;Identity token cannot be resolved for misconfigured identity type&quot;;
+    /** Informational message for misconfigured identity types. */
+    private static final String HELP_MISCONFIGURED =
+            &quot;Identity type '{}' resolution is misconfigured.&quot;
+            + &quot; See IdentityResolver javadoc for correct Identity resolution configuration.&quot;
+            + &quot; No further resolution attempts will succed.&quot;;
+    /** Error message for misconfigured identity types with no valid resolver. */
+    private static final String ERR_NO_RESOLVER =
+            &quot;Identity type '%s' does not have any valid identity token resolution method or constructor&quot;;
+    /** Error message for unexpected resolver type. */
+    private static final String ERR_UNEXPECTED_RESOLVER_TYPE =
+            &quot;Unexpected Executable subtype for '%s' identity type: %s&quot;;
+    /** Error message for unexpected resolver type. */
+    private static final String ERR_GET_RESOLVER_ERROR =
+            &quot;Unexpected error analyzing '%s' identity type&quot;;
+    /** Required modifiers for identity token resolution methods. */
+    private static final int RESOLVER_METHOD_MODIFIERS =
+            Modifier.STATIC | Modifier.PUBLIC;
+    /** Error message for wrong resolution method modifiers. */
+    private static final String ERR_RESOLVER_METHOD_MODIFIERS =
+            &quot;Invalid modifiers in annotated token resolution method '%s' for identity type '%s'.&quot;
+            + &quot; Method must be public and static.&quot;;
+    /** Error message for wrong resolution method parameter types. */
+    private static final String ERR_RESOLVER_METHOD_PARAMS =
+            &quot;Invalid parameter types in annotated token resolution method '%s' for identity type '%s'.&quot;
+            + &quot; Method must have one only argument of String type.&quot;;
+    /** Error message for wrong resolution method return type. */
+    private static final String ERR_RESOLVER_METHOD_RETURN_TYPE =
+            &quot;Invalid return type in annotated token resolution method '%s' for identity type '%s'.&quot;
+            + &quot; Method must return identity type.&quot;;
+    /** Error message for no identity token constructor. */
+    private static final String ERR_TOKEN_CONSTRUCTOR_NOT_FOUND =
+            &quot;No identity token contructor for identity type '%s'.&quot;;
+    /**
+     * The identity type resolve methods cache for this instance. By default
+     * shared between all instances.
+     */
+<span class="fc" id="L140">    private @NotNull Cache cache = SHARED_CACHE;</span>
+
+    /**
+     * Creates a new instance.
+     */
+    protected IdentityResolver() {
+<span class="fc" id="L146">        super();</span>
+<span class="fc" id="L147">    }</span>
+
+    /**
+     * Returns the shared, singleton instance.
+     * 
+     * @return The singleton instance.
+     */
+    public static @NotNull IdentityResolver getInstance() {
+<span class="fc" id="L155">        return InstanceHolder.INSTANCE;</span>
+    }
+
+    /**
+     * Returns the cache to be used by this instance.
+     * 
+     * @return The cache to be used by this instance
+     */
+    protected @NotNull Cache getCache() {
+<span class="nc" id="L164">        return this.cache;</span>
+    }
+
+    /**
+     * &lt;p&gt;Sets the identity type resolve methods cache for this instance.
+     * If {@code cache} is {@code null} shared cache will be used.&lt;/p&gt;
+     * 
+     * @param cache The cache to be used by this instance
+     * @return This instance for method chaining
+     */
+    protected @NotNull IdentityResolver setCache(
+            final Cache cache) {
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (cache == null) {</span>
+<span class="nc" id="L177">            this.cache = SHARED_CACHE;</span>
+        } else {
+<span class="nc" id="L179">            this.cache = cache;</span>
+        }
+<span class="nc" id="L181">        return this;</span>
+    }
+
+    /**
+     * Resolves the specified source identity to an identity of the specified
+     * target type.
+     * 
+     * @param &lt;T&gt; The target identity type
+     * @param identity The source identity
+     * @param targetType The target identity type
+     * @return An instance of target identity type or {@code null}
+     * if source identity is null or invalid
+     * @throws UnrecognizedIdentityTokenException If the source identity's
+     * token cannot be resolved to target identity type
+     */
+    public &lt;T extends Identity&gt; T resolve(
+            final Identity identity,
+            final @NotNull Class&lt;T&gt; targetType)
+    throws UnrecognizedIdentityTokenException {
+<span class="fc" id="L200">        Validate.notNull(targetType);</span>
+<span class="pc bpc" id="L201" title="2 of 4 branches missed.">        if (identity == null || targetType.isInstance(identity)) {</span>
+<span class="nc" id="L202">            return targetType.cast(identity);</span>
+        }
+<span class="fc" id="L204">        return resolve(identity.getIdentityToken(), targetType);</span>
+    }
+
+    /**
+     * Resolves the specified source identity token to an identity of the
+     * specified target type.
+     * 
+     * @param &lt;T&gt; The target identity type
+     * @param identityToken The source identity token
+     * @param targetType The target identity type
+     * @return An instance of target identity type or {@code null}
+     * if source identity token is null
+     * @throws UnrecognizedIdentityTokenException If the source identity
+     * token cannot be resolved to target identity type
+     */
+    public &lt;T extends Identity&gt; T resolve(
+            final String identityToken,
+            final @NotNull Class&lt;T&gt; targetType)
+    throws UnrecognizedIdentityTokenException {
+<span class="fc" id="L223">        Validate.notNull(targetType);</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">        if (identityToken == null) {</span>
+<span class="nc" id="L225">            return null;</span>
+        }
+        try {
+<span class="fc" id="L228">            final Executable resolver = getResolver(targetType);</span>
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">            if (resolver instanceof Method) {</span>
+<span class="nc" id="L230">                return targetType.cast(((Method) resolver).invoke(null, identityToken));</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">            } else if (resolver instanceof Constructor) {</span>
+<span class="fc" id="L232">                return targetType.cast(((Constructor&lt;?&gt;) resolver).newInstance(identityToken));</span>
+            } else {
+<span class="nc" id="L234">                throw new UnresolvableIdentityException(String.format(</span>
+                        ERR_UNEXPECTED_RESOLVER_TYPE,
+                        targetType,
+<span class="nc" id="L237">                        resolver.getClass()));</span>
+            }
+<span class="nc" id="L239">        } catch (final UnresolvableIdentityException uie) {</span>
+<span class="nc" id="L240">            throw new UnrecognizedIdentityTokenException(ERR_MISCONFIGURED, uie);</span>
+<span class="fc" id="L241">        } catch (final InvocationTargetException ite) {</span>
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">            if (!(ite.getTargetException() instanceof UnrecognizedIdentityTokenException)) {</span>
+<span class="nc" id="L243">                throw new UnrecognizedIdentityTokenException(</span>
+                        ERR_UNRESOLVABLE_TOKEN,
+<span class="nc" id="L245">                        ite.getTargetException());</span>
+            } else {
+<span class="fc" id="L247">                throw ((UnrecognizedIdentityTokenException) ite.getTargetException());</span>
+            }
+<span class="nc" id="L249">        } catch (final IllegalAccessException</span>
+                | IllegalArgumentException
+                | InstantiationException e) {
+<span class="nc" id="L252">            throw new UnrecognizedIdentityTokenException(ERR_UNRESOLVABLE_TOKEN, e);</span>
+        }
+    }
+
+    /**
+     * Returns the method or constructor to be used to resolve identity tokens
+     * for the specified target identity type.
+     * 
+     * @param targetType The target identity type
+     * @return The identity type resolution method or constructor
+     * @throws UnresolvableIdentityException If the identity type is
+     * misconfigured
+     */
+    protected @NotNull Executable getResolver(
+            final @NotNull Class&lt;? extends Identity&gt; targetType)
+    throws UnresolvableIdentityException {
+<span class="fc" id="L268">        Validate.notNull(targetType);</span>
+        Executable resolver;
+<span class="fc" id="L270">        synchronized (this.cache) {</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">            if (this.cache.contains(targetType)) {</span>
+<span class="fc" id="L272">                resolver = this.cache.get(targetType);</span>
+            } else {
+                try {
+<span class="fc" id="L275">                    resolver = findTokenResolverMethod(targetType);</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">                    if (resolver == null) {</span>
+<span class="fc" id="L277">                        resolver = findTokenConstructor(targetType);</span>
+                    }
+<span class="fc" id="L279">                    this.cache.put(targetType, resolver);</span>
+<span class="nc" id="L280">                } catch (final UnresolvableIdentityException uie) {</span>
+<span class="nc" id="L281">                    LOG.warn(HELP_MISCONFIGURED, targetType);</span>
+<span class="nc" id="L282">                    this.cache.put(targetType, null);</span>
+<span class="nc" id="L283">                    throw uie;</span>
+<span class="nc" id="L284">                } catch (final RuntimeException re) {</span>
+<span class="nc" id="L285">                    LOG.warn(HELP_MISCONFIGURED, targetType);</span>
+<span class="nc" id="L286">                    this.cache.put(targetType, null);</span>
+<span class="nc" id="L287">                    throw new UnresolvableIdentityException(</span>
+                            ERR_GET_RESOLVER_ERROR, re);
+<span class="fc" id="L289">                }</span>
+            }
+<span class="fc" id="L291">        }</span>
+<span class="pc bpc" id="L292" title="1 of 2 branches missed.">        if (resolver == null) {</span>
+<span class="nc" id="L293">            throw new UnresolvableIdentityException(String.format(</span>
+                    ERR_NO_RESOLVER,
+                    targetType));
+        }
+<span class="fc" id="L297">        return resolver;</span>
+    }
+
+    /**
+     * Finds a method annotated with {@code IdentityTokenResolver} in the
+     * specified target identity type. The method must be public and static,
+     * have a single {@code String} argument and return a
+     * 
+     * @param targetType The target identity type
+     * @return The found identity token resolution method
+     * @throws UnresolvableIdentityException If the annotated method doesn't
+     * fulfill the requirements
+     * @throws SecurityException If a security exception occurs accessing the
+     * class methods
+     * @see IdentityTokenResolver
+     */
+    protected Method findTokenResolverMethod(
+            final @NotNull Class&lt;?&gt; targetType)
+    throws UnresolvableIdentityException {
+<span class="fc" id="L316">        Validate.notNull(targetType);</span>
+<span class="fc" id="L317">        Method resolver = null;</span>
+<span class="fc bfc" id="L318" title="All 2 branches covered.">        for (final Method method : targetType.getDeclaredMethods()) {</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">            if (method.isAnnotationPresent(IdentityTokenResolver.class)) {</span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">                if ((method.getModifiers() &amp; RESOLVER_METHOD_MODIFIERS) != RESOLVER_METHOD_MODIFIERS) {</span>
+<span class="nc" id="L321">                    throw new UnresolvableIdentityException(String.format(</span>
+                            ERR_RESOLVER_METHOD_MODIFIERS,
+                            method,
+                            targetType));
+                }
+<span class="nc bnc" id="L326" title="All 2 branches missed.">                if (!Arrays.equals(new Class&lt;?&gt;[] { String.class }, method.getParameterTypes())) {</span>
+<span class="nc" id="L327">                    throw new UnresolvableIdentityException(String.format(</span>
+                            ERR_RESOLVER_METHOD_PARAMS,
+                            method,
+                            targetType));
+                }
+<span class="nc bnc" id="L332" title="All 2 branches missed.">                if (!(targetType.isAssignableFrom(method.getReturnType()))) {</span>
+<span class="nc" id="L333">                    throw new UnresolvableIdentityException(String.format(</span>
+                            ERR_RESOLVER_METHOD_RETURN_TYPE,
+                            method,
+                            targetType));
+                }
+<span class="nc" id="L338">                resolver = method;</span>
+<span class="nc" id="L339">                break;</span>
+            }
+        }
+<span class="fc" id="L342">        return resolver;</span>
+    }
+
+    /**
+     * Finds an identity token constructor in the specified target identity
+     * type. The constructor must be public and have a single {@code String}
+     * argument.
+     * 
+     * @param &lt;T&gt; The target identity type
+     * @param targetType The target identity type
+     * @return The found identity token constructor
+     * @throws UnresolvableIdentityException If no constructor is found or it
+     * doesn't fulfill the requirements
+     * @throws SecurityException If a security exception occurs accessing the
+     * constructor
+     */
+    protected &lt;T&gt; Constructor&lt;T&gt; findTokenConstructor(
+            final @NotNull Class&lt;T&gt; targetType)
+    throws UnresolvableIdentityException {
+<span class="fc" id="L361">        Validate.notNull(targetType);</span>
+        try {
+<span class="fc" id="L363">            return targetType.getConstructor(String.class);</span>
+<span class="nc" id="L364">        } catch (final NoSuchMethodException nsme) {</span>
+<span class="nc" id="L365">            throw new UnresolvableIdentityException(String.format(</span>
+                        ERR_TOKEN_CONSTRUCTOR_NOT_FOUND,
+                        targetType),
+                    nsme);
+        }
+    }
+
+    /**
+     * Holder of shared {@code IdentityResolver} instance.
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    private static class InstanceHolder{
+
+        /** The shared instance. */
+<span class="fc" id="L379">        private static final IdentityResolver INSTANCE = new IdentityResolver();</span>
+    }
+
+    /**
+     * Interface for identity resolve methods cache.
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    protected static interface Cache {
+
+        /**
+         * Returns {@code true} if this instance contains an entry for
+         * the specified identity type.
+         * 
+         * @param key The identity type
+         * @return If this instance contains an entry for the identity type
+         */
+        boolean contains(
+                @NotNull Class&lt;? extends Identity&gt; key);
+
+        /**
+         * Returns the cached identity token resolution executable for the
+         * specified identity type, if any.
+         * 
+         * @param key The identity type
+         * @return The identity token resolution executable, or
+         * {@code null} if not cached o cache expired
+         */
+        Executable get(
+                @NotNull Class&lt;? extends Identity&gt; key);
+
+        /**
+         * Puts the specified identity token resolution executable for the
+         * specified identity type.
+         * 
+         * @param key The identity type
+         * @param value The identity token resolution executable
+         */
+        void put(
+                @NotNull Class&lt;? extends Identity&gt; key,
+                Executable value);
+    }
+
+    /**
+     * Implementation of {@code Cache} based on {@code WeakHashMap}.
+     * 
+     * @see Cache
+     * @see WeakHashMap
+     */
+    @API(status=Status.INTERNAL, since=&quot;0.1&quot;)
+    protected static class WeakHashMapCache
+    implements Cache {
+
+        /** The cache entries. */
+<span class="fc" id="L432">        private final WeakHashMap&lt;Class&lt;? extends Identity&gt;, Executable&gt; entries =</span>
+                new WeakHashMap&lt;&gt;();
+
+        /**
+         * Creates a new instance.
+         */
+        public WeakHashMapCache() {
+<span class="fc" id="L439">            super();</span>
+<span class="fc" id="L440">        }</span>
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public synchronized boolean contains(
+                final @NotNull Class&lt;? extends Identity&gt; key) {
+<span class="fc" id="L448">            return this.entries.containsKey(key);</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public synchronized Executable get(
+                final @NotNull Class&lt;? extends Identity&gt; key) {
+<span class="fc" id="L457">            return this.entries.get(key);</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public synchronized void put(
+                final @NotNull Class&lt;? extends Identity&gt; key,
+                final Executable value) {
+<span class="fc" id="L467">            this.entries.put(key, value);</span>
+<span class="fc" id="L468">        }</span>
+    }
+
+    /**
+     * Exception for misconfigured identity types. Caused when an {@code Identity}
+     * doesn't have a {@code String} constructor and no valid static method has
+     * been annotated with {@code IdentityTokenResolver}.
+     * 
+     * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+     * @version 1.0, 2020-05
+     * @since 0.1
+     * @see IdentityResolver
+     * @see IdentityTokenResolver
+     */
+    @API(status=Status.STABLE, since=&quot;0.1&quot;)
+    public static class UnresolvableIdentityException
+    extends Exception {
+
+        /** The Serial Version UID. */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Constructs a new exception with {@code null} as its detail message.
+         * The cause is not initialized, and may subsequently be initialized by a
+         * call to {@link #initCause}.
+         */
+        public UnresolvableIdentityException() {
+<span class="nc" id="L495">            super();</span>
+<span class="nc" id="L496">        }</span>
+
+        /**
+         * Constructs a new exception with the specified detail message.  The
+         * cause is not initialized, and may subsequently be initialized by
+         * a call to {@link #initCause}.
+         *
+         * @param   message   the detail message. The detail message is saved for
+         *          later retrieval by the {@link #getMessage()} method.
+         */
+        public UnresolvableIdentityException(
+                final String message) {
+<span class="nc" id="L508">            super(message);</span>
+<span class="nc" id="L509">        }</span>
+
+        /**
+         * Constructs a new exception with the specified cause and a detail
+         * message of {@code (cause==null ? null : cause.toString())} (which
+         * typically contains the class and detail message of {@code cause}).
+         * This constructor is useful for exceptions that are little more than
+         * wrappers for other throwables (for example, {@link
+         * java.security.PrivilegedActionException}).
+         *
+         * @param  cause the cause (which is saved for later retrieval by the
+         *         {@link #getCause()} method).  (A {@code null} value is
+         *         permitted, and indicates that the cause is nonexistent or
+         *         unknown.)
+         */
+        public UnresolvableIdentityException(
+                final Throwable cause) {
+<span class="nc" id="L526">            super(cause);</span>
+<span class="nc" id="L527">        }</span>
+
+        /**
+         * Constructs a new exception with the specified detail message and
+         * cause.  &lt;p&gt;Note that the detail message associated with
+         * {@code cause} is &lt;i&gt;not&lt;/i&gt; automatically incorporated in
+         * this exception's detail message.
+         *
+         * @param  message the detail message (which is saved for later retrieval
+         *         by the {@link #getMessage()} method).
+         * @param  cause the cause (which is saved for later retrieval by the
+         *         {@link #getCause()} method).  (A {@code null} value is
+         *         permitted, and indicates that the cause is nonexistent or
+         *         unknown.)
+         */
+        public UnresolvableIdentityException(
+                final String message,
+                final Throwable cause) {
+<span class="nc" id="L545">            super(message, cause);</span>
+<span class="nc" id="L546">        }</span>
+
+        /**
+         * Constructs a new exception with the specified detail message,
+         * cause, suppression enabled or disabled, and writable stack
+         * trace enabled or disabled.
+         *
+         * @param  message the detail message.
+         * @param cause the cause.  (A {@code null} value is permitted,
+         * and indicates that the cause is nonexistent or unknown.)
+         * @param enableSuppression whether or not suppression is enabled
+         *                          or disabled
+         * @param writableStackTrace whether or not the stack trace should
+         *                           be writable
+         */
+        public UnresolvableIdentityException(
+                final String message,
+                final Throwable cause,
+                final boolean enableSuppression,
+                final boolean writableStackTrace) {
+<span class="nc" id="L566">            super(message, cause, enableSuppression, writableStackTrace);</span>
+<span class="nc" id="L567">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
