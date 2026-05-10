@@ -22,10 +22,11 @@ package dev.orne.beans;
  * #L%
  */
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -171,10 +172,10 @@ extends AbstractIdentity {
             final @NotNull String token,
             final @NotNull String separator,
             final @NotNull String placeholder) {
-        Validate.notNull(prefix);
-        Validate.notNull(token);
-        Validate.notNull(separator);
-        Validate.notNull(placeholder);
+        Objects.requireNonNull(prefix);
+        Objects.requireNonNull(token);
+        Objects.requireNonNull(separator);
+        Objects.requireNonNull(placeholder);
         final String body = IdentityTokenFormatter.parse(prefix, token);
         final String[] result;
         if (body == null) {

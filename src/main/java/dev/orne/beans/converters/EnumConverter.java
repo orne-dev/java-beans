@@ -22,13 +22,14 @@ package dev.orne.beans.converters;
  * #L%
  */
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -117,8 +118,8 @@ extends AbstractConverter {
     protected <T> T enumFromName(
             final @NotNull Class<T> type,
             final @NotNull String name) {
-        Validate.notNull(type);
-        Validate.notNull(name);
+        Objects.requireNonNull(type);
+        Objects.requireNonNull(name);
         final T[] constants = type.getEnumConstants();
         if (constants == null) {
             throw conversionException(type, name);
@@ -175,7 +176,7 @@ extends AbstractConverter {
      */
     public static void register(
             final ConvertUtilsBean converter) {
-        Validate.notNull(converter).register(
+        Objects.requireNonNull(converter).register(
                 EnumConverter.GENERIC,
                 Enum.class);
     }
@@ -208,7 +209,7 @@ extends AbstractConverter {
      */
     public static void registerWithDefault(
             final ConvertUtilsBean converter) {
-        Validate.notNull(converter).register(
+        Objects.requireNonNull(converter).register(
                 EnumConverter.GENERIC_DEFAULT,
                 Enum.class);
     }

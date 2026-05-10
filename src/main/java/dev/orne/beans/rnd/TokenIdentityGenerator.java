@@ -80,18 +80,18 @@ extends AbstractTypedGenerator<TokenIdentity> {
      */
     @Override
     public @NotNull TokenIdentity randomValue() {
-        final String prefix = RandomStringUtils.randomAlphabetic(1, 10);
+        final String prefix = RandomStringUtils.insecure().nextAlphabetic(1, 10);
         final String body;
-        if (RandomUtils.nextFloat(0f, 1f) < 0.02f) {
+        if (RandomUtils.insecure().randomFloat(0f, 1f) < 0.02f) {
             body = null;
-        } else if (RandomUtils.nextBoolean()) {
-            body = RandomStringUtils.random(1, VALID_BODY_START_CHARS)
-                    + RandomStringUtils.random(
-                            RandomUtils.nextInt(0, 20),
+        } else if (RandomUtils.insecure().randomBoolean()) {
+            body = RandomStringUtils.insecure().next(1, VALID_BODY_START_CHARS)
+                    + RandomStringUtils.insecure().next(
+                            RandomUtils.insecure().randomInt(0, 20),
                             VALID_BODY_CHARS);
         } else {
-            body = RandomStringUtils.random(
-                    RandomUtils.nextInt(1, 20));
+            body = RandomStringUtils.insecure().next(
+                    RandomUtils.insecure().randomInt(1, 20));
         }
         return new TokenIdentity(IdentityTokenFormatter.format(prefix, body));
     }

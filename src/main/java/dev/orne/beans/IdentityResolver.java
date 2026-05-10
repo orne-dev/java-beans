@@ -28,11 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.WeakHashMap;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
@@ -197,7 +197,7 @@ public class IdentityResolver {
             final Identity identity,
             final @NotNull Class<T> targetType)
     throws UnrecognizedIdentityTokenException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         if (identity == null || targetType.isInstance(identity)) {
             return targetType.cast(identity);
         }
@@ -220,7 +220,7 @@ public class IdentityResolver {
             final String identityToken,
             final @NotNull Class<T> targetType)
     throws UnrecognizedIdentityTokenException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         if (identityToken == null) {
             return null;
         }
@@ -265,7 +265,7 @@ public class IdentityResolver {
     protected @NotNull Executable getResolver(
             final @NotNull Class<? extends Identity> targetType)
     throws UnresolvableIdentityException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         Executable resolver;
         synchronized (this.cache) {
             if (this.cache.contains(targetType)) {
@@ -313,7 +313,7 @@ public class IdentityResolver {
     protected Method findTokenResolverMethod(
             final @NotNull Class<?> targetType)
     throws UnresolvableIdentityException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         Method resolver = null;
         for (final Method method : targetType.getDeclaredMethods()) {
             if (method.isAnnotationPresent(IdentityTokenResolver.class)) {
@@ -358,7 +358,7 @@ public class IdentityResolver {
     protected <T> Constructor<T> findTokenConstructor(
             final @NotNull Class<T> targetType)
     throws UnresolvableIdentityException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         try {
             return targetType.getConstructor(String.class);
         } catch (final NoSuchMethodException nsme) {

@@ -77,9 +77,9 @@ class IdentityTokenFormatterTest {
      */
     @Test
     void testEncodeInvalidBody() {
-        String body = RandomStringUtils.random(20);
+        String body = RandomStringUtils.insecure().next(20);
         while (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
-            body = RandomStringUtils.random(20);
+            body = RandomStringUtils.insecure().next(20);
         }
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertNotNull(result);
@@ -153,9 +153,9 @@ class IdentityTokenFormatterTest {
     @Test
     void testDecodeEncodedBody()
     throws Throwable {
-        String body = RandomStringUtils.random(20);
+        String body = RandomStringUtils.insecure().next(20);
         while (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
-            body = RandomStringUtils.random(20);
+            body = RandomStringUtils.insecure().next(20);
         }
         final String encoded = IdentityTokenFormatter.encodeBody(body);
         final String result = IdentityTokenFormatter.decodeBody(encoded);
@@ -168,7 +168,7 @@ class IdentityTokenFormatterTest {
      */
     @Test
     void testFormat() {
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String expectedResult =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -205,7 +205,7 @@ class IdentityTokenFormatterTest {
     @Test
     void testFormatPrefix() {
         final String prefix = "CustomPrefix";
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String expectedResult =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);
@@ -245,7 +245,7 @@ class IdentityTokenFormatterTest {
     @Test
     void testParse()
     throws Throwable {
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String token =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -322,7 +322,7 @@ class IdentityTokenFormatterTest {
     void testParsePrefix()
             throws Throwable  {
         final String prefix = "CustomPrefix";
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String token =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);
@@ -339,7 +339,7 @@ class IdentityTokenFormatterTest {
     void testParseEmptyPrefix()
             throws Throwable  {
         final String prefix = "";
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String token =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);

@@ -22,9 +22,10 @@ package dev.orne.beans;
  * #L%
  */
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -60,7 +61,7 @@ implements WritableIdentityBean {
     public BaseIdentityBean(
             final @NotNull BaseIdentityBean copy) {
         super();
-        Validate.notNull(copy);
+        Objects.requireNonNull(copy);
         this.identity = copy.identity;
     }
 

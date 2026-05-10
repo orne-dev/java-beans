@@ -22,6 +22,7 @@ package dev.orne.beans.converters;
  * #L%
  */
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -30,7 +31,6 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -92,9 +92,9 @@ extends AbstractConverter {
             final @NotNull BiFunction<Class<E>, String, E> stringToEnum,
             final @NotNull Function<E, String> enumToString) {
         super();
-        this.enumType = Validate.notNull(enumType);
-        this.stringToEnum = Validate.notNull(stringToEnum);
-        this.enumToString = Validate.notNull(enumToString);
+        this.enumType = Objects.requireNonNull(enumType);
+        this.stringToEnum = Objects.requireNonNull(stringToEnum);
+        this.enumToString = Objects.requireNonNull(enumToString);
     }
 
     /**
@@ -112,9 +112,9 @@ extends AbstractConverter {
             final @NotNull Function<E, String> enumToString,
             final E defaultValue) {
         super(defaultValue);
-        this.enumType = Validate.notNull(enumType);
-        this.stringToEnum = Validate.notNull(stringToEnum);
-        this.enumToString = Validate.notNull(enumToString);
+        this.enumType = Objects.requireNonNull(enumType);
+        this.stringToEnum = Objects.requireNonNull(stringToEnum);
+        this.enumToString = Objects.requireNonNull(enumToString);
     }
 
     /**
@@ -172,7 +172,7 @@ extends AbstractConverter {
     public static <T extends Enum<T>> void registerFor(
             final ConvertUtilsBean converter,
             final Class<T> enumType) {
-        Validate.notNull(converter).register(
+        Objects.requireNonNull(converter).register(
                 new EnumTypedConverter<>(enumType),
                 enumType);
     }
@@ -210,7 +210,7 @@ extends AbstractConverter {
             final ConvertUtilsBean converter,
             final Class<T> enumType,
             final T defaultValue) {
-        Validate.notNull(converter).register(
+        Objects.requireNonNull(converter).register(
                 new EnumTypedConverter<>(enumType, defaultValue),
                 enumType);
     }
