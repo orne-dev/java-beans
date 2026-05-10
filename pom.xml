@@ -39,7 +39,7 @@
     <license.licenseName>lgpl_v3</license.licenseName>
 
     <commons.lang.version>3.20.0</commons.lang.version>
-    <commons.beanutils.version>1.9.4</commons.beanutils.version>
+    <commons.beanutils.version>1.11.0</commons.beanutils.version>
 
     <apiguardian.version>1.1.2</apiguardian.version>
     <javax.validation.version>2.0.1.Final</javax.validation.version>
@@ -49,8 +49,8 @@
     <jsonb.api.version>3.0.0</jsonb.api.version>
     <dev.orne.generators.version>0.3.0</dev.orne.generators.version>
 
-    <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
-    <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
+    <hibernate.validation.version>6.2.5.Final</hibernate.validation.version>
+    <glassfish.jakarta.el.version>3.0.4</glassfish.jakarta.el.version>
     <eclipse.yasson.version>3.0.3</eclipse.yasson.version>
 
     <github.project.id>java-beans</github.project.id>

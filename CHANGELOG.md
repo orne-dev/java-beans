@@ -8,6 +8,7 @@
 
 - Change Maven coordinates from `dev.orne:beans` to `dev.orne:orne-beans`
 - Bump `org.apache.commons:commons-lang3` to 3.20.0
+- Bump `commons-beanutils:commons-beanutils` to 1.11.0
 - Replace `dev.orne.test:generators` by `dev.orne.test:orne-test-generators`
 
 ### Added
