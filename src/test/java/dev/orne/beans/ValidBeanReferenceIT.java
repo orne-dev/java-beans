@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -39,7 +39,7 @@ import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
 /**
  * Integration tests for {@code ValidBeanReference}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see ValidBeanReference
@@ -53,7 +53,7 @@ class ValidBeanReferenceIT {
     private static TestBean[] testBeans;
 
     @BeforeAll
-    public static void createTestBeans() {
+    static void createTestBeans() {
         testBeans = new TestBean[16];
         for (int i = 0; i < testBeans.length; i++) {
             final TestBean bean = new TestBean();
@@ -203,7 +203,11 @@ class ValidBeanReferenceIT {
         public TestBean[] beans;
     }
     /**
-     * Bean with {@code @BeanReference} for testing.
+     * Bean with multiple {@code @BeanReference} in mixed form
+     * for testing.
+     * <p>
+     * Usage of mixed {@code @BeanReference} and {@code @BeanReference.List}
+     * is not recommended, but it should be supported.
      */
     @BeanReference(ValidationGroup1.class)
     @BeanReference.List({

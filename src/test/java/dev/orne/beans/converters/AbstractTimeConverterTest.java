@@ -4,7 +4,7 @@ package dev.orne.beans.converters;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -51,7 +51,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Abstract class for `java.time` converters unit tests.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see AbstractDateTimeConverter
@@ -203,12 +203,14 @@ extends AbstractConverterTest {
         assertEquals(this.targetType, defaultType);
     }
 
+    @Override
     protected void assertFail(
             final Object value) {
         super.assertFail(value);
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
+    @Override
     protected void assertSuccess(
             final Object value,
             final Object expectedResult) {
@@ -216,6 +218,7 @@ extends AbstractConverterTest {
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
+    @Override
     protected void assertSuccess(
             final @NotNull Converter converter,
             final Object value,

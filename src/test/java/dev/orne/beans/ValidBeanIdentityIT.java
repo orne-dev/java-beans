@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration tests for {@code ValidBeanIdentity}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see ValidBeanIdentity
@@ -49,7 +49,7 @@ class ValidBeanIdentityIT {
     private static TestBean[] testBeans;
 
     @BeforeAll
-    public static void createTestBeans() {
+    static void createTestBeans() {
         testBeans = new TestBean[2];
         for (int i = 0; i < testBeans.length; i++) {
             final TestBean bean = new TestBean();

@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -28,11 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.WeakHashMap;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
@@ -83,7 +83,7 @@ import org.slf4j.LoggerFactory;
  * }
  * </pre>
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see IdentityTokenResolver
@@ -197,7 +197,7 @@ public class IdentityResolver {
             final Identity identity,
             final @NotNull Class<T> targetType)
     throws UnrecognizedIdentityTokenException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         if (identity == null || targetType.isInstance(identity)) {
             return targetType.cast(identity);
         }
@@ -220,7 +220,7 @@ public class IdentityResolver {
             final String identityToken,
             final @NotNull Class<T> targetType)
     throws UnrecognizedIdentityTokenException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         if (identityToken == null) {
             return null;
         }
@@ -265,7 +265,7 @@ public class IdentityResolver {
     protected @NotNull Executable getResolver(
             final @NotNull Class<? extends Identity> targetType)
     throws UnresolvableIdentityException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         Executable resolver;
         synchronized (this.cache) {
             if (this.cache.contains(targetType)) {
@@ -313,7 +313,7 @@ public class IdentityResolver {
     protected Method findTokenResolverMethod(
             final @NotNull Class<?> targetType)
     throws UnresolvableIdentityException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         Method resolver = null;
         for (final Method method : targetType.getDeclaredMethods()) {
             if (method.isAnnotationPresent(IdentityTokenResolver.class)) {
@@ -358,7 +358,7 @@ public class IdentityResolver {
     protected <T> Constructor<T> findTokenConstructor(
             final @NotNull Class<T> targetType)
     throws UnresolvableIdentityException {
-        Validate.notNull(targetType);
+        Objects.requireNonNull(targetType);
         try {
             return targetType.getConstructor(String.class);
         } catch (final NoSuchMethodException nsme) {
@@ -473,7 +473,7 @@ public class IdentityResolver {
      * doesn't have a {@code String} constructor and no valid static method has
      * been annotated with {@code IdentityTokenResolver}.
      * 
-     * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+     * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
      * @version 1.0, 2020-05
      * @since 0.1
      * @see IdentityResolver

@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2022 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -27,6 +27,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Objects;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -36,7 +37,6 @@ import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -46,7 +46,7 @@ import org.apiguardian.api.API.Status;
  * resolved to an identity of the expected type. If no identity type is
  * specified 
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2022-10
  * @since 0.4
  */
@@ -166,8 +166,8 @@ public @interface ValidIdentity {
         public static boolean isValid(
                 final @NotNull Identity value,
                 final @NotNull Class<? extends Identity> expectedType) {
-            Validate.notNull(value);
-            Validate.notNull(expectedType);
+            Objects.requireNonNull(value);
+            Objects.requireNonNull(expectedType);
             if (expectedType.isInstance(value)) {
                 return true;
             } else {
@@ -247,8 +247,8 @@ public @interface ValidIdentity {
         public static boolean isValid(
                 final @NotNull String value,
                 final @NotNull Class<? extends Identity> expectedType) {
-            Validate.notNull(value);
-            Validate.notNull(expectedType);
+            Objects.requireNonNull(value);
+            Objects.requireNonNull(expectedType);
             if (Identity.class.equals(expectedType)) {
                 return true;
             } else {

@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,7 +37,7 @@ import dev.orne.test.rnd.Generators;
 /**
  * Unit tests for {@code AbstractComposedIdentity}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2023-12
  * @since 0.6
  * @see AbstractComposedIdentity
@@ -105,9 +105,7 @@ extends AbstractIdentityTest {
         given(identity.getIdentityTokenBodyParts()).willReturn(new String[] { "first", null, "third" });
         assertEquals("first<sep><null><sep>third", identity.getIdentityTokenBody());
         given(identity.getIdentityTokenBodyParts()).willReturn(null);
-        assertThrows(NullPointerException.class, () -> {
-            identity.getIdentityTokenBody();
-        });
+        assertThrows(NullPointerException.class, identity::getIdentityTokenBody);
         given(identity.getIdentityTokenBodyParts()).willReturn(new String[] {});
         assertNull(identity.getIdentityTokenBody());
         given(identity.getIdentityTokenBodyParts()).willReturn(new String[] { "" });

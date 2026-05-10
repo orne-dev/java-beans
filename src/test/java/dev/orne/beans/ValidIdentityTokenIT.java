@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 - 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -38,7 +38,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Integration tests for {@code ValidIdentityToken}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see ValidIdentityToken
@@ -51,7 +51,7 @@ class ValidIdentityTokenIT {
     private static String[] testTokens;
 
     @BeforeAll
-    public static void createTestBeans() {
+    static void createTestBeans() {
         testTokens = new String[2];
         for (int i = 0; i < testTokens.length; i++) {
             String token = null;

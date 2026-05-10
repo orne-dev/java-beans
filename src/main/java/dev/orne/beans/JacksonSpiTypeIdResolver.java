@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,12 +25,12 @@ package dev.orne.beans;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  * a.b.c.extra.ExtraImpl
  * </pre>
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2023-11
  * @since 0.6
  * @see TypeIdResolver
@@ -114,7 +114,7 @@ extends TypeIdResolverBase {
     @Override
     public void init(
             final @NotNull JavaType bt) {
-        super.init(Validate.notNull(bt));
+        super.init(Objects.requireNonNull(bt));
         final Class<?> bc = bt.getRawClass();
         if (bc.isAnnotationPresent(JsonTypeIdResolver.class)) {
             this.subtypes.putAll(getRegisteredSubTypes(bc));
@@ -140,7 +140,7 @@ extends TypeIdResolverBase {
     @Override
     public String idFromValue(
             final @NotNull Object value) {
-        return getIdFromBean(Validate.notNull(value));
+        return getIdFromBean(Objects.requireNonNull(value));
     }
 
     /**

@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 - 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -43,7 +43,7 @@ import dev.orne.test.rnd.Generators;
 /**
  * Unit tests for {@code BigIntegerIdentity}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see BigIntegerIdentity
@@ -60,6 +60,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructorNullValue()
     throws Throwable {
         final BigIntegerIdentity identity = new BigIntegerIdentity((BigInteger) null);
@@ -71,6 +72,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructor()
     throws Throwable {
         final BigInteger value = Generators.randomValue(BigInteger.class);
@@ -82,6 +84,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull BigIntegerIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
@@ -98,6 +101,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull BigIntegerIdentity createInstanceWithNullValue() {
         return new BigIntegerIdentity((BigInteger) null);
     }
@@ -105,6 +109,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull BigIntegerIdentity createInstanceWithNonNullValue() {
         return new BigIntegerIdentity(Generators.randomValue(BigInteger.class));
     }

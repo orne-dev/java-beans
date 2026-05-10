@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -33,7 +33,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 /**
  * Unit tests for {@code IdentityTokenFormatter}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see IdentityTokenFormatter
@@ -77,9 +77,9 @@ class IdentityTokenFormatterTest {
      */
     @Test
     void testEncodeInvalidBody() {
-        String body = RandomStringUtils.random(20);
+        String body = RandomStringUtils.insecure().next(20);
         while (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
-            body = RandomStringUtils.random(20);
+            body = RandomStringUtils.insecure().next(20);
         }
         final String result = IdentityTokenFormatter.encodeBody(body);
         assertNotNull(result);
@@ -153,9 +153,9 @@ class IdentityTokenFormatterTest {
     @Test
     void testDecodeEncodedBody()
     throws Throwable {
-        String body = RandomStringUtils.random(20);
+        String body = RandomStringUtils.insecure().next(20);
         while (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
-            body = RandomStringUtils.random(20);
+            body = RandomStringUtils.insecure().next(20);
         }
         final String encoded = IdentityTokenFormatter.encodeBody(body);
         final String result = IdentityTokenFormatter.decodeBody(encoded);
@@ -168,7 +168,7 @@ class IdentityTokenFormatterTest {
      */
     @Test
     void testFormat() {
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String expectedResult =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -205,7 +205,7 @@ class IdentityTokenFormatterTest {
     @Test
     void testFormatPrefix() {
         final String prefix = "CustomPrefix";
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String expectedResult =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);
@@ -245,7 +245,7 @@ class IdentityTokenFormatterTest {
     @Test
     void testParse()
     throws Throwable {
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String token =
                 IdentityTokenFormatter.DEFAULT_PREFIX +
                 IdentityTokenFormatter.encodeBody(body);
@@ -322,7 +322,7 @@ class IdentityTokenFormatterTest {
     void testParsePrefix()
             throws Throwable  {
         final String prefix = "CustomPrefix";
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String token =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);
@@ -339,7 +339,7 @@ class IdentityTokenFormatterTest {
     void testParseEmptyPrefix()
             throws Throwable  {
         final String prefix = "";
-        final String body = RandomStringUtils.random(20);
+        final String body = RandomStringUtils.insecure().next(20);
         final String token =
                 prefix +
                 IdentityTokenFormatter.encodeBody(body);

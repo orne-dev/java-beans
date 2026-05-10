@@ -4,7 +4,7 @@ package dev.orne.beans.converters;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@code GregorianCalendarConverter}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-08
  * @since 0.3
  * @see GregorianCalendarConverter
@@ -58,7 +58,7 @@ extends AbstractConverterTest {
     }
 
     @BeforeAll
-    public static void createTestValues() {
+    static void createTestValues() {
         AbstractTimeConverterTest.createTestValues();
         ZONED_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.ZONED_DATE_TIME);
         OFFSET_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.OFFSET_DATE_TIME.toZonedDateTime());

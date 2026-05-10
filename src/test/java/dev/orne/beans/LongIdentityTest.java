@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 - 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -43,7 +43,7 @@ import dev.orne.test.rnd.Generators;
 /**
  * Unit tests for {@code LongIdentity}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.1, 2023-11
  * @since 0.1
  * @see LongIdentity
@@ -60,6 +60,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructorNullValue()
     throws Throwable {
         final LongIdentity identity = new LongIdentity((Long) null);
@@ -71,6 +72,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructor()
     throws Throwable {
         final Long value = Generators.randomValue(Long.class);
@@ -82,6 +84,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull LongIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
@@ -98,6 +101,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull LongIdentity createInstanceWithNullValue() {
         return new LongIdentity((Long) null);
     }
@@ -105,6 +109,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull LongIdentity createInstanceWithNonNullValue() {
         return new LongIdentity(Generators.randomValue(Long.class));
     }

@@ -4,7 +4,7 @@ package dev.orne.beans;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,12 +23,14 @@ package dev.orne.beans;
  */
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.*;
 
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -44,16 +46,180 @@ import org.junit.platform.commons.util.ToStringBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dev.orne.beans.jsonb.OrneBeansJsonbConfig;
+
 /**
  * Integration tests for {@code IdentityBean}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see IdentityBean
  */
 @Tag("it")
 class IdentityBeanIT {
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbSerialization()
+    throws Throwable {
+        final String identityToken = "mock identity token";
+        final Identity identity = mock(Identity.class);
+        given(identity.getIdentityToken()).willReturn(identityToken);
+        final TestBean bean = new TestBean();
+        final String expectedResult = String.format(
+                "{" +
+                    "\"identity\":\"%s\""+
+                "}",
+                identityToken);
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        bean.setIdentity(identity);
+        assertEquals(expectedResult, jsonb.toJson(bean));
+        bean.setIdentity(new TokenIdentity(identityToken));
+        assertEquals(expectedResult, jsonb.toJson(bean));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbSerializationNullIdentity()
+    throws Throwable {
+        final TestBean bean = new TestBean();
+        final String expectedResult = "{}";
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedResult, jsonb.toJson(bean));
+        final String expectedNullPropResult =
+                "{" +
+                    "\"identity\":null"+
+                "}";
+        final Jsonb jsonbNullProp = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters())
+                .withNullValues(true));
+        assertEquals(expectedNullPropResult, jsonbNullProp.toJson(bean));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbDeserialization()
+    throws Throwable {
+        final String identityToken = "mock identity token";
+        final String json = String.format(
+                "{" +
+                    "\"identity\":\"%s\""+
+                "}",
+                identityToken);
+        final TestBean expectedBean = new TestBean();
+        expectedBean.setIdentity(new TokenIdentity(identityToken));
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedBean, jsonb.fromJson(json, TestBean.class));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbDeserializationNullIdentity()
+    throws Throwable {
+        final String json =
+                "{" +
+                    "\"identity\":null"+
+                "}";
+        final TestBean expectedBean = new TestBean();
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedBean, jsonb.fromJson(json, TestBean.class));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbDeserializationNoIdentity()
+    throws Throwable {
+        final String json = "{}";
+        final TestBean expectedBean = new TestBean();
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedBean, jsonb.fromJson(json, TestBean.class));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbContainerDeserialization()
+    throws Throwable {
+        final String identityToken = "mock identity token";
+        final String json = String.format(
+                "{" +
+                    "\"bean\": {" +
+                        "\"identity\": \"%s\"" +
+                    "}" +
+                "}",
+                identityToken);
+        final TestBean expectedBean = new TestBean();
+        expectedBean.setIdentity(new TokenIdentity(identityToken));
+        final IdentityBeanContainer expectedResult = new IdentityBeanContainer();
+        expectedResult.setBean(expectedBean);
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedResult, jsonb.fromJson(json, IdentityBeanContainer.class));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbContainerDeserializationNullIdentity()
+    throws Throwable {
+        final String json =
+                "{" +
+                    "\"bean\": {" +
+                        "\"identity\": null" +
+                    "}" +
+                "}";
+        final TestBean expectedBean = new TestBean();
+        final IdentityBeanContainer expectedResult = new IdentityBeanContainer();
+        expectedResult.setBean(expectedBean);
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedResult, jsonb.fromJson(json, IdentityBeanContainer.class));
+    }
+
+    /**
+     * Test {@link IdentityBean} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbContainerDeserializationNoIdentity()
+    throws Throwable {
+        final String json =
+                "{" +
+                    "\"bean\": {" +
+                    "}" +
+                "}";
+        final TestBean expectedBean = new TestBean();
+        final IdentityBeanContainer expectedResult = new IdentityBeanContainer();
+        expectedResult.setBean(expectedBean);
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(expectedResult, jsonb.fromJson(json, IdentityBeanContainer.class));
+    }
 
     /**
      * Test {@link IdentityBean} Jackson serialization.
@@ -195,7 +361,6 @@ class IdentityBeanIT {
         final String json =
                 "{" +
                     "\"bean\": {" +
-                        "\"identity\": null" +
                     "}" +
                 "}";
         final TestBean expectedBean = new TestBean();
@@ -372,7 +537,7 @@ class IdentityBeanIT {
      * Test bean.
      */
     @XmlRootElement(name = "bean")
-    private static class TestBean
+    public static class TestBean
     implements IdentityBean {
         private Identity identity;
         /**
@@ -429,7 +594,7 @@ class IdentityBeanIT {
      * Test container.
      */
     @XmlRootElement(name = "container")
-    private static class IdentityBeanContainer {
+    public static class IdentityBeanContainer {
         private TestBean bean;
         @XmlElement
         public TestBean getBean() {

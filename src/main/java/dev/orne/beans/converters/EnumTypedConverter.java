@@ -4,7 +4,7 @@ package dev.orne.beans.converters;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 - 2021 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,6 +22,7 @@ package dev.orne.beans.converters;
  * #L%
  */
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -30,7 +31,6 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -40,7 +40,7 @@ import org.apiguardian.api.API.Status;
  * representation.
  * 
  * @param <E> The type of enumeration this instance converts
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.1, 2022-10
  * @since 0.1
  */
@@ -92,9 +92,9 @@ extends AbstractConverter {
             final @NotNull BiFunction<Class<E>, String, E> stringToEnum,
             final @NotNull Function<E, String> enumToString) {
         super();
-        this.enumType = Validate.notNull(enumType);
-        this.stringToEnum = Validate.notNull(stringToEnum);
-        this.enumToString = Validate.notNull(enumToString);
+        this.enumType = Objects.requireNonNull(enumType);
+        this.stringToEnum = Objects.requireNonNull(stringToEnum);
+        this.enumToString = Objects.requireNonNull(enumToString);
     }
 
     /**
@@ -112,9 +112,9 @@ extends AbstractConverter {
             final @NotNull Function<E, String> enumToString,
             final E defaultValue) {
         super(defaultValue);
-        this.enumType = Validate.notNull(enumType);
-        this.stringToEnum = Validate.notNull(stringToEnum);
-        this.enumToString = Validate.notNull(enumToString);
+        this.enumType = Objects.requireNonNull(enumType);
+        this.stringToEnum = Objects.requireNonNull(stringToEnum);
+        this.enumToString = Objects.requireNonNull(enumToString);
     }
 
     /**
@@ -172,7 +172,7 @@ extends AbstractConverter {
     public static <T extends Enum<T>> void registerFor(
             final ConvertUtilsBean converter,
             final Class<T> enumType) {
-        Validate.notNull(converter).register(
+        Objects.requireNonNull(converter).register(
                 new EnumTypedConverter<>(enumType),
                 enumType);
     }
@@ -210,7 +210,7 @@ extends AbstractConverter {
             final ConvertUtilsBean converter,
             final Class<T> enumType,
             final T defaultValue) {
-        Validate.notNull(converter).register(
+        Objects.requireNonNull(converter).register(
                 new EnumTypedConverter<>(enumType, defaultValue),
                 enumType);
     }

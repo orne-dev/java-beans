@@ -4,7 +4,7 @@ package dev.orne.beans.jackson;
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -48,7 +48,7 @@ import dev.orne.beans.JacksonSpiTypeIdResolver;
  * Integration tests for serialization and de-serialization of
  * interface based polymorphic beans with Jackson.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2023-11
  * @since 0.6
  */
@@ -56,12 +56,12 @@ import dev.orne.beans.JacksonSpiTypeIdResolver;
 class InterfaceDeserializationSpiTest {
 
     @BeforeAll
-    public static void cleanTypeFactoryCache() {
+    static void cleanTypeFactoryCache() {
         TypeFactory.defaultInstance().clearCache();
     }
 
     @AfterEach
-    public void resetTypeFactoryCache() {
+    void resetTypeFactoryCache() {
         TypeFactory.defaultInstance().clearCache();
     }
 
@@ -242,8 +242,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserialize_ToExtra_Default()
-    throws JsonProcessingException {
+    void testDeserialize_ToExtra_Default() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -389,8 +388,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserializeContainer_ToMissing()
-    throws JsonProcessingException {
+    void testDeserializeContainer_ToMissing() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -498,8 +496,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserializeMissingContainer_Default()
-    throws JsonProcessingException {
+    void testDeserializeMissingContainer_Default() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -548,8 +545,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserializeMissingContainer_ToExtra()
-    throws JsonProcessingException {
+    void testDeserializeMissingContainer_ToExtra() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
