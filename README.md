@@ -9,10 +9,10 @@ Provides utilities for development of POJO Java beans.
 [![Javadoc][status.javadoc.badge]][javadoc]
 [![Maven site][status.site.badge]][site]
 
-| Latest Release | Develop |
-| :------------: | :-------------: |
-| [![Build Status][status.latest.ci.badge]][status.latest.ci] | [![Build Status][status.dev.ci.badge]][status.dev.ci] |
-| [![Coverage][status.latest.cov.badge]][status.latest.cov] | [![Coverage][status.dev.cov.badge]][status.dev.cov] |
+| Branch | CI Status | Quality | Coverage |
+| :------------: | :-------------: | :-------------: | :-------------: |
+| Main | [![Build Status][status.latest.ci.badge]][status.latest.ci] | [![Quality][status.sonar.quality.badge]][status.sonar] | [![Coverage][status.sonar.cov.badge]][status.sonar] |
+| Develop | [![Build Status][status.dev.ci.badge]][status.dev.ci] | | |
 
 ## Usage
 
@@ -22,8 +22,8 @@ The binaries can be obtained from [Maven Central][status.maven] with the
 ```xml
 <dependency>
   <groupId>dev.orne</groupId>
-  <artifactId>beans</artifactId>
-  <version>0.5.0</version>
+  <artifactId>orne-beans</artifactId>
+  <version>0.7.0</version>
 </dependency>
 ```
 
@@ -51,25 +51,23 @@ See [Maven site page][site converters] for further information.
 
 ## Further information
 
-For further information refer to the [Javadoc][javadoc]
-and [Maven Site][site].
+For further information refer to the [Maven Site][site] and [Javadoc][javadoc].
 
 [site]: https://orne-dev.github.io/java-beans/
 [site identities]: https://orne-dev.github.io/java-beans/indentities.html
 [site references]: https://orne-dev.github.io/java-beans/references.html
 [site converters]: https://orne-dev.github.io/java-beans/converters.html
-[javadoc]: https://javadoc.io/doc/dev.orne/beans
+[javadoc]: https://javadoc.io/doc/dev.orne/orne-beans
 [status.license]: http://www.gnu.org/licenses/gpl-3.0.txt
 [status.license.badge]: https://img.shields.io/github/license/orne-dev/java-beans
-[status.maven]: https://search.maven.org/artifact/dev.orne/beans
-[status.maven.badge]: https://img.shields.io/maven-central/v/dev.orne/beans.svg?label=Maven%20Central
-[status.javadoc.badge]: https://javadoc.io/badge2/dev.orne/beans/javadoc.svg
+[status.maven]: https://search.maven.org/artifact/dev.orne/orne-beans
+[status.maven.badge]: https://img.shields.io/maven-central/v/dev.orne/orne-beans.svg?label=Maven%20Central
+[status.javadoc.badge]: https://javadoc.io/badge2/dev.orne/orne-beans/javadoc.svg
 [status.site.badge]: https://img.shields.io/website?url=https%3A%2F%2Forne-dev.github.io%2Fjava-beans%2F
 [status.latest.ci]: https://github.com/orne-dev/java-beans/actions/workflows/release.yml
 [status.latest.ci.badge]: https://github.com/orne-dev/java-beans/actions/workflows/release.yml/badge.svg?branch=master
-[status.latest.cov]: https://sonarcloud.io/dashboard?id=orne-dev_java-beans
-[status.latest.cov.badge]: https://sonarcloud.io/api/project_badges/measure?project=orne-dev_java-beans&metric=coverage
 [status.dev.ci]: https://github.com/orne-dev/java-beans/actions/workflows/build.yml
 [status.dev.ci.badge]: https://github.com/orne-dev/java-beans/actions/workflows/build.yml/badge.svg?branch=develop
-[status.dev.cov]: https://sonarcloud.io/dashboard?id=orne-dev_java-beans&branch=develop
-[status.dev.cov.badge]: https://sonarcloud.io/api/project_badges/measure?project=orne-dev_java-beans&metric=coverage&branch=develop
+[status.sonar]: https://sonarcloud.io/dashboard?id=orne-dev_java-beans
+[status.sonar.quality.badge]: https://sonarcloud.io/api/project_badges/measure?project=orne-dev_java-beans&metric=alert_status
+[status.sonar.cov.badge]: https://sonarcloud.io/api/project_badges/measure?project=orne-dev_java-beans&metric=coverage

@@ -2,6 +2,12 @@
 
 ## 0.7.0 - [Unreleased]
 
+- **Maven coordinates change.**
+
+### Changed
+
+- Change Maven coordinates from `dev.orne:beans` to `dev.orne:orne-beans`
+
 ### Added
 
 - Add support for JSON-B 2.x based JSON serialization/deserialization of identities.
