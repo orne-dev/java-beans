@@ -54,7 +54,7 @@ extends AbstractConverterTest {
     }
 
     @BeforeAll
-    public static void createTestValues() {
+    static void createTestValues() {
         AbstractTimeConverterTest.createTestValues();
         DATE = Date.from(AbstractTimeConverterTest.INSTANT);
         UTC_DATE = Date.from(AbstractTimeConverterTest.UTC_INSTANT);

@@ -75,7 +75,7 @@ class OrneBeansConvertersIT {
     private static ConvertUtilsBean converter;
 
     @BeforeAll
-    public static void createConverter() {
+    static void createConverter() {
         converter = new ConvertUtilsBean();
         OrneBeansConverters.register(converter);
     }

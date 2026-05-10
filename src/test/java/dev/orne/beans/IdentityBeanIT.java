@@ -211,7 +211,6 @@ class IdentityBeanIT {
         final String json =
                 "{" +
                     "\"bean\": {" +
-                        "\"identity\": null" +
                     "}" +
                 "}";
         final TestBean expectedBean = new TestBean();
@@ -362,7 +361,6 @@ class IdentityBeanIT {
         final String json =
                 "{" +
                     "\"bean\": {" +
-                        "\"identity\": null" +
                     "}" +
                 "}";
         final TestBean expectedBean = new TestBean();

@@ -72,6 +72,7 @@ extends AbstractIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull AbstractSimpleIdentity<?> createInstance() {
         return createInstanceWithNonNullValue();
     }

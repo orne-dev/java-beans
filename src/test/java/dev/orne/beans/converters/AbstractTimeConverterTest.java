@@ -203,12 +203,14 @@ extends AbstractConverterTest {
         assertEquals(this.targetType, defaultType);
     }
 
+    @Override
     protected void assertFail(
             final Object value) {
         super.assertFail(value);
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
+    @Override
     protected void assertSuccess(
             final Object value,
             final Object expectedResult) {
@@ -216,6 +218,7 @@ extends AbstractConverterTest {
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
+    @Override
     protected void assertSuccess(
             final @NotNull Converter converter,
             final Object value,

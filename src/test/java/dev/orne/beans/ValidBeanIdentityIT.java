@@ -49,7 +49,7 @@ class ValidBeanIdentityIT {
     private static TestBean[] testBeans;
 
     @BeforeAll
-    public static void createTestBeans() {
+    static void createTestBeans() {
         testBeans = new TestBean[2];
         for (int i = 0; i < testBeans.length; i++) {
             final TestBean bean = new TestBean();

@@ -56,12 +56,12 @@ import dev.orne.beans.JacksonSpiTypeIdResolver;
 class InterfaceDeserializationSpiTest {
 
     @BeforeAll
-    public static void cleanTypeFactoryCache() {
+    static void cleanTypeFactoryCache() {
         TypeFactory.defaultInstance().clearCache();
     }
 
     @AfterEach
-    public void resetTypeFactoryCache() {
+    void resetTypeFactoryCache() {
         TypeFactory.defaultInstance().clearCache();
     }
 
@@ -242,8 +242,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserialize_ToExtra_Default()
-    throws JsonProcessingException {
+    void testDeserialize_ToExtra_Default() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -389,8 +388,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserializeContainer_ToMissing()
-    throws JsonProcessingException {
+    void testDeserializeContainer_ToMissing() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -498,8 +496,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserializeMissingContainer_Default()
-    throws JsonProcessingException {
+    void testDeserializeMissingContainer_Default() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -548,8 +545,7 @@ class InterfaceDeserializationSpiTest {
     }
 
     @Test
-    void testDeserializeMissingContainer_ToExtra()
-    throws JsonProcessingException {
+    void testDeserializeMissingContainer_ToExtra() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();

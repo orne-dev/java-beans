@@ -60,6 +60,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructorNullValue()
     throws Throwable {
         final BigIntegerIdentity identity = new BigIntegerIdentity((BigInteger) null);
@@ -71,6 +72,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructor()
     throws Throwable {
         final BigInteger value = Generators.randomValue(BigInteger.class);
@@ -82,6 +84,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull BigIntegerIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
@@ -98,6 +101,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull BigIntegerIdentity createInstanceWithNullValue() {
         return new BigIntegerIdentity((BigInteger) null);
     }
@@ -105,6 +109,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull BigIntegerIdentity createInstanceWithNonNullValue() {
         return new BigIntegerIdentity(Generators.randomValue(BigInteger.class));
     }

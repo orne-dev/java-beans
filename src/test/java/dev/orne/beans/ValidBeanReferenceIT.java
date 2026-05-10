@@ -53,7 +53,7 @@ class ValidBeanReferenceIT {
     private static TestBean[] testBeans;
 
     @BeforeAll
-    public static void createTestBeans() {
+    static void createTestBeans() {
         testBeans = new TestBean[16];
         for (int i = 0; i < testBeans.length; i++) {
             final TestBean bean = new TestBean();
@@ -203,7 +203,11 @@ class ValidBeanReferenceIT {
         public TestBean[] beans;
     }
     /**
-     * Bean with {@code @BeanReference} for testing.
+     * Bean with multiple {@code @BeanReference} in mixed form
+     * for testing.
+     * <p>
+     * Usage of mixed {@code @BeanReference} and {@code @BeanReference.List}
+     * is not recommended, but it should be supported.
      */
     @BeanReference(ValidationGroup1.class)
     @BeanReference.List({

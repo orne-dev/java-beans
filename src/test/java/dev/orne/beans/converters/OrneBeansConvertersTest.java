@@ -68,7 +68,7 @@ class OrneBeansConvertersTest {
      * Restored registered conversors in {@code ConvertUtils}.
      */
     @AfterEach
-    public void cleanConversors() {
+    void cleanConversors() {
         ConvertUtils.deregister();
     }
 

@@ -53,12 +53,12 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 class InterfaceDeserializationTest {
 
     @BeforeAll
-    public static void cleanTypeFactoryCache() {
+    static void cleanTypeFactoryCache() {
         TypeFactory.defaultInstance().clearCache();
     }
 
     @AfterEach
-    public void resetTypeFactoryCache() {
+    void resetTypeFactoryCache() {
         TypeFactory.defaultInstance().clearCache();
     }
 
@@ -239,8 +239,7 @@ class InterfaceDeserializationTest {
     }
 
     @Test
-    void testDeserialize_ToExtra_Default()
-    throws JsonProcessingException {
+    void testDeserialize_ToExtra_Default() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -386,8 +385,7 @@ class InterfaceDeserializationTest {
     }
 
     @Test
-    void testDeserializeContainer_ToMissing()
-    throws JsonProcessingException {
+    void testDeserializeContainer_ToMissing() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -476,8 +474,7 @@ class InterfaceDeserializationTest {
     }
 
     @Test
-    void testDeserializeMissingContainer_Default()
-    throws JsonProcessingException {
+    void testDeserializeMissingContainer_Default() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();
@@ -526,8 +523,7 @@ class InterfaceDeserializationTest {
     }
 
     @Test
-    void testDeserializeMissingContainer_ToExtra()
-    throws JsonProcessingException {
+    void testDeserializeMissingContainer_ToExtra() {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNodeFactory factory = mapper.getNodeFactory();
         final ObjectNode root = factory.objectNode();

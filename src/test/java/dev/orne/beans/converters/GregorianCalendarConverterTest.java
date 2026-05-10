@@ -58,7 +58,7 @@ extends AbstractConverterTest {
     }
 
     @BeforeAll
-    public static void createTestValues() {
+    static void createTestValues() {
         AbstractTimeConverterTest.createTestValues();
         ZONED_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.ZONED_DATE_TIME);
         OFFSET_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.OFFSET_DATE_TIME.toZonedDateTime());

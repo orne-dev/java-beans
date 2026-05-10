@@ -49,7 +49,7 @@ class ValidIdentityIT {
     private static String[] testTokens;
 
     @BeforeAll
-    public static void createTestBeans() {
+    static void createTestBeans() {
         testTokens = new String[2];
         for (int i = 0; i < testTokens.length; i++) {
             String token = null;

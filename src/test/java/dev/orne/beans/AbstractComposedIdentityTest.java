@@ -105,9 +105,7 @@ extends AbstractIdentityTest {
         given(identity.getIdentityTokenBodyParts()).willReturn(new String[] { "first", null, "third" });
         assertEquals("first<sep><null><sep>third", identity.getIdentityTokenBody());
         given(identity.getIdentityTokenBodyParts()).willReturn(null);
-        assertThrows(NullPointerException.class, () -> {
-            identity.getIdentityTokenBody();
-        });
+        assertThrows(NullPointerException.class, identity::getIdentityTokenBody);
         given(identity.getIdentityTokenBodyParts()).willReturn(new String[] {});
         assertNull(identity.getIdentityTokenBody());
         given(identity.getIdentityTokenBodyParts()).willReturn(new String[] { "" });

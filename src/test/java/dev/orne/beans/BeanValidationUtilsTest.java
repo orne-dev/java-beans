@@ -51,7 +51,7 @@ class BeanValidationUtilsTest {
      * Resets original shared validator.
      */
     @AfterAll
-    public static void resetSharedValidator() {
+    static void resetSharedValidator() {
         BeanValidationUtils.setValidator(
                 Validation.buildDefaultValidatorFactory().getValidator());
     }

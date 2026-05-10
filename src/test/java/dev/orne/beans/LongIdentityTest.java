@@ -60,6 +60,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructorNullValue()
     throws Throwable {
         final LongIdentity identity = new LongIdentity((Long) null);
@@ -71,6 +72,7 @@ extends AbstractSimpleIdentityTest {
      * @throws Throwable Should not happen
      */
     @Test
+    @Override
     void testConstructor()
     throws Throwable {
         final Long value = Generators.randomValue(Long.class);
@@ -82,6 +84,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull LongIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
@@ -98,6 +101,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull LongIdentity createInstanceWithNullValue() {
         return new LongIdentity((Long) null);
     }
@@ -105,6 +109,7 @@ extends AbstractSimpleIdentityTest {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected @NotNull LongIdentity createInstanceWithNonNullValue() {
         return new LongIdentity(Generators.randomValue(Long.class));
     }

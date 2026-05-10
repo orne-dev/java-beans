@@ -935,7 +935,7 @@ class IdentityResolverTest {
         }
     }
 
-    protected static abstract class TestTokenConstructorIdentityAbstract
+    protected abstract static class TestTokenConstructorIdentityAbstract
     implements Identity {
         private static final long serialVersionUID = 1L;
         public TestTokenConstructorIdentityAbstract(
