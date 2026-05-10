@@ -39,7 +39,7 @@ import org.apiguardian.api.API.Status;
  * to and from {@code String} using delegating in a instance of
  * {@code InstantConverter}.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-08
  * @since 0.3
  */

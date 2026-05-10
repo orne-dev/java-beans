@@ -83,7 +83,7 @@ import org.slf4j.LoggerFactory;
  * }
  * </pre>
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see IdentityTokenResolver
@@ -473,7 +473,7 @@ public class IdentityResolver {
      * doesn't have a {@code String} constructor and no valid static method has
      * been annotated with {@code IdentityTokenResolver}.
      * 
-     * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+     * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
      * @version 1.0, 2020-05
      * @since 0.1
      * @see IdentityResolver

@@ -33,7 +33,7 @@ import org.apiguardian.api.API.Status;
  * Extension of {@code ConvertUtilsBean} that falls back to converter registered
  * for {@code Enum} class when converting enumeration types.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2021-09
  * @since 0.4
  */

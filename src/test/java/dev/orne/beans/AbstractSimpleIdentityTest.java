@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@code AbstractSimpleIdentity}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see AbstractSimpleIdentity

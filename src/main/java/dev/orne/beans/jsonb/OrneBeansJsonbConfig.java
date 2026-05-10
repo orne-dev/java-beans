@@ -32,7 +32,7 @@ import org.apiguardian.api.API.Status;
 /**
  * Utility class for JSON-B configuration.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2024-03
  * @since 0.7
  */

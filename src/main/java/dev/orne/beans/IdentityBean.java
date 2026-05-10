@@ -34,7 +34,7 @@ import org.apiguardian.api.API.Status;
  * Interface representing a bean with identity. Allows hiding the actual
  * identity implementation from referencing users.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  */

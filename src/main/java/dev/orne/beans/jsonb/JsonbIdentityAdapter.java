@@ -36,7 +36,7 @@ import dev.orne.beans.TokenIdentity;
  * to and from {@code String} using the identity token as {@code String}
  * representation.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2024-03
  * @since 0.7
  */

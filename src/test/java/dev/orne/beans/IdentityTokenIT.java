@@ -50,7 +50,7 @@ import dev.orne.beans.jsonb.OrneBeansJsonbConfig;
 /**
  * Integration tests for {@code IdentityToken}.
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  * @see IdentityToken

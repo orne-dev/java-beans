@@ -49,7 +49,7 @@ import dev.orne.beans.WritableIdentityBean;
  * are produced an populated on empty instances of the bean, producing valid
  * {@code ValidBeanIdentity} instances.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-09
  * @since 0.3
  * @see IdentityBean

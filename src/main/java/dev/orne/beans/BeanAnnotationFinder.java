@@ -72,7 +72,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Instances are reusable and thread-safe.</p>
  *
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @param <T> The supported annotation type
  * @param <L> The supported annotation list type

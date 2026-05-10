@@ -34,7 +34,7 @@ import org.apiguardian.api.API.Status;
  * Abstract implementation for {@code Identity} for identities composed
  * of a multiple inner values.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2023-05
  * @since 0.5
  */

@@ -32,7 +32,7 @@ import org.apiguardian.api.API.Status;
  * Base abstract implementation for {@code Identity}. Manages the formatting
  * and parsing of identity tokens.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  */

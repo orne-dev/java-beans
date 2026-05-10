@@ -38,7 +38,7 @@ import org.apiguardian.api.API.Status;
  * to and from {@code String} using value name as {@code String}
  * representation.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 2.1, 2022-10
  * @since 0.1
  */

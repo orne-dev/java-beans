@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * Implementation of {@code Identity} for identities of unknown format restored
  * from identity tokens.
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2020-05
  * @since 0.1
  */

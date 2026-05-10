@@ -46,7 +46,7 @@ import org.apiguardian.api.API.Status;
  * resolved to an identity of the expected type. If no identity type is
  * specified 
  * 
- * @author <a href="mailto:wamphiry@orne.dev">(w) Iker Hernaez</a>
+ * @author <a href="https://github.com/ihernaez">(w) Iker Hernaez</a>
  * @version 1.0, 2022-10
  * @since 0.4
  */
