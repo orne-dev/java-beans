@@ -17,7 +17,7 @@ Provides utilities for development of POJO Java beans.
 ## Usage
 
 The binaries can be obtained from [Maven Central][status.maven] with the
-`dev.orne:beans` coordinates:
+`dev.orne:orne-beans` coordinates:
 
 ```xml
 <dependency>

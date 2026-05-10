@@ -1,6 +1,6 @@
 # Orne Java bean utilities - Changelog
 
-## 0.7.0 - [Unreleased]
+## 0.7.0 - 2026-05-10
 
 - **Maven coordinates change.**
 
