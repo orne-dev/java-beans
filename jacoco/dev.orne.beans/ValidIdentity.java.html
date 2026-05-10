@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">ValidIdentity.java</span></div><h1>ValidIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">ValidIdentity.java</span></div><h1>ValidIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
 
 /*-
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2022 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -27,6 +27,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Objects;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -36,7 +37,6 @@ import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -46,7 +46,7 @@ import org.apiguardian.api.API.Status;
  * resolved to an identity of the expected type. If no identity type is
  * specified 
  * 
- * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
  * @version 1.0, 2022-10
  * @since 0.4
  */
@@ -166,8 +166,8 @@ public @interface ValidIdentity {
         public static boolean isValid(
                 final @NotNull Identity value,
                 final @NotNull Class&lt;? extends Identity&gt; expectedType) {
-<span class="fc" id="L169">            Validate.notNull(value);</span>
-<span class="fc" id="L170">            Validate.notNull(expectedType);</span>
+<span class="fc" id="L169">            Objects.requireNonNull(value);</span>
+<span class="fc" id="L170">            Objects.requireNonNull(expectedType);</span>
 <span class="fc bfc" id="L171" title="All 2 branches covered.">            if (expectedType.isInstance(value)) {</span>
 <span class="fc" id="L172">                return true;</span>
             } else {
@@ -247,8 +247,8 @@ public @interface ValidIdentity {
         public static boolean isValid(
                 final @NotNull String value,
                 final @NotNull Class&lt;? extends Identity&gt; expectedType) {
-<span class="fc" id="L250">            Validate.notNull(value);</span>
-<span class="fc" id="L251">            Validate.notNull(expectedType);</span>
+<span class="fc" id="L250">            Objects.requireNonNull(value);</span>
+<span class="fc" id="L251">            Objects.requireNonNull(expectedType);</span>
 <span class="fc bfc" id="L252" title="All 2 branches covered.">            if (Identity.class.equals(expectedType)) {</span>
 <span class="fc" id="L253">                return true;</span>
             } else {
@@ -262,4 +262,4 @@ public @interface ValidIdentity {
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentityResolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">IdentityResolver.java</span></div><h1>IdentityResolver.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentityResolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">IdentityResolver.java</span></div><h1>IdentityResolver.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
 
 /*-
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -28,11 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.WeakHashMap;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 import org.slf4j.Logger;
@@ -83,7 +83,7 @@ import org.slf4j.LoggerFactory;
  * }
  * &lt;/pre&gt;
  * 
- * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
  * @version 1.0, 2020-05
  * @since 0.1
  * @see IdentityTokenResolver
@@ -197,7 +197,7 @@ public class IdentityResolver {
             final Identity identity,
             final @NotNull Class&lt;T&gt; targetType)
     throws UnrecognizedIdentityTokenException {
-<span class="fc" id="L200">        Validate.notNull(targetType);</span>
+<span class="fc" id="L200">        Objects.requireNonNull(targetType);</span>
 <span class="pc bpc" id="L201" title="2 of 4 branches missed.">        if (identity == null || targetType.isInstance(identity)) {</span>
 <span class="nc" id="L202">            return targetType.cast(identity);</span>
         }
@@ -220,7 +220,7 @@ public class IdentityResolver {
             final String identityToken,
             final @NotNull Class&lt;T&gt; targetType)
     throws UnrecognizedIdentityTokenException {
-<span class="fc" id="L223">        Validate.notNull(targetType);</span>
+<span class="fc" id="L223">        Objects.requireNonNull(targetType);</span>
 <span class="pc bpc" id="L224" title="1 of 2 branches missed.">        if (identityToken == null) {</span>
 <span class="nc" id="L225">            return null;</span>
         }
@@ -265,7 +265,7 @@ public class IdentityResolver {
     protected @NotNull Executable getResolver(
             final @NotNull Class&lt;? extends Identity&gt; targetType)
     throws UnresolvableIdentityException {
-<span class="fc" id="L268">        Validate.notNull(targetType);</span>
+<span class="fc" id="L268">        Objects.requireNonNull(targetType);</span>
         Executable resolver;
 <span class="fc" id="L270">        synchronized (this.cache) {</span>
 <span class="fc bfc" id="L271" title="All 2 branches covered.">            if (this.cache.contains(targetType)) {</span>
@@ -313,7 +313,7 @@ public class IdentityResolver {
     protected Method findTokenResolverMethod(
             final @NotNull Class&lt;?&gt; targetType)
     throws UnresolvableIdentityException {
-<span class="fc" id="L316">        Validate.notNull(targetType);</span>
+<span class="fc" id="L316">        Objects.requireNonNull(targetType);</span>
 <span class="fc" id="L317">        Method resolver = null;</span>
 <span class="fc bfc" id="L318" title="All 2 branches covered.">        for (final Method method : targetType.getDeclaredMethods()) {</span>
 <span class="pc bpc" id="L319" title="1 of 2 branches missed.">            if (method.isAnnotationPresent(IdentityTokenResolver.class)) {</span>
@@ -358,7 +358,7 @@ public class IdentityResolver {
     protected &lt;T&gt; Constructor&lt;T&gt; findTokenConstructor(
             final @NotNull Class&lt;T&gt; targetType)
     throws UnresolvableIdentityException {
-<span class="fc" id="L361">        Validate.notNull(targetType);</span>
+<span class="fc" id="L361">        Objects.requireNonNull(targetType);</span>
         try {
 <span class="fc" id="L363">            return targetType.getConstructor(String.class);</span>
 <span class="nc" id="L364">        } catch (final NoSuchMethodException nsme) {</span>
@@ -473,7 +473,7 @@ public class IdentityResolver {
      * doesn't have a {@code String} constructor and no valid static method has
      * been annotated with {@code IdentityTokenResolver}.
      * 
-     * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+     * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
      * @version 1.0, 2020-05
      * @since 0.1
      * @see IdentityResolver
@@ -567,4 +567,4 @@ public class IdentityResolver {
 <span class="nc" id="L567">        }</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

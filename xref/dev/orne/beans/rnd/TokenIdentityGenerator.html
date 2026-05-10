@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>TokenIdentityGenerator xref</title>
 <link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
@@ -12,7 +12,7 @@
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * #%L</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * Orne Beans</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * %%</em>
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Copyright (C) 2023 Orne Developments</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Copyright (C) 2020 - 2025 Orne Developments</em>
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * %%</em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> * This program is free software: you can redistribute it and/or modify</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * it under the terms of the GNU Lesser General Public License as</em>
@@ -45,7 +45,7 @@
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment"> * Generator of {@code Identity} and {@code TokenIdentity} values.</em>
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * </em>
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * @author &lt;a href="<a href="mailto:wamphiry@orne.dev" target="alexandria_uri">mailto:wamphiry@orne.dev</a>"&gt;(w) Iker Hernaez&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment"> * @author &lt;a href="<a href="https://github.com/ihernaez" target="alexandria_uri">https://github.com/ihernaez</a>"&gt;(w) Iker Hernaez&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment"> * @version 1.0, 2023-12</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment"> * @since 0.6</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> */</em>
@@ -88,24 +88,24 @@
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>      @Override
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">public</strong> @NotNull <a name="TokenIdentity" href="../../../../dev/orne/beans/TokenIdentity.html#TokenIdentity">TokenIdentity</a> randomValue() {
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">final</strong> String prefix = RandomStringUtils.randomAlphabetic(1, 10);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">final</strong> String prefix = RandomStringUtils.insecure().nextAlphabetic(1, 10);
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>          <strong class="jxr_keyword">final</strong> String body;
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>          <strong class="jxr_keyword">if</strong> (RandomUtils.nextFloat(0f, 1f) &lt; 0.02f) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>          <strong class="jxr_keyword">if</strong> (RandomUtils.insecure().randomFloat(0f, 1f) &lt; 0.02f) {
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>              body = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (RandomUtils.nextBoolean()) {
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>              body = RandomStringUtils.random(1, VALID_BODY_START_CHARS)
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>                      + RandomStringUtils.random(
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>                              RandomUtils.nextInt(0, 20),
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (RandomUtils.insecure().randomBoolean()) {
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>              body = RandomStringUtils.insecure().next(1, VALID_BODY_START_CHARS)
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>                      + RandomStringUtils.insecure().next(
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>                              RandomUtils.insecure().randomInt(0, 20),
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>                              VALID_BODY_CHARS);
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>          } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>              body = RandomStringUtils.random(
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>                      RandomUtils.nextInt(1, 20));
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>              body = RandomStringUtils.insecure().next(
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>                      RandomUtils.insecure().randomInt(1, 20));
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>          }
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="TokenIdentity" href="../../../../dev/orne/beans/TokenIdentity.html#TokenIdentity">TokenIdentity</a>(IdentityTokenFormatter.format(prefix, body));
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>      }
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2020&#x2013;2023 <a href="https://github.com/orne-dev">Orne Developments</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2020&#x2013;2026 <a href="https://github.com/orne-dev">Orne Developments</a>. All rights reserved.</div>
 </body>
 </html>

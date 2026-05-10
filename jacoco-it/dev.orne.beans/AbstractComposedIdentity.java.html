@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractComposedIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">AbstractComposedIdentity.java</span></div><h1>AbstractComposedIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractComposedIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">AbstractComposedIdentity.java</span></div><h1>AbstractComposedIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
 
 /*-
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,10 +22,11 @@
  * #L%
  */
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -33,7 +34,7 @@ import org.apiguardian.api.API.Status;
  * Abstract implementation for {@code Identity} for identities composed
  * of a multiple inner values.
  * 
- * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
  * @version 1.0, 2023-05
  * @since 0.5
  */
@@ -53,27 +54,27 @@ extends AbstractIdentity {
      * Creates a new instance.
      */
     protected AbstractComposedIdentity() {
-<span class="nc" id="L56">        super();</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L57">        super();</span>
+<span class="nc" id="L58">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     protected String getIdentityTokenBody() {
-<span class="nc" id="L64">        final String[] parts = getIdentityTokenBodyParts();</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (parts.length == 0) {</span>
-<span class="nc" id="L66">            return null;</span>
+<span class="nc" id="L65">        final String[] parts = getIdentityTokenBodyParts();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (parts.length == 0) {</span>
+<span class="nc" id="L67">            return null;</span>
         }
-<span class="nc" id="L68">        final String placeholder = getIdentityTokenBodyPartsNullPlaceholder();</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (int i = 0; i &lt; parts.length; i++) {</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (parts[i] == null) {</span>
-<span class="nc" id="L71">                parts[i] = placeholder;</span>
+<span class="nc" id="L69">        final String placeholder = getIdentityTokenBodyPartsNullPlaceholder();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (int i = 0; i &lt; parts.length; i++) {</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (parts[i] == null) {</span>
+<span class="nc" id="L72">                parts[i] = placeholder;</span>
             }
         }
-<span class="nc" id="L74">        return StringUtils.join(</span>
+<span class="nc" id="L75">        return StringUtils.join(</span>
                 parts,
-<span class="nc" id="L76">                getIdentityTokenBodyPartsSeparator());</span>
+<span class="nc" id="L77">                getIdentityTokenBodyPartsSeparator());</span>
     }
 
     /**
@@ -91,7 +92,7 @@ extends AbstractIdentity {
      * @return The identity token body parts separator.
      */
     protected @NotNull String getIdentityTokenBodyPartsSeparator() {
-<span class="nc" id="L94">        return DEFAULT_SEPARATOR;</span>
+<span class="nc" id="L95">        return DEFAULT_SEPARATOR;</span>
     }
 
     /**
@@ -101,7 +102,7 @@ extends AbstractIdentity {
      * @return The placeholder for null identity token parts.
      */
     protected @NotNull String getIdentityTokenBodyPartsNullPlaceholder() {
-<span class="nc" id="L104">        return DEFAULT_NULL_PLACEHOLDER;</span>
+<span class="nc" id="L105">        return DEFAULT_NULL_PLACEHOLDER;</span>
     }
 
     /**
@@ -120,7 +121,7 @@ extends AbstractIdentity {
     public static @NotNull String[] extractTokenBodyParts(
             final @NotNull String prefix,
             final @NotNull String token) {
-<span class="nc" id="L123">        return extractTokenBodyParts(</span>
+<span class="nc" id="L124">        return extractTokenBodyParts(</span>
                 prefix,
                 token,
                 DEFAULT_SEPARATOR,
@@ -145,7 +146,7 @@ extends AbstractIdentity {
             final @NotNull String prefix,
             final @NotNull String token,
             final @NotNull String separator) {
-<span class="nc" id="L148">        return extractTokenBodyParts(</span>
+<span class="nc" id="L149">        return extractTokenBodyParts(</span>
                 prefix,
                 token,
                 separator,
@@ -171,23 +172,23 @@ extends AbstractIdentity {
             final @NotNull String token,
             final @NotNull String separator,
             final @NotNull String placeholder) {
-<span class="nc" id="L174">        Validate.notNull(prefix);</span>
-<span class="nc" id="L175">        Validate.notNull(token);</span>
-<span class="nc" id="L176">        Validate.notNull(separator);</span>
-<span class="nc" id="L177">        Validate.notNull(placeholder);</span>
-<span class="nc" id="L178">        final String body = IdentityTokenFormatter.parse(prefix, token);</span>
+<span class="nc" id="L175">        Objects.requireNonNull(prefix);</span>
+<span class="nc" id="L176">        Objects.requireNonNull(token);</span>
+<span class="nc" id="L177">        Objects.requireNonNull(separator);</span>
+<span class="nc" id="L178">        Objects.requireNonNull(placeholder);</span>
+<span class="nc" id="L179">        final String body = IdentityTokenFormatter.parse(prefix, token);</span>
         final String[] result;
-<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (body == null) {</span>
-<span class="nc" id="L181">            result = new String[0];</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        if (body == null) {</span>
+<span class="nc" id="L182">            result = new String[0];</span>
         } else {
-<span class="nc" id="L183">            result = body.split(separator);</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">            for (int i = 0; i &lt; result.length; i++) {</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">                if (placeholder.equals(result[i])) {</span>
-<span class="nc" id="L186">                    result[i] = null;</span>
+<span class="nc" id="L184">            result = body.split(separator);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            for (int i = 0; i &lt; result.length; i++) {</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                if (placeholder.equals(result[i])) {</span>
+<span class="nc" id="L187">                    result[i] = null;</span>
                 }
             }
         }
-<span class="nc" id="L190">        return result;</span>
+<span class="nc" id="L191">        return result;</span>
     }
 
     /**
@@ -212,7 +213,7 @@ extends AbstractIdentity {
             final @NotNull String prefix,
             final @NotNull String token,
             final int expectedParts) {
-<span class="nc" id="L215">        return extractRequiredTokenBodyParts(</span>
+<span class="nc" id="L216">        return extractRequiredTokenBodyParts(</span>
                 prefix,
                 token,
                 DEFAULT_SEPARATOR,
@@ -244,7 +245,7 @@ extends AbstractIdentity {
             final @NotNull String token,
             final @NotNull String separator,
             final int expectedParts) {
-<span class="nc" id="L247">        return extractRequiredTokenBodyParts(</span>
+<span class="nc" id="L248">        return extractRequiredTokenBodyParts(</span>
                 prefix,
                 token,
                 separator,
@@ -278,9 +279,9 @@ extends AbstractIdentity {
             final @NotNull String separator,
             final @NotNull String placeholder,
             final int expectedParts) {
-<span class="nc" id="L281">        final String[] result = extractTokenBodyParts(prefix, token, separator, placeholder);</span>
-<span class="nc" id="L282">        validateTokenBodyParts(token, result, expectedParts);</span>
-<span class="nc" id="L283">        return result;</span>
+<span class="nc" id="L282">        final String[] result = extractTokenBodyParts(prefix, token, separator, placeholder);</span>
+<span class="nc" id="L283">        validateTokenBodyParts(token, result, expectedParts);</span>
+<span class="nc" id="L284">        return result;</span>
     }
 
     /**
@@ -298,10 +299,10 @@ extends AbstractIdentity {
             final @NotNull String token,
             final @NotNull String[] parts,
             final int expectedParts) {
-<span class="nc bnc" id="L301" title="All 2 branches missed.">        if (parts.length != expectedParts) {</span>
-<span class="nc" id="L302">            throw new UnrecognizedIdentityTokenException(</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">        if (parts.length != expectedParts) {</span>
+<span class="nc" id="L303">            throw new UnrecognizedIdentityTokenException(</span>
                     &quot;Unrecognized identity token: &quot; + token);
         }
-<span class="nc" id="L305">    }</span>
+<span class="nc" id="L306">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

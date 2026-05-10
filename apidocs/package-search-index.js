@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dev.orne.beans"},{"l":"dev.orne.beans.converters"},{"l":"dev.orne.beans.rnd"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dev.orne.beans"},{"l":"dev.orne.beans.converters"},{"l":"dev.orne.beans.jsonb"},{"l":"dev.orne.beans.rnd"}];updateSearchResults();

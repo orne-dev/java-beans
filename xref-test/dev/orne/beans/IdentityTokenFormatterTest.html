@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>IdentityTokenFormatterTest xref</title>
 <link type="text/css" rel="stylesheet" href="../../../stylesheet.css" />
@@ -12,7 +12,7 @@
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * #%L</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * Orne Beans</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * %%</em>
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Copyright (C) 2020 Orne Developments</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Copyright (C) 2020 - 2025 Orne Developments</em>
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * %%</em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> * This program is free software: you can redistribute it and/or modify</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * it under the terms of the GNU Lesser General Public License as</em>
@@ -41,7 +41,7 @@
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> * Unit tests for {@code IdentityTokenFormatter}.</em>
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment"> * @author &lt;a href="<a href="mailto:wamphiry@orne.dev" target="alexandria_uri">mailto:wamphiry@orne.dev</a>"&gt;(w) Iker Hernaez&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment"> * @author &lt;a href="<a href="https://github.com/ihernaez" target="alexandria_uri">https://github.com/ihernaez</a>"&gt;(w) Iker Hernaez&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment"> * @version 1.0, 2020-05</em>
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment"> * @since 0.1</em>
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> * @see IdentityTokenFormatter</em>
@@ -85,9 +85,9 @@
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>      @Test
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">void</strong> testEncodeInvalidBody() {
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>          String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>          <strong class="jxr_keyword">while</strong> (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>              body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>              body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>          }
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>          <strong class="jxr_keyword">final</strong> String result = IdentityTokenFormatter.encodeBody(body);
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>          assertNotNull(result);
@@ -161,9 +161,9 @@
 <a class="jxr_linenumber" name="L153" href="#L153">153</a>     @Test
 <a class="jxr_linenumber" name="L154" href="#L154">154</a>     <strong class="jxr_keyword">void</strong> testDecodeEncodedBody()
 <a class="jxr_linenumber" name="L155" href="#L155">155</a>     <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>         String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>         String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>         <strong class="jxr_keyword">while</strong> (body.matches(IdentityTokenFormatter.UNENCODED_BODY)) {
-<a class="jxr_linenumber" name="L158" href="#L158">158</a>             body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>             body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L159" href="#L159">159</a>         }
 <a class="jxr_linenumber" name="L160" href="#L160">160</a>         <strong class="jxr_keyword">final</strong> String encoded = IdentityTokenFormatter.encodeBody(body);
 <a class="jxr_linenumber" name="L161" href="#L161">161</a>         <strong class="jxr_keyword">final</strong> String result = IdentityTokenFormatter.decodeBody(encoded);
@@ -176,7 +176,7 @@
 <a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L169" href="#L169">169</a>     @Test
 <a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">void</strong> testFormat() {
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L172" href="#L172">172</a>         <strong class="jxr_keyword">final</strong> String expectedResult =
 <a class="jxr_linenumber" name="L173" href="#L173">173</a>                 IdentityTokenFormatter.DEFAULT_PREFIX +
 <a class="jxr_linenumber" name="L174" href="#L174">174</a>                 IdentityTokenFormatter.encodeBody(body);
@@ -213,7 +213,7 @@
 <a class="jxr_linenumber" name="L205" href="#L205">205</a>     @Test
 <a class="jxr_linenumber" name="L206" href="#L206">206</a>     <strong class="jxr_keyword">void</strong> testFormatPrefix() {
 <a class="jxr_linenumber" name="L207" href="#L207">207</a>         <strong class="jxr_keyword">final</strong> String prefix = <span class="jxr_string">"CustomPrefix"</span>;
-<a class="jxr_linenumber" name="L208" href="#L208">208</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L209" href="#L209">209</a>         <strong class="jxr_keyword">final</strong> String expectedResult =
 <a class="jxr_linenumber" name="L210" href="#L210">210</a>                 prefix +
 <a class="jxr_linenumber" name="L211" href="#L211">211</a>                 IdentityTokenFormatter.encodeBody(body);
@@ -253,7 +253,7 @@
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>     @Test
 <a class="jxr_linenumber" name="L246" href="#L246">246</a>     <strong class="jxr_keyword">void</strong> testParse()
 <a class="jxr_linenumber" name="L247" href="#L247">247</a>     <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L249" href="#L249">249</a>         <strong class="jxr_keyword">final</strong> String token =
 <a class="jxr_linenumber" name="L250" href="#L250">250</a>                 IdentityTokenFormatter.DEFAULT_PREFIX +
 <a class="jxr_linenumber" name="L251" href="#L251">251</a>                 IdentityTokenFormatter.encodeBody(body);
@@ -330,7 +330,7 @@
 <a class="jxr_linenumber" name="L322" href="#L322">322</a>     <strong class="jxr_keyword">void</strong> testParsePrefix()
 <a class="jxr_linenumber" name="L323" href="#L323">323</a>             <strong class="jxr_keyword">throws</strong> Throwable  {
 <a class="jxr_linenumber" name="L324" href="#L324">324</a>         <strong class="jxr_keyword">final</strong> String prefix = <span class="jxr_string">"CustomPrefix"</span>;
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L326" href="#L326">326</a>         <strong class="jxr_keyword">final</strong> String token =
 <a class="jxr_linenumber" name="L327" href="#L327">327</a>                 prefix +
 <a class="jxr_linenumber" name="L328" href="#L328">328</a>                 IdentityTokenFormatter.encodeBody(body);
@@ -347,7 +347,7 @@
 <a class="jxr_linenumber" name="L339" href="#L339">339</a>     <strong class="jxr_keyword">void</strong> testParseEmptyPrefix()
 <a class="jxr_linenumber" name="L340" href="#L340">340</a>             <strong class="jxr_keyword">throws</strong> Throwable  {
 <a class="jxr_linenumber" name="L341" href="#L341">341</a>         <strong class="jxr_keyword">final</strong> String prefix = <span class="jxr_string">""</span>;
-<a class="jxr_linenumber" name="L342" href="#L342">342</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.random(20);
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>         <strong class="jxr_keyword">final</strong> String body = RandomStringUtils.insecure().next(20);
 <a class="jxr_linenumber" name="L343" href="#L343">343</a>         <strong class="jxr_keyword">final</strong> String token =
 <a class="jxr_linenumber" name="L344" href="#L344">344</a>                 prefix +
 <a class="jxr_linenumber" name="L345" href="#L345">345</a>                 IdentityTokenFormatter.encodeBody(body);
@@ -358,6 +358,6 @@
 <a class="jxr_linenumber" name="L350" href="#L350">350</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2020&#x2013;2023 <a href="https://github.com/orne-dev">Orne Developments</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2020&#x2013;2026 <a href="https://github.com/orne-dev">Orne Developments</a>. All rights reserved.</div>
 </body>
 </html>

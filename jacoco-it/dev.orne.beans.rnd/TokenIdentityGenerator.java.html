@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TokenIdentityGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.rnd</a> &gt; <span class="el_source">TokenIdentityGenerator.java</span></div><h1>TokenIdentityGenerator.java</h1><pre class="source lang-java linenums">package dev.orne.beans.rnd;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TokenIdentityGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.rnd</a> &gt; <span class="el_source">TokenIdentityGenerator.java</span></div><h1>TokenIdentityGenerator.java</h1><pre class="source lang-java linenums">package dev.orne.beans.rnd;
 
 /*-
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,7 +37,7 @@ import dev.orne.test.rnd.AbstractTypedGenerator;
 /**
  * Generator of {@code Identity} and {@code TokenIdentity} values.
  * 
- * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
  * @version 1.0, 2023-12
  * @since 0.6
  */
@@ -80,20 +80,20 @@ extends AbstractTypedGenerator&lt;TokenIdentity&gt; {
      */
     @Override
     public @NotNull TokenIdentity randomValue() {
-<span class="nc" id="L83">        final String prefix = RandomStringUtils.randomAlphabetic(1, 10);</span>
+<span class="nc" id="L83">        final String prefix = RandomStringUtils.insecure().nextAlphabetic(1, 10);</span>
         final String body;
-<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (RandomUtils.nextFloat(0f, 1f) &lt; 0.02f) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (RandomUtils.insecure().randomFloat(0f, 1f) &lt; 0.02f) {</span>
 <span class="nc" id="L86">            body = null;</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        } else if (RandomUtils.nextBoolean()) {</span>
-<span class="nc" id="L88">            body = RandomStringUtils.random(1, VALID_BODY_START_CHARS)</span>
-<span class="nc" id="L89">                    + RandomStringUtils.random(</span>
-<span class="nc" id="L90">                            RandomUtils.nextInt(0, 20),</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        } else if (RandomUtils.insecure().randomBoolean()) {</span>
+<span class="nc" id="L88">            body = RandomStringUtils.insecure().next(1, VALID_BODY_START_CHARS)</span>
+<span class="nc" id="L89">                    + RandomStringUtils.insecure().next(</span>
+<span class="nc" id="L90">                            RandomUtils.insecure().randomInt(0, 20),</span>
                             VALID_BODY_CHARS);
         } else {
-<span class="nc" id="L93">            body = RandomStringUtils.random(</span>
-<span class="nc" id="L94">                    RandomUtils.nextInt(1, 20));</span>
+<span class="nc" id="L93">            body = RandomStringUtils.insecure().next(</span>
+<span class="nc" id="L94">                    RandomUtils.insecure().randomInt(1, 20));</span>
         }
 <span class="nc" id="L96">        return new TokenIdentity(IdentityTokenFormatter.format(prefix, body));</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

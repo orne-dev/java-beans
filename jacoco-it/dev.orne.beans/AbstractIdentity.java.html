@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">AbstractIdentity.java</span></div><h1>AbstractIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractIdentity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">AbstractIdentity.java</span></div><h1>AbstractIdentity.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
 
 /*-
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -32,7 +32,7 @@ import org.apiguardian.api.API.Status;
  * Base abstract implementation for {@code Identity}. Manages the formatting
  * and parsing of identity tokens.
  * 
- * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
  * @version 1.0, 2020-05
  * @since 0.1
  */
@@ -50,8 +50,8 @@ implements Identity {
      * Creates a new instance.
      */
     protected AbstractIdentity() {
-<span class="nc" id="L53">        super();</span>
-<span class="nc" id="L54">    }</span>
+<span class="fc" id="L53">        super();</span>
+<span class="fc" id="L54">    }</span>
 
     /**
      * Return the identity token prefix used for instances of this identity
@@ -62,7 +62,7 @@ implements Identity {
     @NotNull
     @ValidIdentityTokenPrefix
     protected String getIdentityTokenPrefix() {
-<span class="nc" id="L65">        return IdentityTokenFormatter.DEFAULT_PREFIX;</span>
+<span class="fc" id="L65">        return IdentityTokenFormatter.DEFAULT_PREFIX;</span>
     }
 
     /**
@@ -97,13 +97,13 @@ implements Identity {
     @NotNull
     @ValidIdentityToken
     public String getIdentityToken() {
-<span class="nc" id="L100">        synchronized (this) {</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (this.identityToken == null) {</span>
-<span class="nc" id="L102">                this.identityToken = IdentityTokenFormatter.format(</span>
-<span class="nc" id="L103">                        getIdentityTokenPrefix(),</span>
-<span class="nc" id="L104">                        getIdentityTokenBody());</span>
+<span class="fc" id="L100">        synchronized (this) {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">            if (this.identityToken == null) {</span>
+<span class="fc" id="L102">                this.identityToken = IdentityTokenFormatter.format(</span>
+<span class="fc" id="L103">                        getIdentityTokenPrefix(),</span>
+<span class="fc" id="L104">                        getIdentityTokenBody());</span>
             }
-<span class="nc" id="L106">            return this.identityToken;</span>
+<span class="fc" id="L106">            return this.identityToken;</span>
         }
     }
 
@@ -112,9 +112,9 @@ implements Identity {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L115">        return new HashCodeBuilder()</span>
-<span class="nc" id="L116">                .append(getClass())</span>
-<span class="nc" id="L117">                .build();</span>
+<span class="fc" id="L115">        return new HashCodeBuilder()</span>
+<span class="fc" id="L116">                .append(getClass())</span>
+<span class="fc" id="L117">                .build();</span>
     }
 
     /**
@@ -135,4 +135,4 @@ implements Identity {
 <span class="nc" id="L135">        return getIdentityToken();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

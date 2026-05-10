@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentityTokenFormatter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">IdentityTokenFormatter.java</span></div><h1>IdentityTokenFormatter.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentityTokenFormatter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">IdentityTokenFormatter.java</span></div><h1>IdentityTokenFormatter.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
 
 /*-
  * #%L
  * Orne Beans
  * %%
- * Copyright (C) 2020 - 2023 Orne Developments
+ * Copyright (C) 2020 - 2025 Orne Developments
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,7 +37,7 @@ import org.apiguardian.api.API.Status;
 /**
  * Formatter and parser of identity tokens.
  * 
- * @author &lt;a href=&quot;mailto:wamphiry@orne.dev&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
  * @version 2.0, 2023-12
  * @since 0.1
  */
@@ -78,25 +78,25 @@ public final class IdentityTokenFormatter {
     public static final String DEFAULT_PREFIX = &quot;&quot;;
 
     /** Compiled pattern to detect valid identity token prefixes as predicate. */
-<span class="nc" id="L81">    protected static final Predicate&lt;String&gt; VALID_PREFIX_PREDICATE =</span>
-<span class="nc" id="L82">            Pattern.compile(PREFIX).asPredicate();</span>
+<span class="fc" id="L81">    protected static final Predicate&lt;String&gt; VALID_PREFIX_PREDICATE =</span>
+<span class="fc" id="L82">            Pattern.compile(PREFIX).asPredicate();</span>
     /** Compiled pattern to detect valid identity token unencoded bodies as predicate. */
-<span class="nc" id="L84">    protected static final Predicate&lt;String&gt; VALID_UNENCODED_BODY_PREDICATE =</span>
-<span class="nc" id="L85">            Pattern.compile(&quot;^&quot; + UNENCODED_BODY + &quot;$&quot;).asPredicate();</span>
+<span class="fc" id="L84">    protected static final Predicate&lt;String&gt; VALID_UNENCODED_BODY_PREDICATE =</span>
+<span class="fc" id="L85">            Pattern.compile(&quot;^&quot; + UNENCODED_BODY + &quot;$&quot;).asPredicate();</span>
     /** Compiled pattern to detect valid identity token encoded bodies as predicate. */
-<span class="nc" id="L87">    protected static final Predicate&lt;String&gt; VALID_ENCODED_BODY_PREDICATE =</span>
-<span class="nc" id="L88">            Pattern.compile(&quot;^&quot; + ENCODED_BODY + &quot;$&quot;).asPredicate();</span>
+<span class="fc" id="L87">    protected static final Predicate&lt;String&gt; VALID_ENCODED_BODY_PREDICATE =</span>
+<span class="fc" id="L88">            Pattern.compile(&quot;^&quot; + ENCODED_BODY + &quot;$&quot;).asPredicate();</span>
     /** Compiled pattern to detect valid identity token bodies as predicate. */
-<span class="nc" id="L90">    protected static final Predicate&lt;String&gt; VALID_BODY_PREDICATE =</span>
-<span class="nc" id="L91">            Pattern.compile(&quot;^&quot; + BODY + &quot;$&quot;).asPredicate();</span>
+<span class="fc" id="L90">    protected static final Predicate&lt;String&gt; VALID_BODY_PREDICATE =</span>
+<span class="fc" id="L91">            Pattern.compile(&quot;^&quot; + BODY + &quot;$&quot;).asPredicate();</span>
     /** Compiled pattern to detect valid identity tokens as predicate. */
-<span class="nc" id="L93">    protected static final Predicate&lt;String&gt; VALID_TOKEN_PREDICATE =</span>
-<span class="nc" id="L94">            Pattern.compile(TOKEN).asPredicate();</span>
+<span class="fc" id="L93">    protected static final Predicate&lt;String&gt; VALID_TOKEN_PREDICATE =</span>
+<span class="fc" id="L94">            Pattern.compile(TOKEN).asPredicate();</span>
 
     /** The Base64 encoder. */
-<span class="nc" id="L97">    private static final Base64.Encoder ENCODER = Base64.getUrlEncoder();</span>
+<span class="fc" id="L97">    private static final Base64.Encoder ENCODER = Base64.getUrlEncoder();</span>
     /** The Base64 decoder. */
-<span class="nc" id="L99">    private static final Base64.Decoder DECODER = Base64.getUrlDecoder();</span>
+<span class="fc" id="L99">    private static final Base64.Decoder DECODER = Base64.getUrlDecoder();</span>
 
     /**
      * Private constructor.
@@ -126,10 +126,10 @@ public final class IdentityTokenFormatter {
     protected static @NotNull String encodeBody(
             final String body) {
         final String result;
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (body == null) {</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        if (body == null) {</span>
 <span class="nc" id="L130">            result = NULL_BODY;</span>
-<span class="nc bnc" id="L131" title="All 4 branches missed.">        } else if (body.isEmpty() || VALID_UNENCODED_BODY_PREDICATE.test(body)) {</span>
-<span class="nc" id="L132">            result = body;</span>
+<span class="pc bpc" id="L131" title="2 of 4 branches missed.">        } else if (body.isEmpty() || VALID_UNENCODED_BODY_PREDICATE.test(body)) {</span>
+<span class="fc" id="L132">            result = body;</span>
         } else {
 <span class="nc" id="L134">            final String b64 = ENCODER.encodeToString(</span>
 <span class="nc" id="L135">                    body.getBytes(StandardCharsets.UTF_8));</span>
@@ -138,7 +138,7 @@ public final class IdentityTokenFormatter {
 <span class="nc" id="L138">                    .append(b64NoPadding)</span>
 <span class="nc" id="L139">                    .toString();</span>
         }
-<span class="nc" id="L141">        return result;</span>
+<span class="fc" id="L141">        return result;</span>
     }
 
     /**
@@ -205,15 +205,15 @@ public final class IdentityTokenFormatter {
     public static @NotNull String format(
             final @NotNull String prefix,
             final String body) {
-<span class="nc" id="L208">        Validate.notNull(prefix, &quot;Identity token prefix is required&quot;);</span>
-<span class="nc bnc" id="L209" title="All 2 branches missed.">        if (!VALID_PREFIX_PREDICATE.test(prefix)) {</span>
+<span class="fc" id="L208">        Validate.notNull(prefix, &quot;Identity token prefix is required&quot;);</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        if (!VALID_PREFIX_PREDICATE.test(prefix)) {</span>
 <span class="nc" id="L210">            throw new IllegalArgumentException(String.format(</span>
                     &quot;Identity token prefix is not valid: %s&quot;,
                     prefix));
         }
-<span class="nc" id="L214">        return new StringBuilder(prefix)</span>
-<span class="nc" id="L215">                .append(encodeBody(body))</span>
-<span class="nc" id="L216">                .toString();</span>
+<span class="fc" id="L214">        return new StringBuilder(prefix)</span>
+<span class="fc" id="L215">                .append(encodeBody(body))</span>
+<span class="fc" id="L216">                .toString();</span>
     }
 
     /**
@@ -329,4 +329,4 @@ public final class IdentityTokenFormatter {
 <span class="nc" id="L329">        return decodeBody(token.substring(prefix.length()));</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
