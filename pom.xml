@@ -4,7 +4,7 @@
   <parent>
     <groupId>dev.orne</groupId>
     <artifactId>java-root-pom</artifactId>
-    <version>0.7.0</version>
+    <version>0.8.0-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -45,10 +45,13 @@
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <fasterxml.jackson.version>2.15.2</fasterxml.jackson.version>
     <jaxb.api.version>2.3.1</jaxb.api.version>
+    <json.api.version>2.1.0</json.api.version>
+    <jsonb.api.version>3.0.0</jsonb.api.version>
     <dev.orne.generators.version>0.2.0</dev.orne.generators.version>
 
     <hibernate.validation.version>6.1.5.Final</hibernate.validation.version>
     <glassfish.jakarta.el.version>3.0.3</glassfish.jakarta.el.version>
+    <eclipse.yasson.version>3.0.3</eclipse.yasson.version>
 
     <github.project.id>java-beans</github.project.id>
     <sonar.projectKey>orne-dev_java-beans</sonar.projectKey>
@@ -92,9 +95,21 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>jakarta.json</groupId>
+      <artifactId>jakarta.json-api</artifactId>
+      <version>${json.api.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
       <version>${jaxb.api.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <version>${jsonb.api.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -143,6 +158,12 @@
       <version>${jaxb.api.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse</groupId>
+      <artifactId>yasson</artifactId>
+      <version>${eclipse.yasson.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -164,6 +185,12 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.transformer</groupId>
+        <artifactId>transformer-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 
   <scm>

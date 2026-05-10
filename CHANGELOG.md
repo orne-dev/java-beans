@@ -1,3 +1,9 @@
+# :package: 0.7.0 (20XX-XX-XX)
+
+01. :gift: Added JSON-B support for `Identity` and `IdentiyBean`.
+    01. Added class `dev.orne.beans.jsonb.JsonbIdentityAdapter`
+    01. Added class `dev.orne.beans.jsonb.OrneBeansJsonbConfig`
+
 # :package: 0.6.0 (2023-12-22)
 
 01. :wrench: Removed dependency with `commons-codec:commons-codec`.

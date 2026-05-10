@@ -28,6 +28,9 @@ import static org.mockito.BDDMockito.*;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -42,6 +45,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dev.orne.beans.jsonb.OrneBeansJsonbConfig;
+
 /**
  * Integration tests for {@code IdentityToken}.
  *
@@ -52,6 +57,57 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Tag("it")
 class IdentityTokenIT {
+
+    /**
+     * Test {@link TokenIdentity} and {@link Identity} JSON-B serialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbSerialization()
+    throws Throwable {
+        final String identityToken = "mock identity token";
+        final Identity identity = mock(Identity.class);
+        given(identity.getIdentityToken()).willReturn(identityToken);
+        final TokenIdentity tokenIdentity = new TokenIdentity(identityToken);
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        final String expectedResult = String.format("\"%s\"", identityToken);
+        final StringIdentity strIdentity = new StringIdentity("something");
+        assertEquals(expectedResult, jsonb.toJson(identityToken));
+        assertEquals(expectedResult, jsonb.toJson(identity));
+        assertEquals(expectedResult, jsonb.toJson(tokenIdentity));
+        assertEquals(String.format("\"%s\"", strIdentity.getIdentityToken()), jsonb.toJson(strIdentity));
+    }
+
+    /**
+     * Test {@link TokenIdentity} and {@link Identity} JSON-B deserialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbDeserialization()
+    throws Throwable {
+        final String identityToken = "mock identity token";
+        final String json = String.format("\"%s\"", identityToken);
+        final TokenIdentity tokenIdentity = new TokenIdentity(identityToken);
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertEquals(tokenIdentity, jsonb.fromJson(json, Identity.class));
+        assertEquals(tokenIdentity, jsonb.fromJson(json, TokenIdentity.class));
+    }
+
+    /**
+     * Test {@link TokenIdentity} and {@link Identity} JSON-B deserialization.
+     * @throws Throwable Should not happen
+     */
+    @Test
+    void testJsonbDeserializationNull()
+    throws Throwable {
+        final String json = "null";
+        final Jsonb jsonb = JsonbBuilder.create(new JsonbConfig()
+                .withAdapters(OrneBeansJsonbConfig.adapters()));
+        assertNull(jsonb.fromJson(json, Identity.class));
+        assertNull(jsonb.fromJson(json, TokenIdentity.class));
+    }
 
     /**
      * Test {@link TokenIdentity} and {@link Identity} Jackson serialization.
