@@ -57,6 +57,7 @@
 
   <modules>
     <module>orne-beans-javax</module>
+    <module>orne-beans-jakarta</module>
   </modules>
 
 </project>

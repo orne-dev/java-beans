@@ -1,4 +1,4 @@
-Utilities for bean development.
+Utilities for bean development (JakartaEE 8).
 
 # Usage
 
@@ -13,6 +13,13 @@ Utilities for bean development.
 ...
 </project>
 ```
+
+## JakartaEE dependencies
+
+This module depends on the following JakartaEE 8- based dependencies:
+
+- `javax.validation:validation-api:2.0.1.Final`
+- `javax.xml.bind:jaxb-api:2.3.1`
 
 # Features
 

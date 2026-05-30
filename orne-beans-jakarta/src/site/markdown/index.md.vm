@@ -1,0 +1,28 @@
+Utilities for bean development (JakartaEE 9).
+
+# Usage
+
+```xml
+<project ...>
+...
+  <dependency>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>${project.artifactId}</artifactId>
+    <version>${project.version}</version>
+  </dependency>
+...
+</project>
+```
+
+## JakartaEE dependencies
+
+This module depends on the following JakartaEE 9+ based dependencies:
+
+- `jakarta.validation:jakarta.validation-api:3.1.1`
+- `jakarta.xml.bind:jakarta.xml.bind-api:3.0.1`
+
+# Features
+
+This module provides the same features as the JakartaEE 8 version,
+but with JakartaEE 9 based dependencies.
+See the [JakartaEE 8 version](../orne-beans-javax/) for more details.

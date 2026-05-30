@@ -4,6 +4,10 @@
 
 - **Requires Java 11 or newer.**
 
+### Added
+
+- Add `dev.orne:orne-beans-jakarta` module with support for JakartaEE 9 and newer.
+
 ## 0.7.0 - 2026-05-10
 
 - **Maven coordinates change.**
