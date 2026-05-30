@@ -1,5 +1,9 @@
 # Orne Java bean utilities - Changelog
 
+## 1.0.0 - *Unrealeased*
+
+- **Requires Java 11 or newer.**
+
 ## 0.7.0 - 2026-05-10
 
 - **Maven coordinates change.**
