@@ -79,7 +79,7 @@ extends AbstractConverterTest {
      */
     @Test
     void testConstructorDefaultValueNonNull() {
-        final Date defaultValue = new Date();
+        final Date defaultValue = AbstractTimeConverterTest.DATE;
         final DateConverter converter = new DateConverter(defaultValue);
         assertTrue(converter.getInstantConverter() instanceof InstantConverter);
         assertEquals(
@@ -118,7 +118,7 @@ extends AbstractConverterTest {
     void testDelegatedInstantConversionsToDate() {
         final Converter instantConverter = mock(Converter.class);
         final DateConverter converter = new DateConverter(instantConverter);
-        final Instant now = Instant.now();
+        final Instant now = AbstractTimeConverterTest.INSTANT;
         final Object value = new Object();
         willReturn(now).given(instantConverter).convert(Instant.class, value);
         final Date result = converter.convert(Date.class, value);
@@ -134,7 +134,7 @@ extends AbstractConverterTest {
     void testDelegatedInstantConversionsToString() {
         final Converter instantConverter = mock(Converter.class);
         final DateConverter converter = new DateConverter(instantConverter);
-        final Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        final Instant now = AbstractTimeConverterTest.INSTANT.truncatedTo(ChronoUnit.MILLIS);
         final Date value = Date.from(now);
         final String mockResult = "mockResult";
         willReturn(mockResult).given(instantConverter).convert(same(String.class), eq(now));

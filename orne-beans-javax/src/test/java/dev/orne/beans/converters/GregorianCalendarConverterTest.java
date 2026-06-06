@@ -123,7 +123,7 @@ extends AbstractConverterTest {
     void testDelegatedZonedDateTimeConversionsToCalendar() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
-        final ZonedDateTime now = ZonedDateTime.now();
+        final ZonedDateTime now = AbstractTimeConverterTest.ZONED_DATE_TIME;
         final GregorianCalendar expected = GregorianCalendar.from(now);
         final Object value = new Object();
         willReturn(now).given(instantConverter).convert(ZonedDateTime.class, value);
@@ -140,7 +140,7 @@ extends AbstractConverterTest {
     void testDelegatedZonedDateTimeConversionsToGregorianCalendar() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
-        final ZonedDateTime now = ZonedDateTime.now();
+        final ZonedDateTime now = AbstractTimeConverterTest.ZONED_DATE_TIME;
         final GregorianCalendar expected = GregorianCalendar.from(now);
         final Object value = new Object();
         willReturn(now).given(instantConverter).convert(ZonedDateTime.class, value);
@@ -157,7 +157,7 @@ extends AbstractConverterTest {
     void testDelegatedZonedDateTimeConversionsToString() {
         final Converter instantConverter = mock(Converter.class);
         final GregorianCalendarConverter converter = new GregorianCalendarConverter(instantConverter);
-        final ZonedDateTime now = ZonedDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        final ZonedDateTime now = AbstractTimeConverterTest.ZONED_DATE_TIME.truncatedTo(ChronoUnit.MILLIS);
         final GregorianCalendar value = GregorianCalendar.from(now);
         final String mockResult = "mockResult";
         willReturn(mockResult).given(instantConverter).convert(same(String.class), eq(now));

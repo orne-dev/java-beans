@@ -884,9 +884,15 @@ class IdentityResolverTest {
     protected static class TestPrivateTokenConstructorIdentity
     implements Identity {
         private static final long serialVersionUID = 1L;
+        /**
+         * Private constructor, should not be recognized by resolver.
+         * @param token The identity token.
+         */
+        @SuppressWarnings("unused")
         private TestPrivateTokenConstructorIdentity(
                 final String token) {
-            // NOP
+            throw new UnsupportedOperationException(
+                    "Unexpected resolution through private constructor: " + token);
         }
         @Override
         public @NotBlank String getIdentityToken() {
@@ -955,9 +961,16 @@ class IdentityResolverTest {
         public @NotBlank String getIdentityToken() {
             return null;
         }
+        /**
+         * Non annotated resolution method, should not be recognized by resolver.
+         * 
+         * @param token The identity token.
+         * @return The resolved identity.
+         */
         public static TestTokenResolverIdentity resolve(
                 final String token) {
-            return null;
+            throw new UnsupportedOperationException(
+                    "Unexpected resolution through non annotated resolution method: " + token);
         }
     }
 
