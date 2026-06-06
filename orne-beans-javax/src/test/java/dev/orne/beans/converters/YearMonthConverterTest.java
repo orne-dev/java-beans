@@ -186,6 +186,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(YEAR_MONTH, YEAR_MONTH);
         assertSuccess(INSTANT, UTC_YEAR_MONTH);
         assertSuccess(EPOCH_MILLIS, UTC_YEAR_MONTH);
+        assertSuccess(DATE, UTC_YEAR_MONTH);
+        assertSuccess(ZONED_CALENDAR, YEAR_MONTH);
+        assertSuccess(UTC_CALENDAR, UTC_YEAR_MONTH);
     }
 
     /**
@@ -226,14 +229,14 @@ extends AbstractTimeConverterTest {
     @Test
     void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, YEAR_MONTH);
-        assertSuccess(STR_ISO_OFFSET_DATE_TIME, YEAR_MONTH);
-        assertSuccess(STR_ISO_LOCAL_DATE_TIME, UTC_YEAR_MONTH);
+        assertSuccess(STR_ISO_OFFSET_DATE_TIME, UTC_YEAR_MONTH);
+        assertSuccess(STR_ISO_LOCAL_DATE_TIME, YEAR_MONTH);
         assertSuccess(STR_ISO_OFFSET_DATE, YEAR_MONTH);
-        assertSuccess(STR_ISO_LOCAL_DATE, UTC_YEAR_MONTH);
-        assertSuccess(STR_ISO_BASIC_DATE, UTC_YEAR_MONTH);
-        assertSuccess(STR_ISO_ORDINAL_DATE, UTC_YEAR_MONTH);
-        assertSuccess(STR_ISO_WEEK_DATE, UTC_YEAR_MONTH);
-        assertSuccess(STR_ISO_YEAR_MONTH, UTC_YEAR_MONTH);
+        assertSuccess(STR_ISO_LOCAL_DATE, YEAR_MONTH);
+        assertSuccess(STR_ISO_BASIC_DATE, YEAR_MONTH);
+        assertSuccess(STR_ISO_ORDINAL_DATE, YEAR_MONTH);
+        assertSuccess(STR_ISO_WEEK_DATE, YEAR_MONTH);
+        assertSuccess(STR_ISO_YEAR_MONTH, YEAR_MONTH);
         assertSuccess(STR_ISO_INSTANT, UTC_YEAR_MONTH);
         assertSuccess(STR_EPOCH_MILLIS, UTC_YEAR_MONTH);
     }

@@ -97,7 +97,7 @@ class AbstractDateTimeConverterTest {
      */
     @Test
     void testConstructorFormatterDefault() {
-        final Instant defaultValue = Instant.now();
+        final Instant defaultValue = AbstractTimeConverterTest.INSTANT;
         final TestDataTimeConverter converter = new TestDataTimeConverter(
                 FORMATTER,
                 defaultValue);
@@ -219,8 +219,8 @@ class AbstractDateTimeConverterTest {
         converter.setParsers(Collections.emptyList());
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
-        final Instant value = Instant.now();
-        final LocalDate expectedResult = LocalDate.now();
+        final Instant value = AbstractTimeConverterTest.INSTANT;
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .fromTemporalAccessor(same(type), eq(value));
@@ -241,9 +241,9 @@ class AbstractDateTimeConverterTest {
         converter.setParsers(Collections.emptyList());
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
-        final Long value = System.currentTimeMillis();
+        final Long value = AbstractTimeConverterTest.EPOCH_MILLIS;
         final Instant valueInstant = Instant.ofEpochMilli(value);
-        final LocalDate expectedResult = LocalDate.now();
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .fromTemporalAccessor(same(type), eq(valueInstant));
@@ -264,9 +264,9 @@ class AbstractDateTimeConverterTest {
         converter.setParsers(Collections.emptyList());
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
-        final Date value = new Date();
-        final Instant valueInstant = value.toInstant();
-        final LocalDate expectedResult = LocalDate.now();
+        final Date value = AbstractTimeConverterTest.DATE;
+        final Instant valueInstant = AbstractTimeConverterTest.INSTANT;
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .fromTemporalAccessor(same(type), eq(valueInstant));
@@ -287,9 +287,9 @@ class AbstractDateTimeConverterTest {
         converter.setParsers(Collections.emptyList());
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
-        final GregorianCalendar value = (GregorianCalendar) GregorianCalendar.getInstance();
-        final ZonedDateTime valueDateTime = value.toZonedDateTime();
-        final LocalDate expectedResult = LocalDate.now();
+        final GregorianCalendar value = AbstractTimeConverterTest.ZONED_CALENDAR;
+        final ZonedDateTime valueDateTime = AbstractTimeConverterTest.ZONED_DATE_TIME;
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .fromTemporalAccessor(same(type), eq(valueDateTime));
@@ -310,13 +310,11 @@ class AbstractDateTimeConverterTest {
         converter.setParsers(Collections.emptyList());
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
-        final Calendar value = mock(Calendar.class);
-        final Instant valueInstant = Instant.now()
+        final Instant valueInstant = AbstractTimeConverterTest.INSTANT
                 .truncatedTo(ChronoUnit.MILLIS);
-        final LocalDate expectedResult = LocalDate.now();
-        doReturn(valueInstant.toEpochMilli())
-                .when(value)
-                .getTimeInMillis();
+        final Calendar value = Calendar.getInstance(new Locale("ja", "JP", "JP"));
+        value.setTimeInMillis(AbstractTimeConverterTest.EPOCH_MILLIS);
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .fromTemporalAccessor(same(type), eq(valueInstant));
@@ -338,7 +336,7 @@ class AbstractDateTimeConverterTest {
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
         final String value = "mock value";
-        final LocalDate expectedResult = LocalDate.now();
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .parseString(same(type), same(value));
@@ -361,7 +359,7 @@ class AbstractDateTimeConverterTest {
         final Class<TemporalAccessor> type = TemporalAccessor.class;
         final Object value = mock(Object.class);
         final String mockValueToString = "mock to string";
-        final LocalDate expectedResult = LocalDate.now();
+        final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         given(value.toString()).willReturn(mockValueToString);
         doReturn(expectedResult)
                 .when(converterSpy)
@@ -402,7 +400,7 @@ class AbstractDateTimeConverterTest {
         final TestDataTimeConverter converterSpy = spy(converter);
         final Class<TemporalAccessor> type = TemporalAccessor.class;
         final String value = "mock value";
-        final TemporalAccessor expectedResult = Instant.now();
+        final TemporalAccessor expectedResult = AbstractTimeConverterTest.INSTANT;
         doReturn(expectedResult)
                 .when(converterSpy)
                 .parse(type, FORMATTER, value);
@@ -453,7 +451,7 @@ class AbstractDateTimeConverterTest {
         final Class<TemporalAccessor> type = TemporalAccessor.class;
         final Logger logger = mock(Logger.class);
         final String value = "mock value";
-        final TemporalAccessor expectedResult = Instant.now();
+        final TemporalAccessor expectedResult = AbstractTimeConverterTest.INSTANT;
         final DateTimeException mockExceptionDefault =
                 new DateTimeException("mock default parser error");
         final DateTimeException mockExceptionExtra1 =
@@ -559,7 +557,7 @@ class AbstractDateTimeConverterTest {
     void testConvertToStringFromTemporal() throws Throwable {
         final AbstractDateTimeConverter converter = spy(
                 new TestDataTimeConverter(FORMATTER));
-        final TemporalAccessor value = Instant.now();
+        final TemporalAccessor value = AbstractTimeConverterTest.INSTANT;
         final String result = converter.convertToString(value);
         assertEquals(FORMATTER.format(value), result);
         then(converter).should(times(1)).convertToString(value);

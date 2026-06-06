@@ -128,6 +128,7 @@ extends AbstractTimeConverterTest {
         assertFail(INSTANT);
         assertFail(EPOCH_MILLIS);
         assertFail(WRONG_TYPE_VALUE);
+        assertFail(DATE);
     }
 
     /**
@@ -150,6 +151,7 @@ extends AbstractTimeConverterTest {
         assertSuccess(converter, INSTANT, defaultValue, defaultValue);
         assertSuccess(converter, EPOCH_MILLIS, defaultValue, defaultValue);
         assertSuccess(converter, WRONG_TYPE_VALUE, defaultValue, defaultValue);
+        assertSuccess(converter, DATE, defaultValue, defaultValue);
     }
 
     /**
@@ -163,6 +165,8 @@ extends AbstractTimeConverterTest {
         assertSuccess(OFFSET_DATE_TIME, ZONE_OFFSET);
         assertSuccess(OFFSET_TIME, ZONE_OFFSET);
         assertSuccess(ZONE_OFFSET, ZONE_OFFSET);
+        assertSuccess(ZONED_CALENDAR, ZONE_OFFSET);
+        assertSuccess(UTC_CALENDAR, UTC_ZONE_OFFSET);
     }
 
     /**

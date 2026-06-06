@@ -217,6 +217,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(INSTANT, UTC_MONTH);
         assertSuccess(EPOCH_MILLIS, UTC_MONTH);
         assertSuccess(MONTH.getValue(), MONTH);
+        assertSuccess(DATE, UTC_MONTH);
+        assertSuccess(ZONED_CALENDAR, MONTH);
+        assertSuccess(UTC_CALENDAR, UTC_MONTH);
     }
 
     /**
@@ -255,7 +258,7 @@ extends AbstractTimeConverterTest {
     @Test
     void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, MONTH);
-        assertSuccess(STR_ISO_OFFSET_DATE_TIME, MONTH);
+        assertSuccess(STR_ISO_OFFSET_DATE_TIME, UTC_MONTH);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, MONTH);
         assertSuccess(STR_ISO_OFFSET_DATE, MONTH);
         assertSuccess(STR_ISO_LOCAL_DATE, MONTH);

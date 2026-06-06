@@ -24,6 +24,7 @@ package dev.orne.beans.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -157,6 +158,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(UTC_LOCAL_DATE_TIME, UTC_ZONED_DATE_TIME);
         assertSuccess(INSTANT, UTC_ZONED_DATE_TIME);
         assertSuccess(EPOCH_MILLIS, UTC_ZONED_DATE_TIME.truncatedTo(ChronoUnit.MILLIS));
+        assertSuccess(DATE, UTC_ZONED_DATE_TIME);
+        assertSuccess(ZONED_CALENDAR, ZONED_DATE_TIME);
+        assertSuccess(UTC_CALENDAR, OFFSET_DATE_TIME.atZoneSameInstant(ZoneId.of("UTC")));
     }
 
     /**

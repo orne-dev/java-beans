@@ -30,7 +30,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import org.apache.commons.beanutils.Converter;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -46,17 +45,13 @@ import org.junit.jupiter.api.Test;
 class DateConverterTest
 extends AbstractConverterTest {
 
-    protected static Date DATE;
-    protected static Date UTC_DATE;
+    protected static final Date UTC_DATE;
 
     public DateConverterTest() {
         super(Date.class, new DateConverter());
     }
 
-    @BeforeAll
-    static void createTestValues() {
-        AbstractTimeConverterTest.createTestValues();
-        DATE = Date.from(AbstractTimeConverterTest.INSTANT);
+    static {
         UTC_DATE = Date.from(AbstractTimeConverterTest.UTC_INSTANT);
     }
 
@@ -196,11 +191,11 @@ extends AbstractConverterTest {
      */
     @Test
     void testFromValueValidConversions() {
-        assertSuccess(AbstractTimeConverterTest.ZONED_DATE_TIME, DATE);
-        assertSuccess(AbstractTimeConverterTest.OFFSET_DATE_TIME, DATE);
+        assertSuccess(AbstractTimeConverterTest.ZONED_DATE_TIME, AbstractTimeConverterTest.DATE);
+        assertSuccess(AbstractTimeConverterTest.OFFSET_DATE_TIME, AbstractTimeConverterTest.DATE);
         assertSuccess(AbstractTimeConverterTest.LOCAL_DATE_TIME, UTC_DATE);
-        assertSuccess(AbstractTimeConverterTest.INSTANT, DATE);
-        assertSuccess(AbstractTimeConverterTest.EPOCH_MILLIS, DATE);
+        assertSuccess(AbstractTimeConverterTest.INSTANT, AbstractTimeConverterTest.DATE);
+        assertSuccess(AbstractTimeConverterTest.EPOCH_MILLIS, AbstractTimeConverterTest.DATE);
     }
 
     /**
@@ -252,11 +247,11 @@ extends AbstractConverterTest {
      */
     @Test
     void testFromStringValidConversions() {
-        assertSuccess(AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME, DATE);
-        assertSuccess(AbstractTimeConverterTest.STR_ISO_OFFSET_DATE_TIME, DATE);
+        assertSuccess(AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME, AbstractTimeConverterTest.DATE);
+        assertSuccess(AbstractTimeConverterTest.STR_ISO_OFFSET_DATE_TIME, AbstractTimeConverterTest.DATE);
         assertSuccess(AbstractTimeConverterTest.STR_ISO_LOCAL_DATE_TIME, UTC_DATE);
-        assertSuccess(AbstractTimeConverterTest.STR_ISO_INSTANT, DATE);
-        assertSuccess(AbstractTimeConverterTest.STR_EPOCH_MILLIS, DATE);
+        assertSuccess(AbstractTimeConverterTest.STR_ISO_INSTANT, AbstractTimeConverterTest.DATE);
+        assertSuccess(AbstractTimeConverterTest.STR_EPOCH_MILLIS, AbstractTimeConverterTest.DATE);
     }
 
     /**
@@ -273,7 +268,7 @@ extends AbstractConverterTest {
                 AbstractTimeConverterTest.STR_NON_DATE,
                 AbstractTimeConverterTest.STR_NON_DATE);
         assertSuccess(converter, String.class,
-                DATE,
+                AbstractTimeConverterTest.DATE,
                 AbstractTimeConverterTest.STR_ISO_INSTANT_MILLIS);
     }
 

@@ -187,6 +187,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(INSTANT, UTC_DAY_OF_WEEK);
         assertSuccess(EPOCH_MILLIS, UTC_DAY_OF_WEEK);
         assertSuccess(DAY_OF_WEEK.getValue(), DAY_OF_WEEK);
+        assertSuccess(DATE, UTC_DAY_OF_WEEK);
+        assertSuccess(ZONED_CALENDAR, DAY_OF_WEEK);
+        assertSuccess(UTC_CALENDAR, UTC_DAY_OF_WEEK);
     }
 
     /**
@@ -229,7 +232,7 @@ extends AbstractTimeConverterTest {
     @Test
     void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, DAY_OF_WEEK);
-        assertSuccess(STR_ISO_OFFSET_DATE_TIME, DAY_OF_WEEK);
+        assertSuccess(STR_ISO_OFFSET_DATE_TIME, UTC_DAY_OF_WEEK);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, DAY_OF_WEEK);
         assertSuccess(STR_ISO_OFFSET_DATE, DAY_OF_WEEK);
         assertSuccess(STR_ISO_LOCAL_DATE, DAY_OF_WEEK);

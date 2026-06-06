@@ -190,6 +190,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(INSTANT, UTC_YEAR);
         assertSuccess(EPOCH_MILLIS, UTC_YEAR);
         assertSuccess(YEAR.getValue(), YEAR);
+        assertSuccess(DATE, UTC_YEAR);
+        assertSuccess(ZONED_CALENDAR, YEAR);
+        assertSuccess(UTC_CALENDAR, UTC_YEAR);
     }
 
     /**
@@ -230,7 +233,7 @@ extends AbstractTimeConverterTest {
     @Test
     void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, YEAR);
-        assertSuccess(STR_ISO_OFFSET_DATE_TIME, YEAR);
+        assertSuccess(STR_ISO_OFFSET_DATE_TIME, UTC_YEAR);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, YEAR);
         assertSuccess(STR_ISO_OFFSET_DATE, YEAR);
         assertSuccess(STR_ISO_LOCAL_DATE, YEAR);

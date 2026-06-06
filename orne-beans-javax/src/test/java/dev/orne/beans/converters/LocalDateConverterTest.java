@@ -171,6 +171,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(LOCAL_DATE, LOCAL_DATE);
         assertSuccess(INSTANT, UTC_LOCAL_DATE);
         assertSuccess(EPOCH_MILLIS, UTC_LOCAL_DATE);
+        assertSuccess(DATE, UTC_LOCAL_DATE);
+        assertSuccess(ZONED_CALENDAR, LOCAL_DATE);
+        assertSuccess(UTC_CALENDAR, UTC_LOCAL_DATE);
     }
 
     /**
@@ -213,7 +216,7 @@ extends AbstractTimeConverterTest {
     @Test
     void testFromStringValidConversions() {
         assertSuccess(STR_ISO_ZONED_DATE_TIME, LOCAL_DATE);
-        assertSuccess(STR_ISO_OFFSET_DATE_TIME, LOCAL_DATE);
+        assertSuccess(STR_ISO_OFFSET_DATE_TIME, UTC_LOCAL_DATE);
         assertSuccess(STR_ISO_LOCAL_DATE_TIME, LOCAL_DATE);
         assertSuccess(STR_ISO_OFFSET_DATE, LOCAL_DATE);
         assertSuccess(STR_ISO_LOCAL_DATE, LOCAL_DATE);

@@ -32,7 +32,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.beanutils.Converter;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -48,22 +47,16 @@ import org.junit.jupiter.api.Test;
 class GregorianCalendarConverterTest
 extends AbstractConverterTest {
 
-    protected static GregorianCalendar UTC_CALENDAR;
-    protected static GregorianCalendar ZONED_CALENDAR;
-    protected static GregorianCalendar OFFSET_CALENDAR;
-    protected static GregorianCalendar LOCAL_CALENDAR;
+    protected static final GregorianCalendar OFFSET_CALENDAR;
+    protected static final GregorianCalendar LOCAL_CALENDAR;
 
     public GregorianCalendarConverterTest() {
         super(Calendar.class, new GregorianCalendarConverter());
     }
 
-    @BeforeAll
-    static void createTestValues() {
-        AbstractTimeConverterTest.createTestValues();
-        ZONED_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.ZONED_DATE_TIME);
+    static {
         OFFSET_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.OFFSET_DATE_TIME.toZonedDateTime());
         LOCAL_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.UTC_INSTANT.atZone(ZoneOffset.UTC));
-        UTC_CALENDAR = GregorianCalendar.from(AbstractTimeConverterTest.UTC_ZONED_DATE_TIME);
     }
 
     /**
@@ -220,12 +213,12 @@ extends AbstractConverterTest {
      */
     @Test
     void testFromValueValidConversions() {
-        assertSuccess(ZONED_CALENDAR, ZONED_CALENDAR);
-        assertSuccess(AbstractTimeConverterTest.ZONED_DATE_TIME, ZONED_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.ZONED_CALENDAR, AbstractTimeConverterTest.ZONED_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.ZONED_DATE_TIME, AbstractTimeConverterTest.ZONED_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.OFFSET_DATE_TIME, OFFSET_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.LOCAL_DATE_TIME, LOCAL_CALENDAR);
-        assertSuccess(AbstractTimeConverterTest.INSTANT, UTC_CALENDAR);
-        assertSuccess(AbstractTimeConverterTest.EPOCH_MILLIS, UTC_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.INSTANT, AbstractTimeConverterTest.UTC_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.EPOCH_MILLIS, AbstractTimeConverterTest.UTC_CALENDAR);
     }
 
     /**
@@ -277,11 +270,11 @@ extends AbstractConverterTest {
      */
     @Test
     void testFromStringValidConversions() {
-        assertSuccess(AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME, ZONED_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME, AbstractTimeConverterTest.ZONED_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.STR_ISO_OFFSET_DATE_TIME, OFFSET_CALENDAR);
         assertSuccess(AbstractTimeConverterTest.STR_ISO_LOCAL_DATE_TIME, LOCAL_CALENDAR);
-        assertSuccess(AbstractTimeConverterTest.STR_ISO_INSTANT, UTC_CALENDAR);
-        assertSuccess(AbstractTimeConverterTest.STR_EPOCH_MILLIS, UTC_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.STR_ISO_INSTANT, AbstractTimeConverterTest.UTC_CALENDAR);
+        assertSuccess(AbstractTimeConverterTest.STR_EPOCH_MILLIS, AbstractTimeConverterTest.UTC_CALENDAR);
     }
 
     /**
@@ -298,7 +291,7 @@ extends AbstractConverterTest {
                 AbstractTimeConverterTest.STR_NON_DATE,
                 AbstractTimeConverterTest.STR_NON_DATE);
         assertSuccess(converter, String.class,
-                ZONED_CALENDAR,
+                AbstractTimeConverterTest.ZONED_CALENDAR,
                 AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME_MILLIS);
         final Calendar japValue = new Calendar.Builder()
                 .setCalendarType("japanese")

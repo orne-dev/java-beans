@@ -121,7 +121,7 @@ class BaseIdentityBeanTest {
     void testEqualsHashCodeDiferentClass()
     throws Throwable {
         final BaseIdentityBean bean = createInstance();
-        final BaseIdentityBean other = mock(BaseIdentityBean.class); 
+        final BaseIdentityBean other = new BaseIdentityBean() {}; 
         assertNotEquals(bean, other);
     }
 

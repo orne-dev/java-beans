@@ -159,6 +159,9 @@ extends AbstractTimeConverterTest {
         assertSuccess(UTC_LOCAL_TIME, UTC_OFFSET_TIME);
         assertSuccess(INSTANT, UTC_OFFSET_TIME);
         assertSuccess(EPOCH_MILLIS, UTC_OFFSET_TIME.truncatedTo(ChronoUnit.MILLIS));
+        assertSuccess(DATE, UTC_OFFSET_TIME);
+        assertSuccess(ZONED_CALENDAR, OFFSET_TIME);
+        assertSuccess(UTC_CALENDAR, UTC_OFFSET_TIME);
     }
 
     /**
