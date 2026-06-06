@@ -27,6 +27,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -299,7 +300,8 @@ extends AbstractConverterTest {
                 .build();
         assertSuccess(converter, String.class,
                 japValue,
-                AbstractTimeConverterTest.STR_ISO_ZONED_DATE_TIME_MILLIS);
+                DateTimeFormatter.ISO_ZONED_DATE_TIME.format(
+                        AbstractTimeConverterTest.UTC_ZONED_DATE_TIME));
     }
 
     /**

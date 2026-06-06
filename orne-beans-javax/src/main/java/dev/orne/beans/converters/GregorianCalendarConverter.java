@@ -22,7 +22,7 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -152,7 +152,7 @@ extends AbstractConverter {
             if (value instanceof GregorianCalendar) {
                 zdt = ((GregorianCalendar) value).toZonedDateTime();
             } else {
-                zdt = ZonedDateTime.ofInstant(((Calendar) value).toInstant(), ZoneId.systemDefault());
+                zdt = ZonedDateTime.ofInstant(((Calendar) value).toInstant(), ZoneOffset.UTC);
             }
             return this.zonedDateTimeConverter.convert(String.class, zdt);
         } else if (value instanceof String) {

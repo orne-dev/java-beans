@@ -312,8 +312,10 @@ class AbstractDateTimeConverterTest {
         final Class<TemporalAccessor> type = TemporalAccessor.class;
         final Instant valueInstant = AbstractTimeConverterTest.INSTANT
                 .truncatedTo(ChronoUnit.MILLIS);
-        final Calendar value = Calendar.getInstance(new Locale("ja", "JP", "JP"));
-        value.setTimeInMillis(AbstractTimeConverterTest.EPOCH_MILLIS);
+        final Calendar value = new Calendar.Builder()
+                .setCalendarType("japanese")
+                .setInstant(AbstractTimeConverterTest.EPOCH_MILLIS)
+                .build();
         final LocalDate expectedResult = AbstractTimeConverterTest.LOCAL_DATE;
         doReturn(expectedResult)
                 .when(converterSpy)
