@@ -8,6 +8,7 @@
 
 - Change `javax.validation:validation-api:2.0.1.Final` optional dependency to `jakarta.validation:jakarta.validation-api:2.0.1`
 - Change `javax.xml.bind:jaxb-api:2.3.1` optional dependency to `jakarta.xml.bind:jakarta.xml.bind-api:2.3.3`
+- Bump `com.fasterxml.jackson.core:jackson-databind` to 2.22.1
 - Change `BaseIdentityBean` copy constructor parameter type from `BaseIdentityBean` to `IdentityBean`.
 
 ### Added
