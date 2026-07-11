@@ -4,6 +4,10 @@
 
 - **Requires Java 11 or newer.**
 
+### Changed
+
+- Change `BaseIdentityBean` copy constructor parameter type from `BaseIdentityBean` to `IdentityBean`.
+
 ### Added
 
 - Add `dev.orne:orne-beans-jakarta` module with support for JakartaEE 9 and newer.

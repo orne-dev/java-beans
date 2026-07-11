@@ -58,10 +58,10 @@ implements WritableIdentityBean {
      * @param copy The instance to copy
      */
     public BaseIdentityBean(
-            final BaseIdentityBean copy) {
+            final IdentityBean copy) {
         super();
         Objects.requireNonNull(copy);
-        this.identity = copy.identity;
+        this.identity = copy.getIdentity();
     }
 
     /**
