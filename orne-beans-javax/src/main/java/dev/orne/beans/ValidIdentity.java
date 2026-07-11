@@ -111,7 +111,7 @@ public @interface ValidIdentity {
     implements ConstraintValidator<ValidIdentity, Identity> {
 
         /** The expected type of identity. */
-        private Class<? extends Identity> expectedType;
+        private @Nullable Class<? extends Identity> expectedType;
 
         /**
          * Creates a new instance.
@@ -192,7 +192,7 @@ public @interface ValidIdentity {
     implements ConstraintValidator<ValidIdentity, String> {
 
         /** The expected type of identity. */
-        private Class<? extends Identity> expectedType;
+        private @Nullable Class<? extends Identity> expectedType;
 
         /**
          * Creates a new instance.

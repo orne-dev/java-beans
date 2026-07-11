@@ -23,6 +23,7 @@ package dev.orne.beans;
  */
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -71,6 +72,6 @@ extends Serializable {
      */
     default <T extends Identity> T resolve(
             final Class<T> type) {
-        return IdentityResolver.getInstance().resolve(this, type);
+        return Objects.requireNonNull(IdentityResolver.getInstance().resolve(this, type));
     }
 }
