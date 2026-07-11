@@ -27,8 +27,7 @@ import static org.mockito.BDDMockito.*;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +72,7 @@ extends AbstractIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull AbstractSimpleIdentity<?> createInstance() {
+    protected AbstractSimpleIdentity<?> createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -81,8 +80,8 @@ extends AbstractIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull AbstractSimpleIdentity<?> createCopy(
-            final @NotNull AbstractIdentity copy) {
+    protected AbstractSimpleIdentity<?> createCopy(
+            final AbstractIdentity copy) {
         return new TestIdentity((TestIdentity) copy);
     }
 
@@ -115,7 +114,7 @@ extends AbstractIdentityTest {
      * 
      * @return The identity created
      */
-    protected @NotNull AbstractSimpleIdentity<?> createInstanceWithNullValue() {
+    protected AbstractSimpleIdentity<?> createInstanceWithNullValue() {
         return new TestIdentity((Serializable) null);
     }
 
@@ -124,7 +123,7 @@ extends AbstractIdentityTest {
      * 
      * @return The identity created
      */
-    protected @NotNull AbstractSimpleIdentity<?> createInstanceWithNonNullValue() {
+    protected AbstractSimpleIdentity<?> createInstanceWithNonNullValue() {
         return new TestIdentity("Some value");
     }
 
@@ -166,7 +165,7 @@ extends AbstractIdentityTest {
          * @param value The identity value
          */
         public TestIdentity(
-                final Serializable value) {
+                final @Nullable Serializable value) {
             super(value);
         }
 
@@ -176,7 +175,7 @@ extends AbstractIdentityTest {
          * @param copy The instance to copy
          */
         public TestIdentity(
-                final @NotNull TestIdentity copy) {
+                final TestIdentity copy) {
             super(copy);
         }
     }

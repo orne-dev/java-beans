@@ -22,12 +22,11 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.Converter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Extension of {@code ConvertUtilsBean} that falls back to converter registered
@@ -52,8 +51,8 @@ extends ConvertUtilsBean {
      * {@inheritDoc}
      */
     @Override
-    public Converter lookup(
-            final @NotNull Class<?> clazz) {
+    public @Nullable Converter lookup(
+            final Class<?> clazz) {
         Converter converter = super.lookup(clazz);
         if (converter == null && clazz.isEnum()) {
             converter = super.lookup(Enum.class);

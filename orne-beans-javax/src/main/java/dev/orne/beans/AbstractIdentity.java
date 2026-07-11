@@ -22,11 +22,10 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base abstract implementation for {@code Identity}. Manages the formatting
@@ -44,7 +43,7 @@ implements Identity {
     private static final long serialVersionUID = 1L;
 
     /** The generated identity token cache. */
-    private transient String identityToken;
+    private transient @Nullable String identityToken;
 
     /**
      * Creates a new instance.
@@ -59,7 +58,6 @@ implements Identity {
      * 
      * @return The identity token prefix for this class
      */
-    @NotNull
     @ValidIdentityTokenPrefix
     protected String getIdentityTokenPrefix() {
         return IdentityTokenFormatter.DEFAULT_PREFIX;
@@ -71,7 +69,7 @@ implements Identity {
      * 
      * @return The identity token body for this instance
      */
-    protected abstract String getIdentityTokenBody();
+    protected abstract @Nullable String getIdentityTokenBody();
 
     /**
      * Parses the specified identity token and returns the original identity
@@ -82,8 +80,8 @@ implements Identity {
      * @throws UnrecognizedIdentityTokenException If the identity token
      * is not recognized
      */
-    protected final String parseIdentityTokenBody(
-            final @NotNull String token)
+    protected final @Nullable String parseIdentityTokenBody(
+            final String token)
     throws UnrecognizedIdentityTokenException {
         return IdentityTokenFormatter.parse(
                 getIdentityTokenPrefix(),
@@ -94,7 +92,6 @@ implements Identity {
      * {@inheritDoc}
      */
     @Override
-    @NotNull
     @ValidIdentityToken
     public String getIdentityToken() {
         synchronized (this) {
@@ -121,7 +118,8 @@ implements Identity {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(
+            final @Nullable Object obj) {
         if (obj == null) { return false; }
         if (obj == this) { return true; }
         return obj.getClass() == getClass();

@@ -34,10 +34,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.NotNull;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Validation for beans that require at least a valid bean reference.
@@ -115,7 +115,7 @@ public @interface ValidBeanReference {
          */
         @Override
         public boolean isValid(
-                final Object value,
+                final @Nullable Object value,
                 final ConstraintValidatorContext context) {
             if (value == null) {
                 return true;
@@ -148,7 +148,6 @@ public @interface ValidBeanReference {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                @NotNull
                 final Object value) {
             return isValid(value, FINDER);
         }
@@ -162,9 +161,7 @@ public @interface ValidBeanReference {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                @NotNull
                 final Object value,
-                @NotNull
                 final BeanAnnotationFinder<? extends BeanReference, ?> annotationFinder) {
             boolean valid = false;
             for (final BeanReference reference : annotationFinder.find(value.getClass())) {

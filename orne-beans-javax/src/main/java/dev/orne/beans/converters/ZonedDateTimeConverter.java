@@ -30,10 +30,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code ZonedDateTime} instances
@@ -65,7 +64,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZonedDateTimeConverter(
-            final ZonedDateTime defaultValue) {
+            final @Nullable ZonedDateTime defaultValue) {
         super(DateTimeFormatter.ISO_ZONED_DATE_TIME, defaultValue);
         setDefaultParsers();
     }
@@ -77,7 +76,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public ZonedDateTimeConverter(
-            final @NotNull DateTimeFormatter formatter) {
+            final DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -90,8 +89,8 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZonedDateTimeConverter(
-            final @NotNull DateTimeFormatter formatter,
-            final ZonedDateTime defaultValue) {
+            final DateTimeFormatter formatter,
+            final @Nullable ZonedDateTime defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
     }
@@ -110,7 +109,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return ZonedDateTime.class;
     }
 
@@ -119,8 +118,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final @NotNull Class<T> type,
-            final @NotNull TemporalAccessor value) {
+            final Class<T> type,
+            final TemporalAccessor value) {
         try {
             return type.cast(ZonedDateTime.from(value));
         } catch (final DateTimeException dte) {

@@ -24,6 +24,7 @@ package dev.orne.beans;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Interface representing a bean with identity that allows assigning its
@@ -43,5 +44,5 @@ extends IdentityBean {
      * @param identity The instance's identity
      */
     void setIdentity(
-            Identity identity);
+            @Nullable Identity identity);
 }

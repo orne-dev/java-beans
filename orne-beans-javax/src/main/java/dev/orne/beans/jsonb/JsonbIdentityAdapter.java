@@ -27,6 +27,7 @@ import jakarta.json.bind.adapter.JsonbAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 import dev.orne.beans.Identity;
 import dev.orne.beans.TokenIdentity;
@@ -58,8 +59,8 @@ implements JsonbAdapter<Identity, String> {
      * @return The resulting {@code String} instance
      */
     @Override
-    public String adaptToJson(
-            final Identity identity)
+    public @Nullable String adaptToJson(
+            final @Nullable Identity identity)
     throws Exception {
         final String result;
         if (identity == null) {
@@ -82,8 +83,8 @@ implements JsonbAdapter<Identity, String> {
      * @return The resulting {@code TokenIdentity} instance
      */
     @Override
-    public Identity adaptFromJson(
-            final String value)
+    public @Nullable Identity adaptFromJson(
+            final @Nullable String value)
     throws Exception {
         final TokenIdentity result;
         if (value == null || value.isEmpty()) {

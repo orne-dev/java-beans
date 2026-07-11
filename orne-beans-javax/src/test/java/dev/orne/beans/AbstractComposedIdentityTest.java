@@ -27,8 +27,6 @@ import static org.mockito.BDDMockito.*;
 
 import java.math.BigInteger;
 
-import javax.validation.constraints.NotNull;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +48,7 @@ extends AbstractIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull AbstractIdentity createInstance() {
+    protected AbstractIdentity createInstance() {
         return new TestIdentity(
                 Generators.nullableRandomValue(String.class),
                 Generators.nullableRandomValue(Long.class),
@@ -61,8 +59,8 @@ extends AbstractIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull AbstractIdentity createCopy(
-            final @NotNull AbstractIdentity copy) {
+    protected AbstractIdentity createCopy(
+            final AbstractIdentity copy) {
         return new TestIdentity((TestIdentity) copy);
     }
 
@@ -658,7 +656,7 @@ extends AbstractIdentityTest {
          * @param copy The instance to copy
          */
         public TestIdentity(
-                final @NotNull TestIdentity copy) {
+                final TestIdentity copy) {
             super();
             this.value0 = copy.value0;
             this.value1 = copy.value1;
@@ -669,7 +667,7 @@ extends AbstractIdentityTest {
          * {@inheritDoc}
          */
         @Override
-        protected @NotNull String[] getIdentityTokenBodyParts() {
+        protected String[] getIdentityTokenBodyParts() {
             return new String[] {
                 this.value0,
                 this.value1 == null ? null : this.value1.toString(),
@@ -688,8 +686,8 @@ extends AbstractIdentityTest {
          * the identity token body parts are no valid
          */
         @IdentityTokenResolver
-        public static @NotNull TestIdentity fromIdentityToken(
-                final @NotNull String token) {
+        public static TestIdentity fromIdentityToken(
+                final String token) {
             final String[] parts =  AbstractComposedIdentity.extractRequiredTokenBodyParts(
                     IdentityTokenFormatter.DEFAULT_PREFIX,
                     token,

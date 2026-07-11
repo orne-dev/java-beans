@@ -22,10 +22,9 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 import dev.orne.test.rnd.GeneratorMethod;
 
@@ -51,7 +50,7 @@ extends AbstractSimpleIdentity<String> {
      */
     @GeneratorMethod
     public StringIdentity(
-            final String value) {
+            final @Nullable String value) {
         super(value);
     }
 
@@ -61,7 +60,7 @@ extends AbstractSimpleIdentity<String> {
      * @param copy The instance to copy
      */
     public StringIdentity(
-            final @NotNull StringIdentity copy) {
+            final StringIdentity copy) {
         super(copy);
     }
 
@@ -75,8 +74,8 @@ extends AbstractSimpleIdentity<String> {
      * a valid identity token or it doesn't start with the expected prefix
      */
     @IdentityTokenResolver
-    public static @NotNull StringIdentity fromIdentityToken(
-            final @NotNull String token) {
+    public static StringIdentity fromIdentityToken(
+            final String token) {
         return new StringIdentity(extractTokenValue(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 token));
@@ -98,9 +97,9 @@ extends AbstractSimpleIdentity<String> {
      * prefix.
      * @see #extractRequiredTokenValue(String, String)
      */
-    public static String extractTokenValue(
-            final @NotNull String prefix,
-            final @NotNull String token) {
+    public static @Nullable String extractTokenValue(
+            final String prefix,
+            final String token) {
         return IdentityTokenFormatter.parse(prefix, token);
     }
 
@@ -119,9 +118,9 @@ extends AbstractSimpleIdentity<String> {
      * prefix or if the extracted value is null.
      * @see #extractTokenValue(String, String)
      */
-    public static @NotNull String extractRequiredTokenValue(
-            final @NotNull String prefix,
-            final @NotNull String token) {
+    public static String extractRequiredTokenValue(
+            final String prefix,
+            final String token) {
         final String result = extractTokenValue(prefix, token);
         if (result == null) {
             throw new UnrecognizedIdentityTokenException(

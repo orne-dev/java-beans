@@ -29,6 +29,7 @@ import javax.validation.groups.Default;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Interface representing a bean with identity. Allows hiding the actual
@@ -50,7 +51,7 @@ public interface IdentityBean {
     @NotNull(groups = RequireIdentity.class)
     @Valid
     @ConvertGroup(from = RequireIdentity.class, to = Default.class)
-    Identity getIdentity();
+    @Nullable Identity getIdentity();
 
     /**
      * Validation group to require a valid identity.

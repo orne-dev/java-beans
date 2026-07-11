@@ -35,10 +35,10 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Validation for valid identities.
@@ -111,7 +111,7 @@ public @interface ValidIdentity {
     implements ConstraintValidator<ValidIdentity, Identity> {
 
         /** The expected type of identity. */
-        private @NotNull Class<? extends Identity> expectedType;
+        private Class<? extends Identity> expectedType;
 
         /**
          * Creates a new instance.
@@ -125,7 +125,7 @@ public @interface ValidIdentity {
          */
         @Override
         public void initialize(
-                final @NotNull ValidIdentity annotation) {
+                final ValidIdentity annotation) {
             this.expectedType = annotation.value();
         }
 
@@ -134,7 +134,7 @@ public @interface ValidIdentity {
          */
         @Override
         public boolean isValid(
-                final Identity value,
+                final @Nullable Identity value,
                 final ConstraintValidatorContext context) {
             boolean valid = true;
             if (value != null) {
@@ -151,7 +151,7 @@ public @interface ValidIdentity {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                final @NotNull Identity value) {
+                final Identity value) {
             return isValid(value, Identity.class);
         }
 
@@ -164,8 +164,8 @@ public @interface ValidIdentity {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                final @NotNull Identity value,
-                final @NotNull Class<? extends Identity> expectedType) {
+                final Identity value,
+                final Class<? extends Identity> expectedType) {
             Objects.requireNonNull(value);
             Objects.requireNonNull(expectedType);
             if (expectedType.isInstance(value)) {
@@ -192,7 +192,7 @@ public @interface ValidIdentity {
     implements ConstraintValidator<ValidIdentity, String> {
 
         /** The expected type of identity. */
-        private @NotNull Class<? extends Identity> expectedType;
+        private Class<? extends Identity> expectedType;
 
         /**
          * Creates a new instance.
@@ -206,7 +206,7 @@ public @interface ValidIdentity {
          */
         @Override
         public void initialize(
-                final @NotNull ValidIdentity annotation) {
+                final ValidIdentity annotation) {
             this.expectedType = annotation.value();
         }
 
@@ -215,7 +215,7 @@ public @interface ValidIdentity {
          */
         @Override
         public boolean isValid(
-                final String value,
+                final @Nullable String value,
                 final ConstraintValidatorContext context) {
             boolean valid = true;
             if (value != null) {
@@ -232,7 +232,7 @@ public @interface ValidIdentity {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                final @NotNull String value) {
+                final String value) {
             return isValid(value, Identity.class);
         }
 
@@ -245,8 +245,8 @@ public @interface ValidIdentity {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                final @NotNull String value,
-                final @NotNull Class<? extends Identity> expectedType) {
+                final String value,
+                final Class<? extends Identity> expectedType) {
             Objects.requireNonNull(value);
             Objects.requireNonNull(expectedType);
             if (Identity.class.equals(expectedType)) {

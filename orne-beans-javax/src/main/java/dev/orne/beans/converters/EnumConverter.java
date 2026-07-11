@@ -24,14 +24,13 @@ package dev.orne.beans.converters;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code Enum} instances
@@ -72,7 +71,7 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     private EnumConverter(
-            final Enum<?> defaultValue) {
+            final @Nullable Enum<?> defaultValue) {
         super(defaultValue);
     }
 
@@ -80,7 +79,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return Enum.class;
     }
 
@@ -89,9 +88,8 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
-            final Object value)
-    throws Throwable {
+            final Class<T> type,
+            final @Nullable Object value) {
         if (type.isEnum()) {
             if (value == null) {
                 return null;
@@ -116,8 +114,8 @@ extends AbstractConverter {
      * constant matches the specified name
      */
     protected <T> T enumFromName(
-            final @NotNull Class<T> type,
-            final @NotNull String name) {
+            final Class<T> type,
+            final String name) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(name);
         final T[] constants = type.getEnumConstants();
@@ -137,8 +135,7 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            final Object value)
-    throws Throwable {
+            final Object value) {
         if (value instanceof Enum) {
             return ((Enum<?>) value).name();
         } else if (value instanceof String) {

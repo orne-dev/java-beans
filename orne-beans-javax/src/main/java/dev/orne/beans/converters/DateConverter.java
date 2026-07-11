@@ -25,12 +25,11 @@ package dev.orne.beans.converters;
 import java.time.Instant;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code Date} instances
@@ -46,7 +45,7 @@ public class DateConverter
 extends AbstractConverter {
 
     /** The converter to use when converting {@code Instant} instances. */
-    private final @NotNull Converter instantConverter;
+    private final Converter instantConverter;
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
@@ -63,7 +62,8 @@ extends AbstractConverter {
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public DateConverter(final Date defaultValue) {
+    public DateConverter(
+            final @Nullable Date defaultValue) {
         super(defaultValue);
         this.instantConverter = new InstantConverter(
                 defaultValue == null ? null : defaultValue.toInstant());
@@ -77,7 +77,7 @@ extends AbstractConverter {
      * {@code Instant} instances
      */
     public DateConverter(
-            final @NotNull Converter instantConverter) {
+            final Converter instantConverter) {
         super();
         this.instantConverter = instantConverter;
     }
@@ -91,8 +91,8 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public DateConverter(
-            final @NotNull Converter instantConverter,
-            final Date defaultValue) {
+            final Converter instantConverter,
+            final @Nullable Date defaultValue) {
         super(defaultValue);
         this.instantConverter = instantConverter;
     }
@@ -102,7 +102,7 @@ extends AbstractConverter {
      * 
      * @return The converter to use when converting {@code Instant} instances
      */
-    protected @NotNull Converter getInstantConverter() {
+    protected Converter getInstantConverter() {
         return this.instantConverter;
     }
 
@@ -110,7 +110,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<Date> getDefaultType() {
+    protected Class<Date> getDefaultType() {
         return Date.class;
     }
 
@@ -119,9 +119,8 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
-            final Object value)
-    throws Throwable {
+            final Class<T> type,
+            final Object value) {
         if (type.isAssignableFrom(Date.class)) {
             final Instant instant = this.instantConverter.convert(Instant.class, value);
             if (instant == null) {
@@ -138,8 +137,7 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            final Object value)
-    throws Throwable {
+            final Object value) {
         if (value instanceof Date) {
             return this.instantConverter.convert(String.class, ((Date) value).toInstant());
         } else if (value instanceof String) {

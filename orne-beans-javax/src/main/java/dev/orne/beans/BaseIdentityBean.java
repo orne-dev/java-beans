@@ -24,13 +24,12 @@ package dev.orne.beans;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base implementation of {@code IdentityBean}.
@@ -44,7 +43,7 @@ public class BaseIdentityBean
 implements WritableIdentityBean {
 
     /** The instance's identity. */
-    private Identity identity;
+    private @Nullable Identity identity;
 
     /**
      * Empty constructor.
@@ -59,7 +58,7 @@ implements WritableIdentityBean {
      * @param copy The instance to copy
      */
     public BaseIdentityBean(
-            final @NotNull BaseIdentityBean copy) {
+            final BaseIdentityBean copy) {
         super();
         Objects.requireNonNull(copy);
         this.identity = copy.identity;
@@ -69,7 +68,7 @@ implements WritableIdentityBean {
      * {@inheritDoc}
      */
     @Override
-    public Identity getIdentity() {
+    public @Nullable Identity getIdentity() {
         return this.identity;
     }
 
@@ -78,7 +77,7 @@ implements WritableIdentityBean {
      */
     @Override
     public void setIdentity(
-            final Identity identity) {
+            final @Nullable Identity identity) {
         this.identity = identity;
     }
 
@@ -97,7 +96,8 @@ implements WritableIdentityBean {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(
+            final @Nullable Object obj) {
         if (obj == null) { return false; }
         if (obj == this) { return true; }
         if (obj.getClass() != getClass()) { return false; }

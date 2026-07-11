@@ -25,8 +25,6 @@ package dev.orne.beans;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-import javax.validation.constraints.NotNull;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +44,7 @@ class AbstractIdentityTest {
      * 
      * @return The identity created
      */
-    protected @NotNull AbstractIdentity createInstance() {
+    protected AbstractIdentity createInstance() {
         return new TestIdentity();
     }
 
@@ -56,8 +54,8 @@ class AbstractIdentityTest {
      * @param copy The identity to copy, created with {@link #createInstance()}
      * @return The identity created
      */
-    protected @NotNull AbstractIdentity createCopy(
-            final @NotNull AbstractIdentity copy) {
+    protected AbstractIdentity createCopy(
+            final AbstractIdentity copy) {
         return new TestIdentity();
     }
 

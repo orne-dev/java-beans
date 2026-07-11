@@ -5,6 +5,7 @@
  * 
  * @since 0.1, 2020-04
  */
+@org.jspecify.annotations.NullMarked
 package dev.orne.beans;
 
 /*-

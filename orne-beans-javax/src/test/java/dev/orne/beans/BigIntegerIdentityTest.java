@@ -29,8 +29,7 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,7 +84,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull BigIntegerIdentity createInstance() {
+    protected BigIntegerIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -93,8 +92,8 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull BigIntegerIdentity createCopy(
-            final @NotNull AbstractIdentity copy) {
+    protected BigIntegerIdentity createCopy(
+            final AbstractIdentity copy) {
         return new BigIntegerIdentity((BigIntegerIdentity) copy);
     }
 
@@ -102,7 +101,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull BigIntegerIdentity createInstanceWithNullValue() {
+    protected BigIntegerIdentity createInstanceWithNullValue() {
         return new BigIntegerIdentity((BigInteger) null);
     }
 
@@ -110,7 +109,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull BigIntegerIdentity createInstanceWithNonNullValue() {
+    protected BigIntegerIdentity createInstanceWithNonNullValue() {
         return new BigIntegerIdentity(Generators.randomValue(BigInteger.class));
     }
 
@@ -120,8 +119,8 @@ extends AbstractSimpleIdentityTest {
      * @param value The value to create the identity token for
      * @return The identity token created
      */
-    protected @NotNull String createIdentityToken(
-            final BigInteger value) {
+    protected String createIdentityToken(
+            final @Nullable BigInteger value) {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 value == null ? null : value.toString());
@@ -132,7 +131,7 @@ extends AbstractSimpleIdentityTest {
      * 
      * @return The identity token created
      */
-    protected @NotNull String createNoNumberIdentityToken() {
+    protected String createNoNumberIdentityToken() {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 "not a number");
@@ -144,8 +143,8 @@ extends AbstractSimpleIdentityTest {
      * @param value The value to create the identity token for
      * @return The identity token created
      */
-    protected @NotNull BigIntegerIdentity resolveIdentityToken(
-            final @NotNull String token)
+    protected BigIntegerIdentity resolveIdentityToken(
+            final String token)
     throws UnrecognizedIdentityTokenException {
         return BigIntegerIdentity.fromIdentityToken(token);
     }
@@ -199,7 +198,7 @@ extends AbstractSimpleIdentityTest {
     @MethodSource("testExtractTokenValue")
     void testExtractTokenValue(
             final String prefix,
-            final BigInteger value)
+            final @Nullable BigInteger value)
     throws Throwable {
         final String token = IdentityTokenFormatter.format(prefix,
                 value == null ? null : value.toString());
@@ -215,7 +214,7 @@ extends AbstractSimpleIdentityTest {
     @MethodSource("testExtractTokenValue")
     void testExtractRequiredTokenValue(
             final String prefix,
-            final BigInteger value)
+            final @Nullable BigInteger value)
     throws Throwable {
         final String token = IdentityTokenFormatter.format(prefix,
                 value == null ? null : value.toString());

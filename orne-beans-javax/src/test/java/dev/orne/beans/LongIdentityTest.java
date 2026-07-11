@@ -29,8 +29,7 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,7 +84,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull LongIdentity createInstance() {
+    protected LongIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -93,8 +92,8 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull LongIdentity createCopy(
-            final @NotNull AbstractIdentity copy) {
+    protected LongIdentity createCopy(
+            final AbstractIdentity copy) {
         return new LongIdentity((LongIdentity) copy);
     }
 
@@ -102,7 +101,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull LongIdentity createInstanceWithNullValue() {
+    protected LongIdentity createInstanceWithNullValue() {
         return new LongIdentity((Long) null);
     }
 
@@ -110,7 +109,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull LongIdentity createInstanceWithNonNullValue() {
+    protected LongIdentity createInstanceWithNonNullValue() {
         return new LongIdentity(Generators.randomValue(Long.class));
     }
 
@@ -121,7 +120,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected String createIdentityToken(
-            final Long value) {
+            final @Nullable Long value) {
         return IdentityTokenFormatter.format(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
                 value == null ? null : value.toString());
@@ -145,7 +144,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected LongIdentity resolveIdentityToken(
-            final @NotNull String token)
+            final String token)
     throws UnrecognizedIdentityTokenException {
         return LongIdentity.fromIdentityToken(token);
     }
@@ -199,7 +198,7 @@ extends AbstractSimpleIdentityTest {
     @MethodSource("testExtractTokenValue")
     void testExtractTokenValue(
             final String prefix,
-            final Long value)
+            final @Nullable Long value)
     throws Throwable {
         final String token = IdentityTokenFormatter.format(prefix,
                 value == null ? null : value.toString());
@@ -215,7 +214,7 @@ extends AbstractSimpleIdentityTest {
     @MethodSource("testExtractTokenValue")
     void testExtractRequiredTokenValue(
             final String prefix,
-            final Long value)
+            final @Nullable Long value)
     throws Throwable {
         final String token = IdentityTokenFormatter.format(prefix,
                 value == null ? null : value.toString());

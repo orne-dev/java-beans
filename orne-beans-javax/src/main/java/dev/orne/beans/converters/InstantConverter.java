@@ -32,10 +32,9 @@ import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code Instant} instances
@@ -74,7 +73,8 @@ extends AbstractDateTimeConverter {
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public InstantConverter(final Instant defaultValue) {
+    public InstantConverter(
+            final @Nullable Instant defaultValue) {
         super(DateTimeFormatter.ISO_INSTANT, defaultValue);
         setDefaultParsers();
     }
@@ -86,7 +86,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public InstantConverter(
-            final @NotNull DateTimeFormatter formatter) {
+            final DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -99,8 +99,8 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public InstantConverter(
-            final @NotNull DateTimeFormatter formatter,
-            final Instant defaultValue) {
+            final DateTimeFormatter formatter,
+            final @Nullable Instant defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
     }
@@ -119,7 +119,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<Instant> getDefaultType() {
+    protected Class<Instant> getDefaultType() {
         return Instant.class;
     }
 
@@ -128,8 +128,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final @NotNull Class<T> type,
-            final @NotNull TemporalAccessor value) {
+            final Class<T> type,
+            final TemporalAccessor value) {
         try {
             return type.cast(Instant.from(value));
         } catch (final DateTimeException dte) {

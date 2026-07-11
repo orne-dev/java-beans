@@ -24,10 +24,9 @@ package dev.orne.beans;
 
 import java.math.BigInteger;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 import dev.orne.test.rnd.GeneratorMethod;
 
@@ -53,7 +52,7 @@ extends AbstractSimpleIdentity<BigInteger> {
      */
     @GeneratorMethod
     public BigIntegerIdentity(
-            final BigInteger value) {
+            final @Nullable BigInteger value) {
         super(value);
     }
 
@@ -63,7 +62,7 @@ extends AbstractSimpleIdentity<BigInteger> {
      * @param copy The instance to copy
      */
     public BigIntegerIdentity(
-            final @NotNull BigIntegerIdentity copy) {
+            final BigIntegerIdentity copy) {
         super(copy);
     }
 
@@ -78,8 +77,8 @@ extends AbstractSimpleIdentity<BigInteger> {
      * a valid identity token or it doesn't start with the expected prefix
      */
     @IdentityTokenResolver
-    public static @NotNull BigIntegerIdentity fromIdentityToken(
-            final @NotNull String token)
+    public static BigIntegerIdentity fromIdentityToken(
+            final String token)
     throws UnrecognizedIdentityTokenException {
         return new BigIntegerIdentity(extractTokenValue(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
@@ -102,9 +101,9 @@ extends AbstractSimpleIdentity<BigInteger> {
      * prefix or if the extracted value is not a valid big integer.
      * @see #extractRequiredTokenValue(String, String)
      */
-    public static BigInteger extractTokenValue(
-            final @NotNull String prefix,
-            final @NotNull String token) {
+    public static @Nullable BigInteger extractTokenValue(
+            final String prefix,
+            final String token) {
         final String body = IdentityTokenFormatter.parse(prefix, token);
         if (body == null) {
             return null;
@@ -134,9 +133,9 @@ extends AbstractSimpleIdentity<BigInteger> {
      * a valid big integer.
      * @see #extractTokenValue(String, String)
      */
-    public static @NotNull BigInteger extractRequiredTokenValue(
-            final @NotNull String prefix,
-            final @NotNull String token) {
+    public static BigInteger extractRequiredTokenValue(
+            final String prefix,
+            final String token) {
         final BigInteger result = extractTokenValue(prefix, token);
         if (result == null) {
             throw new UnrecognizedIdentityTokenException(

@@ -26,13 +26,12 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code Enum} instances
@@ -62,7 +61,7 @@ extends AbstractConverter {
      * @param enumType The type of enumeration this instance converts
      */
     public EnumTypedConverter(
-            final @NotNull Class<E> enumType) {
+            final Class<E> enumType) {
         this(enumType, Enum::valueOf, Enum::name);
     }
 
@@ -74,8 +73,8 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public EnumTypedConverter(
-            final @NotNull Class<E> enumType,
-            final E defaultValue) {
+            final Class<E> enumType,
+            final @Nullable E defaultValue) {
         this(enumType, Enum::valueOf, Enum::name, defaultValue);
     }
 
@@ -88,9 +87,9 @@ extends AbstractConverter {
      * @param enumToString The {@code Enum} to {@code String} conversion function
      */
     public EnumTypedConverter(
-            final @NotNull Class<E> enumType,
-            final @NotNull BiFunction<Class<E>, String, E> stringToEnum,
-            final @NotNull Function<E, String> enumToString) {
+            final Class<E> enumType,
+            final BiFunction<Class<E>, String, E> stringToEnum,
+            final Function<E, String> enumToString) {
         super();
         this.enumType = Objects.requireNonNull(enumType);
         this.stringToEnum = Objects.requireNonNull(stringToEnum);
@@ -107,10 +106,10 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public EnumTypedConverter(
-            final @NotNull Class<E> enumType,
-            final @NotNull BiFunction<Class<E>, String, E> stringToEnum,
-            final @NotNull Function<E, String> enumToString,
-            final E defaultValue) {
+            final Class<E> enumType,
+            final BiFunction<Class<E>, String, E> stringToEnum,
+            final Function<E, String> enumToString,
+            final @Nullable E defaultValue) {
         super(defaultValue);
         this.enumType = Objects.requireNonNull(enumType);
         this.stringToEnum = Objects.requireNonNull(stringToEnum);
@@ -141,7 +140,7 @@ extends AbstractConverter {
      */
     public static <T extends Enum<T>> EnumTypedConverter<T> of(
             final Class<T> enumType,
-            final T defaultValue) {
+            final @Nullable T defaultValue) {
         return new EnumTypedConverter<>(enumType, defaultValue);
     }
 
@@ -189,7 +188,7 @@ extends AbstractConverter {
      */
     public static <T extends Enum<T>> void registerFor(
             final Class<T> enumType,
-            final T defaultValue) {
+            final @Nullable T defaultValue) {
         BeanUtilsBean.getInstance().getConvertUtils().register(
                 new EnumTypedConverter<>(enumType, defaultValue),
                 enumType);
@@ -209,7 +208,7 @@ extends AbstractConverter {
     public static <T extends Enum<T>> void registerFor(
             final ConvertUtilsBean converter,
             final Class<T> enumType,
-            final T defaultValue) {
+            final @Nullable T defaultValue) {
         Objects.requireNonNull(converter).register(
                 new EnumTypedConverter<>(enumType, defaultValue),
                 enumType);
@@ -219,7 +218,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return this.enumType;
     }
 
@@ -228,9 +227,8 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
-            final Object value)
-    throws Throwable {
+            final Class<T> type,
+            final Object value) {
         if (type.isAssignableFrom(this.enumType)) {
             if (value == null) {
                 return null;
@@ -246,8 +244,7 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            final Object value)
-    throws Throwable {
+            final Object value) {
         if (this.enumType.isInstance(value)) {
             return this.enumToString.apply(this.enumType.cast(value));
         } else if (value instanceof String) {

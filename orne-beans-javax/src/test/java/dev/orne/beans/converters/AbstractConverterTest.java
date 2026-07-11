@@ -24,11 +24,10 @@ package dev.orne.beans.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract class for converters unit tests.
@@ -52,8 +51,8 @@ public abstract class AbstractConverterTest {
      * @param converter The converter to test.
      */
     public AbstractConverterTest(
-            final @NotNull Class<?> targetType,
-            final @NotNull AbstractConverter converter) {
+            final Class<?> targetType,
+            final AbstractConverter converter) {
         super();
         this.targetType = targetType;
         this.converter = converter;
@@ -67,7 +66,7 @@ public abstract class AbstractConverterTest {
      * @param value The value to convert.
      */
     protected void assertFail(
-            final Object value) {
+            final @Nullable Object value) {
         assertFail(this.converter, this.targetType, value);
         assertFail(this.converter, null, value);
         assertFail(this.converter, Exception.class, value);
@@ -82,9 +81,9 @@ public abstract class AbstractConverterTest {
      * @param value The value to convert.
      */
     protected void assertFail(
-            final @NotNull Converter converter,
-            final @NotNull Class<?> type,
-            final Object value) {
+            final Converter converter,
+            final Class<?> type,
+            final @Nullable Object value) {
         assertThrows(ConversionException.class, () -> {
             converter.convert(type, value);
         });
@@ -101,8 +100,8 @@ public abstract class AbstractConverterTest {
      * @param expectedResult The expected result.
      */
     protected void assertSuccess(
-            final Object value,
-            final Object expectedResult) {
+            final @Nullable Object value,
+            final @Nullable Object expectedResult) {
         assertSuccess(this.converter, this.targetType, value, expectedResult);
         assertSuccess(this.converter, null, value, expectedResult);
         assertFail(this.converter, Exception.class, value);
@@ -119,8 +118,8 @@ public abstract class AbstractConverterTest {
      * @param expectedResult The expected result.
      */
     protected void assertSuccessTyped(
-            final Object value,
-            final Object expectedResult) {
+            final @Nullable Object value,
+            final @Nullable Object expectedResult) {
         assertSuccess(this.converter, this.targetType, value, expectedResult);
         assertFail(this.converter, null, value);
         assertFail(this.converter, Exception.class, value);
@@ -141,10 +140,10 @@ public abstract class AbstractConverterTest {
      * supported.
      */
     protected void assertSuccess(
-            final @NotNull Converter converter,
-            final Object value,
-            final Object expectedResult,
-            final Object defaultValue) {
+            final Converter converter,
+            final @Nullable Object value,
+            final @Nullable Object expectedResult,
+            final @Nullable Object defaultValue) {
         assertSuccess(converter, this.targetType, value, expectedResult);
         assertSuccess(converter, null, value, expectedResult);
         assertSuccess(converter, Exception.class, value, defaultValue);
@@ -160,10 +159,10 @@ public abstract class AbstractConverterTest {
      * @param expectedResult The expected result.
      */
     protected void assertSuccess(
-            final @NotNull Converter converter,
-            final @NotNull Class<?> type,
-            final Object value,
-            final Object expectedResult) {
+            final Converter converter,
+            final Class<?> type,
+            final @Nullable Object value,
+            final @Nullable Object expectedResult) {
         final Object result = converter.convert(
                 type,
                 value);

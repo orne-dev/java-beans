@@ -24,13 +24,12 @@ package dev.orne.beans;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract implementation for {@code Identity} for identities composed
@@ -49,7 +48,7 @@ extends AbstractIdentity {
     private static final long serialVersionUID = -4740745453560262909L;
 
     /** The identity inner value. */
-    private final T value;
+    private final @Nullable T value;
 
     /**
      * Creates a new instance.
@@ -57,7 +56,7 @@ extends AbstractIdentity {
      * @param value The identity value
      */
     protected AbstractSimpleIdentity(
-            final T value) {
+            final @Nullable T value) {
         super();
         this.value = value;
     }
@@ -68,7 +67,7 @@ extends AbstractIdentity {
      * @param copy The instance to copy
      */
     protected AbstractSimpleIdentity(
-            final @NotNull AbstractSimpleIdentity<T> copy) {
+            final AbstractSimpleIdentity<T> copy) {
         super();
         Validate.notNull(copy, "Template instance is required");
         this.value = copy.value;
@@ -79,7 +78,7 @@ extends AbstractIdentity {
      * 
      * @return The identity inner value
      */
-    public T getValue() {
+    public @Nullable T getValue() {
         return this.value;
     }
 
@@ -87,7 +86,7 @@ extends AbstractIdentity {
      * {@inheritDoc}
      */
     @Override
-    protected String getIdentityTokenBody() {
+    protected @Nullable String getIdentityTokenBody() {
         return this.value == null ? null : this.value.toString();
     }
 
@@ -106,7 +105,8 @@ extends AbstractIdentity {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(
+            final @Nullable Object obj) {
         if (obj == null) { return false; }
         if (obj == this) { return true; }
         if (obj.getClass() != getClass()) { return false; }

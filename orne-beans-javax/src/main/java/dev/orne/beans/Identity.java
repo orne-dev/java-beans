@@ -69,8 +69,8 @@ extends Serializable {
      * @throws UnrecognizedIdentityTokenException If this identity's
      * token cannot be resolved to target identity type
      */
-    default <T extends Identity> @NotNull T resolve(
-            final @NotNull Class<T> type) {
+    default <T extends Identity> T resolve(
+            final Class<T> type) {
         return IdentityResolver.getInstance().resolve(this, type);
     }
 }

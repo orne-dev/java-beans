@@ -22,8 +22,6 @@ package dev.orne.beans.rnd;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
 
@@ -57,7 +55,8 @@ extends AbstractTypedGenerator<BaseIdentityBean> {
      * {@inheritDoc}
      */
     @Override
-    public boolean supports(@NotNull Class<?> type) {
+    public boolean supports(
+            final Class<?> type) {
         return super.supports(type)
                 || IdentityBean.class.equals(type)
                 || WritableIdentityBean.class.equals(type);
@@ -67,7 +66,7 @@ extends AbstractTypedGenerator<BaseIdentityBean> {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull BaseIdentityBean defaultValue() {
+    public BaseIdentityBean defaultValue() {
         return new BaseIdentityBean();
     }
 
@@ -75,7 +74,7 @@ extends AbstractTypedGenerator<BaseIdentityBean> {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull BaseIdentityBean randomValue() {
+    public BaseIdentityBean randomValue() {
         final BaseIdentityBean result = new BaseIdentityBean();
         result.setIdentity(Generators.nullableRandomValue(Identity.class));
         return result;

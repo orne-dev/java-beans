@@ -27,10 +27,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code ZoneOffset} instances
@@ -74,7 +73,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZoneOffsetConverter(
-            final ZoneOffset defaultValue) {
+            final @Nullable ZoneOffset defaultValue) {
         super(BY_ID_PARSER, defaultValue);
         setDefaultParsers();
     }
@@ -86,7 +85,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public ZoneOffsetConverter(
-            final @NotNull DateTimeFormatter formatter) {
+            final DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -99,8 +98,8 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public ZoneOffsetConverter(
-            final @NotNull DateTimeFormatter formatter,
-            final ZoneOffset defaultValue) {
+            final DateTimeFormatter formatter,
+            final @Nullable ZoneOffset defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
     }
@@ -121,7 +120,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return ZoneOffset.class;
     }
 
@@ -130,8 +129,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final @NotNull Class<T> type,
-            final @NotNull TemporalAccessor value) {
+            final Class<T> type,
+            final TemporalAccessor value) {
         return type.cast(ZoneOffset.from(value));
     }
 }

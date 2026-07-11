@@ -22,9 +22,6 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.MonthDay;
@@ -32,12 +29,12 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
-
-import javax.validation.constraints.NotNull;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code MonthDay} instances
@@ -58,9 +55,9 @@ extends AbstractDateTimeConverter {
     public static final DateTimeFormatter ISO_8601_PARSER =
             new DateTimeFormatterBuilder()
                 .appendLiteral("--")
-                .appendValue(MONTH_OF_YEAR, 2)
+                .appendValue(ChronoField.MONTH_OF_YEAR, 2)
                 .appendLiteral('-')
-                .appendValue(DAY_OF_MONTH, 2)
+                .appendValue(ChronoField.DAY_OF_MONTH, 2)
                 .toFormatter();
     /**
      * The month-day by full text parser, for default locale. 
@@ -68,9 +65,9 @@ extends AbstractDateTimeConverter {
     public static final DateTimeFormatter BY_FULL_TEXT_PARSER =
             new DateTimeFormatterBuilder()
                 .appendLiteral("--")
-                .appendText(MONTH_OF_YEAR, TextStyle.FULL)
+                .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.FULL)
                 .appendLiteral('-')
-                .appendValue(DAY_OF_MONTH, 2)
+                .appendValue(ChronoField.DAY_OF_MONTH, 2)
                 .toFormatter();
     /**
      * The month-day by short text parser, for default locale. 
@@ -78,9 +75,9 @@ extends AbstractDateTimeConverter {
     public static final DateTimeFormatter BY_SHORT_TEXT_PARSER =
             new DateTimeFormatterBuilder()
                 .appendLiteral("--")
-                .appendText(MONTH_OF_YEAR, TextStyle.SHORT)
+                .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.SHORT)
                 .appendLiteral('-')
-                .appendValue(DAY_OF_MONTH, 2)
+                .appendValue(ChronoField.DAY_OF_MONTH, 2)
                 .toFormatter();
     /**
      * The month-day by short text parser, for default locale. 
@@ -88,9 +85,9 @@ extends AbstractDateTimeConverter {
     public static final DateTimeFormatter BY_NARROW_TEXT_PARSER =
             new DateTimeFormatterBuilder()
                 .appendLiteral("--")
-                .appendText(MONTH_OF_YEAR, TextStyle.NARROW)
+                .appendText(ChronoField.MONTH_OF_YEAR, TextStyle.NARROW)
                 .appendLiteral('-')
-                .appendValue(DAY_OF_MONTH, 2)
+                .appendValue(ChronoField.DAY_OF_MONTH, 2)
                 .toFormatter();
 
     /**
@@ -110,7 +107,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public MonthDayConverter(
-            final MonthDay defaultValue) {
+            final @Nullable MonthDay defaultValue) {
         super(ISO_8601_PARSER, defaultValue);
         setDefaultParsers();
     }
@@ -122,7 +119,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public MonthDayConverter(
-            final @NotNull DateTimeFormatter formatter) {
+            final DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -135,8 +132,8 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public MonthDayConverter(
-            final @NotNull DateTimeFormatter formatter,
-            final MonthDay defaultValue) {
+            final DateTimeFormatter formatter,
+            final @Nullable MonthDay defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
     }
@@ -163,7 +160,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return MonthDay.class;
     }
 
@@ -172,8 +169,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final @NotNull Class<T> type,
-            final @NotNull TemporalAccessor value) {
+            final Class<T> type,
+            final TemporalAccessor value) {
         try {
             return type.cast(MonthDay.from(value));
         } catch (final DateTimeException dte) {

@@ -22,11 +22,10 @@ package dev.orne.beans.converters;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 import dev.orne.beans.Identity;
 import dev.orne.beans.TokenIdentity;
@@ -60,7 +59,7 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public IdentityConverter(
-            final Identity defaultValue) {
+            final @Nullable Identity defaultValue) {
         super(defaultValue);
     }
 
@@ -68,7 +67,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return Identity.class;
     }
 
@@ -77,7 +76,7 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
+            final Class<T> type,
             final Object value) {
         if (type.isAssignableFrom(TokenIdentity.class)) {
             if (type.isInstance(value)) {
@@ -95,8 +94,7 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            final Object value)
-    throws Throwable {
+            final Object value) {
         if (value instanceof Identity) {
             return ((Identity) value).getIdentityToken();
         } else if (value instanceof String) {

@@ -22,17 +22,15 @@ package dev.orne.beans;
  * #L%
  */
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,7 +86,7 @@ extends TypeIdResolverBase {
     private static final Logger LOG = LoggerFactory.getLogger(JacksonSpiTypeIdResolver.class);
 
     /** The registered types. */
-    private final @NotNull Map<String, Class<?>> subtypes = new HashMap<>();
+    private final Map<String, Class<?>> subtypes = new HashMap<>();
     /** Error message for repeated subtype names. */
     private static final String REPEATED_ERR = "Annotated type [%s] got repeated subtype name [%s]";
 
@@ -104,8 +102,8 @@ extends TypeIdResolverBase {
      * 
      * @return The registered types
      */
-    public @NotNull Map<String, Class<?>> getSubtypes() {
-        return Collections.unmodifiableMap(this.subtypes);
+    public Map<String, Class<?>> getSubtypes() {
+        return Map.copyOf(this.subtypes);
     }
 
     /**
@@ -113,7 +111,7 @@ extends TypeIdResolverBase {
      */
     @Override
     public void init(
-            final @NotNull JavaType bt) {
+            final JavaType bt) {
         super.init(Objects.requireNonNull(bt));
         final Class<?> bc = bt.getRawClass();
         if (bc.isAnnotationPresent(JsonTypeIdResolver.class)) {
@@ -138,8 +136,8 @@ extends TypeIdResolverBase {
      * {@inheritDoc}
      */
     @Override
-    public String idFromValue(
-            final @NotNull Object value) {
+    public @Nullable String idFromValue(
+            final Object value) {
         return getIdFromBean(Objects.requireNonNull(value));
     }
 
@@ -147,9 +145,9 @@ extends TypeIdResolverBase {
      * {@inheritDoc}
      */
     @Override
-    public String idFromValueAndType(
-            final Object value,
-            final @NotNull Class<?> suggestedType) {
+    public @Nullable String idFromValueAndType(
+            final @Nullable Object value,
+            final Class<?> suggestedType) {
         return value == null ? getIdFromAnnotation(suggestedType) : idFromValue(value);
     }
 
@@ -157,9 +155,9 @@ extends TypeIdResolverBase {
      * {@inheritDoc}
      */
     @Override
-    public JavaType typeFromId(
-            final DatabindContext context,
-            final String id) {
+    public @Nullable JavaType typeFromId(
+            final @Nullable DatabindContext context,
+            final @Nullable String id) {
         final Class<?> type;
         if (id != null && this.subtypes.containsKey(id)) {
             type = this.subtypes.get(id);
@@ -187,8 +185,8 @@ extends TypeIdResolverBase {
      * @param baseClass The base type.
      * @return The map of IDs to subtypes
      */
-    protected @NotNull Map<String, Class<?>> getRegisteredSubTypes(
-            final @NotNull Class<?> baseClass) {
+    protected Map<String, Class<?>> getRegisteredSubTypes(
+            final Class<?> baseClass) {
         final ServiceLoader<?> loader = ServiceLoader.load(baseClass);
         final Map<String, Class<?>> result = new HashMap<>();
         for (final Object bean : loader) {
@@ -207,8 +205,8 @@ extends TypeIdResolverBase {
      * @param type The base type.
      * @return The map of IDs to subtypes
      */
-    protected @NotNull Map<String, Class<?>> findInheritedSubTypes(
-            final @NotNull Class<?> type) {
+    protected Map<String, Class<?>> findInheritedSubTypes(
+            final Class<?> type) {
         Map<String, Class<?>> result;
         JsonTypeIdResolver annot = type.getAnnotation(JsonTypeIdResolver.class);
         if (annot != null) {
@@ -243,9 +241,9 @@ extends TypeIdResolverBase {
      * sub-type.
      */
     protected void checkForRepeatedName(
-            final @NotNull Map<String, Class<?>> known,
-            final @NotNull String id,
-            final @NotNull Class<?> type) {
+            final Map<String, Class<?>> known,
+            final String id,
+            final Class<?> type) {
         if (known.containsKey(id) && !known.get(id).equals(type)) {
             throw new IllegalArgumentException(
                     String.format(REPEATED_ERR, type, id));
@@ -261,8 +259,8 @@ extends TypeIdResolverBase {
      * @param bean The bean to retrieve the type ID from
      * @return The type ID, or {@code null} if not resolved
      */
-    protected @NotNull String getIdFromBean(
-            final @NotNull Object bean) {
+    protected String getIdFromBean(
+            final Object bean) {
         String id = getIdFromAnnotation(bean.getClass());
         if (id == null) {
             id = defaultTypeId(bean.getClass());
@@ -277,7 +275,7 @@ extends TypeIdResolverBase {
      * @param type The actual bean type
      * @return The type ID, or {@code null} if not resolved
      */
-    protected String getIdFromAnnotation(
+    protected @Nullable String getIdFromAnnotation(
             final Class<?> type) {
         final JsonTypeName annot = type.getAnnotation(JsonTypeName.class);
         final String name;
@@ -299,7 +297,7 @@ extends TypeIdResolverBase {
      * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver
      */
     public static String defaultTypeId(
-            final @NotNull Class<?> cls) {
+            final Class<?> cls) {
         return defaultTypeId(cls.getName());
     }
 
@@ -313,7 +311,7 @@ extends TypeIdResolverBase {
      * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver
      */
     public static String defaultTypeId(
-            final @NotNull String clsName) {
+            final String clsName) {
         final int index = clsName.lastIndexOf('.');
         final String id;
         if (index < 0) {

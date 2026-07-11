@@ -163,7 +163,7 @@ class BeanAnnotationFinderTest {
      * 
      * @return The created instance
      */
-    protected @NotNull BeanAnnotationFinder<TestAnnotation, ?> createInstance() {
+    protected BeanAnnotationFinder<TestAnnotation, ?> createInstance() {
         return new BeanAnnotationFinder<>(TestAnnotation.class);
     }
 
@@ -173,7 +173,7 @@ class BeanAnnotationFinderTest {
      * 
      * @return The created instance
      */
-    protected @NotNull BeanAnnotationFinder<TestAnnotation, ?> createInstance(
+    protected BeanAnnotationFinder<TestAnnotation, ?> createInstance(
             final Cache cache) {
         return new BeanAnnotationFinder<>(TestAnnotation.class)
                 .setCache(cache);
@@ -185,7 +185,7 @@ class BeanAnnotationFinderTest {
      * 
      * @return The created instance
      */
-    protected @NotNull BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance() {
+    protected BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance() {
         return new BeanAnnotationFinder<>(
                 TestAnnotation.class,
                 TestAnnotation.List.class,
@@ -199,7 +199,7 @@ class BeanAnnotationFinderTest {
      * @param cache The cache to use
      * @return The created instance
      */
-    protected @NotNull BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance(
+    protected BeanAnnotationFinder<TestAnnotation, TestAnnotation.List> createListInstance(
             final Cache cache) {
         return new BeanAnnotationFinder<>(
                     TestAnnotation.class,

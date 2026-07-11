@@ -29,8 +29,6 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -55,7 +53,7 @@ class BaseIdentityBeanTest {
      * 
      * @return The bean created
      */
-    protected @NotNull BaseIdentityBean createInstance() {
+    protected BaseIdentityBean createInstance() {
         return new BaseIdentityBean();
     }
 
@@ -65,8 +63,8 @@ class BaseIdentityBeanTest {
      * @param copy The bean to copy, created with {@link #createInstance()}
      * @return The bean created
      */
-    protected @NotNull BaseIdentityBean createCopy(
-            final @NotNull BaseIdentityBean copy) {
+    protected BaseIdentityBean createCopy(
+            final BaseIdentityBean copy) {
         return new BaseIdentityBean(copy);
     }
 

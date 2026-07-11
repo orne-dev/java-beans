@@ -34,10 +34,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.NotNull;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Validation for beans that require a valid, non null identity.
@@ -109,7 +109,7 @@ public @interface ValidBeanIdentity {
          */
         @Override
         public boolean isValid(
-                final Object value,
+                final @Nullable Object value,
                 final ConstraintValidatorContext context) {
             if (value == null) {
                 return true;
@@ -142,7 +142,6 @@ public @interface ValidBeanIdentity {
          * @return If the bean is a valid bean reference
          */
         public static boolean isValid(
-                @NotNull
                 final Object value) {
             return value instanceof IdentityBean &&
                     BeanValidationUtils.isValid(value, IdentityBean.RequireIdentity.class);

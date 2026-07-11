@@ -28,7 +28,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
 import org.apiguardian.api.API;
@@ -48,7 +47,7 @@ import dev.orne.beans.ValidBeanReference.ValidBeanReferenceValidator;
 public final class BeanValidationUtils {
 
     /** The shared {@code Validator} used to validate beans. */
-    private static @NotNull Validator validator =
+    private static Validator validator =
             Validation.buildDefaultValidatorFactory().getValidator();
 
     /**
@@ -73,7 +72,7 @@ public final class BeanValidationUtils {
      * @param validator The shared {@code Validator} used to validate beans
      */
     public static void setValidator(
-            final @NotNull Validator validator) {
+            final Validator validator) {
         Validate.notNull(validator, "Validator is required.");
         BeanValidationUtils.validator = validator;
     }
@@ -92,8 +91,8 @@ public final class BeanValidationUtils {
      *         during the validation process
      */
     public static boolean isValid(
-            final @NotNull Object obj,
-            final @NotNull Class<?>... groups) {
+            final Object obj,
+            final Class<?>... groups) {
         return validate(obj, groups).isEmpty();
     }
 
@@ -107,7 +106,7 @@ public final class BeanValidationUtils {
      *         during the validation process
      */
     public static boolean isValidBeanIdentity(
-            final @NotNull Object obj) {
+            final Object obj) {
         return ValidBeanIdentityValidator.isValid(obj);
     }
 
@@ -121,7 +120,7 @@ public final class BeanValidationUtils {
      *         during the validation process
      */
     public static boolean isValidBeanReference(
-            final @NotNull Object obj) {
+            final Object obj) {
         return ValidBeanReferenceValidator.isValid(obj);
     }
 
@@ -138,9 +137,9 @@ public final class BeanValidationUtils {
      * @throws ValidationException if a non recoverable error happens
      *         during the validation process
      */
-    public static <T> @NotNull Set<ConstraintViolation<T>> validate(
-            final @NotNull T obj,
-            final @NotNull Class<?>... groups) {
+    public static <T> Set<ConstraintViolation<T>> validate(
+            final T obj,
+            final Class<?>... groups) {
         return BeanValidationUtils.validator.validate(obj, groups);
     }
 }

@@ -22,10 +22,9 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 import dev.orne.test.rnd.GeneratorMethod;
 
@@ -51,7 +50,7 @@ extends AbstractSimpleIdentity<Long> {
      */
     @GeneratorMethod
     public LongIdentity(
-            final Long value) {
+            final @Nullable Long value) {
         super(value);
     }
 
@@ -61,7 +60,7 @@ extends AbstractSimpleIdentity<Long> {
      * @param copy The instance to copy
      */
     public LongIdentity(
-            final @NotNull LongIdentity copy) {
+            final LongIdentity copy) {
         super(copy);
     }
 
@@ -75,8 +74,8 @@ extends AbstractSimpleIdentity<Long> {
      * a valid identity token or it doesn't start with the expected prefix
      */
     @IdentityTokenResolver
-    public static @NotNull LongIdentity fromIdentityToken(
-            final @NotNull String token)
+    public static LongIdentity fromIdentityToken(
+            final String token)
     throws UnrecognizedIdentityTokenException {
         return new LongIdentity(extractTokenValue(
                 IdentityTokenFormatter.DEFAULT_PREFIX,
@@ -99,9 +98,9 @@ extends AbstractSimpleIdentity<Long> {
      * prefix or if the extracted value is not a valid long.
      * @see #extractRequiredTokenValue(String, String)
      */
-    public static Long extractTokenValue(
-            final @NotNull String prefix,
-            final @NotNull String token) {
+    public static @Nullable Long extractTokenValue(
+            final String prefix,
+            final String token) {
         final String body = IdentityTokenFormatter.parse(prefix, token);
         if (body == null) {
             return null;
@@ -131,9 +130,9 @@ extends AbstractSimpleIdentity<Long> {
      * a valid long.
      * @see #extractTokenValue(String, String)
      */
-    public static @NotNull Long extractRequiredTokenValue(
-            final @NotNull String prefix,
-            final @NotNull String token) {
+    public static Long extractRequiredTokenValue(
+            final String prefix,
+            final String token) {
         final Long result = extractTokenValue(prefix, token);
         if (result == null) {
             throw new UnrecognizedIdentityTokenException(

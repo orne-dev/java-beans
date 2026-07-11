@@ -30,7 +30,6 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -87,7 +86,7 @@ class IdentityResolverTest {
      * 
      * @return The created instance
      */
-    protected @NotNull IdentityResolver createInstance() {
+    protected IdentityResolver createInstance() {
         return new IdentityResolver();
     }
 

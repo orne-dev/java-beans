@@ -29,8 +29,7 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,7 +84,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull StringIdentity createInstance() {
+    protected StringIdentity createInstance() {
         return createInstanceWithNonNullValue();
     }
 
@@ -93,8 +92,8 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull AbstractSimpleIdentity<?> createCopy(
-            final @NotNull AbstractIdentity copy) {
+    protected AbstractSimpleIdentity<?> createCopy(
+            final AbstractIdentity copy) {
         return new StringIdentity((StringIdentity) copy);
     }
 
@@ -102,7 +101,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull StringIdentity createInstanceWithNullValue() {
+    protected StringIdentity createInstanceWithNullValue() {
         return new StringIdentity((String) null);
     }
 
@@ -110,7 +109,7 @@ extends AbstractSimpleIdentityTest {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull StringIdentity createInstanceWithNonNullValue() {
+    protected StringIdentity createInstanceWithNonNullValue() {
         return new StringIdentity(Generators.randomValue(String.class));
     }
 
@@ -121,7 +120,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected String createIdentityToken(
-            final String value) {
+            final @Nullable String value) {
         return IdentityTokenFormatter.format(IdentityTokenFormatter.DEFAULT_PREFIX, value);
     }
 
@@ -132,7 +131,7 @@ extends AbstractSimpleIdentityTest {
      * @return The identity token created
      */
     protected StringIdentity resolveIdentityToken(
-            final @NotNull String token)
+            final String token)
     throws UnrecognizedIdentityTokenException {
         return StringIdentity.fromIdentityToken(token);
     }

@@ -45,9 +45,8 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.Converter;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -122,8 +121,8 @@ extends AbstractConverterTest {
     protected static final Object WRONG_TYPE_VALUE = new Object();
 
     protected AbstractTimeConverterTest(
-            final @NotNull Class<? extends TemporalAccessor> targetType,
-            final @NotNull AbstractDateTimeConverter converter) {
+            final Class<? extends TemporalAccessor> targetType,
+            final AbstractDateTimeConverter converter) {
         super(targetType, converter);
     }
 
@@ -193,9 +192,9 @@ extends AbstractConverterTest {
     }
 
     protected void assertConstructor(
-            final @NotNull AbstractDateTimeConverter converter,
-            final @NotNull DateTimeFormatter formatter,
-            final @NotNull DateTimeFormatter... parsers) {
+            final AbstractDateTimeConverter converter,
+            final DateTimeFormatter formatter,
+            final DateTimeFormatter... parsers) {
         assertNotNull(converter.getFormatter());
         assertEquals(formatter, converter.getFormatter());
         assertNotNull(converter.getParsers());
@@ -216,25 +215,25 @@ extends AbstractConverterTest {
 
     @Override
     protected void assertFail(
-            final Object value) {
+            final @Nullable Object value) {
         super.assertFail(value);
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
     @Override
     protected void assertSuccess(
-            final Object value,
-            final Object expectedResult) {
+            final @Nullable Object value,
+            final @Nullable Object expectedResult) {
         super.assertSuccess(value, expectedResult);
         assertFail(this.converter, UnimplementedTemporal.class, value);
     }
 
     @Override
     protected void assertSuccess(
-            final @NotNull Converter converter,
-            final Object value,
-            final Object expectedResult,
-            final Object defaultValue) {
+            final Converter converter,
+            final @Nullable Object value,
+            final @Nullable Object expectedResult,
+            final @Nullable Object defaultValue) {
         super.assertSuccess(converter, value, expectedResult, defaultValue);
         assertSuccess(converter, UnimplementedTemporal.class, value, defaultValue);
     }

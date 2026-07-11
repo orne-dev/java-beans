@@ -32,7 +32,6 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Tag;
@@ -66,7 +65,7 @@ class ValidBeanIdentityTest {
      * 
      * @return The created {@code ValidBeanIdentityValidator}
      */
-    protected @NotNull ValidBeanIdentityValidator createValidator() {
+    protected ValidBeanIdentityValidator createValidator() {
         return new ValidBeanIdentityValidator();
     }
 

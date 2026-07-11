@@ -24,11 +24,10 @@ package dev.orne.beans.converters;
 
 import java.time.Period;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code Period} instances
@@ -57,7 +56,8 @@ extends AbstractConverter {
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public PeriodConverter(final Period defaultValue) {
+    public PeriodConverter(
+            final @Nullable Period defaultValue) {
         super(defaultValue);
     }
 
@@ -65,7 +65,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return Period.class;
     }
 
@@ -74,9 +74,8 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
-            final Object value)
-    throws Throwable {
+            final Class<T> type,
+            final Object value) {
         if (type.isAssignableFrom(Period.class)) {
             return type.cast(Period.parse(value.toString()));
         }
@@ -88,8 +87,7 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            final Object value)
-    throws Throwable {
+            final Object value) {
         if (value instanceof Period) {
             return ((Period) value).toString();
         } else if (value instanceof String) {

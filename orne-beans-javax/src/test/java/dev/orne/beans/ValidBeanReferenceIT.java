@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 
 import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -70,7 +69,7 @@ class ValidBeanReferenceIT {
      * 
      * @return The created {@code ValidBeanReferenceValidator}
      */
-    protected @NotNull ValidBeanReferenceValidator createValidator() {
+    protected ValidBeanReferenceValidator createValidator() {
         return new ValidBeanReferenceValidator();
     }
 

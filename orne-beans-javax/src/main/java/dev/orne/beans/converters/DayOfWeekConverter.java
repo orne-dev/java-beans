@@ -32,10 +32,9 @@ import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code DayOfWeek} instances
@@ -95,7 +94,7 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public DayOfWeekConverter(
-            final DayOfWeek defaultValue) {
+            final @Nullable DayOfWeek defaultValue) {
         super(BY_VALUE_PARSER, defaultValue);
         setDefaultParsers();
     }
@@ -107,7 +106,7 @@ extends AbstractDateTimeConverter {
      * @param formatter The temporal value formatter and default parser
      */
     public DayOfWeekConverter(
-            final @NotNull DateTimeFormatter formatter) {
+            final DateTimeFormatter formatter) {
         super(formatter);
         setDefaultParsers();
     }
@@ -120,8 +119,8 @@ extends AbstractDateTimeConverter {
      * converted is missing or an error occurs converting the value
      */
     public DayOfWeekConverter(
-            final @NotNull DateTimeFormatter formatter,
-            final DayOfWeek defaultValue) {
+            final DateTimeFormatter formatter,
+            final @Nullable DayOfWeek defaultValue) {
         super(formatter, defaultValue);
         setDefaultParsers();
     }
@@ -148,7 +147,7 @@ extends AbstractDateTimeConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<?> getDefaultType() {
+    protected Class<?> getDefaultType() {
         return DayOfWeek.class;
     }
 
@@ -157,7 +156,7 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
+            final Class<T> type,
             final Object value) {
         if (type.isAssignableFrom(DayOfWeek.class)) {
             if (value instanceof String) {
@@ -188,8 +187,8 @@ extends AbstractDateTimeConverter {
      */
     @Override
     protected <T extends TemporalAccessor> T fromTemporalAccessor(
-            final @NotNull Class<T> type,
-            final @NotNull TemporalAccessor value) {
+            final Class<T> type,
+            final TemporalAccessor value) {
         try {
             return type.cast(DayOfWeek.from(value));
         } catch (final DateTimeException dte) {

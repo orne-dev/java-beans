@@ -22,8 +22,6 @@ package dev.orne.beans.rnd;
  * #L%
  */
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apiguardian.api.API;
@@ -63,7 +61,8 @@ extends AbstractTypedGenerator<TokenIdentity> {
      * {@inheritDoc}
      */
     @Override
-    public boolean supports(@NotNull Class<?> type) {
+    public boolean supports(
+            final Class<?> type) {
         return super.supports(type) || Identity.class.equals(type);
     }
 
@@ -71,7 +70,7 @@ extends AbstractTypedGenerator<TokenIdentity> {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull TokenIdentity defaultValue() {
+    public TokenIdentity defaultValue() {
         return new TokenIdentity(IdentityTokenFormatter.format(null));
     }
 
@@ -79,7 +78,7 @@ extends AbstractTypedGenerator<TokenIdentity> {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull TokenIdentity randomValue() {
+    public TokenIdentity randomValue() {
         final String prefix = RandomStringUtils.insecure().nextAlphabetic(1, 10);
         final String body;
         if (RandomUtils.insecure().randomFloat(0f, 1f) < 0.02f) {

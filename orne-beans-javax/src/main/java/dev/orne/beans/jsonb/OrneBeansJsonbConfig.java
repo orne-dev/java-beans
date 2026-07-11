@@ -24,7 +24,6 @@ package dev.orne.beans.jsonb;
 
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.adapter.JsonbAdapter;
-import javax.validation.constraints.NotNull;
 
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
@@ -53,10 +52,9 @@ public final class OrneBeansJsonbConfig {
      * @param config The JSON-B configuration.
      * @return The JSON-B configuration.
      */
-    public static @NotNull JsonbConfig configure(
-            final @NotNull JsonbConfig config) {
-        return config
-                .withAdapters(adapters());
+    public static JsonbConfig configure(
+            final JsonbConfig config) {
+        return config.withAdapters(adapters());
     }
 
     /**
@@ -66,7 +64,7 @@ public final class OrneBeansJsonbConfig {
      */
     @SuppressWarnings("rawtypes")
     @API(status=Status.EXPERIMENTAL, since="0.7")
-    public static @NotNull JsonbAdapter[] adapters() {
+    public static JsonbAdapter[] adapters() {
         return new JsonbAdapter[] { new JsonbIdentityAdapter() };
     }
 }

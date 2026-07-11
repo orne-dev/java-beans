@@ -22,8 +22,6 @@ package dev.orne.beans;
  * #L%
  */
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +30,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -58,7 +57,7 @@ implements Identity {
      * @param token The identity token
      */
     public TokenIdentity(
-            final @NotNull String token) {
+            final @ValidIdentityToken String token) {
         super();
         Validate.notBlank(token);
         this.identityToken = token;
@@ -69,7 +68,7 @@ implements Identity {
      */
     
     @Override
-    public @NotBlank String getIdentityToken() {
+    public @ValidIdentityToken String getIdentityToken() {
         return this.identityToken;
     }
 
@@ -88,7 +87,8 @@ implements Identity {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(
+            final @Nullable Object obj) {
         if (obj == null) { return false; }
         if (obj == this) { return true; }
         if (obj.getClass() != getClass()) {
@@ -117,8 +117,8 @@ implements Identity {
      * invalid token
      */
     @JsonCreator
-    public static TokenIdentity fromToken(
-            final String token) {
+    public static @Nullable TokenIdentity fromToken(
+            final @Nullable String token) {
         final TokenIdentity result;
         if (token == null || token.isEmpty()) {
             result = null;
@@ -151,8 +151,8 @@ implements Identity {
          * @return The resulting {@code TokenIdentity} instance
          */
         @Override
-        public TokenIdentity unmarshal(
-                final String value) {
+        public @Nullable TokenIdentity unmarshal(
+                final @Nullable String value) {
             final TokenIdentity result;
             if (value == null || value.isEmpty()) {
                 result = null;
@@ -169,8 +169,8 @@ implements Identity {
          * @return The resulting {@code String} instance
          */
         @Override
-        public String marshal(
-                final Identity identity) {
+        public @Nullable String marshal(
+                final @Nullable Identity identity) {
             final String result;
             if (identity == null) {
                 result = null;

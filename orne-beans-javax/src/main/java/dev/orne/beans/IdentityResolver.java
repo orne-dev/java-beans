@@ -31,10 +31,9 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.WeakHashMap;
 
-import javax.validation.constraints.NotNull;
-
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,7 +136,7 @@ public class IdentityResolver {
      * The identity type resolve methods cache for this instance. By default
      * shared between all instances.
      */
-    private @NotNull Cache cache = SHARED_CACHE;
+    private Cache cache = SHARED_CACHE;
 
     /**
      * Creates a new instance.
@@ -151,7 +150,7 @@ public class IdentityResolver {
      * 
      * @return The singleton instance.
      */
-    public static @NotNull IdentityResolver getInstance() {
+    public static IdentityResolver getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
@@ -160,7 +159,7 @@ public class IdentityResolver {
      * 
      * @return The cache to be used by this instance
      */
-    protected @NotNull Cache getCache() {
+    protected Cache getCache() {
         return this.cache;
     }
 
@@ -171,8 +170,8 @@ public class IdentityResolver {
      * @param cache The cache to be used by this instance
      * @return This instance for method chaining
      */
-    protected @NotNull IdentityResolver setCache(
-            final Cache cache) {
+    protected IdentityResolver setCache(
+            final @Nullable Cache cache) {
         if (cache == null) {
             this.cache = SHARED_CACHE;
         } else {
@@ -193,9 +192,9 @@ public class IdentityResolver {
      * @throws UnrecognizedIdentityTokenException If the source identity's
      * token cannot be resolved to target identity type
      */
-    public <T extends Identity> T resolve(
-            final Identity identity,
-            final @NotNull Class<T> targetType)
+    public <T extends Identity> @Nullable T resolve(
+            final @Nullable Identity identity,
+            final Class<T> targetType)
     throws UnrecognizedIdentityTokenException {
         Objects.requireNonNull(targetType);
         if (identity == null || targetType.isInstance(identity)) {
@@ -216,9 +215,9 @@ public class IdentityResolver {
      * @throws UnrecognizedIdentityTokenException If the source identity
      * token cannot be resolved to target identity type
      */
-    public <T extends Identity> T resolve(
-            final String identityToken,
-            final @NotNull Class<T> targetType)
+    public <T extends Identity> @Nullable T resolve(
+            final @Nullable String identityToken,
+            final Class<T> targetType)
     throws UnrecognizedIdentityTokenException {
         Objects.requireNonNull(targetType);
         if (identityToken == null) {
@@ -262,8 +261,8 @@ public class IdentityResolver {
      * @throws UnresolvableIdentityException If the identity type is
      * misconfigured
      */
-    protected @NotNull Executable getResolver(
-            final @NotNull Class<? extends Identity> targetType)
+    protected Executable getResolver(
+            final Class<? extends Identity> targetType)
     throws UnresolvableIdentityException {
         Objects.requireNonNull(targetType);
         Executable resolver;
@@ -310,8 +309,8 @@ public class IdentityResolver {
      * class methods
      * @see IdentityTokenResolver
      */
-    protected Method findTokenResolverMethod(
-            final @NotNull Class<?> targetType)
+    protected @Nullable Method findTokenResolverMethod(
+            final Class<?> targetType)
     throws UnresolvableIdentityException {
         Objects.requireNonNull(targetType);
         Method resolver = null;
@@ -355,8 +354,8 @@ public class IdentityResolver {
      * @throws SecurityException If a security exception occurs accessing the
      * constructor
      */
-    protected <T> Constructor<T> findTokenConstructor(
-            final @NotNull Class<T> targetType)
+    protected <T> @Nullable Constructor<T> findTokenConstructor(
+            final Class<T> targetType)
     throws UnresolvableIdentityException {
         Objects.requireNonNull(targetType);
         try {
@@ -393,7 +392,7 @@ public class IdentityResolver {
          * @return If this instance contains an entry for the identity type
          */
         boolean contains(
-                @NotNull Class<? extends Identity> key);
+                Class<? extends Identity> key);
 
         /**
          * Returns the cached identity token resolution executable for the
@@ -403,8 +402,8 @@ public class IdentityResolver {
          * @return The identity token resolution executable, or
          * {@code null} if not cached o cache expired
          */
-        Executable get(
-                @NotNull Class<? extends Identity> key);
+        @Nullable Executable get(
+                Class<? extends Identity> key);
 
         /**
          * Puts the specified identity token resolution executable for the
@@ -414,8 +413,8 @@ public class IdentityResolver {
          * @param value The identity token resolution executable
          */
         void put(
-                @NotNull Class<? extends Identity> key,
-                Executable value);
+                Class<? extends Identity> key,
+                @Nullable Executable value);
     }
 
     /**
@@ -444,7 +443,7 @@ public class IdentityResolver {
          */
         @Override
         public synchronized boolean contains(
-                final @NotNull Class<? extends Identity> key) {
+                final Class<? extends Identity> key) {
             return this.entries.containsKey(key);
         }
 
@@ -452,8 +451,8 @@ public class IdentityResolver {
          * {@inheritDoc}
          */
         @Override
-        public synchronized Executable get(
-                final @NotNull Class<? extends Identity> key) {
+        public synchronized @Nullable Executable get(
+                final Class<? extends Identity> key) {
             return this.entries.get(key);
         }
 
@@ -462,8 +461,8 @@ public class IdentityResolver {
          */
         @Override
         public synchronized void put(
-                final @NotNull Class<? extends Identity> key,
-                final Executable value) {
+                final Class<? extends Identity> key,
+                final @Nullable Executable value) {
             this.entries.put(key, value);
         }
     }

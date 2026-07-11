@@ -27,12 +27,11 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 import org.apiguardian.api.API;
 import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@code Converter} that converts {@code Calendar} instances
@@ -48,7 +47,7 @@ public class GregorianCalendarConverter
 extends AbstractConverter {
 
     /** The converter to use when converting {@code ZonedDateTime} instances. */
-    private final @NotNull Converter zonedDateTimeConverter;
+    private final Converter zonedDateTimeConverter;
 
     /**
      * Creates a new instance that throws a {@code ConversionException} if an
@@ -65,7 +64,8 @@ extends AbstractConverter {
      * @param defaultValue The default value to be returned if the value to be
      * converted is missing or an error occurs converting the value
      */
-    public GregorianCalendarConverter(final GregorianCalendar defaultValue) {
+    public GregorianCalendarConverter(
+            final @Nullable GregorianCalendar defaultValue) {
         super(defaultValue);
         this.zonedDateTimeConverter = new ZonedDateTimeConverter(
                 defaultValue == null ? null : defaultValue.toZonedDateTime());
@@ -79,7 +79,7 @@ extends AbstractConverter {
      * {@code ZonedDateTime} instances
      */
     public GregorianCalendarConverter(
-            final @NotNull Converter instantConverter) {
+            final Converter instantConverter) {
         super();
         this.zonedDateTimeConverter = instantConverter;
     }
@@ -93,8 +93,8 @@ extends AbstractConverter {
      * converted is missing or an error occurs converting the value
      */
     public GregorianCalendarConverter(
-            final @NotNull Converter instantConverter,
-            final GregorianCalendar defaultValue) {
+            final Converter instantConverter,
+            final @Nullable GregorianCalendar defaultValue) {
         super(defaultValue);
         this.zonedDateTimeConverter = instantConverter;
     }
@@ -106,7 +106,7 @@ extends AbstractConverter {
      * @return The converter to use when converting {@code ZonedDateTime}
      * instances
      */
-    protected @NotNull Converter getZonedDateTimeConverter() {
+    protected Converter getZonedDateTimeConverter() {
         return this.zonedDateTimeConverter;
     }
 
@@ -114,7 +114,7 @@ extends AbstractConverter {
      * {@inheritDoc}
      */
     @Override
-    protected @NotNull Class<GregorianCalendar> getDefaultType() {
+    protected Class<GregorianCalendar> getDefaultType() {
         return GregorianCalendar.class;
     }
 
@@ -123,9 +123,8 @@ extends AbstractConverter {
      */
     @Override
     protected <T> T convertToType(
-            final @NotNull Class<T> type,
-            final Object value)
-    throws Throwable {
+            final Class<T> type,
+            final Object value) {
         if (type.isAssignableFrom(GregorianCalendar.class)) {
             if (type.isInstance(value)) {
                 return type.cast(value);
@@ -145,8 +144,7 @@ extends AbstractConverter {
      */
     @Override
     protected String convertToString(
-            final Object value)
-    throws Throwable {
+            final Object value) {
         if (value instanceof Calendar) {
             final ZonedDateTime zdt;
             if (value instanceof GregorianCalendar) {
