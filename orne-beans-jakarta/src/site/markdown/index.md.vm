@@ -1,28 +1,23 @@
-Utilities for bean development (JakartaEE 9).
+#set( $dash = "#" )
+$dash Orne Beans - JakartaEE 9
 
-# Usage
+JakartaEE 9 (`jakarta` namespace) module of
+[Orne Beans](../index.html),
+based on the [JakartaEE 8](../jee8/index.html) module and
+transformed using the [Eclipse Transformer Maven Plugin][eclipse transformer].
 
-```xml
-<project ...>
-...
-  <dependency>
-    <groupId>${project.groupId}</groupId>
-    <artifactId>${project.artifactId}</artifactId>
-    <version>${project.version}</version>
-  </dependency>
-...
-</project>
-```
+For dependency declaration, see the [Maven Coordinates](./dependency-info.html) report.
 
-## JakartaEE dependencies
+For a complete list of features and additional information,
+see the main [Orne Beans](../index.html) site.
 
-This module depends on the following JakartaEE 9+ based dependencies:
+$dash$dash JakartaEE dependencies
+
+This module depends on the following JakartaEE (>= 9) based dependencies:
 
 - `jakarta.validation:jakarta.validation-api:3.1.1`
 - `jakarta.xml.bind:jakarta.xml.bind-api:3.0.1`
 
-# Features
+See the [dependencies report](./dependencies.html) for further details.
 
-This module provides the same features as the JakartaEE 8 version,
-but with JakartaEE 9 based dependencies.
-See the [JakartaEE 8 version](../orne-beans-javax/) for more details.
+[eclipse transformer]: https://github.com/eclipse-transformer/transformer/tree/main/maven-plugins/transformer-maven-plugin

@@ -1,25 +1,17 @@
 # Bean identities
 
-Bean identities are properties of the beans that unmistakably identifies the
-entity represented by the bean. It can be considered an abstraction of the
-primary key in the ER paradigm.
+Bean identities are properties of the beans that uniquely identify the entity represented by the bean. They can be seen as an abstraction of the primary keys in the ER paradigm.
 
-Interface `Identity` provides an abstract mechanism to retrieve and manipulate
-entity identities with zero knowledge of the composition of the identity.
-Useful for referencing entities in front-ends and REST services without
-exposing or depending of the implementation of the entities in the back-end
-layer.
+Interface `Identity` provides an abstract mechanism for retrieving and manipulating entity identities with zero knowledge of their internals.
+This is useful for referencing entities in public APIs without exposing or depending on the internal implementation, especially when the lifecycles of the services and consumers are not coordinated.
 
-A default set of single value identity implementations is provided, including
-implementations for identities of the next types:
+A default set of single value identity implementations is provided, including implementations for identities of the next types:
 
 - `Long` (`LongIdentity`)
 - `String` (`StringIdentity`)
 - `BigInteger` (`BigIntegerIdentity`)
 
-The interface provides method `getIdentityToken()`, which returns a
-`String` representation of the identity. This token must be used when exposed
-through APIs, and should be a valid identifier in most of the contexts.
+The interface provides method `getIdentityToken()`, which returns a `String` representation of the identity. This token must be used when exposed through APIs, and should be a valid identifier in most of the contexts.
 
 ## Token identity
 
@@ -53,7 +45,6 @@ MyIdentity resolvedIdentity = resolver.resolve(
 assertEquals(
         unresolvedIdentity.getIdentityToken(),
         resolvedIdentity.getIdentityToken());
-
 ```
 
 ## Custom identities
@@ -147,7 +138,6 @@ allowed.
 Abstract class `AbstractComposedIdentity` provides a default implementation
 that concatenates and splits the components with a custom separator (uses `,`
 by default):
-
 
 ```java
 class MyIdentity
@@ -336,7 +326,8 @@ void myMethod(
 
 Utility class `BeanValidationUtils` provides method `isValidBeanIdentity()`
 to check programmatically if a `IdentityBean` has a valid identity. Under the
-hoods validates the bean against the `IdentityBean.RequireIdentity` group.
+hoods validates the bean against the `IdentityBean.RequireIdentity` group, and
+thus **requires** a Jakarta-Validation implementation in runtime.
 
 ## Identity serialization and conversion
 
