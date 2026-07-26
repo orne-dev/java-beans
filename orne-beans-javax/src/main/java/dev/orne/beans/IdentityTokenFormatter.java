@@ -71,7 +71,7 @@ public final class IdentityTokenFormatter {
             "^" + TOKEN_CHAR + "*$";
 
     /** The Base64 padding character. */
-    private static final char B32_PADDING_CHAR = '=';
+    private static final char B64_PADDING_CHAR = '=';
 
     /** Default identity token prefix. */
     public static final String DEFAULT_PREFIX = "";
@@ -132,7 +132,7 @@ public final class IdentityTokenFormatter {
         } else {
             final String b64 = ENCODER.encodeToString(
                     body.getBytes(StandardCharsets.UTF_8));
-            final String b64NoPadding = b64.replaceAll(String.valueOf(B32_PADDING_CHAR), "");
+            final String b64NoPadding = b64.replaceAll(String.valueOf(B64_PADDING_CHAR), "");
             result = new StringBuilder(ENCODED_BODY_PREFIX)
                     .append(b64NoPadding)
                     .toString();
@@ -167,7 +167,7 @@ public final class IdentityTokenFormatter {
         } else if (encoded.startsWith(ENCODED_BODY_PREFIX)) {
             String b64 = encoded.substring(1);
             if (b64.length() % 3 != 0) {
-                b64 = StringUtils.rightPad(b64, 3 - (b64.length() % 3), B32_PADDING_CHAR);
+                b64 = StringUtils.rightPad(b64, 3 - (b64.length() % 3), B64_PADDING_CHAR);
             }
             result = new String(
                     DECODER.decode(b64),
