@@ -1,5 +1,28 @@
 # Orne Java bean utilities - Changelog
 
+## 1.0.0 - 2026-07-27
+
+### Changed
+
+- **Requires Java 11 or newer.**
+- **Breaking:** Moved JakartaEE 8 and older support to `dev.orne:orne-beans-javax` module.
+- Bump `com.fasterxml.jackson.core:jackson-databind` to 2.22.1
+- Change `BaseIdentityBean` copy constructor parameter type from `BaseIdentityBean` to `IdentityBean`.
+
+### orne-beans (JakartaEE 9 and newer)
+
+#### Added
+
+- Added optional dependency with `jakarta.validation:jakarta.validation-api:3.1.1`
+- Added optional dependency with `jakarta.xml.bind:jakarta.xml.bind-api:3.0.1`
+
+### orne-beans-javax (JakartaEE 8 and older)
+
+#### Changed
+
+- Change `javax.validation:validation-api:2.0.1.Final` optional dependency to `jakarta.validation:jakarta.validation-api:2.0.1`
+- Change `javax.xml.bind:jaxb-api:2.3.1` optional dependency to `jakarta.xml.bind:jakarta.xml.bind-api:2.3.3`
+
 ## 0.7.0 - 2026-05-10
 
 - **Maven coordinates change.**

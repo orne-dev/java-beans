@@ -6,6 +6,7 @@ Provides utilities for development of POJO Java beans.
 
 [![License][status.license.badge]][status.license]
 [![Latest version][status.maven.badge]][status.maven]
+[![Latest JEE8 version][status.maven.badge.javax]][status.maven.javax]
 [![Javadoc][status.javadoc.badge]][javadoc]
 [![Maven site][status.site.badge]][site]
 
@@ -23,7 +24,7 @@ The binaries can be obtained from [Maven Central][status.maven] with the
 <dependency>
   <groupId>dev.orne</groupId>
   <artifactId>orne-beans</artifactId>
-  <version>0.7.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -61,7 +62,9 @@ For further information refer to the [Maven Site][site] and [Javadoc][javadoc].
 [status.license]: http://www.gnu.org/licenses/gpl-3.0.txt
 [status.license.badge]: https://img.shields.io/github/license/orne-dev/java-beans
 [status.maven]: https://search.maven.org/artifact/dev.orne/orne-beans
+[status.maven.javax]: https://search.maven.org/artifact/dev.orne/orne-beans-javax
 [status.maven.badge]: https://img.shields.io/maven-central/v/dev.orne/orne-beans.svg?label=Maven%20Central
+[status.maven.badge.javax]: https://img.shields.io/maven-central/v/dev.orne/orne-beans-javax.svg?label=Maven%20Central
 [status.javadoc.badge]: https://javadoc.io/badge2/dev.orne/orne-beans/javadoc.svg
 [status.site.badge]: https://img.shields.io/website?url=https%3A%2F%2Forne-dev.github.io%2Fjava-beans%2F
 [status.latest.ci]: https://github.com/orne-dev/java-beans/actions/workflows/release.yml

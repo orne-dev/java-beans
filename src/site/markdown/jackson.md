@@ -1,6 +1,6 @@
 # Jackson utilities
 
-## SPI based polymorphism
+## SPI based extensible polymorphism
 
 In Jackson, deserialization of polymorphic types can be problematic,
 especially when implementations of a type can be provided by other libraries.
@@ -33,7 +33,15 @@ class SecondSubType implements MyInterface {}
 ```
 
 The class `JacksonSpiTypeIdResolver` provides a SPI based mechanism to
-discover new subtypes in runtime using the annotated type FQN as service:
+discover new subtypes in runtime using the annotated type FQN as a SPI service
+interface. The provider uses `ServiceLoader` to discover implementations of the
+base type, and supports the `@JsonTypeName` annotation to determine the type
+name to use for the subtype.
+
+**Note**: This implies that the declared subtypes must provide a no-args
+constructor, as `ServiceLoader` uses it to instantiate the subtype.
+
+The provider can be used as follows:
 
 ```
 package org.example;

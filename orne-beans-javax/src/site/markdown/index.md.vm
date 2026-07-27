@@ -1,0 +1,19 @@
+#set( $dash = "#" )
+$dash Orne Beans - JakartaEE 8
+
+JakartaEE 8 (`javax` namespace) module of
+[Orne Beans](../index.html).
+
+For dependency declaration, see the [Maven Coordinates](./dependency-info.html) report.
+
+For a complete list of features and additional information,
+see the main [Orne Beans](../index.html) site.
+
+$dash$dash JakartaEE dependencies
+
+This module depends on the following JakartaEE (<= 8) based dependencies:
+
+- `jakarta.validation:jakarta.validation-api:2.0.1`
+- `jakarta.xml.bind:jakarta.xml.bind-api:2.3.3`
+
+See the [dependencies report](./dependencies.html) for further details.

@@ -1,20 +1,25 @@
+#set( $dash = "#" )
+$dash Orne Beans
+
 Utilities for bean development.
 
-# Usage
+$dash$dash Usage
 
-```xml
-<project ...>
-...
-  <dependency>
-    <groupId>${project.groupId}</groupId>
-    <artifactId>${project.artifactId}</artifactId>
-    <version>${project.version}</version>
-  </dependency>
-...
-</project>
-```
+This project supports both JakartaEE 8 (`javax` namespace) and
+JakartaEE 9+ (`jakarta` namespace) projects,
+which are available as separate Maven artifacts.
 
-# Features
+Main artifact uses JakartaEE 9 (`jakarta` namespace) for validation
+and XML serialization.
+Follow the module's [Maven Coordinates report](./jee9/dependency-info.html)
+for dependency declaration.
+
+Alternative module with JakartaEE 8 (`javax` namespace) support
+is also provided for legacy projects. 
+Follow the module's [Maven Coordinates report](./jee8/dependency-info.html)
+for dependency declaration.
+
+$dash$dash Features
 
 Provides utilities for implementation and management of POJO Java Beans.
 
@@ -28,10 +33,10 @@ Provides utilities for implementation and management of POJO Java Beans.
   Annotation based mechanism to declare and validate bean based references to
   unique entity references.
 
-- [Apache Commons BeanUtils converters](converters.html)
+- [Apache Commons BeanUtils converters](./converters.html)
 
   Adds extra supported conversions to Apache Commons BeanUtils.
 
-- **Experimental** [SPI based Jackson polymorphism](jackson.html#spi-based-polymorphism)
+- **Experimental** [SPI based Jackson polymorphism](./jackson.html)
 
-  Adds SPI based name based polymorphism to Jackson.
+  Adds SPI based extensible name based polymorphism to Jackson.

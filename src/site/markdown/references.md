@@ -49,4 +49,6 @@ void myMethod(
 ```
 
 Utility class `BeanValidationUtils` provides method `isValidBeanReference()`
-to check programmatically if a bean has a valid reference.
+to check programmatically if a bean has a valid reference. As with valid
+identities validation, this feature uses Jakarta-Validation under the hood,
+and thus **requires** a Jakarta-Validation implementation in runtime.
