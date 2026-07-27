@@ -1,6 +1,6 @@
 # Orne Java bean utilities - Changelog
 
-## 1.0.0 - *Unrealeased*
+## 1.0.0 - 2026-07-27
 
 ### Changed
 
