@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TokenIdentityGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans - JakartaEE 8</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans.rnd</a> &gt; <span class="el_source">TokenIdentityGenerator.java</span></div><h1>TokenIdentityGenerator.java</h1><pre class="source lang-java linenums">package dev.orne.beans.rnd;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 - 2025 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+
+import dev.orne.beans.Identity;
+import dev.orne.beans.IdentityTokenFormatter;
+import dev.orne.beans.TokenIdentity;
+import dev.orne.test.rnd.AbstractTypedGenerator;
+
+/**
+ * Generator of {@code Identity} and {@code TokenIdentity} values.
+ * 
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2023-12
+ * @since 0.6
+ */
+@API(status=Status.INTERNAL, since=&quot;0.6&quot;)
+public class TokenIdentityGenerator
+extends AbstractTypedGenerator&lt;TokenIdentity&gt; {
+
+    /** Valid characters for starting character of a valid token body. */
+    private static final String VALID_BODY_START_CHARS =
+            &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+    /** Valid characters for non starting character of a valid token body. */
+    private static final String VALID_BODY_CHARS =
+            &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_&quot;;
+
+    /**
+     * Creates a new instance.
+     */
+    public TokenIdentityGenerator() {
+<span class="nc" id="L57">        super();</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean supports(
+            final Class&lt;?&gt; type) {
+<span class="nc bnc" id="L66" title="All 4 branches missed.">        return super.supports(type) || Identity.class.equals(type);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TokenIdentity defaultValue() {
+<span class="nc" id="L74">        return new TokenIdentity(IdentityTokenFormatter.format(null));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TokenIdentity randomValue() {
+<span class="nc" id="L82">        final String prefix = RandomStringUtils.insecure().nextAlphabetic(1, 10);</span>
+        final String body;
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (RandomUtils.insecure().randomFloat(0f, 1f) &lt; 0.02f) {</span>
+<span class="nc" id="L85">            body = null;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        } else if (RandomUtils.insecure().randomBoolean()) {</span>
+<span class="nc" id="L87">            body = RandomStringUtils.insecure().next(1, VALID_BODY_START_CHARS)</span>
+<span class="nc" id="L88">                    + RandomStringUtils.insecure().next(</span>
+<span class="nc" id="L89">                            RandomUtils.insecure().randomInt(0, 20),</span>
+                            VALID_BODY_CHARS);
+        } else {
+<span class="nc" id="L92">            body = RandomStringUtils.insecure().next(</span>
+<span class="nc" id="L93">                    RandomUtils.insecure().randomInt(1, 20));</span>
+        }
+<span class="nc" id="L95">        return new TokenIdentity(IdentityTokenFormatter.format(prefix, body));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

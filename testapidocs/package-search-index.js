@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"dev.orne.beans"},{"l":"dev.orne.beans.converters"},{"l":"dev.orne.beans.jackson"},{"l":"dev.orne.beans.jsonb"}];updateSearchResults();

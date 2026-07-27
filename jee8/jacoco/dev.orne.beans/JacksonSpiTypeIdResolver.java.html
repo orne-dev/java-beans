@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang=""><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JacksonSpiTypeIdResolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Orne Beans - JakartaEE 8</a> &gt; <a href="index.source.html" class="el_package">dev.orne.beans</a> &gt; <span class="el_source">JacksonSpiTypeIdResolver.java</span></div><h1>JacksonSpiTypeIdResolver.java</h1><pre class="source lang-java linenums">package dev.orne.beans;
+
+/*-
+ * #%L
+ * Orne Beans
+ * %%
+ * Copyright (C) 2020 - 2025 Orne Developments
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * &lt;http://www.gnu.org/licenses/lgpl-3.0.html&gt;.
+ * #L%
+ */
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.ServiceLoader;
+import java.util.stream.Collectors;
+
+import org.apiguardian.api.API;
+import org.apiguardian.api.API.Status;
+import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.DatabindContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
+import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+
+/**
+ * Implementation of {@code TypeIdResolver} that discovers interface/bean
+ * subtypes using SPI configuration files.
+ * &lt;p&gt;
+ * Uses {@code JsonTypeName} annotations to map ID to subtype.
+ * &lt;p&gt;
+ * Example:
+ * &lt;pre&gt;
+ * package a.b.c;
+ * {@literal @}JsonTypeInfo(
+ *         use=JsonTypeInfo.Id.NAME,
+ *         defaultImpl=DefaultImpl.class)
+ * {@literal @}JsonTypeIdResolver(JacksonSpiTypeIdResolver.class)
+ * interface IBase { ... }
+ * 
+ * package a.b.c;
+ * {@literal @}JsonTypeName(&quot;Default&quot;)
+ * class DefaultImpl implements IBase { ... }
+ * 
+ * package a.b.c.extra;
+ * 
+ * {@literal @}JsonTypeName(&quot;Extra&quot;)
+ * class ExtraImpl implements IBase { ... }
+ * &lt;/pre&gt;
+ * In (potentially multiple) {@code META-INF/services/a.b.c.IBase} file:
+ * &lt;pre&gt;
+ * a.b.c.DefaultImpl
+ * a.b.c.extra.ExtraImpl
+ * &lt;/pre&gt;
+ * 
+ * @author &lt;a href=&quot;https://github.com/ihernaez&quot;&gt;(w) Iker Hernaez&lt;/a&gt;
+ * @version 1.0, 2023-11
+ * @since 0.6
+ * @see TypeIdResolver
+ */
+@API(status=Status.EXPERIMENTAL, since=&quot;0.6&quot;)
+public class JacksonSpiTypeIdResolver
+extends TypeIdResolverBase {
+
+    /** The class logger. */
+<span class="fc" id="L86">    private static final Logger LOG = LoggerFactory.getLogger(JacksonSpiTypeIdResolver.class);</span>
+
+    /** The registered types. */
+<span class="fc" id="L89">    private final Map&lt;String, Class&lt;?&gt;&gt; subtypes = new HashMap&lt;&gt;();</span>
+    /** Error message for repeated subtype names. */
+    private static final String REPEATED_ERR = &quot;Annotated type [%s] got repeated subtype name [%s]&quot;;
+
+    /**
+     * Creates a new instance.
+     */
+    public JacksonSpiTypeIdResolver() {
+<span class="fc" id="L97">        super();</span>
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Returns the registered types.
+     * 
+     * @return The registered types
+     */
+    public Map&lt;String, Class&lt;?&gt;&gt; getSubtypes() {
+<span class="fc" id="L106">        return Map.copyOf(this.subtypes);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init(
+            final JavaType bt) {
+<span class="fc" id="L115">        super.init(Objects.requireNonNull(bt));</span>
+<span class="fc" id="L116">        final Class&lt;?&gt; bc = bt.getRawClass();</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (bc.isAnnotationPresent(JsonTypeIdResolver.class)) {</span>
+<span class="fc" id="L118">            this.subtypes.putAll(getRegisteredSubTypes(bc));</span>
+        } else {
+<span class="fc" id="L120">            this.subtypes.putAll(findInheritedSubTypes(bc)</span>
+<span class="fc" id="L121">                    .entrySet().stream()</span>
+<span class="fc" id="L122">                    .filter(entry -&gt; bc.isAssignableFrom(entry.getValue()))</span>
+<span class="fc" id="L123">                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));</span>
+        }
+<span class="fc" id="L125">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonTypeInfo.Id getMechanism() {
+<span class="fc" id="L132">        return JsonTypeInfo.Id.NAME;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nullable String idFromValue(
+            final Object value) {
+<span class="fc" id="L141">        return getIdFromBean(Objects.requireNonNull(value));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nullable String idFromValueAndType(
+            final @Nullable Object value,
+            final Class&lt;?&gt; suggestedType) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        return value == null ? getIdFromAnnotation(suggestedType) : idFromValue(value);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @Nullable JavaType typeFromId(
+            final @Nullable DatabindContext context,
+            final @Nullable String id) {
+        final Class&lt;?&gt; type;
+<span class="pc bpc" id="L162" title="1 of 4 branches missed.">        if (id != null &amp;&amp; this.subtypes.containsKey(id)) {</span>
+<span class="fc" id="L163">            type = this.subtypes.get(id);</span>
+        } else {
+<span class="fc" id="L165">            type = null;</span>
+        }
+        final JavaType result;
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if (type == null) {</span>
+<span class="fc" id="L169">            LOG.debug(&quot;Unresolved ID {}. Using default implementation (if any)...&quot;, id);</span>
+<span class="fc" id="L170">            result = null;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        } else if (context == null) {</span>
+<span class="fc" id="L172">            LOG.debug(&quot;Resolved ID {} to type {}&quot;, id, type);</span>
+<span class="fc" id="L173">            result = TypeFactory.defaultInstance().constructType(type);</span>
+        } else {
+<span class="fc" id="L175">            LOG.debug(&quot;Resolved ID {} to type {}&quot;, id, type);</span>
+<span class="fc" id="L176">            result = context.constructType(type);</span>
+        }
+<span class="fc" id="L178">        return result;</span>
+    }
+
+    /**
+     * Discovers the registered sub-types scanning the classpath for
+     * service providers of the base type.
+     * 
+     * @param baseClass The base type.
+     * @return The map of IDs to subtypes
+     */
+    protected Map&lt;String, Class&lt;?&gt;&gt; getRegisteredSubTypes(
+            final Class&lt;?&gt; baseClass) {
+<span class="fc" id="L190">        final ServiceLoader&lt;?&gt; loader = ServiceLoader.load(baseClass);</span>
+<span class="fc" id="L191">        final Map&lt;String, Class&lt;?&gt;&gt; result = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        for (final Object bean : loader) {</span>
+<span class="fc" id="L193">            final Class&lt;?&gt; type = bean.getClass();</span>
+<span class="fc" id="L194">            final String id = getIdFromBean(bean);</span>
+<span class="fc" id="L195">            checkForRepeatedName(result, id, type);</span>
+<span class="fc" id="L196">            result.put(id, type);</span>
+<span class="fc" id="L197">        }</span>
+<span class="fc" id="L198">        return result;</span>
+    }
+
+    /**
+     * Discovers the registered sub-types scanning the classpath for
+     * service providers of the base type. Searchs for 
+     * 
+     * @param type The base type.
+     * @return The map of IDs to subtypes
+     */
+    protected Map&lt;String, Class&lt;?&gt;&gt; findInheritedSubTypes(
+            final Class&lt;?&gt; type) {
+        Map&lt;String, Class&lt;?&gt;&gt; result;
+<span class="fc" id="L211">        JsonTypeIdResolver annot = type.getAnnotation(JsonTypeIdResolver.class);</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if (annot != null) {</span>
+<span class="fc" id="L213">            result = getRegisteredSubTypes(type);</span>
+        } else {
+<span class="fc" id="L215">            result = new HashMap&lt;&gt;();</span>
+        }
+<span class="fc bfc" id="L217" title="All 2 branches covered.">        for (final Class&lt;?&gt; interf : type.getInterfaces()) {</span>
+<span class="fc" id="L218">            final Map&lt;String, Class&lt;?&gt;&gt; inherited = findInheritedSubTypes(interf);</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">            for (final Map.Entry&lt;String, Class&lt;?&gt;&gt; entry : inherited.entrySet()) {</span>
+<span class="fc" id="L220">                checkForRepeatedName(result, entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L221">                result.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L222">            }</span>
+        }
+<span class="fc bfc" id="L224" title="All 4 branches covered.">        if (!type.isInterface() &amp;&amp; type.getSuperclass() != Object.class) {</span>
+<span class="fc" id="L225">            final Map&lt;String, Class&lt;?&gt;&gt; inherited = findInheritedSubTypes(type.getSuperclass());</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            for (final Map.Entry&lt;String, Class&lt;?&gt;&gt; entry : inherited.entrySet()) {</span>
+<span class="fc" id="L227">                checkForRepeatedName(result, entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L228">                result.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L229">            }</span>
+        }
+<span class="fc" id="L231">        return result;</span>
+    }
+
+    /**
+     * Checks the known sub-types for repeated IDs for different sub-type.
+     * 
+     * @param known The known sub-types.
+     * @param id The type ID to check.
+     * @param type The type to check.
+     * @throws IllegalArgumentException If the ID has been used for another
+     * sub-type.
+     */
+    protected void checkForRepeatedName(
+            final Map&lt;String, Class&lt;?&gt;&gt; known,
+            final String id,
+            final Class&lt;?&gt; type) {
+<span class="fc bfc" id="L247" title="All 4 branches covered.">        if (known.containsKey(id) &amp;&amp; !known.get(id).equals(type)) {</span>
+<span class="fc" id="L248">            throw new IllegalArgumentException(</span>
+<span class="fc" id="L249">                    String.format(REPEATED_ERR, type, id));</span>
+        }
+<span class="fc" id="L251">    }</span>
+
+    /**
+     * Retrieves the type ID from the bean instance.
+     * &lt;p&gt;
+     * Default implementation calls to {@link #getIdFromAnnotation(Class)} when
+     * bean class.
+     * 
+     * @param bean The bean to retrieve the type ID from
+     * @return The type ID, or {@code null} if not resolved
+     */
+    protected String getIdFromBean(
+            final Object bean) {
+<span class="fc" id="L264">        String id = getIdFromAnnotation(bean.getClass());</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        if (id == null) {</span>
+<span class="fc" id="L266">            id = defaultTypeId(bean.getClass());</span>
+        }
+<span class="fc" id="L268">        return id;</span>
+    }
+
+    /**
+     * Extracts the type ID from the {@code JsonTypeName} annotation
+     * of the specified type.
+     * 
+     * @param type The actual bean type
+     * @return The type ID, or {@code null} if not resolved
+     */
+    protected @Nullable String getIdFromAnnotation(
+            final Class&lt;?&gt; type) {
+<span class="fc" id="L280">        final JsonTypeName annot = type.getAnnotation(JsonTypeName.class);</span>
+        final String name;
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        if (annot == null) {</span>
+<span class="fc" id="L283">            name = null;</span>
+        } else {
+<span class="fc" id="L285">            name = annot.value();</span>
+        }
+<span class="fc" id="L287">        return name;</span>
+    }
+
+    /**
+     * If no name was explicitly given for a class, we will just
+     * use non-qualified class name
+     * 
+     * @param cls The type class
+     * @return The non-qualified class name
+     * 
+     * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver
+     */
+    public static String defaultTypeId(
+            final Class&lt;?&gt; cls) {
+<span class="fc" id="L301">        return defaultTypeId(cls.getName());</span>
+    }
+
+    /**
+     * If no name was explicitly given for a class, we will just
+     * use non-qualified class name
+     * 
+     * @param clsName The class name
+     * @return The non-qualified class name
+     * 
+     * @see com.fasterxml.jackson.databind.jsontype.impl.TypeNameIdResolver
+     */
+    public static String defaultTypeId(
+            final String clsName) {
+<span class="fc" id="L315">        final int index = clsName.lastIndexOf('.');</span>
+        final String id;
+<span class="fc bfc" id="L317" title="All 2 branches covered.">        if (index &lt; 0) {</span>
+<span class="fc" id="L318">            id = clsName;</span>
+        } else {
+<span class="fc" id="L320">            id = clsName.substring(index+1);</span>
+        }
+<span class="fc" id="L322">        return id;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

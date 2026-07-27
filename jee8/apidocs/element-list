@@ -1,0 +1,5 @@
+module:dev.orne.beans
+dev.orne.beans
+dev.orne.beans.converters
+dev.orne.beans.jsonb
+dev.orne.beans.rnd
