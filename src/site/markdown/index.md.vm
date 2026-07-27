@@ -9,9 +9,15 @@ This project supports both JakartaEE 8 (`javax` namespace) and
 JakartaEE 9+ (`jakarta` namespace) projects,
 which are available as separate Maven artifacts.
 
-Follow the corresponding module's Maven Coordinates report
-([JEE8/javax](./jee8/dependency-info.html),
-[JEE9/jakarta](./jee9/dependency-info.html)) for dependency declaration.
+Main artifact uses JakartaEE 9 (`jakarta` namespace) for validation
+and XML serialization.
+Follow the module's [Maven Coordinates report](./jee9/dependency-info.html)
+for dependency declaration.
+
+Alternative module with JakartaEE 8 (`javax` namespace) support
+is also provided for legacy projects. 
+Follow the module's [Maven Coordinates report](./jee8/dependency-info.html)
+for dependency declaration.
 
 $dash$dash Features
 
